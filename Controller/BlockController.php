@@ -31,13 +31,6 @@ class BlockController extends Controller
         $crumbs->add('Инфоблоки', 'admin_block');
         $em = $this->getDoctrine()->getManager();
 
-        /*$block = new Block();
-        $block->setName('Тестовый блок');
-        $block->setCode('test');
-
-
-        $site = new Site();
-        $site->setName('Тестовый сайт');*/
         $User = $this->get('User');
         $sites = $User->getUserSites();
 
@@ -47,7 +40,6 @@ class BlockController extends Controller
         else {
             $entities = $em->getRepository('NovuscomCMFBundle:Block')->findAll();
         }
-        //$entities = $em->getRepository('NovuscomCMFBundle:Block')->findAll();
 
         return $this->render('NovuscomCMFBundle:Block:index.html.twig', array(
             'entities' => $entities,
@@ -283,14 +275,9 @@ class BlockController extends Controller
      */
     private function createEditForm(Block $entity)
     {
-        /*$selected_sites = new ArrayCollection();
-        foreach($entity->getSiteBlock() as $SiteBlock) {
-            $selected_sites->add($SiteBlock->getSite());
-        }*/
         $form = $this->createForm(new BlockType(), $entity, array(
             'action' => $this->generateUrl('admin_block_update', array('id' => $entity->getId())),
             'method' => 'PUT',
-            //'sites'=>$selected_sites
         ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
@@ -326,14 +313,12 @@ class BlockController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-
-            //echo '<hr/>Новые:';
+            
             foreach ($editForm->get('property') as $property) {
                 echo '<pre>' . print_r($property->getName(), true) . '</pre>';
                 echo '<pre>' . print_r($property->get('code')->getData(), true) . '</pre>';
             }
 
-            //exit;
             foreach ($entity->getProperty() as $property) {
                 $property->setBlock($entity);
             }
@@ -343,11 +328,6 @@ class BlockController extends Controller
                 } else {
                 }
             }
-            $new_site_id = array();
-            /*foreach($editForm->get('sites')->getData() as $new_site) {
-                $new_site_id[] = $new_site->getId();
-            }*/
-            //$this->updateBlockSites($entity, $new_site_id, $em);
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_block_edit', array('id' => $id)));
