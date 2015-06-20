@@ -1,0 +1,23 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+{% block body -%}
+	<div class="box">
+		<div class="box-body">
+			<h4 class="box-title">Изменение страницы</h4>
+
+			{{ form(edit_form) }}
+
+			<p>
+				<a class="btn btn-info"
+				   href="{{ path('cmf_admin_site_pages', {'site_id':app.request.get('site_id')}) }}">
+					Список страниц
+				</a>
+			</p>
+
+			<p>{{ form(delete_form) }}</p>
+		</div>
+	</div>
+{% endblock %}
+{% block javascript %}
+	{{ elfinder_tinymce_init4('tinymce') }}
+	{{ tinymce_init() }}
+{% endblock %}

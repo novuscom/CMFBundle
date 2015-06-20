@@ -1,0 +1,22 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="box">
+                <div class="box-header">
+                    <h4 class="box-title">Создание меню</h4>
+                </div>
+                <div class="box-body">
+                    {{ form(form) }}
+                </div>
+                <div class="box-footer">
+                    <a class="btn btn-info" href="{{ path('admin_menu', {'site_id':site.id}) }}">
+                        <i class="glyphicon glyphicon-list"></i> Список меню
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

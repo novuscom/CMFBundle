@@ -1,0 +1,54 @@
+{% extends 'CMFAdminBundle:Default:base.html.twig' %}
+
+{% block body -%}
+    <h1>Страница</h1>
+    <div class="row">
+        <div class="col-lg-4">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ entity.name }}</td>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <td>{{ entity.title }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ entity.description }}</td>
+                </tr>
+                <tr>
+                    <th>Keywords</th>
+                    <td>{{ entity.keywords }}</td>
+                </tr>
+                <tr>
+                    <th>Url</th>
+                    <td>{{ entity.url }}</td>
+                </tr>
+                <tr>
+                    <th>Content</th>
+                    <td>{{ entity.content }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+        <p>
+            <a href="{{ path('cmf_admin_site_pages', {'site_id':app.request.get('site_id')}) }}" class="btn btn-info">
+                Список страниц
+            </a>
+        </p>
+        <p>
+            <a href="{{ path('cmf_admin_page_edit', { 'id': entity.id, 'site_id':app.request.get('site_id') }) }}" class="btn btn-warning">
+                Редактировать
+            </a>
+        </p>
+        {{ form(delete_form) }}
+{% endblock %}

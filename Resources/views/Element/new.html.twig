@@ -1,0 +1,143 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{#{% block body -%}
+
+    <div class="box">
+        <div class="box-header">
+            <h4 class="box-title">Создание элемента</h4>
+        </div>
+        <div class="box-body">
+            {{ form(form) }}
+        </div>
+    </div>
+
+
+
+{% endblock %}#}
+
+{% block body -%}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col col-md-6">
+
+            <div class="box">
+                <div class="box-body">
+                    {{ form_row(form.active) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.code) }}
+                    {{ form_row(form.sort) }}
+                    {{ form_row(form.title) }}
+					{{ form_row(form.header) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.keywords) }}
+					{% if form.properties is defined %}
+						{{ form_row(form.properties) }}
+					{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+                    {{ form_row(form.submit) }}
+
+
+                    {#{% if block is not empty %}
+                        <p><a href="{{ path('admin_block_edit', {'id':block.id}) }}">Настройки инфоблока</a></p>
+                    {% endif %}#}
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col col-md-6">
+
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.preview_picture) }}
+                                {{ form_widget(form.preview_picture) }}
+                                {{ form_errors(form.preview_picture) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.preview_picture_src) }}
+                                {{ form_widget(form.preview_picture_src) }}
+                                {{ form_errors(form.preview_picture_src) }}
+                            </div>
+							<div class="form-group">
+								{{ form_label(form.preview_picture_alt) }}
+								{{ form_widget(form.preview_picture_alt) }}
+								{{ form_errors(form.preview_picture_alt) }}
+							</div>
+                            {% if entity.previewPicture is not empty %}
+                                <a class="fancybox"
+                                   href="{{ asset('upload/images/'~entity.previewPicture.name) }}"><img
+                                            src="{{ asset('upload/images/'~entity.previewPicture.name) | imagine_filter('my_thumb') }}"/></a>
+                                <div>
+                                    <a href="#"><i class="fa fa-trash-o"></i>
+                                        удалить превью пикчу</a>
+                                </div>
+                            {% else %}
+                            {% endif %}
+                        </div>
+                        <div class="col col-xs-6">
+                            <div class="form-group">
+                                {{ form_label(form.detail_picture) }}
+                                {{ form_widget(form.detail_picture) }}
+                                {{ form_errors(form.detail_picture) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.detail_picture_src) }}
+                                {{ form_widget(form.detail_picture_src) }}
+                                {{ form_errors(form.detail_picture_src) }}
+                            </div>
+							<div class="form-group">
+								{{ form_label(form.detail_picture_alt) }}
+								{{ form_widget(form.detail_picture_alt) }}
+								{{ form_errors(form.detail_picture_alt) }}
+							</div>
+                            {% if entity.detailPicture is not empty %}
+                                <a class="fancybox"
+                                   href="{{ asset('upload/images/'~entity.detailPicture.name) }}"><img
+                                            src="{{ asset('upload/images/'~entity.detailPicture.name) | imagine_filter('my_thumb') }}"/></a>
+                                <div>
+                                    <a href="#"><i class="fa fa-trash-o"></i>
+                                        удалить детейл пикчу</a>
+                                </div>
+                            {% else %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {{ form_row(form.previewText, {'attr':{'class':'tinymce'}}) }}
+                    {{ form_row(form.detailText, {'attr':{'class':'tinymce'}}) }}
+                    {{ form_row(form.section) }}
+                    {#{{ form_label(form.previewText) }}
+                    {{ form_widget(form.previewText) }}
+                    {{ form_errors(form.previewText) }}
+
+                    {{ form_label(form.detailText) }}
+                    {{ form_widget(form.detailText) }}
+                    {{ form_errors(form.detailText) }}#}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+{% block javascript %}
+	{{ elfinder_tinymce_init4('tinymce') }}
+	{{ tinymce_init() }}
+{% endblock %}

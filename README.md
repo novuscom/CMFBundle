@@ -1,0 +1,1 @@
+Yet another CMF... but on Symfony

@@ -1,0 +1,402 @@
+<?php
+
+namespace Orchestra\CMFBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+
+/**
+ * Site
+ */
+class Site
+{
+
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $aliases;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $pages;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $SiteBlock;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->aliases = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->SiteBlock = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Site
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Add aliases
+     *
+     * @param \Orchestra\CMFBundle\Entity\Alias $aliases
+     * @return Site
+     */
+    public function addAlias(\Orchestra\CMFBundle\Entity\Alias $aliases)
+    {
+        $aliases->setSite($this);
+        $this->aliases[] = $aliases;
+    
+        return $this;
+    }
+
+    /**
+     * Remove aliases
+     *
+     * @param \Orchestra\CMFBundle\Entity\Alias $aliases
+     */
+    public function removeAlias(\Orchestra\CMFBundle\Entity\Alias $aliases)
+    {
+        $this->aliases->removeElement($aliases);
+    }
+
+    /**
+     * Get aliases
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAliases()
+    {
+        return $this->aliases;
+    }
+
+    /**
+     * Add pages
+     *
+     * @param \CMF\PageBundle\Entity\Page $pages
+     * @return Site
+     */
+    public function addPage(\CMF\PageBundle\Entity\Page $pages)
+    {
+        $this->pages[] = $pages;
+    
+        return $this;
+    }
+
+    /**
+     * Remove pages
+     *
+     * @param \CMF\PageBundle\Entity\Page $pages
+     */
+    public function removePage(\CMF\PageBundle\Entity\Page $pages)
+    {
+        $this->pages->removeElement($pages);
+    }
+
+    /**
+     * Get pages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPages()
+    {
+        return $this->pages;
+    }
+
+    /**
+     * Add SiteBlock
+     *
+     * @param \Orchestra\CMFBundle\Entity\SiteBlock $siteBlock
+     * @return Site
+     */
+    public function addSiteBlock(\Orchestra\CMFBundle\Entity\SiteBlock $siteBlock)
+    {
+        $this->SiteBlock[] = $siteBlock;
+    
+        return $this;
+    }
+
+    /**
+     * Remove SiteBlock
+     *
+     * @param \Orchestra\CMFBundle\Entity\SiteBlock $siteBlock
+     */
+    public function removeSiteBlock(\Orchestra\CMFBundle\Entity\SiteBlock $siteBlock)
+    {
+        $this->SiteBlock->removeElement($siteBlock);
+    }
+
+    /**
+     * Get SiteBlock
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSiteBlock()
+    {
+        return $this->SiteBlock;
+    }
+    /**
+     * @var string
+     */
+    private $robots_txt;
+
+
+    /**
+     * Set robots_txt
+     *
+     * @param string $robotsTxt
+     * @return Site
+     */
+    public function setRobotsTxt($robotsTxt)
+    {
+        $this->robots_txt = $robotsTxt;
+    
+        return $this;
+    }
+
+    /**
+     * Get robots_txt
+     *
+     * @return string 
+     */
+    public function getRobotsTxt()
+    {
+        return $this->robots_txt;
+    }
+
+    /**
+     * Add aliases
+     *
+     * @param \Orchestra\CMFBundle\Entity\Alias $aliases
+     * @return Site
+     */
+    public function addAliase(\Orchestra\CMFBundle\Entity\Alias $aliases)
+    {
+        $this->aliases[] = $aliases;
+    
+        return $this;
+    }
+
+    /**
+     * Remove aliases
+     *
+     * @param \Orchestra\CMFBundle\Entity\Alias $aliases
+     */
+    public function removeAliase(\Orchestra\CMFBundle\Entity\Alias $aliases)
+    {
+        $this->aliases->removeElement($aliases);
+    }
+    /**
+     * @var boolean
+     */
+    private $closed;
+
+
+    /**
+     * Set closed
+     *
+     * @param boolean $closed
+     * @return Site
+     */
+    public function setClosed($closed)
+    {
+        $this->closed = $closed;
+    
+        return $this;
+    }
+
+    /**
+     * Get closed
+     *
+     * @return boolean 
+     */
+    public function getClosed()
+    {
+        return $this->closed;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $menu;
+
+
+    /**
+     * Add menu
+     *
+     * @param \CMF\OrchestraBundle\Entity\Menu $menu
+     * @return Site
+     */
+    public function addMenu(\CMF\OrchestraBundle\Entity\Menu $menu)
+    {
+        $this->menu[] = $menu;
+    
+        return $this;
+    }
+
+    /**
+     * Remove menu
+     *
+     * @param \CMF\OrchestraBundle\Entity\Menu $menu
+     */
+    public function removeMenu(\CMF\OrchestraBundle\Entity\Menu $menu)
+    {
+        $this->menu->removeElement($menu);
+    }
+
+    /**
+     * Get menu
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMenu()
+    {
+        return $this->menu;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $routes;
+
+
+    /**
+     * Add routes
+     *
+     * @param \CMF\RoutingBundle\Entity\Route $routes
+     * @return Site
+     */
+    public function addRoute(\CMF\RoutingBundle\Entity\Route $routes)
+    {
+        $this->routes[] = $routes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove routes
+     *
+     * @param \CMF\RoutingBundle\Entity\Route $routes
+     */
+    public function removeRoute(\CMF\RoutingBundle\Entity\Route $routes)
+    {
+        $this->routes->removeElement($routes);
+    }
+
+    /**
+     * Get routes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRoutes()
+    {
+        return $this->routes;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $groups;
+
+
+    /**
+     * Add groups
+     *
+     * @param \Orchestra\UserBundle\Entity\Group $groups
+     * @return Site
+     */
+    public function addGroup(\Orchestra\UserBundle\Entity\Group $groups)
+    {
+        $this->groups[] = $groups;
+    
+        return $this;
+    }
+
+    /**
+     * Remove groups
+     *
+     * @param \Orchestra\UserBundle\Entity\Group $groups
+     */
+    public function removeGroup(\Orchestra\UserBundle\Entity\Group $groups)
+    {
+        $this->groups->removeElement($groups);
+    }
+
+    /**
+     * Get groups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+    /**
+     * @var string
+     */
+    private $code;
+
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return Site
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+}

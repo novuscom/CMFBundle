@@ -1,0 +1,49 @@
+
+admin_menu:
+    path:     /admin/site/{site_id}/menu/
+    defaults: { _controller: "NovuscomCMFBundle:Menu:index" }
+    requirements:
+        site_id: \d+
+
+admin_menu_show:
+    path:     /admin/site/{site_id}/menu/{id}/
+    defaults: { _controller: "NovuscomCMFBundle:Menu:show" }
+    requirements:
+        id: \d+
+        site_id: \d+
+
+admin_menu_new:
+    path:     /admin/site/{site_id}/menu/new/
+    defaults: { _controller: "NovuscomCMFBundle:Menu:new" }
+    requirements:
+        site_id: \d+
+
+admin_menu_create:
+    path:     /admin/site/{site_id}/menu/create/
+    defaults: { _controller: "NovuscomCMFBundle:Menu:create" }
+    requirements: { _method: post }
+    requirements:
+        site_id: \d+
+
+admin_menu_edit:
+    path:     /admin/site/{site_id}/menu/{id}/edit/
+    defaults: { _controller: "NovuscomCMFBundle:Menu:edit" }
+    requirements:
+        id: \d+
+        site_id: \d+
+
+admin_menu_update:
+    path:     /admin/site/{site_id}/menu/{id}/update/
+    defaults: { _controller: "NovuscomCMFBundle:Menu:update" }
+    requirements:
+        _method: post|put
+        id: \d+
+        site_id: \d+
+
+admin_menu_delete:
+    path:     /admin/site/{site_id}/menu/{id}/delete/
+    defaults: { _controller: "NovuscomCMFBundle:Menu:delete" }
+    requirements:
+        _method: post|delete
+        id: \d+
+        site_id: \d+

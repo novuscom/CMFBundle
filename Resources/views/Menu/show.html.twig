@@ -1,0 +1,82 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body -%}
+    <div class="box">
+        <div class="box-body">
+            <h4 class="box-title">{{ entity.name }} <a
+                        href="{{ path('admin_menu_edit', { 'id': entity.id, 'site_id':app.request.get('site_id') }) }}"><i
+                            class="fa fa-cog"></i></a></h4>
+            <dl class="dl-horizontal">
+                <dt>ID</dt>
+                <dd>{{ entity.id }}</dd>
+                <dt>Код</dt>
+                <dd>{{ entity.code }}</dd>
+            </dl>
+
+        </div>
+    </div>
+    <div class="box">
+        <div class="box-header">
+            <h4 class="box-title">
+                Пункты меню
+            </h4>
+        </div>
+        <div class="box-body">
+
+        </div>
+        {% if items is defined and items is not empty %}
+            <div class="box-content no-padding">
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable"
+                       id="datatable-1">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Текст</th>
+                        <th>URL</th>
+                        <th>Сортировка</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for s in items %}
+                        <tr>
+                            <td>{{ s.id }}</td>
+                            <td>
+                                <a href="{{ path('admin_menuitem_edit', {'site_id':app.request.get('site_id'), 'id':s.id,
+                                    'menu_id':entity.id
+                                }) }}"><b>{{ s.name }}</b></a></td>
+                            <td>{{ s.url }}</td>
+                            <td>{{ s.sort }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>Текст</th>
+                        <th>URL</th>
+                        <th>Сортировка</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        {% endif %}
+        <div class="box-footer">
+            <a class="btn btn-success" href="{{ path('admin_menuitem_new', {
+                'site_id':app.request.get('site_id'),
+                'menu_id':entity.id,
+            }) }}"><i class="glyphicon glyphicon-plus-sign"></i>
+                Создать пункт меню
+            </a>
+            <a class="btn btn-info" href="{{ path('admin_menu', {'site_id':app.request.get('site_id')}) }}">
+                <i class="glyphicon glyphicon-list"></i> Список блоков меню
+            </a>
+        </div>
+
+    </div>
+
+    <ul class="list-unstyled">
+        <li>
+
+        </li>
+    </ul>
+{% endblock %}

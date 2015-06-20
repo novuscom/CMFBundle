@@ -1,0 +1,55 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body -%}
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Страницы {{ site.name }}</h3>
+        </div>
+        <div class="box-body">
+            <table class="table table-bordered table-striped table-hover table-heading table-datatable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Адрес</th>
+                    <th>lft</th>
+                    <th>rgt</th>
+                    <th>Уровень</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td>{{ entity.id }}</td>
+                        <td>
+                            {{ str_repeat('&mdash;', entity.lvl)|raw }}
+                            <a href="{{ path('cmf_admin_page_edit', { 'id': entity.id, 'site_id': app.request.get('site_id') }) }}"><b>{{ entity.name }}</b></a>
+                            {% if entity.template %}
+                                <div class="small"><b>Шаблон:</b> {{ entity.template }}</div>
+                            {% endif %}
+                            {% if entity.controller %}
+                                <div class="small"><b>Контроллер:</b> {{ entity.controller }}</div>
+                            {% endif %}
+                        </td>
+                        <td>{{ entity.url }}</td>
+                        <td>{{ entity.lft }}</td>
+                        <td>{{ entity.rgt }}</td>
+                        <td>{{ entity.lvl }}</td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer">
+            <a class="btn btn-success" href="{{ path('cmf_admin_page_new', {'site_id':  app.request.get('site_id')}) }}">
+                <i class="glyphicon glyphicon-plus"></i>
+                Создать страницу
+            </a>
+        </div>
+    </div>
+
+
+
+{% endblock %}

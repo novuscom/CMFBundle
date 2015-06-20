@@ -1,0 +1,404 @@
+<?php
+
+namespace Novuscom\CMFBundle\Form;
+
+use Novuscom\CMFBundle\Entity\Element;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+
+use Novuscom\CMFBundle\Entity\ElementProperty;
+
+class ElementPropertyType extends AbstractType
+{
+
+    private $options;
+    private $em;
+    private $data;
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+
+
+        //return true;
+
+        //$builder->add('value');
+
+
+        foreach ($this->options as $p) {
+            //$value = $p->getValue();
+            //echo '<pre>' . print_r($p->getType(), true) . '</pre>';
+            //echo '<pre>' . print_r($p->getInfo(), true) . '</pre>';
+            //$info = $p->getInfo();
+            $info = json_decode($p->getInfo(), true);
+            $is_multiple = (is_array($info) and array_key_exists('MULTIPLE', $info) and $info['MULTIPLE'] == true);
+            $required = (is_array($info) and array_key_exists('REQUIRED', $info) and $info['REQUIRED'] == true);
+            switch ($p->getType()) {
+                /**
+                 * Поле типа "Список"
+                 */
+                case 'LIST':
+
+                    /**
+                     * Получаем значения свойства
+                     */
+                    $property_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $p->getId());
+                    $PropertyList = $this->em->getRepository('NovuscomCMFBundle:PropertyList')->findBy(array(
+                        'property' => $property_reference,
+                    ));
+                    $choices = array();
+                    foreach ($PropertyList as $pl) {
+                        $choices[$pl->getId()] = $pl->getValue();
+                    }
+
+                    /**
+                     * Получаем значение элемента
+                     */
+                    $values = $this->getPropertyValues($p->getId());
+                    $data = false;
+                    if ($values) {
+                        $data = $values[0];
+                    }
+
+
+                    /**
+                     * Формируем поле
+                     */
+                    $choiceOptions = array(
+                        'choices' => $choices,
+                        'required' => false,
+                        'multiple' => false,
+                        'label' => $p->getName(),
+                        'mapped' => false,
+                        'data'=>$data,
+                    );
+                    if (isset($this->data['VALUES'][$p->getId()]) and is_numeric($this->data['VALUES'][$p->getId()])) {
+                        $choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
+                    }
+                    $builder->add($p->getId(), 'choice', $choiceOptions);
+                    break;
+                case 'E':
+                    $elements = $this->em->getRepository('NovuscomCMFBundle:Element')->findBy(array(
+                        'block' => $info['BLOCK_ID'],
+                    ));
+                    $choices = array();
+                    foreach ($elements as $e) {
+                        $choices[$e->getId()] = $e->getName();
+                    }
+                    //echo '<pre>' . print_r($choices, true) . '</pre>';
+                    if (array_key_exists('MULTIPLE', $info) and $info['MULTIPLE'] == true) {
+
+                        $FPECollection = new \Doctrine\Common\Collections\ArrayCollection();
+
+
+                        //echo '<pre>' . print_r($this->data['VALUES'][$p->getId()], true) . '</pre>';
+                        if (isset($this->data['VALUES']) and is_array($this->data['VALUES']) and array_key_exists($p->getId(), $this->data['VALUES'])) {
+                            foreach ($this->data['VALUES'][$p->getId()] as $v) {
+                                $FPE = new ElementProperty();
+                                $FPE->setValue($v);
+                                $FPECollection->add($FPE);
+                            }
+                        }
+
+
+                        $builder->add($p->getId(), 'collection',
+                            array(
+                                'type' => new ElementPropertyEMultipleType(
+                                    $choices, array('PROPERTY' => $p)
+                                ),
+                                'mapped' => false,
+                                'allow_add' => true,
+                                'label' => $p->getName(),
+                                'allow_delete' => true,
+                                'cascade_validation' => true,
+                                'by_reference' => false,
+                                'data' => $FPECollection
+                            )
+                        );
+
+
+                        /*$builder->addEventListener(
+                            FormEvents::BIND,
+                            function (FormEvent $event) {
+                                echo '<pre>' . print_r('BIND', true) . '</pre>';
+                                $data = $event->getData();
+                                $lineups = $data->getLineups();
+                                foreach ($lineups as &$lineup) {
+                                    $lineup->setMatch($data);
+                                }
+                                $event->setData($data);
+                            }
+                        );*/
+
+
+                    } else {
+                        $choiceOptions = array(
+                            'choices' => $choices,
+                            'required' => false,
+                            'multiple' => false,
+                            'label' => $p->getName(),
+                            'mapped' => false,
+                        );
+                        if (isset($this->data['VALUES'][$p->getId()]) and is_numeric($this->data['VALUES'][$p->getId()])) {
+                            $choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
+                        }
+                        $builder->add($p->getId(), 'choice', $choiceOptions);
+                    }
+
+
+                    break;
+                case 'F':
+                    if ($is_multiple) {
+                        $dataAtr = array();
+                        //echo '<pre>' . print_r($this->data['VALUES'], true) . '</pre>';
+                        if (
+                            isset($this->data['PROPERTY_FILE_VALUES'][$p->getId()])
+                            and is_array($this->data['PROPERTY_FILE_VALUES'])
+                            and array_key_exists($p->getId(), $this->data['PROPERTY_FILE_VALUES'])
+                        ) {
+                            //$choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
+                            $filesId = $this->data['PROPERTY_FILE_VALUES'][$p->getId()];
+                            //echo '<pre>' . print_r($filesId, true) . '</pre>';
+                            $files = $this->em->getRepository('NovuscomCMFBundle:File')->findBy(array(
+                                'id' => $filesId,
+                            ));
+
+                            if (count($files) > 0) {
+                                $liip = $this->data['LIIP'];
+                                $dataAtr['files'] = array();
+                                foreach ($files as $file) {
+                                    $fileInfo = array();
+                                    $originalPath = '/upload/images/' . $file->getName();
+                                    $path = $liip->getBrowserPath($originalPath, 'my_thumb');
+                                    $fileInfo['path'] = $path;
+                                    $fileInfo['original_path'] = $originalPath;
+                                    $fileInfo['file_id'] = $file->getId();
+                                    $fileInfo['property_id'] = $p->getId();
+                                    $dataAtr['files'][] = $fileInfo;
+                                }
+
+                            }
+
+                        }
+                        $jsonData = json_encode($dataAtr);
+                        $builder->add($p->getId(), 'collection',
+                            array(
+                                'type' => new ElementPropertyFMultipleType(),
+                                'mapped' => false,
+                                'allow_add' => true,
+                                'label' => $p->getName(),
+                                'allow_delete' => true,
+                                'cascade_validation' => true,
+                                'by_reference' => false,
+                                'label_attr' => array(
+                                    'class' => 'files-property',
+                                    'data-type' => 'files',
+                                    'data-data' => $jsonData,
+                                    'data-id' => $p->getId()
+                                )
+                            )
+                        );
+                    }
+                    break;
+                /**
+                 * Дата/время
+                 */
+                case 'D':
+                    $field_options = array(
+                        'label' => $p->getName(),
+                        'mapped' => false,
+                        'required' => false,
+                    );
+                    if (isset($this->data['VALUES'][$p->getId()])) {
+                        if (is_a($this->data['VALUES'][$p->getId()][0], 'DateTime')) {
+                            $field_options['data'] = $this->data['VALUES'][$p->getId()][0];
+                        }
+
+                    }
+                    $builder->add(
+                        $p->getId(),
+                        'datetime',
+                        $field_options
+                    );
+                    break;
+                case 'U':
+                    $users = $this->em->getRepository('NovuscomUserBundle:User')->findAll();
+                    $users_array = array();
+                    foreach ($users as $u) {
+                        $users_array[$u->getId()] = $u->getUsername();
+                    }
+                    $field_options = array(
+                        'choices' => $users_array,
+                        'required' => false,
+                        'label' => $p->getName(),
+                        'mapped' => false,
+                        'attr' => array(
+                            'class' => 'form-control'
+                        ),
+                    );
+                    if (isset($this->data['VALUES'][$p->getId()])) {
+                        //echo '<pre>' . print_r($this->data['VALUES'][$p->getId()], true) . '</pre>';
+                        $field_options['data'] = $this->data['VALUES'][$p->getId()][0];
+                    }
+                    $builder->add($p->getId(), 'choice', $field_options);
+                    break;
+                default:
+                    //echo '<pre>' . print_r($p->getInfo(), true) . '</pre>';
+                    //$info = json_decode($p->getInfo(), true);
+                    //echo '<pre>' . print_r($info, true) . '</pre>';
+                    if ($info and is_array($info) and array_key_exists('MULTIPLE', $info) and $info['MULTIPLE'] == true) {
+                        $data = array();
+                        /*
+                        $element_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Element', 251);
+                        $property_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $p->getId());
+                        $ElementProperty = $this->em->getRepository('NovuscomCMFBundle:ElementProperty')->findBy(array(
+                            'element'=>$element_reference,
+                            'property'=>$property_reference
+                        ));*/
+                        //echo '<pre>' . print_r($this->data['VALUES'][$p->getId()], true) . '</pre>';
+
+
+                        $collection = new \Doctrine\Common\Collections\ArrayCollection();
+
+                        foreach ($this->getPropertyValues($p->getId()) as $v) {
+                            $ep = new ElementProperty();
+                            $ep->setValue($v);
+                            $collection->add($ep);
+                        }
+
+
+                        $builder->add($p->getId(), 'collection',
+                            array(
+                                'type' => new ElementPropertySMultipleType($data),
+                                'mapped' => false,
+                                'allow_add' => true,
+                                'label' => $p->getName(),
+                                'allow_delete' => true,
+                                'cascade_validation' => true,
+                                'by_reference' => false,
+                                'data'=> $collection
+                            )
+                        );
+                    } else {
+                        $optionsArray = array(
+                            'mapped' => false,
+                            'label' => $p->getName(),
+                            'required' => $required,
+                            'attr' => array(
+                                'class' => 'form-control'
+                            )
+                        );
+                        if (isset($this->data['VALUES']) and is_array($this->data['VALUES']) and array_key_exists($p->getId(), $this->data['VALUES'])) {
+                            $optionsArray['data'] = $this->data['VALUES'][$p->getId()][0];
+                        }
+                        $builder->add(
+                            $p->getId(),
+                            'text',
+                            $optionsArray
+                        );
+                    }
+
+            }
+            $builder->add('replaced_files', 'collection',
+                array(
+                    'type' => new ElementPropertyFMultipleType(false, false, array('REPLACED' => true)),
+                    'mapped' => false,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'cascade_validation' => true,
+                    'by_reference' => false,
+                    'label_attr' => array(
+                        'class' => 'files-property',
+                        'data-type' => 'files',
+                    )
+                )
+            );
+            $builder->add('deleted_files', 'collection',
+                array(
+                    'type' => new ElementPropertyFMultipleType(false, false, array('DELETED' => true)),
+                    'mapped' => false,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'cascade_validation' => true,
+                    'by_reference' => false,
+                    'label_attr' => array(
+                        'class' => 'files-property',
+                        'data-type' => 'files',
+                    )
+                )
+            );
+            //$builder->add('tags', 'collection', array('type' => new ElementPropertyStringType($this->options)));
+            //$propertyStringForm = new ElementPropertyStringType($this->options);
+            //$builder->add($p->getCode(), $propertyStringForm, array('mapped' => false, 'label' => 'Текстовые свойства'));
+        }
+
+
+        //$propertyStringForm = new ElementPropertyStringType($this->options);
+        //$builder->add('value', $propertyStringForm, array('mapped' => false, 'label' => 'Текстовые свойства'));
+
+
+        //$builder->add('tags', 'collection', array('type' => new ElementPropertyStringType()));
+        /*$builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                $form = $event->getForm();
+                $data = $event->getData();
+                echo '<pre>' . print_r($form->get('11')->getData(), true) . '</pre>';
+
+            }
+        );*/
+
+
+    }
+
+
+    private function getPropertyValues($property_id)
+    {
+        $result = array();
+        if (isset($this->data['VALUES']) and is_array($this->data['VALUES']) and array_key_exists($property_id, $this->data['VALUES'])) {
+            $result = $this->data['VALUES'][$property_id];
+        };
+        return $result;
+    }
+
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            //'data_class' => 'Novuscom\CMFBundle\Entity\FormProperty',
+            'data_class' => 'Novuscom\CMFBundle\Entity\Element',
+        ));
+        /*$resolver->setRequired(array(
+            'em',
+        ));
+        $resolver->setAllowedTypes(array(
+            'em' => 'Doctrine\Common\Persistence\ObjectManager',
+        ));*/
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'cmf_blockbundle_elementproperty';
+    }
+
+    public function __construct($options, $em, $data = array())
+    {
+        $this->options = $options;
+        $this->em = $em;
+        $this->data = $data;
+    }
+
+}
+
+
