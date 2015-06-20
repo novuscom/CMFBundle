@@ -1,7 +1,7 @@
 {
   "name" : "novuscom/cmfbundle",
   "description" : "Symfony2 based CMF",
-  "version" : "0.0.1",
+  "version" : "0.0.2",
   "type" : "symfony-bundle",
   "homepage": "",
   "license" : "MIT",
@@ -51,7 +51,7 @@
   },
   "extra" : {
     "branch-alias" : {
-      "dev-master" : "0.0.1-dev"
+      "dev-master" : "0.0.2-dev"
     }
   }
 }
