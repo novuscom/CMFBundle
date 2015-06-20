@@ -1,57 +1,37 @@
 {
-  "name" : "novuscom/cmfbundle",
-  "description" : "Symfony2 based CMF",
-  "version" : "0.0.2",
-  "type" : "symfony-bundle",
-  "homepage": "",
-  "license" : "MIT",
-  "keywords" : ["page", "page bundle"],
-  "authors" : [{
-    "name" : "Alexander Averichev",
-    "email" : "averichev@yandex.ru"
-  }],
-  "require" : {
-    "php": ">=5.3.3",
-    "symfony/symfony": ">=2.6.4",
-    "doctrine/orm": "2.5.0",
-    "doctrine/doctrine-bundle": "1.4.0",
-    "twig/extensions": "1.0.*",
-    "symfony/assetic-bundle": "2.3.*",
-    "symfony/swiftmailer-bundle": "2.3.*",
-    "symfony/monolog-bundle": "2.3.*",
-    "sensio/distribution-bundle": "2.3.*",
-    "sensio/framework-extra-bundle": "2.3.*",
-    "sensio/generator-bundle": "2.3.*",
-    "incenteev/composer-parameter-handler": "~2.0",
-    "gedmo/doctrine-extensions": "dev-master",
-    "friendsofsymfony/user-bundle": "~2.0@dev",
-    "knplabs/knp-menu": "2.0.*@dev",
-    "knplabs/knp-menu-bundle": "2.0.*@dev",
-    "whiteoctober/breadcrumbs-bundle": "dev-master",
-    "apy/breadcrumbtrail-bundle": "dev-master",
-    "mopa/bootstrap-bundle": "v3.0.0-beta2",
-    "twbs/bootstrap": "v3.0.0",
-    "knplabs/knp-paginator-bundle": "^2.4",
-    "liip/imagine-bundle": "1.2.3",
-    "misd/guzzle-bundle": "~1.0",
-    "snc/redis-bundle": "1.1.x-dev",
-    "predis/predis": "0.8.x-dev",
-    "stfalcon/tinymce-bundle": "dev-master",
-    "helios-ag/fm-elfinder-bundle": "~5"
+  "name": "novuscom/cmfbundle",
+  "description": "Symfony2 based CMF",
+  "type": "symfony-bundle",
+  "homepage": "https://github.com/novuscom/CMFBundle",
+  "license": "MIT",
+  "keywords": [
+	"cmf",
+	"cmf bundle"
+  ],
+  "authors": [
+	{
+	  "name": "Alexander Averichev",
+	  "email": "averichev@yandex.ru"
+	}
+  ],
+  "require": {
+	"php": ">=5.3.0",
+	"symfony/symfony": ">=2.1"
   },
-  "repositories" : [{
-    "type" : "vcs",
-    "url" : "https://github.com/novuscom/CMFBundle.git"
-  }],
-  "suggest": {
-
+  "repositories": [
+	{
+	  "type": "vcs",
+	  "url": "https://github.com/novuscom/CMFBundle.git"
+	}
+  ],
+  "autoload": {
+	"psr-4": {
+	  "Novuscom\\CMFBundle\\": ""
+	}
   },
-  "autoload" : {
-    "psr-4" : { "Novuscom\\CMFBundle\\" : "" }
-  },
-  "extra" : {
-    "branch-alias" : {
-      "dev-master" : "0.0.2-dev"
-    }
+  "extra": {
+	"branch-alias": {
+	  "dev-master": "0.0.3-dev"
+	}
   }
 }
