@@ -186,13 +186,9 @@ cmf_page_main:
     path:     /
     defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
 
-
-
-
 NovuscomCMFBundle_Extra:
     resource: .
     type: extra
-
 
 
 cmf_page_frontend:
@@ -200,3 +196,4 @@ cmf_page_frontend:
     defaults: { _controller: NovuscomCMFBundle:Default:index }
     requirements:
         name: .+
+
