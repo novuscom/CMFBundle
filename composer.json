@@ -20,14 +20,6 @@
 	"doctrine/orm": "~2.2,>=2.2.3,<2.5",
 	"doctrine/dbal": "<2.5",
 	"doctrine/doctrine-bundle": "~1.4",
-	"twig/extensions": "1.0.*",
-	"symfony/assetic-bundle": "2.3.*",
-	"symfony/swiftmailer-bundle": "2.3.*",
-	"symfony/monolog-bundle": "2.3.*",
-	"sensio/distribution-bundle": "2.3.*",
-	"sensio/framework-extra-bundle": "2.3.*",
-	"sensio/generator-bundle": "2.3.*",
-	"incenteev/composer-parameter-handler": "~2.0",
 	"gedmo/doctrine-extensions": "dev-master",
 	"friendsofsymfony/user-bundle": "~2.0@dev",
 	"knplabs/knp-menu": "2.0.*@dev",
@@ -57,7 +49,7 @@
   },
   "extra": {
 	"branch-alias": {
-	  "dev-master": "0.0.4.1"
+	  "dev-master": "0.0.4.2"
 	}
   }
 }
