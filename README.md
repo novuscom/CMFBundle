@@ -19,7 +19,9 @@ CMF на Symfony2
 Необходимо установить **Composer** для работы с пакетами, если еще не установлен. 
 [https://getcomposer.org/download/](https://getcomposer.org/download/)
 
-Выполняем команду `composer require novuscom/cmfbundle` 
+Выполняем команду `composer require novuscom/cmfbundle`
+ 
+Или же в блок *require* файла *composer.json* в корне проекта помещаем строчку `"novuscom/cmfbundle": "dev-master"` 
 
 Страница пакета на сайте packagist.org [https://packagist.org/packages/novuscom/cmfbundle](https://packagist.org/packages/novuscom/cmfbundle)
 
