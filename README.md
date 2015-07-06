@@ -19,11 +19,28 @@ CMF на Symfony2
 Необходимо установить **Composer** для работы с пакетами, если еще не установлен. 
 [https://getcomposer.org/download/](https://getcomposer.org/download/)
 
-Выполняем команду `composer require novuscom/cmfbundle`
- 
-Или же в блок *require* файла *composer.json* в корне проекта помещаем строчку `"novuscom/cmfbundle": "dev-master"` 
+### Устанавливаем Novuscom.CMF ###
 
 Страница пакета на сайте packagist.org [https://packagist.org/packages/novuscom/cmfbundle](https://packagist.org/packages/novuscom/cmfbundle)
+
+1. Выполняем команду `composer require novuscom/cmfbundle`
+ 
+    Или же в блок *require* файла *composer.json* в корне проекта помещаем строчку `"novuscom/cmfbundle": "dev-master"`
+    и выполняем команду `composer update`
+ 
+    Composer поставит зависимости. 
+
+2. Переходим по адресу *example.com/config.php* (example.com - адрес вашего сайта) - проверяем все ли рекомендации symfomy выполнены.
+    Выполняем если нет.
+
+3. Переходим по ссылке **Configure your Symfony Application online**, указываем доступы к базе данных и сохраняем
+
+4. Добавляем в app/AppKernel.php строчку `new Novuscom\CMFBundle\NovuscomCMFBundle(),`
+
+5. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
+
+
+
 
 
 
