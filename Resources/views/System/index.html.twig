@@ -36,15 +36,20 @@
 {% block javascript %}
     <script type="text/javascript">
         $(document).ready(function () {
+            $('.update-cms').prop('disabled', false);
             $(document).on('click', '.update-cms', function (e) {
                 e.preventDefault();
                 $(this).prop('disabled', true);
-                //$(this).find('.glyphicon').removeClass('glyphicon-play');
-                //$(this).find('.text').html('Идет обновление...');
                 $.post($(this).attr('data-href'), {}, function (r) {
-                    console.log(r);
+                    var result = true;
+                    $.each(r, function (i, o) {
+                        if (o['result'] != 0) {
+                            result = false;
+                            return false;
+                        }
+                    });
                     var text = '<div class="alert alert-danger">Ошибка обновления</div>';
-                    if (r['result']==0) {
+                    if (result) {
                         text = '<div class="alert alert-success">Система обновлена</div>';
                     }
                     $('#myModal .modal-body').html(text);
