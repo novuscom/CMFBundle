@@ -39,6 +39,15 @@ CMF на Symfony2
 
 5. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
 
+6. Добавляем в app/config/config.yml последней строкой файл настроек, чтобы получилось приблизительно так: 
+
+```yaml
+ imports:
+    - { resource: parameters.yml }
+    - { resource: @NovuscomCMFBundle/Resources/config/config.yml }
+```
+
+
 
 
 
