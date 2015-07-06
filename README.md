@@ -41,18 +41,29 @@ CMF на Symfony2
 
 6. Добавляем в app/config/config.yml последней строкой файл настроек, чтобы получилось приблизительно так: 
 
-```yaml
+ ```yaml
  imports:
     - { resource: parameters.yml }
     - { resource: @NovuscomCMFBundle/Resources/config/config.yml }
+ ```
+
+7. Обратите внимание, что в файле parameters.yml были указаны следующие настройки:
+
+ ```yaml
+    locale: ru
+    database_driver: pdo_mysql
+ ```
+
+8. Подключаем необходимые бандлы в файл AppKernel.php в массив $bundles
+
+```php
+            // добавляем эти строки -->
+            new Liip\ImagineBundle\LiipImagineBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new FM\ElfinderBundle\FMElfinderBundle(),
+            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new APY\BreadcrumbTrailBundle\APYBreadcrumbTrailBundle(),
+            // <-- добавляем эти строки
 ```
-
-
-
-
-
-
-
-
-
-
