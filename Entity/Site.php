@@ -342,10 +342,10 @@ class Site
     /**
      * Add groups
      *
-     * @param \Novuscom\UserBundle\Entity\Group $groups
+     * @param \Novuscom\CMFUserBundle\Entity\Group $groups
      * @return Site
      */
-    public function addGroup(\Novuscom\UserBundle\Entity\Group $groups)
+    public function addGroup(\Novuscom\CMFUserBundle\Entity\Group $groups)
     {
         $this->groups[] = $groups;
     
@@ -355,9 +355,9 @@ class Site
     /**
      * Remove groups
      *
-     * @param \Novuscom\UserBundle\Entity\Group $groups
+     * @param \Novuscom\CMFUserBundle\Entity\Group $groups
      */
-    public function removeGroup(\Novuscom\UserBundle\Entity\Group $groups)
+    public function removeGroup(\Novuscom\CMFUserBundle\Entity\Group $groups)
     {
         $this->groups->removeElement($groups);
     }

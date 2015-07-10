@@ -35,16 +35,16 @@ elfinder:
      resource: "@FMElfinderBundle/Resources/config/routing.yml"
 
 
-NovuscomUserBundle_admin_user:
-    resource: "@NovuscomUserBundle/Resources/config/routing/user.yml"
+NovuscomCMFUserBundle_admin_user:
+    resource: "@NovuscomCMFUserBundle/Resources/config/routing/user.yml"
     prefix:   /admin/user
 
-NovuscomUserBundle_admin_system:
+NovuscomCMFUserBundle_admin_system:
     resource: "@NovuscomCMFBundle/Resources/config/routing/system.yml"
     prefix:   /admin/system
 
-NovuscomUserBundle_admin_group:
-    resource: "@NovuscomUserBundle/Resources/config/routing/group.yml"
+NovuscomCMFUserBundle_admin_group:
+    resource: "@NovuscomCMFUserBundle/Resources/config/routing/group.yml"
     prefix:   /admin/group
 
 NovuscomCMFBundle_admin_menu:
@@ -185,6 +185,7 @@ cmf_robots_txt:
 cmf_page_main:
     path:     /
     defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
+
 
 NovuscomCMFBundle_Extra:
     resource: .

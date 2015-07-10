@@ -228,7 +228,7 @@ class ElementPropertyType extends AbstractType
                     );
                     break;
                 case 'U':
-                    $users = $this->em->getRepository('NovuscomUserBundle:User')->findAll();
+                    $users = $this->em->getRepository('NovuscomCMFUserBundle:User')->findAll();
                     $users_array = array();
                     foreach ($users as $u) {
                         $users_array[$u->getId()] = $u->getUsername();

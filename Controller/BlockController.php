@@ -313,7 +313,7 @@ class BlockController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            
+
             foreach ($editForm->get('property') as $property) {
                 echo '<pre>' . print_r($property->getName(), true) . '</pre>';
                 echo '<pre>' . print_r($property->get('code')->getData(), true) . '</pre>';

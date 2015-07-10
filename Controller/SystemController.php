@@ -25,17 +25,8 @@ class SystemController extends Controller
     public function upgradeAction()
     {
         $path = realpath($this->get('kernel')->getRootDir() . '/../');
-        $commands = array(
-            'COMPOSER_HOME="' . $path . '" php composer.phar update --ansi',
-            'COMPOSER_HOME="' . $path . '" php composer.phar dump-autoload --optimize',
-            'php app/console cache:clear'
-        );
-        $result = array();
-        foreach ($commands as $com) {
-            $object = $this->runCommand($path, $com);
-            $result[] = $object;
-        }
-        $response = new Response(json_encode($result));
+        $object = $this->runCommand($path, 'COMPOSER_HOME="' . $path . '" php composer.phar update --ansi');
+        $response = new Response(json_encode($object));
         $response->headers->set('Content-Type', 'application/json; charset=UTF-8');
         return $response;
     }
