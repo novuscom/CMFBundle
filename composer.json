@@ -35,7 +35,7 @@
 	"predis/predis": "v1.0.1",
 	"stfalcon/tinymce-bundle": "v0.3.8",
 	"helios-ag/fm-elfinder-bundle": "5.0.4",
-	"novuscom/cmfuserbundle": "dev-master"
+	"novuscom/cmfuserbundle": "0.0.5.0-dev"
   },
   "repositories": [
 	{
