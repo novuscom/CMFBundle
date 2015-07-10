@@ -34,8 +34,7 @@
 	"snc/redis-bundle": "1.1.8",
 	"predis/predis": "v1.0.1",
 	"stfalcon/tinymce-bundle": "v0.3.8",
-	"helios-ag/fm-elfinder-bundle": "5.0.4",
-	"novuscom/cmfuserbundle": "0.0.5.2"
+	"helios-ag/fm-elfinder-bundle": "5.0.4"
   },
   "repositories": [
 	{
@@ -50,7 +49,7 @@
   },
   "extra": {
 	"branch-alias": {
-	  "dev-master": "0.0.5.2-dev"
+	  "dev-master": "0.0.5.3-dev"
 	}
   }
 }
