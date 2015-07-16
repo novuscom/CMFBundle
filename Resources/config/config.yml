@@ -207,9 +207,7 @@ twig:
     paths:
         "%kernel.root_dir%/../templates/": templates
     form:
-        resources:
-            #- "bootstrap_3_layout.html.twig"
-            - "::bootstrap-form.html.twig"
+        resources: ['bootstrap_3_layout.html.twig']
 
 # Assetic Configuration
 assetic:
