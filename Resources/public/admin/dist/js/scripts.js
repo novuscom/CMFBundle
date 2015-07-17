@@ -6,6 +6,92 @@ $(document).ready(function(){
     })
 });
 
+$(document).ready(function () {
+    $('[data-delete]').click(function (e) {
+        if (!confirm('Вы действительно хотите удалить этот материал?'))
+            e.preventDefault();
+        else
+            return true
+
+    });
+    addFieldInCollection();
+    propertyImages();
+    TinyMCEStart('.editor', null);
+
+    //$('.fancybox').fancybox();
+    //imageReplace();
+    //imageDelete();
+    /*$('[data-translit]').liTranslit({
+     elAlias: $('[data-translit-alias]'),
+     reg: '"ё"="yo"," "="-","й"="i"'
+     //status:false
+     });*/
+});
+
+function imageReplace() {
+    $('body').on('click', '.file-replace', function (e) {
+        e.preventDefault();
+
+    })
+}
+
+function imageDelete() {
+
+}
+
+function propertyImages() {
+    $('.files-property').each(function (i, o) {
+        var attr = $(o).attr('data-data');
+        //console.log(attr);
+        if (attr !== undefined) {
+            var data = $.parseJSON(attr);
+            console.log(data);
+            var parent = $(o).parents('.form-group:eq(0)');
+            var cnt = parent.find('.cmf-form-collection');
+
+            if (data['files'] !== undefined) {
+                cnt.prepend('<div class="images"></div>');
+                var images = cnt.find('.images');
+                $.each(data['files'], function (i, o) {
+                    var img =
+                        '<div class="image"><a href="' + o['original_path'] + '" target="_blank"><img alt="" src="' + o['path'] + '" /></a>' +
+                        '<ul>' +
+                        '<li><a href="#" class="file-replace" data-file-id="' + o['file_id'] + '" data-property-id="' + o['property_id'] + '">заменить</a></li>' +
+                        '<li><a href="#" class="file-delete">удалить</a></li>' +
+                        '</ul>' +
+                        '</div>';
+                    //console.log(img);
+                    images.append(img);
+                })
+            }
+        }
+    })
+}
+
+function addFieldInCollection() {
+    $('.cmf-form-collection__button').click(function (e) {
+        e.preventDefault();
+        var button = $(this);
+        var parent = button.parents('.cmf-form-collection');
+        var num = parent.find('.cmf-form-collection__list .cmf-form-collection__item').length;
+        var prototype = button.attr('data-prototype');
+        var newField = prototype.replace(/__name__/g, num);
+        var tpl = parent.find('.cmf-form-collection__template').clone();
+        tpl.find('.cmf-form-collection__label').html('<label>' + num + '</label>');
+        tpl.find('.cmf-form-collection__field').prepend(newField);
+        tpl.removeClass('cmf-form-collection__template').show();
+        // Здесь обработка
+        parent.find('.cmf-form-collection__list').append(tpl);
+    });
+    $('body').on('click', '.cmf-form-collection__button-remove', function (e) {
+        e.preventDefault();
+        var button = $(this);
+        var parent = button.parents('.cmf-form-collection__item');
+        parent.remove();
+    })
+}
+
+
 function TinyMCEStart(elem, mode){
     var plugins = [];
     if (mode == 'extreme'){
