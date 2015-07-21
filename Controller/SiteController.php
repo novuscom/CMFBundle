@@ -139,7 +139,7 @@ class SiteController extends Controller
     {
         $User = $this->get('User');
         $userSites = $User->getUserSites();
-        if ($userSites and !array_key_exists($id, $userSites)) {
+        if ($userSites && !array_key_exists($id, $userSites)) {
             throw $this->createAccessDeniedException('Доступ запрещен');
         }
         $em = $this->getDoctrine()->getManager();
