@@ -35,7 +35,7 @@ class ComponentController extends Controller
 		$route_params = $request->get('_route_params');
 		$routeName = $request->get('_route');
 		$pageRoute = ($routeName == 'cmf_page_frontend');
-		if (!isset($route_params['params']) and !$pageRoute) {
+		if (!isset($route_params['params']) && !$pageRoute) {
 			$logger->notice('параметры маршрута не известны и это не маршрут для статических страниц, возвращаем пустой результат (' . print_r($route_params, true) . ')');
 			return new Response();
 		}
@@ -61,7 +61,7 @@ class ComponentController extends Controller
 
 			if ($existParams) {
 				$page = $repo->find($route_params['params']['page_id']);
-			} elseif ($pageRoute and $route_params['name']) {
+			} elseif ($pageRoute && $route_params['name']) {
 				$Page = $this->get('Page');
 				$page = $Page->findPage($route_params['name']);
 			}
@@ -85,7 +85,7 @@ class ComponentController extends Controller
 			/*
 			 * Хлебные крошки для раздела
 			 */
-			if ($existParams and $route_params['params']['controller_code'] == 'section') {
+			if ($existParams && $route_params['params']['controller_code'] == 'section') {
 				$logger->info('Создаем хлебные крошки для раздела');
 				$crumbs = $this->getCrumbsForSection($route_params['CODE'], $route_params, $crumbs, $codes_array);
 			}
@@ -93,7 +93,7 @@ class ComponentController extends Controller
 			/*
 			 * Хлебные крошки для элемента
 			 */
-			if ($existParams and $route_params['params']['controller_code'] == 'element') {
+			if ($existParams && $route_params['params']['controller_code'] == 'element') {
 				if (array_key_exists('SECTION_CODE', $route_params))
 					$crumbs = $this->getCrumbsForSection($route_params['SECTION_CODE'], $route_params, $crumbs, $codes_array);
 				$filter = array(
