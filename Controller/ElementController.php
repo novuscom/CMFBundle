@@ -1737,7 +1737,7 @@ class ElementController extends Controller
                     )
                 );
                 foreach ($files as $f) {
-                    if (!$filesId or ($filesId && in_array($f->getId(), $filesId))) {
+                    if (!$filesId || ($filesId && in_array($f->getId(), $filesId))) {
                         $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/' . $f->getName();
                         //echo '<pre>' . print_r($fileName, true) . '</pre>';
                         $em->remove($f);
