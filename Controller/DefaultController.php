@@ -327,7 +327,7 @@ class DefaultController extends Controller
 		return $cacheId;
 	}
 
-	public function GetById($id)
+	private function GetById($id)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$cacheDriver = $this->getCacheDriver();
