@@ -342,19 +342,14 @@ class ElementController extends Controller
      */
     public function createAction(Request $request)
     {
-        echo '<pre>' . print_r('createAction();', true) . '</pre>';
 
         $entity = new Element();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
-        echo '<pre>' . print_r('Проверка формы на валидность', true) . '</pre>';
-
 
         if ($form->isValid()) {
 
-
-            echo '<pre>' . print_r('Форма валидна', true) . '</pre>';
 
 
             $em = $this->getDoctrine()->getManager();
@@ -372,7 +367,6 @@ class ElementController extends Controller
              * Свойства
              */
             if ($form->has('properties')) {
-                echo '<pre>' . print_r('У формы есть свойства', true) . '</pre>';
 
                 foreach ($form->get('properties') as $p) {
                     //echo '<pre>' . print_r($p->getName(), true) . '</pre>';
@@ -391,9 +385,9 @@ class ElementController extends Controller
                             $ElementProperty->setValue($p->getData());
                             $em->persist($ElementProperty);
                         } else {
-                            echo '<pre>';
-                            print_r($p->getData());
-                            echo '</pre>';
+                            //echo '<pre>';
+                            //print_r($p->getData());
+                            //echo '</pre>';
                             //exit;
                         }
                     } else {
@@ -423,7 +417,7 @@ class ElementController extends Controller
                                         /**
                                          * Заменяем файл
                                          */
-                                        echo '<pre>' . print_r('Заменяем файл', true) . '</pre>';
+
                                         /*
                                         foreach ($ElementProperty as $key => $ep) {
                                             echo '<pre>' . print_r('value: ' . $ep->getValue() . ', property:' . $ep->getProperty()->getId(), true) . '</pre>';
@@ -442,8 +436,6 @@ class ElementController extends Controller
                                         /*
                                          * Создаем значение свойства
                                          */
-                                        echo '<pre>' . print_r('создаем новый файл', true) . '</pre>';
-                                        echo '<pre>' . print_r($pv, true) . '</pre>';
                                         $ElementPropertyF = new ElementPropertyF();
                                         $ElementPropertyF->setElement($entity);
                                         $ElementPropertyF->setDescription($pv->getDescription());
@@ -480,7 +472,6 @@ class ElementController extends Controller
 
                 }
             } else {
-                echo '<pre>' . print_r('Свойств у элемента нет', true) . '</pre>';
                 //exit;
             }
 
@@ -501,7 +492,6 @@ class ElementController extends Controller
                 /*
                  * для элемента не указаны разделы, добавляем пустой
                  */
-                echo '<pre>[' . print_r('Для элемента не указаны разделы', true) . ']</pre>';
                 $ElementSection = new ElementSection();
                 $ElementSection->setElement($entity);
                 $ElementSection->setSection(null);
@@ -564,17 +554,17 @@ class ElementController extends Controller
     private function CreateUpdateFiles($property_value, $entity, $em)
     {
         //$em = $this->getDoctrine()->getManager();
-        //echo '<hr/>Это массив:<pre>' . print_r($property_value, true) . '</pre><hr/>';
+
         //exit;
         foreach ($property_value as $pv) {
-            echo '<pre>' . print_r($pv, true) . '</pre>';
+
             //exit;
             $file = new \Novuscom\CMFBundle\Entity\FormPropertyFile();
 
             if ($pv instanceof $file) {
 
                 //exit;
-                //echo '<pre>' . print_r($pv->getName(), true) . '</pre>';
+
                 //$this->createPreviewPicture()
                 //$mediaController = new \CMF\MediaBundle\Controller\DefaultController();
                 $newFile = $this->createFile($pv->getFile());
@@ -585,9 +575,9 @@ class ElementController extends Controller
                     /**
                      * Заменяем файл
                      */
-                    echo '<pre>' . print_r('Обновляем файл', true) . '</pre>';
+
                     foreach ($ElementProperty as $key => $ep) {
-                        echo '<pre>' . print_r('value: ' . $ep->getValue() . ', property:' . $ep->getProperty()->getId(), true) . '</pre>';
+
                         if ($ep->getValue() == $pv->getReplaceFileId()) {
                             $ep->setValue($newFile->getId());
                             $em->persist($ep);
@@ -603,8 +593,8 @@ class ElementController extends Controller
                     /*
                      * Создаем значение свойства
                      */
-                    echo '<pre>' . print_r('создаем новый файл', true) . '</pre>';
-                    echo '<pre>' . print_r($pv, true) . '</pre>';
+
+
                     $ElementProperty = new ElementProperty();
                     $ElementProperty->setValue($newFile->getId());
                     $ElementProperty->setElement($entity);
@@ -685,7 +675,7 @@ class ElementController extends Controller
         $params = $request->get('_route_params');
         $block = $em->getRepository('NovuscomCMFBundle:Block')->find($params['id']);
 
-        //echo '<pre>' . print_r($params, true) . '</pre>';
+
 
         if ($params['section_id']) {
             $action = $this->generateUrl('admin_element_create_in_section',
@@ -824,11 +814,10 @@ class ElementController extends Controller
             throw $this->createNotFoundException('Unable to find Element entity.');
         }
 
-        /*$date = new \DateTime('now');
-        echo '<pre>' . print_r($date, true) . '</pre>';*/
+
 
         //$path = $this->get('liip_imagine.cache.manager')->getBrowserPath('/upload/images/47066.jpeg', 'my_thumb');
-        //echo '<pre>' . print_r($path, true) . '</pre>';
+
         //$imagine = new Imagine\Gd\Imagine();
         $crumbs = $this->get("apy_breadcrumb_trail");
         $crumbs->add('ACMF', 'cmf_admin_homepage');
@@ -942,7 +931,6 @@ class ElementController extends Controller
 
         );
 
-        //echo '<pre>' . print_r($data, true) . '</pre>';
 
         $propertyForm = new ElementPropertyType($block->getProperty(), $em, $data);
 
@@ -997,7 +985,6 @@ class ElementController extends Controller
         $countEntitySections = count($entitySections);
 
         if ($countEntitySections > 0) {
-            //echo '<pre>' . print_r('Количестов разделов до отправки формы: ' . $countEntitySections, true) . '</pre>';
             foreach ($entitySections as $o) {
                 ///echo '<pre>' . print_r($o->getId(), true) . '</pre>';
 
@@ -1007,7 +994,7 @@ class ElementController extends Controller
                     $sections->add(null);
                 }
             }
-            //echo '<pre>' . print_r($sectionsId, true) . '</pre>';
+
 
             if ($sectionsId) {
                 $sectionsById = $em->getRepository('NovuscomCMFBundle:Section')->findBy(array('id' => $sectionsId));
@@ -1036,16 +1023,16 @@ class ElementController extends Controller
         $result = false;
         $originalSections = $this->getElementSections($entity);
 
-        //echo '<pre>' . print_r('Разделы к которым сейчас привязан элемент:', true) . '</pre>';
+
         foreach ($originalSections as $section) {
-            if ($section)
-                echo '<pre>' . print_r($section->getName(), true) . '</pre>';
+            //if ($section)
+            //    echo '<pre>' . print_r($section->getName(), true) . '</pre>';
         }
 
-        //echo '<pre>' . print_r('Разделы к которым должен быть привязан элемент:', true) . '</pre>';
+
         foreach ($newSections as $section) {
-            if ($section)
-                echo '<pre>' . print_r($section->getName(), true) . '</pre>';
+            //if ($section)
+            //    echo '<pre>' . print_r($section->getName(), true) . '</pre>';
         }
 
 
@@ -1548,7 +1535,7 @@ class ElementController extends Controller
             $this->downloadFile($editForm['detail_picture_src']->getData(), $entity, 'detail');
 
             if ($detail_picture = $entity->getDetailPicture()) {
-                echo '<pre>' . print_r('есть detailPicture', true) . '</pre>';
+                //echo '<pre>' . print_r('есть detailPicture', true) . '</pre>';
                 //exit;
                 $detail_picture->setDescription($editForm['detail_picture_alt']->getData());
                 $em->persist($detail_picture);;
