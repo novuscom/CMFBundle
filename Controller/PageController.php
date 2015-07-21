@@ -16,7 +16,7 @@ class PageController extends Controller
 {
 
 
-    public function prepareUrl($url, $parent)
+    private function prepareUrl($url, $parent)
     {
         $result = $url;
         if ($url != '/') {
