@@ -234,7 +234,7 @@ class ComponentController extends Controller
 			$ElementsList->selectProperties(array('address', 'shirota', 'price'));
 			$ElementsList->setOrder(array('name', 'asc'));
 			//echo '<pre>' . print_r($params, true) . '</pre>';
-			if ($params and array_key_exists('params', $params) and array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
+			if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
 				$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
 			$elements = $ElementsList->getResult();
 
@@ -273,7 +273,7 @@ class ComponentController extends Controller
 			$pagination->setParam('CODE', $fullCode);
 			$pagination->setTemplate('@templates/' . $params['params']['template_directory'] . '/Pagination/' . $params['template_code'] . '.html.twig');
 			//$pagination->setParam('PAGE', $PAGE);
-			if ($PAGE>1 and count($pagination)<1) {
+			if ($PAGE>1 && count($pagination)<1) {
 				throw $this->createNotFoundException('Не найдено элементов на странице '.$PAGE);
 			}
 			//echo '<pre>' . print_r(count($pagination), true) . '</pre>';
@@ -476,7 +476,7 @@ class ComponentController extends Controller
 			$logger->info('<pre>' . print_r($values_by_code, true) . '</pre>');
 			foreach ($values_by_code as $code => $n) {
 				$prop = $properties_by_code[$code];
-				if (is_array($prop['params']) and array_key_exists('MULTIPLE', $prop['params']) and $prop['params']['MULTIPLE']) {
+				if (is_array($prop['params']) && array_key_exists('MULTIPLE', $prop['params']) && $prop['params']['MULTIPLE']) {
 					$value = $n;
 				} else {
 					$value = $n[0];
@@ -548,7 +548,7 @@ class ComponentController extends Controller
 			//echo '<pre>' . print_r($properties_by_code, true) . '</pre>';
 			foreach ($properties_by_code as $code => $n) {
 				if (array_key_exists('type', $n)) {
-					if ($n['type'] == 'LIST' and array_key_exists($n['value'], $list)) {
+					if ($n['type'] == 'LIST' && array_key_exists($n['value'], $list)) {
 						$lv = $list[$n['value']];
 						$n['value'] = $lv['value'];
 						$n['code'] = $lv['code'];
@@ -736,7 +736,7 @@ class ComponentController extends Controller
 				$preview_pictures = $repo->getResult();
 			}
 			foreach ($sections as $key => $e) {
-				if ($e['preview_picture'] and array_key_exists($e['preview_picture'], $preview_pictures)) {
+				if ($e['preview_picture'] && array_key_exists($e['preview_picture'], $preview_pictures)) {
 					$array = $preview_pictures[$e['preview_picture']];
 					$array['src'] = 'upload/images/' . $array['name'];
 					$array['path'] = $array['src'];
@@ -776,7 +776,7 @@ class ComponentController extends Controller
 		$alias = $this->getAlias();
 		$site = $alias->getSite();
 		$securityContext = $this->container->get('security.context');
-		return $site->getClosed() and !$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
+		return $site->getClosed() && !$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
 	}
 
 	public function ElementsListAction($params, Request $request)
