@@ -159,7 +159,7 @@ class SectionController extends Controller
 				//echo '<pre>' . print_r('Ид родителя текущего: '.$parent, true) . '</pre>';
 				//echo '<hr/>';
 				$level = $s->getLvl();
-				if (isset($codeArray[$level]) and $codeArray[$level] == $s->getCode() and $prevParent == $parent) {
+				if (isset($codeArray[$level]) && $codeArray[$level] == $s->getCode() && $prevParent == $parent) {
 					//$need[] = $s->getName();
 					$need[] = $s;
 					$needCodes[] = $s->getCode();
