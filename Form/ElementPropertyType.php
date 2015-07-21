@@ -37,8 +37,8 @@ class ElementPropertyType extends AbstractType
             //echo '<pre>' . print_r($p->getInfo(), true) . '</pre>';
             //$info = $p->getInfo();
             $info = json_decode($p->getInfo(), true);
-            $is_multiple = (is_array($info) and array_key_exists('MULTIPLE', $info) and $info['MULTIPLE'] == true);
-            $required = (is_array($info) and array_key_exists('REQUIRED', $info) and $info['REQUIRED'] == true);
+            $is_multiple = (is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true);
+            $required = (is_array($info) && array_key_exists('REQUIRED', $info) && $info['REQUIRED'] == true);
             switch ($p->getType()) {
                 /**
                  * Поле типа "Список"
@@ -78,7 +78,7 @@ class ElementPropertyType extends AbstractType
                         'mapped' => false,
                         'data'=>$data,
                     );
-                    if (isset($this->data['VALUES'][$p->getId()]) and is_numeric($this->data['VALUES'][$p->getId()])) {
+                    if (isset($this->data['VALUES'][$p->getId()]) && is_numeric($this->data['VALUES'][$p->getId()])) {
                         $choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
                     }
                     $builder->add($p->getId(), 'choice', $choiceOptions);
@@ -92,13 +92,13 @@ class ElementPropertyType extends AbstractType
                         $choices[$e->getId()] = $e->getName();
                     }
                     //echo '<pre>' . print_r($choices, true) . '</pre>';
-                    if (array_key_exists('MULTIPLE', $info) and $info['MULTIPLE'] == true) {
+                    if (array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true) {
 
                         $FPECollection = new \Doctrine\Common\Collections\ArrayCollection();
 
 
                         //echo '<pre>' . print_r($this->data['VALUES'][$p->getId()], true) . '</pre>';
-                        if (isset($this->data['VALUES']) and is_array($this->data['VALUES']) and array_key_exists($p->getId(), $this->data['VALUES'])) {
+                        if (isset($this->data['VALUES']) && is_array($this->data['VALUES']) && array_key_exists($p->getId(), $this->data['VALUES'])) {
                             foreach ($this->data['VALUES'][$p->getId()] as $v) {
                                 $FPE = new ElementProperty();
                                 $FPE->setValue($v);
@@ -145,7 +145,7 @@ class ElementPropertyType extends AbstractType
                             'label' => $p->getName(),
                             'mapped' => false,
                         );
-                        if (isset($this->data['VALUES'][$p->getId()]) and is_numeric($this->data['VALUES'][$p->getId()])) {
+                        if (isset($this->data['VALUES'][$p->getId()]) && is_numeric($this->data['VALUES'][$p->getId()])) {
                             $choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
                         }
                         $builder->add($p->getId(), 'choice', $choiceOptions);
@@ -159,8 +159,8 @@ class ElementPropertyType extends AbstractType
                         //echo '<pre>' . print_r($this->data['VALUES'], true) . '</pre>';
                         if (
                             isset($this->data['PROPERTY_FILE_VALUES'][$p->getId()])
-                            and is_array($this->data['PROPERTY_FILE_VALUES'])
-                            and array_key_exists($p->getId(), $this->data['PROPERTY_FILE_VALUES'])
+                            && is_array($this->data['PROPERTY_FILE_VALUES'])
+                            && array_key_exists($p->getId(), $this->data['PROPERTY_FILE_VALUES'])
                         ) {
                             //$choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
                             $filesId = $this->data['PROPERTY_FILE_VALUES'][$p->getId()];
@@ -252,7 +252,7 @@ class ElementPropertyType extends AbstractType
                     //echo '<pre>' . print_r($p->getInfo(), true) . '</pre>';
                     //$info = json_decode($p->getInfo(), true);
                     //echo '<pre>' . print_r($info, true) . '</pre>';
-                    if ($info and is_array($info) and array_key_exists('MULTIPLE', $info) and $info['MULTIPLE'] == true) {
+                    if ($info && is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true) {
                         $data = array();
                         /*
                         $element_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Element', 251);
@@ -294,7 +294,7 @@ class ElementPropertyType extends AbstractType
                                 'class' => 'form-control'
                             )
                         );
-                        if (isset($this->data['VALUES']) and is_array($this->data['VALUES']) and array_key_exists($p->getId(), $this->data['VALUES'])) {
+                        if (isset($this->data['VALUES']) && is_array($this->data['VALUES']) && array_key_exists($p->getId(), $this->data['VALUES'])) {
                             $optionsArray['data'] = $this->data['VALUES'][$p->getId()][0];
                         }
                         $builder->add(
@@ -361,7 +361,7 @@ class ElementPropertyType extends AbstractType
     private function getPropertyValues($property_id)
     {
         $result = array();
-        if (isset($this->data['VALUES']) and is_array($this->data['VALUES']) and array_key_exists($property_id, $this->data['VALUES'])) {
+        if (isset($this->data['VALUES']) && is_array($this->data['VALUES']) && array_key_exists($property_id, $this->data['VALUES'])) {
             $result = $this->data['VALUES'][$property_id];
         };
         return $result;

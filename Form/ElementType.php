@@ -125,7 +125,7 @@ class ElementType extends AbstractType
 
         $data = new ArrayCollection();
         $element = $builder->getData();
-        if ($options['em'] and $element->getId()) {
+        if ($options['em'] && $element->getId()) {
             $em = $options['em'];
 
 
