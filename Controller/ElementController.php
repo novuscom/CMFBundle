@@ -1036,13 +1036,13 @@ class ElementController extends Controller
         $result = false;
         $originalSections = $this->getElementSections($entity);
 
-        echo '<pre>' . print_r('Разделы к которым сейчас привязан элемент:', true) . '</pre>';
+        //echo '<pre>' . print_r('Разделы к которым сейчас привязан элемент:', true) . '</pre>';
         foreach ($originalSections as $section) {
             if ($section)
                 echo '<pre>' . print_r($section->getName(), true) . '</pre>';
         }
 
-        echo '<pre>' . print_r('Разделы к которым должен быть привязан элемент:', true) . '</pre>';
+        //echo '<pre>' . print_r('Разделы к которым должен быть привязан элемент:', true) . '</pre>';
         foreach ($newSections as $section) {
             if ($section)
                 echo '<pre>' . print_r($section->getName(), true) . '</pre>';
@@ -1055,7 +1055,7 @@ class ElementController extends Controller
         $deleteSectionsId = array();
         foreach ($originalSections as $o) {
             // Раздел к которому был привязан элемент отсутствует в списке раздлов к которым нужно привязать элемент
-            echo '<pre>' . print_r($o->getName(), true) . '</pre>';
+            //echo '<pre>' . print_r($o->getName(), true) . '</pre>';
             if (!$newSections->contains($o)) {
                 $deleteSectionsId[] = $o->getSection()->getId();
             }
@@ -1073,8 +1073,8 @@ class ElementController extends Controller
         }
 
 
-        echo '<pre>' . print_r('ИД удаляемых разделов', true) . '</pre>';
-        echo '<pre>' . print_r($deleteSectionsId, true) . '</pre>';
+        //echo '<pre>' . print_r('ИД удаляемых разделов', true) . '</pre>';
+        //echo '<pre>' . print_r($deleteSectionsId, true) . '</pre>';
 
         /**
          * Удаляем элементы из разделов
@@ -1165,7 +1165,7 @@ class ElementController extends Controller
      */
     public function updateAction(Request $request, $id, $block_id, $section_id = false)
     {
-        echo '<pre>' . print_r('updateAction', true) . '</pre>';
+        //echo '<pre>' . print_r('updateAction', true) . '</pre>';
         $em = $this->getDoctrine()->getManager();
         $Element = $this->get('Element');
 
@@ -1250,10 +1250,10 @@ class ElementController extends Controller
                             $val = $propArray[$ep->getProperty()->getId()];
                             //echo '<pre>' . print_r($val, true) . '</pre>';
                             if (!is_object($val)) {
-                                echo '<pre>' . print_r('Не объект', true) . '</pre>';
+                                //echo '<pre>' . print_r('Не объект', true) . '</pre>';
                                 //echo '<pre>' . print_r($val, true) . '</pre>';
                                 if (is_array($val)) {
-                                    echo '<pre>' . print_r('Массив, $ep->getId()=' . $ep->getId(), true) . '</pre>';
+                                    //echo '<pre>' . print_r('Массив, $ep->getId()=' . $ep->getId(), true) . '</pre>';
                                     //echo '<pre>' . print_r($val, true) . '</pre>';
 
                                     /*foreach ($val as $keyVal=>$valueVal) {
@@ -1314,7 +1314,7 @@ class ElementController extends Controller
                     foreach ($ElementProperty as $key => $ep) {
                         if (!in_array($ep->getId(), $updatedId)) {
                             //if (!in_array($key, $updatedId)) {
-                            echo '<pre>' . print_r('Удаляем $key=' . $key . ', $ep->getId()=' . $ep->getId() . ', ' . $ep->getValue(), true) . '</pre>';
+                            //echo '<pre>' . print_r('Удаляем $key=' . $key . ', $ep->getId()=' . $ep->getId() . ', ' . $ep->getValue(), true) . '</pre>';
                             $em->remove($ep);
                         }
                     }
@@ -1355,8 +1355,8 @@ class ElementController extends Controller
                 //exit;
 
                 if ($propArray) {
-                    echo '<pre>' . print_r('Свойства остались', true) . '</pre>';
-                    echo '<pre>' . print_r($propArray, true) . '</pre>';
+                    //echo '<pre>' . print_r('Свойства остались', true) . '</pre>';
+                    //echo '<pre>' . print_r($propArray, true) . '</pre>';
 
                     foreach ($propArray as $property_id => $property_value) {
                         $property = false;
@@ -1369,7 +1369,7 @@ class ElementController extends Controller
                         if (!is_object($property_value)) {
                             //echo '<hr/>Это не объект:<pre>' . print_r($property_value, true) . '</pre><hr/>';
                             if (is_array($property_value)) {
-                                echo '<hr/>Это массив:<pre>' . print_r($property_value, true) . '</pre><hr/>';
+                                //echo '<hr/>Это массив:<pre>' . print_r($property_value, true) . '</pre><hr/>';
                                 foreach ($property_value as $pv) {
                                     //echo '<pre>' . print_r($pv, true) . '</pre>';
 
@@ -1405,14 +1405,14 @@ class ElementController extends Controller
                                         } else {
                                             if ($pv->getReplaceFileId()) {
 
-                                                echo '<pre> $property_id=' . print_r($property_id, true) . '</pre>';
+                                                //echo '<pre> $property_id=' . print_r($property_id, true) . '</pre>';
 
 
-                                                echo '<pre>' . print_r('Заменяем файл', true) . '</pre>';
+                                                //echo '<pre>' . print_r('Заменяем файл', true) . '</pre>';
 
                                                 foreach ($ElementPropertyF as $key => $ep) {
-                                                    echo '<pre>' . print_r('fil_id: ' . $ep->getFile()->getId() . ', property:' . $ep->getProperty()->getId(), true) . '</pre>';
-                                                    echo '<pre>' . print_r('$pv->getReplaceFileId()=' . $pv->getReplaceFileId(), true) . '</pre>';
+                                                    //echo '<pre>' . print_r('fil_id: ' . $ep->getFile()->getId() . ', property:' . $ep->getProperty()->getId(), true) . '</pre>';
+                                                    //echo '<pre>' . print_r('$pv->getReplaceFileId()=' . $pv->getReplaceFileId(), true) . '</pre>';
                                                     if ($ep->getFile()->getId() == $pv->getReplaceFileId()) {
                                                         $newFile = $this->createFile($pv->getFile());
                                                         $em->persist($newFile);
@@ -1434,8 +1434,8 @@ class ElementController extends Controller
                                                  */
                                                 $newFile = $this->createFile($pv->getFile());
                                                 $em->persist($newFile);
-                                                echo '<pre>' . print_r('создаем новый файл', true) . '</pre>';
-                                                echo '<pre>' . print_r($pv, true) . '</pre>';
+                                                //echo '<pre>' . print_r('создаем новый файл', true) . '</pre>';
+                                                //echo '<pre>' . print_r($pv, true) . '</pre>';
                                                 $ElementPropertyF = new ElementPropertyF();
                                                 $ElementPropertyF->setFile($newFile);
                                                 $ElementPropertyF->setElement($entity);
@@ -1580,7 +1580,7 @@ class ElementController extends Controller
             }
             return $this->redirect($redirect_url);
         } else {
-            echo '<pre>' . print_r('форма не валидна', true) . '</pre>';
+            //echo '<pre>' . print_r('форма не валидна', true) . '</pre>';
             //echo $editForm->getErrorsAsString();
 
         }
@@ -1723,7 +1723,7 @@ class ElementController extends Controller
         foreach ($fileProperties as $fp) {
             $filePropertiesId[] = $fp->getId();
         }
-        echo '<pre>' . print_r($filePropertiesId, true) . '</pre>';
+        //echo '<pre>' . print_r($filePropertiesId, true) . '</pre>';
 
 
         if ($filePropertiesId) {
@@ -1752,7 +1752,7 @@ class ElementController extends Controller
                 foreach ($files as $f) {
                     if (!$filesId or ($filesId and in_array($f->getId(), $filesId))) {
                         $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/' . $f->getName();
-                        echo '<pre>' . print_r($fileName, true) . '</pre>';
+                        //echo '<pre>' . print_r($fileName, true) . '</pre>';
                         $em->remove($f);
                         unlink($fileName);
                     }
@@ -1773,7 +1773,7 @@ class ElementController extends Controller
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
-        echo '<pre>' . print_r('deleteAction();', true) . '</pre>';
+        //echo '<pre>' . print_r('deleteAction();', true) . '</pre>';
         if ($form->isValid()) {
             //echo '<pre>' . print_r($child->getName(), true) . '</pre>';
             $em = $this->getDoctrine()->getManager();
@@ -1809,7 +1809,7 @@ class ElementController extends Controller
             $em->flush();
 
         } else {
-            echo '<pre>' . print_r($form->getErrors(), true) . '</pre>';
+            //echo '<pre>' . print_r($form->getErrors(), true) . '</pre>';
         }
 
         return $this->redirect($url);
