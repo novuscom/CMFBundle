@@ -18,7 +18,7 @@ use Imagine\Image\Point;
 class DefaultController extends Controller
 {
 
-	public function getPageByUrl($url)
+	private function getPageByUrl($url)
 	{
 		//echo '<pre>' . print_r('getPageByUrl()', true) . '</pre>';
 		$request = $this->container->get('request');
