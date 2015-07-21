@@ -547,7 +547,7 @@ class ElementController extends Controller
              * Редирект
              */
             $redirect_url = $this->generateUrl('admin_block_show', array('id' => $params['id']));
-            if (array_key_exists('section_id', $params) and is_numeric($params['section_id'])) {
+            if (array_key_exists('section_id', $params) && is_numeric($params['section_id'])) {
                 $redirect_url = $this->generateUrl('admin_block_show_section', array('id' => $block->getId(), 'section_id' => $params['section_id']));
             }
             return $this->redirect($redirect_url);
@@ -1143,7 +1143,7 @@ class ElementController extends Controller
                 $em->persist($ElementSection);
             }
         }
-        if ($countEntitySections == 0 and $countAddSections == 0) {
+        if ($countEntitySections == 0 && $countAddSections == 0) {
             /*
              * У элемента не было разделов вообще (не было связи с разделдами, даже NULL)
              * Новых раздлов у элемента также нет
@@ -1750,7 +1750,7 @@ class ElementController extends Controller
                     )
                 );
                 foreach ($files as $f) {
-                    if (!$filesId or ($filesId and in_array($f->getId(), $filesId))) {
+                    if (!$filesId or ($filesId && in_array($f->getId(), $filesId))) {
                         $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/' . $f->getName();
                         //echo '<pre>' . print_r($fileName, true) . '</pre>';
                         $em->remove($f);
