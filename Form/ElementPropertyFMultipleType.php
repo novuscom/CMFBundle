@@ -25,14 +25,14 @@ class ElementPropertyFMultipleType extends AbstractType
 
         //echo '<pre>' . print_r($data, true) . '</pre>';
 
-        if ($data and array_key_exists('DELETED', $data) and $data['DELETED']==true) {
+        if ($data && array_key_exists('DELETED', $data) && $data['DELETED']==true) {
             $builder->add('deleted_file_id', 'text', array('required'=>true));
         }
         else {
             $builder->add('file', 'file', array('required' => true));
             $builder->add('description', 'text', array('required'=>false));
         }
-        if ($data and array_key_exists('REPLACED', $data) and $data['REPLACED']==true) {
+        if ($data && array_key_exists('REPLACED', $data) && $data['REPLACED']==true) {
             $builder->add('replace_file_id', 'text', array('required'=>true));
         }
 
