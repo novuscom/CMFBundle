@@ -776,7 +776,8 @@ class ComponentController extends Controller
 		$alias = $this->getAlias();
 		$site = $alias->getSite();
 		$securityContext = $this->container->get('security.context');
-		return $site->getClosed() && !$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
+		$result = ($site->getClosed() && !$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
+		return $result;
 	}
 
 	public function ElementsListAction($params, Request $request)
