@@ -219,7 +219,7 @@ class ElementsList
                 $preview_pictures = $repo->getResult();
             }
             foreach ($elements as $key => $e) {
-                if ($e['preview_picture'] and array_key_exists($e['preview_picture'], $preview_pictures)) {
+                if ($e['preview_picture'] && array_key_exists($e['preview_picture'], $preview_pictures)) {
                     $array = $preview_pictures[$e['preview_picture']];
                     $array['src'] = 'upload/images/' . $array['name'];
                     $array['path'] = $array['src'];

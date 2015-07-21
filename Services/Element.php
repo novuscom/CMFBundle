@@ -152,7 +152,7 @@ class Element
                 if ($elements_id) {
                     $elements_repo = $elements_repo->andWhere('n.id IN(' . implode(',', $elements_id) . ')');
                 }
-                if (array_key_exists('ID', $filter) and is_numeric($filter['ID'])) {
+                if (array_key_exists('ID', $filter) && is_numeric($filter['ID'])) {
                     $elements_repo = $elements_repo->andWhere('n.id=' . $filter['ID']);
                 }
                 $elements_repo = $elements_repo->getQuery();
@@ -336,8 +336,8 @@ class Element
                 } else {
                     //echo '<pre>' . print_r('Элемент прикреплен к разделу NULL', true) . '</pre>';
                     if (
-                        ($countAddSections > 0 and $countESection > 0)
-                        or ($countAddSections == 0 and $countDeleteSections == 0 and $countESection > 1)
+                        ($countAddSections > 0 && $countESection > 0)
+                        or ($countAddSections == 0 && $countDeleteSections == 0 && $countESection > 1)
                     ) {
                         $this->em->remove($obj);
                     }
@@ -348,7 +348,7 @@ class Element
             /*
              * Создаем нулевую запись, если элемент не прикрепелен к разделам
              */
-            if ($countAddSections == 0 and ($countESection == $countDeleteSections)) {
+            if ($countAddSections == 0 && ($countESection == $countDeleteSections)) {
                 $ElementSection = new ElementSection();
                 $ElementSection->setElement($element);
                 $ElementSection->setSection(null);

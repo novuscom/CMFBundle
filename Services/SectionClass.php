@@ -78,7 +78,7 @@ class SectionClass
 			'code' => $codeArray[0],
 			'lvl' => 0
 		);
-		if (is_array($params) and array_key_exists('root_level', $params) and is_numeric($params['root_level'])) {
+		if (is_array($params) && array_key_exists('root_level', $params) && is_numeric($params['root_level'])) {
 			$filter_params['lvl'] = $params['root_level'];
 		}
 		$root = $er->findOneBy($filter_params);
