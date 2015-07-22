@@ -199,7 +199,7 @@ class ComponentController extends Controller
 			/*
 			 * Страница
 			 */
-			$page_class = $this->get('PageClass');
+			$page_class = $this->get('Page');
 			$page = $page_class->GetById($params['page_id']);
 
 

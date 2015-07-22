@@ -10,6 +10,88 @@ use Monolog\Logger;
 
 class Page
 {
+    private function getPageArray($page)
+    {
+        $site = $this->getSite();
+        $twig = new \Twig_Environment(new \Twig_Loader_String());
+        $twig->addExtension(new \Symfony\Bridge\Twig\Extension\HttpKernelExtension($this->get('fragment.handler')));
+
+        $rendered = '';
+
+        $rendered = $twig->render(
+            $page->getContent(),
+            array()
+        );
+        $page->setContent($rendered);
+        $template = $this->getTemplate($site['code'], 'default');
+
+
+        if (!$templateName = $page->getTemplate()) {
+            //echo '<pre>' . print_r('не было шаблона', true) . '</pre>';
+            $page->setTemplate($template);
+        } else {
+            $page->setTemplate($this->getTemplate($site['code'], $templateName));
+        }
+
+        /**
+         * Рендерим контент страницы
+         */
+        $twig = new \Twig_Environment(new \Twig_Loader_String());
+        $twig->addExtension(new \Symfony\Bridge\Twig\Extension\HttpKernelExtension($this->get('fragment.handler')));
+        $rendered = $twig->render(
+            $page->getContent(),
+            array(
+                //'_route_params' => $routeParams,
+                //'_get_params'=>$this->getRequest()->query->all();
+                //'_post_params'=>$this->getRequest()->request->all();
+            )
+        );
+
+        //echo '<pre>' . print_r($page->getTitle(), true) . '</pre>'; exit;
+
+        $new_page = new Page();
+        $new_page->setContent($rendered);
+        $new_page->setController($page->getController());
+        $new_page->setDescription($page->getDescription());
+        $new_page->setHeader($page->getHeader());
+        $new_page->setName($page->getName());
+        $new_page->setUrl($page->getUrl());
+        $new_page->setTitle($page->getTitle());
+        $new_page->setTemplate($page->getTemplate());
+        $new_page->setRoot($page->getRoot());
+
+        return $new_page;
+    }
+
+    private function getCacheId($page_id)
+    {
+        $cacheId = 'page_' . $page_id;
+        return $cacheId;
+    }
+    private function getCacheDriver()
+    {
+        //$redis = new Redis();
+        //$redis->connect('127.0.0.1', 6379);
+        $site = $this->getSite();
+        //$env = $this->get('kernel')->getEnvironment();
+        $env = 'test';
+        //$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/' . $site['id'] . '/pages/');
+        $cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+        //$cacheDriver = new \Doctrine\Common\Cache\RedisCache();
+        $cacheDriver->setNamespace('Pages_' . $env);
+        return $cacheDriver;
+    }
+
+    public function GetById($id)
+    {
+        $em = $this->entityManager;
+        $cacheDriver = $this->getCacheDriver();
+        $cacheId = $this->getCacheId($id);
+        $repo = $em->getRepository('NovuscomCMFBundle:Page');
+        $page = $repo->find($id);
+        
+        return $page;
+    }
 
     private $site;
 

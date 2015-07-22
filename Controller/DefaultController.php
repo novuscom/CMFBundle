@@ -253,7 +253,7 @@ class DefaultController extends Controller
 	{
 		return $template = '@templates/' . $templateDir . '/Pages/' . $templateCode . '.html.twig';
 	}
-
+	// TODO Удалить, т.к. перенесено в сервис
 	private function getPageArray($page)
 	{
 		$site = $this->getSite();
@@ -307,7 +307,7 @@ class DefaultController extends Controller
 		return $new_page;
 	}
 
-
+	// TODO Удалить, т.к. перенесено в сервис
 	private function getCacheDriver()
 	{
 		//$redis = new Redis();
@@ -320,13 +320,13 @@ class DefaultController extends Controller
 		$cacheDriver->setNamespace('Pages_' . $env);
 		return $cacheDriver;
 	}
-
+	// TODO Удалить, т.к. перенесено в сервис
 	private function getCacheId($page_id)
 	{
 		$cacheId = 'page_' . $page_id;
 		return $cacheId;
 	}
-
+	// TODO Удалить, т.к. перенесено в сервис
 	private function GetById($id)
 	{
 		$em = $this->getDoctrine()->getManager();
