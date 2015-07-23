@@ -9,6 +9,7 @@ class File
 {
     public function ResizeImage($path, $filter, $size)
     {
+        $path = trim($path, '/');
         $cacheManager = $this->container->get('liip_imagine.cache.manager');
         $dataManager = $this->container->get('liip_imagine.data.manager');
         $filterManager = $this->container->get('liip_imagine.filter.manager');
