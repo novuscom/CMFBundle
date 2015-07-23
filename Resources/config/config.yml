@@ -142,7 +142,7 @@ fm_elfinder:
           editor: tinymce4
           include_assets: true
           relative_path: true
-          path_prefix: /upload/
+          path_prefix: /
           fullscreen: true
           connector:
               debug: true # defaults to false
