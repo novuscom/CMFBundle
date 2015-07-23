@@ -183,6 +183,6 @@ class File
         return $this->property;
     }
     public function getImagePath(){
-        return 'upload/images/'.$this->getName();
+        return '/upload/images/'.$this->getName();
     }
 }
