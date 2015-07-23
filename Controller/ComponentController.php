@@ -846,7 +846,8 @@ class ComponentController extends Controller
             $ElementsList = $this->get('ElementsList');
             $ElementsList->setBlockId($params['BLOCK_ID']);
             $ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
-            $ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name'));
+            // TODO Здесь в сервисе ElementList - выбирать все свойства
+            $ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date'));
             $ElementsList->setFilter(array('active' => true));
             $ElementsList->setLimit($params['LIMIT']);
             $ElementsList->setOrder(array('name', 'asc'));
