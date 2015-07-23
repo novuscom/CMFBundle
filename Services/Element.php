@@ -337,7 +337,7 @@ class Element
                     //echo '<pre>' . print_r('Элемент прикреплен к разделу NULL', true) . '</pre>';
                     if (
                         ($countAddSections > 0 && $countESection > 0)
-                        or ($countAddSections == 0 && $countDeleteSections == 0 && $countESection > 1)
+                         || ($countAddSections == 0 && $countDeleteSections == 0 && $countESection > 1)
                     ) {
                         $this->em->remove($obj);
                     }

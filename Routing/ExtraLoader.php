@@ -82,7 +82,7 @@ class ExtraLoader implements LoaderInterface
             //$logger->error('An error occurred');
             //$route_params['method'] = 'GET';
             $requirements = array();
-            if (is_array($route_params) and array_key_exists('requirements', $route_params) and is_array($route_params['requirements'])) {
+            if (is_array($route_params) && array_key_exists('requirements', $route_params) && is_array($route_params['requirements'])) {
                 $requirements = array_merge($requirements, $route_params['requirements']);
             }
             if ($r->getId() == 26) {
@@ -91,7 +91,7 @@ class ExtraLoader implements LoaderInterface
                 //echo '<pre>' . print_r(json_decode('{"requirements":{"BLOCK_ID":"\\\d+"}}', true), true) . '</pre>';
             }
             $method = 'GET';
-            if (is_array($route_params) and array_key_exists('method', $route_params)) {
+            if (is_array($route_params) && array_key_exists('method', $route_params)) {
                 $method = $route_params['method'];
             }
 

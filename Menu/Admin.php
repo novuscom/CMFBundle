@@ -67,7 +67,7 @@ class Admin extends ContainerAware
 
         $blocks = $em->getRepository('NovuscomCMFBundle:Block')->findBySites($sites);
         $blocksList->setAttribute('class', 'treeview'); // для li
-        if ($routeName == 'admin_block' or $routeName == 'admin_block_show') {
+        if ($routeName == 'admin_block' || $routeName == 'admin_block_show') {
             $blocksList->setAttribute('class', 'active');
         }
         $blocksList->setChildrenAttribute('class', 'treeview-menu');// для ul
@@ -77,7 +77,7 @@ class Admin extends ContainerAware
                 'route' => 'admin_block_show',
                 'routeParameters' => array('id' => $e->getId())
             ));
-            if ($adminBlockShow and $e->getId()==$routeParams['id']) {
+            if ($adminBlockShow && $e->getId()==$routeParams['id']) {
                 $blockItem->setAttribute('class', 'active');
             }
         }
@@ -93,7 +93,7 @@ class Admin extends ContainerAware
                 'route' => 'cmf_admin_site_pages',
                 'routeParameters' => array('site_id' => $e['id'])
             ));
-            if ($siteIdExist and $e['id'] == $routeParams['site_id']) {
+            if ($siteIdExist && $e['id'] == $routeParams['site_id']) {
                 $pageItem->setAttribute('class', 'active');
             }
             $menuBlockItem = $menuBlock->addChild($e['name'], array(

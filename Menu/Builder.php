@@ -58,7 +58,7 @@ class Builder extends ContainerAware
 
         foreach ($menuArray as $key => $ma) {
             $item = $menu->addChild($key, $ma);
-            if (array_key_exists('routeParameters', $ma) and $routeParams['name'] == $ma['routeParameters']['name'] . '/') {
+            if (array_key_exists('routeParameters', $ma) && $routeParams['name'] == $ma['routeParameters']['name'] . '/') {
                 $item->setCurrent(true);
             }
         }
@@ -84,7 +84,7 @@ class Builder extends ContainerAware
         if ($entities) {
             foreach ($entities as $e) {
                 //echo '<pre>' . print_r($e->getId(), true) . '</pre>';
-                /*if (in_array(3, $group) and $e->getId()==11) {
+                /*if (in_array(3, $group) && $e->getId()==11) {
 
                 }
                 else {
@@ -121,7 +121,7 @@ class Builder extends ContainerAware
 
             foreach ($entities as $e) {
 
-                /* if ((in_array(3, $group) and $e->getId()==11)==false){
+                /* if ((in_array(3, $group) && $e->getId()==11)==false){
                      continue;
                  }*/
 
@@ -214,7 +214,7 @@ class Builder extends ContainerAware
         $request = $this->container->get('request');
         $routeName = $request->get('_route');
         //echo '<pre>' . print_r($routeName, true) . '</pre>';
-        if ($routeName == 'admin_block_show' or $routeName == 'admin_block_show_section') {
+        if ($routeName == 'admin_block_show' || $routeName == 'admin_block_show_section') {
 
             $menu->setChildrenAttribute('style', 'display:block;');
         }
@@ -226,7 +226,7 @@ class Builder extends ContainerAware
 
         if ($entities) {
             foreach ($entities as $e) {
-                /*if ((in_array(3, $group) and $e->getId()==29)==false){
+                /*if ((in_array(3, $group) && $e->getId()==29)==false){
                     continue;
                 }*/
                 //echo '<pre>' . print_r($e->getName(), true) . '</pre>';
