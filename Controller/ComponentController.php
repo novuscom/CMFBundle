@@ -2,7 +2,7 @@
 
 namespace Novuscom\CMFBundle\Controller;
 
-
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request as Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,10 +13,12 @@ use Novuscom\CMFBundle\Entity\Site;
 use Novuscom\CMFBundle\Entity\Block;
 use Novuscom\CMFBundle\Form\BlockType;
 use Novuscom\CMFBundle\Form\RegisterType;
+use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
 use Novuscom\CMFBundle\Services\Section as Section;
+
 use FOS\UserBundle\Event\UserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\GetResponseUserEvent;
@@ -72,8 +74,10 @@ class ComponentController extends Controller
 				//$group = $em->getRepository('NovuscomCMFUserBundle:Group')->find(1); // задаем группу
 				//$user->addGroup($group);
 				$dispatcher = $this->container->get('event_dispatcher');
-				$event = new FormEvent($form, $request);
-				$dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+				//$event = new FormEvent($form, $request);
+				//$dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+				$event = new CMFUserEvent();
+				$dispatcher->dispatch(StoreEvents::STORE_ORDER, $event);
 				$userManager->updateUser($user);
 				$this->get('session')->getFlashBag()->add(
 					'ok',
