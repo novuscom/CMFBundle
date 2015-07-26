@@ -1816,7 +1816,10 @@ class ElementController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_element_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Удалить', 'attr' => array('class' => 'btn btn-danger')))
+            ->add('submit', 'submit', array('label' => 'Удалить', 'attr' => array(
+                'class' => 'btn btn-danger',
+                'data-delete' => ''
+            )))
             ->getForm();
     }
 }
