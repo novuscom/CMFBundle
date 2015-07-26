@@ -89,7 +89,7 @@ class Page
         $cacheId = $this->getCacheId($id);
         $repo = $em->getRepository('NovuscomCMFBundle:Page');
         $page = $repo->find($id);
-        
+
         return $page;
     }
 
@@ -101,11 +101,20 @@ class Page
         return $result;
     }
 
+    public function getRoot(){
+        $site = $this->getSite();
+        $root = $this->repo->findOneBy(array(
+            'site' => $site['id'],
+            'lvl' => 0
+        ));
+        return $root;
+    }
+
     public function findPage($name)
     {
         $page = false;
         $em = $this->entityManager;
-        $er = $em->getRepository('NovuscomCMFBundle:Page');
+        $er = $this->repo;
         $site = $this->getSite();
 
         if ($name) {
@@ -115,11 +124,8 @@ class Page
                 //throw $this->createNotFoundException('Слэш в начале');
                 $this->setExceptionText('Слэш в начале');
             };*/
+            $root = $this->getRoot();
 
-            $root = $er->findOneBy(array(
-                'site' => $site['id'],
-                'lvl' => 0
-            ));
             if (!$root) {
                 //throw $this->createNotFoundException('Страница не найдена');
                 //$this->setExceptionText('Страница не найдена');
@@ -182,11 +188,13 @@ class Page
     private $entityManager;
     private $Site;
     private $logger;
+    private $repo;
 
     public function __construct(EntityManager $entityManager, Logger $logger, Site $site)
     {
         $this->entityManager = $entityManager;
         $this->Site = $site;
         $this->logger = $logger;
+        $this->repo = $entityManager->getRepository('NovuscomCMFBundle:Page');
     }
 }
