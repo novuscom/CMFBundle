@@ -6,8 +6,17 @@ use Symfony\Component\EventDispatcher\Event;
 
 class UserEvent extends Event
 {
-	public function __construct()
-	{
+    private $user;
 
-	}
+    public function getUser(){
+        return $this->user;
+    }
+
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
+
+
+
 }

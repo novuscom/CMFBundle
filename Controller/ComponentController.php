@@ -2,6 +2,7 @@
 
 namespace Novuscom\CMFBundle\Controller;
 
+use Novuscom\CMFBundle\Event\UserSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request as Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,15 +15,18 @@ use Novuscom\CMFBundle\Entity\Block;
 use Novuscom\CMFBundle\Form\BlockType;
 use Novuscom\CMFBundle\Form\RegisterType;
 use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
+use Novuscom\CMFBundle\UserEvents;
+use Novuscom\CMFBundle\Services\Section as Section;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
-use Novuscom\CMFBundle\Services\Section as Section;
+
 
 use FOS\UserBundle\Event\UserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Util\TokenGenerator;
 
 /**
  * Block controller.
@@ -30,7 +34,6 @@ use FOS\UserBundle\Event\FormEvent;
  */
 class ComponentController extends Controller
 {
-
 	public function RegistrationAction(
 		$params = false,
 		Request $request
@@ -49,13 +52,15 @@ class ComponentController extends Controller
 		$user = $userManager->createUser();
 		$user->setEnabled(false);
 
-
 		$form = $this->createForm(new RegisterType(), null, array(
 			'action' => $this->generateUrl('cmf_page_frontend', array('name' => $page->getUrl())),
 			'method' => 'POST',
 			'attr' => array('class' => 'test'),
 		));
 		$form->setData($user);
+
+
+
 
 		$form->handleRequest($request);
 		if ($form->isValid()) {
@@ -73,16 +78,27 @@ class ComponentController extends Controller
 				$em = $this->getDoctrine()->getManager();
 				//$group = $em->getRepository('NovuscomCMFUserBundle:Group')->find(1); // задаем группу
 				//$user->addGroup($group);
-				$dispatcher = $this->container->get('event_dispatcher');
-				//$event = new FormEvent($form, $request);
-				//$dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
-				$event = new CMFUserEvent();
-				$dispatcher->dispatch(StoreEvents::STORE_ORDER, $event);
+				$gen = new TokenGenerator();
+				$token = $gen->generateToken();
+				$user->setConfirmationToken($token);
 				$userManager->updateUser($user);
+
+				
+
+				/*
+				 * Регистрируем событие
+				 */
+				$dispatcher = $this->container->get('event_dispatcher');
+				$event = new CMFUserEvent($user);
+				$dispatcher->dispatch(UserEvents::USER_REGISTER, $event);
+
+
+
 				$this->get('session')->getFlashBag()->add(
 					'ok',
 					'Спасибо! Вы зарегистрированы на сайте. Теперь вам необходимо подтвердить регистрацию по электронной почте'
 				);
+
 				return $this->redirect($this->generateUrl($routeName, array('name' => $page->getUrl())));
 			}
 

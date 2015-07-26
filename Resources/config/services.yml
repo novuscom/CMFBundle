@@ -53,3 +53,8 @@ services:
         tags:
             - { name:guzzle.client }
         arguments: ["http://www.google.com/"]
+    user_events_listener:
+        class: Novuscom\CMFBundle\Event\UserSubscriber
+        arguments: [@service_container]
+        tags:
+            - { name: kernel.event_listener, event: user.register, method: onUserRegister }
