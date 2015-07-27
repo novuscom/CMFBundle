@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Novuscom\CMFBundle\Entity\SiteBlock;
 use Novuscom\CMFBundle\Entity\Site;
 use Novuscom\CMFBundle\Entity\Block;
@@ -27,6 +28,7 @@ use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Util\TokenGenerator;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
 
 /**
  * Block controller.
@@ -34,6 +36,56 @@ use FOS\UserBundle\Util\TokenGenerator;
  */
 class ComponentController extends Controller
 {
+
+	public function ConfirmedAction(Request $request, $params)
+	{
+		$page_class = $this->get('Page');
+		$page = $page_class->GetById($params['page_id']);
+		$user = $this->getUser();
+		if (!is_object($user) || !$user instanceof UserInterface) {
+			throw new NotFoundHttpException('Пользователь не найден');
+		}
+		$responseData = array(
+			'page' => $page,
+			'user' => $user,
+		);
+		$response = $this->render('@templates/' . $params['params']['template_directory'] . '/Registration/' . $params['template_code'] . '.html.twig', $responseData);
+		return $response;
+	}
+
+	public function ConfirmAction(Request $request, $TOKEN)
+	{
+		/** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
+		$userManager = $this->get('fos_user.user_manager');
+
+		$user = $userManager->findUserByConfirmationToken($TOKEN);
+
+		if (null === $user) {
+			//throw new NotFoundHttpException(sprintf('The user with confirmation token "%s" does not exist', $TOKEN));
+			throw new NotFoundHttpException('Пользователь не найден');
+		}
+
+		/** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+		$dispatcher = $this->get('event_dispatcher');
+
+		//$user->setConfirmationToken(null);
+		$user->setEnabled(true);
+
+		$event = new GetResponseUserEvent($user, $request);
+		$dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRM, $event);
+
+		$userManager->updateUser($user);
+		$routeName = $request->get('_route');
+		if (null === $response = $event->getResponse()) {
+			$url = $this->generateUrl('registration__confirmed');
+			$response = new RedirectResponse($url);
+		}
+
+		$dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRMED, new FilterUserResponseEvent($user, $request, $response));
+
+		return $response;
+	}
+
 	public function RegistrationAction(
 		$params = false,
 		Request $request
@@ -60,8 +112,6 @@ class ComponentController extends Controller
 		$form->setData($user);
 
 
-
-
 		$form->handleRequest($request);
 		if ($form->isValid()) {
 			$data = $form->getData();
@@ -83,7 +133,6 @@ class ComponentController extends Controller
 				$user->setConfirmationToken($token);
 				$userManager->updateUser($user);
 
-				
 
 				/*
 				 * Регистрируем событие
@@ -91,7 +140,6 @@ class ComponentController extends Controller
 				$dispatcher = $this->container->get('event_dispatcher');
 				$event = new CMFUserEvent($user);
 				$dispatcher->dispatch(UserEvents::USER_REGISTER, $event);
-
 
 
 				$this->get('session')->getFlashBag()->add(
