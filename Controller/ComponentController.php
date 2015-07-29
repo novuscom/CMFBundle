@@ -138,7 +138,7 @@ class ComponentController extends Controller
 				 * Регистрируем событие
 				 */
 				$dispatcher = $this->container->get('event_dispatcher');
-				$event = new CMFUserEvent($user);
+				$event = new CMFUserEvent($user, $params, $request);
 				$dispatcher->dispatch(UserEvents::USER_REGISTER, $event);
 
 

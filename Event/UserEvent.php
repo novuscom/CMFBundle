@@ -6,17 +6,33 @@ use Symfony\Component\EventDispatcher\Event;
 
 class UserEvent extends Event
 {
-    private $user;
+	private $user;
 
-    public function getUser(){
-        return $this->user;
-    }
+	private $routeParams;
 
-    public function __construct($user)
-    {
-        $this->user = $user;
-    }
+	private $request;
 
+	public function getRequest()
+	{
+		return $this->request;
+	}
+
+	public function getUser()
+	{
+		return $this->user;
+	}
+
+	public function getRouteParams()
+	{
+		return $this->routeParams;
+	}
+
+	public function __construct($user, $routeParams, $request)
+	{
+		$this->user = $user;
+		$this->routeParams = $routeParams;
+		$this->request = $request;
+	}
 
 
 }
