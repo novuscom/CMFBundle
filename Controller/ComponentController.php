@@ -42,11 +42,8 @@ class ComponentController extends Controller
 
 	public function LoginAction($params, Request $request)
 	{
-		/*if($this->get('security.context')->isGranted('ROLE_USER'))
-			return $this->redirect($this->generateUrl('my_route'));*/
 		$page_class = $this->get('Page');
 		$page = $page_class->GetById($params['page_id']);
-		$error = '';
 		$form = $this->createForm(new LoginType(), null, array(
 			'action' => $this->generateUrl('cmf_page_frontend', array('name' => $page->getUrl())),
 			'method' => 'POST',
@@ -57,13 +54,14 @@ class ComponentController extends Controller
 			$userManager = $this->container->get('fos_user.user_manager');
 			$user = $userManager->findUserByUsername($form->get('username')->getData());
 			$count_by_username = count($user);
-			$enabled = $user->isEnabled();
-			if (!$enabled)
-				$form->addError(new FormError('Учетная запись не активирована. Подтвердите регистрацию по электронной почте ' . $user->getEmailCanonical()));
 			if (!$count_by_username) {
 				$form->addError(new FormError('Пользователя с таким именем не существует'));
-			};
-			if (!$form->getErrors()) {
+			} else {
+				$enabled = $user->isEnabled();
+				if (!$enabled)
+					$form->addError(new FormError('Учетная запись не активирована. Подтвердите регистрацию по электронной почте ' . $user->getEmailCanonical()));
+			}
+			if (count($form->getErrors()) == 0) {
 				/**
 				 * Аутентификация
 				 */
@@ -84,16 +82,14 @@ class ComponentController extends Controller
 					$response = new RedirectResponse($url);
 					return $response;
 				} else {
+					print_r('Пароль указан не верно');
 					$form->addError(new FormError('Пароль указан не верно'));
 				}
-
 			}
-
 		}
 		$responseData = array(
 			'form' => $form->createView(),
 			'page' => $page,
-			'error' => $error,
 		);
 		$response = $this->render('@templates/' . $params['params']['template_directory'] . '/Security/' . $params['template_code'] . '.html.twig', $responseData);
 		return $response;
