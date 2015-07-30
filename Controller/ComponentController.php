@@ -131,7 +131,7 @@ class ComponentController extends Controller
 		/** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
 		$dispatcher = $this->get('event_dispatcher');
 
-		//$user->setConfirmationToken(null);
+		$user->setConfirmationToken(null);
 		$user->setEnabled(true);
 
 		$event = new GetResponseUserEvent($user, $request);
