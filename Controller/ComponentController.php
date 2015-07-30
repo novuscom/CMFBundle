@@ -59,7 +59,7 @@ class ComponentController extends Controller
 			$count_by_username = count($user);
 			$enabled = $user->isEnabled();
 			if (!$enabled)
-				$form->addError(new FormError('Учетная запись не активирована. Подтвердите регистрацию по электронной почте '.$user->getEmailCanonical()));
+				$form->addError(new FormError('Учетная запись не активирована. Подтвердите регистрацию по электронной почте ' . $user->getEmailCanonical()));
 			if (!$count_by_username) {
 				$form->addError(new FormError('Пользователя с таким именем не существует'));
 			};
@@ -104,8 +104,11 @@ class ComponentController extends Controller
 	{
 		$page_class = $this->get('Page');
 		$page = $page_class->GetById($params['page_id']);
-		$user = $this->getUser();
-		if (!is_object($user) || !$user instanceof UserInterface) {
+		$user = $this->container->get('security.context')
+			->getToken()
+			->getUser();
+		$stringClassName = 'Novuscom\CMFUserBundle\Entity\User';
+		if (!is_object($user) || !$user instanceof $stringClassName) {
 			throw new NotFoundHttpException('Пользователь не найден');
 		}
 		$responseData = array(
