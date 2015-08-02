@@ -26,6 +26,12 @@ Novuscom\CMFBundle\Entity\Product:
             length: 255
         weight:
             type: float
+    oneToOne:
+        element:
+            targetEntity: Element
+            joinColumn:
+                name: element_id
+                referencedColumnName: id
     manyToOne:
         cart:
             targetEntity: Cart

@@ -225,5 +225,62 @@ class Product
     {
         return $this->weight;
     }
-}
+    /**
+     * @var \Novuscom\CMFBundle\Entity\Element
+     */
+    private $element;
 
+    /**
+     * @var \Novuscom\CMFBundle\Entity\Cart
+     */
+    private $cart;
+
+
+    /**
+     * Set element
+     *
+     * @param \Novuscom\CMFBundle\Entity\Element $element
+     *
+     * @return Product
+     */
+    public function setElement(\Novuscom\CMFBundle\Entity\Element $element = null)
+    {
+        $this->element = $element;
+
+        return $this;
+    }
+
+    /**
+     * Get element
+     *
+     * @return \Novuscom\CMFBundle\Entity\Element
+     */
+    public function getElement()
+    {
+        return $this->element;
+    }
+
+    /**
+     * Set cart
+     *
+     * @param \Novuscom\CMFBundle\Entity\Cart $cart
+     *
+     * @return Product
+     */
+    public function setCart(\Novuscom\CMFBundle\Entity\Cart $cart = null)
+    {
+        $this->cart = $cart;
+
+        return $this;
+    }
+
+    /**
+     * Get cart
+     *
+     * @return \Novuscom\CMFBundle\Entity\Cart
+     */
+    public function getCart()
+    {
+        return $this->cart;
+    }
+}
