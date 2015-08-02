@@ -1,0 +1,37 @@
+Novuscom\CMFBundle\Entity\Product:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\ProductRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        price:
+            type: float
+        quantity:
+            type: float
+        url:
+            type: string
+            length: 255
+        created:
+            type: datetime
+        route:
+            type: string
+            length: 255
+        weight:
+            type: float
+    manyToOne:
+        cart:
+            targetEntity: Cart
+            inversedBy: product
+            joinColumn:
+                name: cart_id
+                referencedColumnName: id
+                onDelete: CASCADE
+    lifecycleCallbacks: {  }
