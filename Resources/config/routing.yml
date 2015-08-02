@@ -88,6 +88,10 @@ NovuscomCMFBundle_admin_cart:
     resource: "@NovuscomCMFBundle/Resources/config/routing/cart.yml"
     prefix:   /admin/cart
 
+NovuscomCMFBundle_admin_product:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/product.yml"
+    prefix:   /admin/product
+
 cmf_admin_homepage:
     pattern:  /admin/
     defaults: { _controller: NovuscomCMFBundle:Admin:index }
