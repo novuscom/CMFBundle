@@ -19,4 +19,9 @@ Novuscom\CMFBundle\Entity\Cart:
             joinColumn:
                 name: user_id
                 referencedColumnName: id
+    oneToMany:
+        product:
+            targetEntity: Product
+            mappedBy: cart
+            cascade: ["persist"]
     lifecycleCallbacks: {  }
