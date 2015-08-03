@@ -72,6 +72,9 @@ class ComponentController extends Controller
 			if ((is_object($user) and $user instanceof $stringClassName))
 				$cart->setUser($user);
 		}
+        else {
+            
+        }
 
         if (array_key_exists('weight', $productRequest)==false)
             $productRequest['weight'] = 0;
@@ -96,7 +99,7 @@ class ComponentController extends Controller
 		$result['MESSAGE'] = 'Product added to cart';
 		$result['DATA'] = '';
 		$resultJSON = json_encode($result);
-		$cookie = new Cookie('cart', $resultJSON);
+		$cookie = new Cookie('cart', $cart->getId());
 		$response->setContent($resultJSON);
 		$response->headers->setCookie($cookie);
 		return $response;
