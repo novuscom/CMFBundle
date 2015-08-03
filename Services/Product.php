@@ -13,7 +13,7 @@ class Product
         if (is_numeric($element_id) == false)
             return false;
         $element_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Element', $element_id);
-        $entity = $this->em->getRepository('NovuscomCMFBundle:Product')->findBy(array(
+        $entity = $this->em->getRepository('NovuscomCMFBundle:Product')->findOneBy(array(
             'element' => $element_reference
         ));
         return $entity;
