@@ -32,6 +32,7 @@ Novuscom\CMFBundle\Entity\Product:
             joinColumn:
                 name: element_id
                 referencedColumnName: id
+                nullable: false
     manyToOne:
         cart:
             targetEntity: Cart
