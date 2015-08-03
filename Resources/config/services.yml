@@ -30,6 +30,9 @@ services:
     Element:
         class:        Novuscom\CMFBundle\Services\Element
         arguments: [ @doctrine.orm.entity_manager, @logger ]
+    Cart:
+        class:        Novuscom\CMFBundle\Services\Cart
+        arguments: [ @doctrine.orm.entity_manager, @logger ]
     cmf_routing.routing_loader:
         class: Novuscom\CMFBundle\Routing\ExtraLoader
         tags:

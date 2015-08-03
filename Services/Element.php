@@ -8,6 +8,13 @@ use Novuscom\CMFBundle\Entity\ElementSection;
 class Element
 {
 
+    public function GetById($id)
+    {
+        if (is_numeric($id) == false)
+            return false;
+        $entity = $this->em->getRepository('NovuscomCMFBundle:Element')->find($id);
+        return $entity;
+    }
 
     public function getElementSections($element_id)
     {
@@ -337,7 +344,7 @@ class Element
                     //echo '<pre>' . print_r('Элемент прикреплен к разделу NULL', true) . '</pre>';
                     if (
                         ($countAddSections > 0 && $countESection > 0)
-                         || ($countAddSections == 0 && $countDeleteSections == 0 && $countESection > 1)
+                        || ($countAddSections == 0 && $countDeleteSections == 0 && $countESection > 1)
                     ) {
                         $this->em->remove($obj);
                     }
