@@ -1,3 +1,11 @@
+cmf_add_to_cart_json:
+    path:     /addtocart.json
+    defaults: { _controller: "NovuscomCMFBundle:Component:AddToCartJSON" }
+    requirements:
+        _method: post|put
+        product: .+
+
+
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
 

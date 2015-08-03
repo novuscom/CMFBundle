@@ -6,6 +6,7 @@ use Novuscom\CMFBundle\Event\UserSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request as Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,6 +21,8 @@ use Novuscom\CMFBundle\Form\RegisterType;
 use Novuscom\CMFBundle\Form\LoginType;
 use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
 use Novuscom\CMFBundle\UserEvents;
+use Novuscom\CMFBundle\Entity\Product;
+use Novuscom\CMFBundle\Entity\Cart;
 use Novuscom\CMFBundle\Services\Section as Section;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\MenuFactory;
@@ -39,6 +42,59 @@ use FOS\UserBundle\Event\FilterUserResponseEvent;
  */
 class ComponentController extends Controller
 {
+
+	public function AddToCartJSONAction(Request $request)
+	{
+		$result = array(
+			'STATUS' => false,
+			'DATA' => null,
+			'MESSAGE' => 'Unknown error',
+		);
+		$response = new Response();
+		$response->headers->set('Content-Type', 'application/json; charset=UTF-8');
+		if ($request->isXmlHttpRequest() != true) {
+			$result['MESSAGE'] = 'Not ajax';
+			$response->setStatusCode(404);
+			return $response;
+		}
+		$productRequest = $request->get('product');
+		$cartCookie = $request->cookies->get('cart');
+		$user = $this->container->get('security.context')
+			->getToken()
+			->getUser();
+		$currentTime = new \DateTime('now');
+		$cart = false;
+		$stringClassName = 'Novuscom\CMFUserBundle\Entity\User';
+		if (!($cartCookie and is_numeric($cartCookie))) {
+			$cart = new Cart();
+			$cart->setCreated($currentTime);
+			$cart->setUpdated($currentTime);
+			if ((is_object($user) and $user instanceof $stringClassName))
+				$cart->setUser($user);
+		}
+		$product = new Product();
+		$product->setName($productRequest['name']);
+		$product->setUrl($productRequest['url']);
+		$product->setQuantity($productRequest['quantity']);
+		$product->setPrice($productRequest['price']);
+		$product->setCart($cart);
+		$product->setCreated($currentTime);
+
+
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($cart);
+		$em->persist($product);
+		$em->flush();
+
+		$result['STATUS'] = true;
+		$result['MESSAGE'] = 'Product added to cart';
+		$result['DATA'] = '';
+		$resultJSON = json_encode($result);
+		$cookie = new Cookie('cart', $resultJSON);
+		$response->setContent($resultJSON);
+		$response->headers->setCookie($cookie);
+		return $response;
+	}
 
 	public function LoginAction($params, Request $request)
 	{
