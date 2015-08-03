@@ -73,7 +73,8 @@ class ComponentController extends Controller
 				$cart->setUser($user);
 		}
         else {
-            
+            $Cart = $this->get('Cart');
+            $cart = $Cart->getById($cartCookie);
         }
 
         if (array_key_exists('weight', $productRequest)==false)
