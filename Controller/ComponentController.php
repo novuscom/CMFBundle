@@ -93,16 +93,24 @@ class ComponentController extends Controller
         if (array_key_exists('weight', $productRequest) == false)
             $productRequest['weight'] = 0;
 
-        $product = new Product();
-        $product->setName($productRequest['name']);
-        $product->setUrl($productRequest['url']);
-        $product->setQuantity($productRequest['quantity']);
-        $product->setRoute($productRequest['route']);
-        $product->setPrice($productRequest['price']);
-        $product->setCart($cart);
-        $product->setElement($element);
-        $product->setWeight($productRequest['weight']);
-        $product->setCreated($currentTime);
+
+        $Product = $this->get('Product');
+        $product = $Product->GetByElementId($element->getId());
+        if ($product == false) {
+            $product = new Product();
+            $product->setName($productRequest['name']);
+            $product->setUrl($productRequest['url']);
+            $product->setQuantity($productRequest['quantity']);
+            $product->setRoute($productRequest['route']);
+            $product->setPrice($productRequest['price']);
+            $product->setCart($cart);
+            $product->setElement($element);
+            $product->setWeight($productRequest['weight']);
+            $product->setCreated($currentTime);
+        }
+        else {
+            $product->setQuantity($product->getQuantity()+1);
+        }
 
 
         $em = $this->getDoctrine()->getManager();
