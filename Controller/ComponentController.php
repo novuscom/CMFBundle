@@ -72,12 +72,18 @@ class ComponentController extends Controller
 			if ((is_object($user) and $user instanceof $stringClassName))
 				$cart->setUser($user);
 		}
+
+        if (array_key_exists('weight', $productRequest)==false)
+            $productRequest['weight'] = 0;
+
 		$product = new Product();
 		$product->setName($productRequest['name']);
 		$product->setUrl($productRequest['url']);
 		$product->setQuantity($productRequest['quantity']);
+        $product->setRoute($productRequest['route']);
 		$product->setPrice($productRequest['price']);
 		$product->setCart($cart);
+        $product->setWeight($productRequest['weight']);
 		$product->setCreated($currentTime);
 
 
