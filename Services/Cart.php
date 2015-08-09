@@ -8,6 +8,13 @@ use Novuscom\CMFBundle\Entity\ElementSection;
 class Cart
 {
 
+    public function GetItems($id)
+    {
+        $items = array();
+
+        return $items;
+    }
+
     public function GetById($id)
     {
         if (is_numeric($id) == false)

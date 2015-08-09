@@ -43,6 +43,21 @@ use FOS\UserBundle\Event\FilterUserResponseEvent;
 class ComponentController extends Controller
 {
 
+    public function CartAction($params, Request $request)
+    {
+        $page_class = $this->get('Page');
+        $page = $page_class->GetById($params['page_id']);
+        $Cart = $this->get('Cart');
+        $cartCookie = $request->cookies->get('cart');
+        $cart = $Cart->getById($cartCookie);
+        $responseData = array(
+            'page' => $page,
+            'cart' => $cart
+        );
+        $response = $this->render('@templates/' . $params['params']['template_directory'] . '/Shop/' . $params['template_code'] . '.html.twig', $responseData);
+        return $response;
+    }
+
     public function AddToCartJSONAction(Request $request)
     {
         $productRequest = $request->get('product');
@@ -107,9 +122,8 @@ class ComponentController extends Controller
             $product->setElement($element);
             $product->setWeight($productRequest['weight']);
             $product->setCreated($currentTime);
-        }
-        else {
-            $product->setQuantity($product->getQuantity()+1);
+        } else {
+            $product->setQuantity($product->getQuantity() + 1);
         }
 
 
