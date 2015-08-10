@@ -26,13 +26,6 @@ Novuscom\CMFBundle\Entity\Product:
             length: 255
         weight:
             type: float
-    oneToOne:
-        element:
-            targetEntity: Element
-            joinColumn:
-                name: element_id
-                referencedColumnName: id
-                nullable: false
     manyToOne:
         cart:
             targetEntity: Cart
@@ -41,4 +34,10 @@ Novuscom\CMFBundle\Entity\Product:
                 name: cart_id
                 referencedColumnName: id
                 onDelete: CASCADE
+        element:
+            targetEntity: Element
+            joinColumn:
+                name: element_id
+                referencedColumnName: id
+                nullable: false
     lifecycleCallbacks: {  }
