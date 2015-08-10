@@ -47,8 +47,7 @@ class ComponentController extends Controller
         $page_class = $this->get('Page');
         $page = $page_class->GetById($params['page_id']);
         $Cart = $this->get('Cart');
-        $cartCookie = $request->cookies->get('cart');
-        $cart = $Cart->getById($cartCookie);
+        $cart = $Cart->GetCurrent();
         $responseData = array(
             'page' => $page,
             'cart' => $cart
