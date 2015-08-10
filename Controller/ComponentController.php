@@ -22,7 +22,6 @@ use Novuscom\CMFBundle\Form\LoginType;
 use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
 use Novuscom\CMFBundle\UserEvents;
 use Novuscom\CMFBundle\Entity\Product;
-use Novuscom\CMFBundle\Entity\Cart;
 use Novuscom\CMFBundle\Services\Section as Section;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\MenuFactory;
@@ -87,30 +86,21 @@ class ComponentController extends Controller
             return $response;
         }
 
-        $cartCookie = $request->cookies->get('cart');
         $user = $this->container->get('security.context')
             ->getToken()
             ->getUser();
-        $currentTime = new \DateTime('now');
-        $cart = false;
-        $stringClassName = 'Novuscom\CMFUserBundle\Entity\User';
-        if (!($cartCookie and is_numeric($cartCookie))) {
-            $cart = new Cart();
-            $cart->setCreated($currentTime);
-            $cart->setUpdated($currentTime);
-            if ((is_object($user) and $user instanceof $stringClassName))
-                $cart->setUser($user);
-        } else {
-            $Cart = $this->get('Cart');
-            $cart = $Cart->getById($cartCookie);
-        }
+
+        $Cart = $this->get('Cart');
+        $cart = $Cart->GetCurrent();
+        $createdTime = $cart->getCreated();
+
 
         if (array_key_exists('weight', $productRequest) == false)
             $productRequest['weight'] = 0;
 
 
         $Product = $this->get('Product');
-        $product = $Product->GetByElementId($element->getId());
+        $product = $Product->IfStoredInCart($element->getId(), $cart->getId(), $user->getId());
         if ($product == false) {
             $product = new Product();
             $product->setName($productRequest['name']);
@@ -121,7 +111,7 @@ class ComponentController extends Controller
             $product->setCart($cart);
             $product->setElement($element);
             $product->setWeight($productRequest['weight']);
-            $product->setCreated($currentTime);
+            $product->setCreated($createdTime);
         } else {
             $product->setQuantity($product->getQuantity() + 1);
         }
@@ -134,10 +124,16 @@ class ComponentController extends Controller
 
         $result['STATUS'] = true;
         $result['MESSAGE'] = 'Product added to cart';
-        $result['DATA'] = '';
+        $result['DATA'] = array(
+            'ID' => $product->getId(),
+            'QUANTITY' => $product->getQuantity(),
+            'CART_ID' => $product->getCart()->getId(),
+            'ELEMENT_ID' => $product->getElement()->getId(),
+            'USER_ID' => $product->getCart()->getUser()->getId(),
+        );
 
         $cookie = new Cookie('cart', $cart->getId());
-
+        $response->setContent(json_encode($result));
         $response->headers->setCookie($cookie);
         return $response;
     }
