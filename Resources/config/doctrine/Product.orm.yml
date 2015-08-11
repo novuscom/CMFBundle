@@ -42,6 +42,7 @@ Novuscom\CMFBundle\Entity\Product:
                 nullable: false
         order:
             targetEntity: Order
+            inversedBy: product
             joinColumn:
                 name: order_id
                 referencedColumnName: id

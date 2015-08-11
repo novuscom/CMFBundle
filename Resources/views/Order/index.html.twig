@@ -11,17 +11,23 @@
             <th>Адрес</th>
             <th>Телефон</th>
             <th>Имя заказчика</th>
+            <th>Товары</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('admin_order_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{#<a href="{{ path('admin_order_show', { 'id': entity.id }) }}">#}{{ entity.id }}{#</a>#}</td>
                 <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.address }}</td>
                 <td>{{ entity.phone }}</td>
                 <td>{{ entity.name }}</td>
+                <td>
+                    {% for product in entity.product %}
+                        <li><a href="{{ product.url }}" target="_blank">{{ product.name }}</a> - {{ product.price }} р. - {{ product.quantity }} шт.</li>
+                    {% endfor %}
+                </td>
                 <td>
                     {#<ul>
                         <li>

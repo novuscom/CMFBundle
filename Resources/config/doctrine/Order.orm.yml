@@ -19,6 +19,11 @@ Novuscom\CMFBundle\Entity\Order:
         name:
             type: string
             length: 255
+    oneToMany:
+        product:
+            targetEntity: Product
+            mappedBy: order
+            cascade: ["persist"]
     manyToOne:
         user:
             targetEntity: Novuscom\CMFUserBundle\Entity\User
