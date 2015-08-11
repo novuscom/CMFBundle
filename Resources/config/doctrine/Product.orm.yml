@@ -46,4 +46,5 @@ Novuscom\CMFBundle\Entity\Product:
                 name: order_id
                 referencedColumnName: id
                 onDelete: CASCADE
+                nullable: true
     lifecycleCallbacks: {  }
