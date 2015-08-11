@@ -48,6 +48,7 @@ class Cart
     public function GetCurrent()
     {
         $this->logger->addInfo('Получение текущей корзины');
+        $stringClassName = $this->getUserClassName();
         $cartCookie = $this->requestStack->getCurrentRequest()->cookies->get('cart');
         $user = $this->container->get('security.context')
             ->getToken()
@@ -55,10 +56,16 @@ class Cart
         $this->user = $user;
         if (!($cartCookie and is_numeric($cartCookie))) {
             $this->logger->addInfo('ИД корзины не записано в куку');
-            $cart = $this->GetByUserId($user->getId());
-            if (count($cart) != 1) {
+            if (!(is_object($user) and $user instanceof $stringClassName)){
                 $cart = $this->Create();
             }
+            else{
+                $cart = $this->GetByUserId($user->getId());
+                if (count($cart) != 1) {
+                    $cart = $this->Create();
+                }
+            }
+
         } else {
             $this->logger->addInfo('ИД корзины найден в куках: '.$cartCookie);
             $cart = $this->em->getRepository('NovuscomCMFBundle:Cart')->findOneBy(array(
