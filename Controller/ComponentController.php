@@ -22,6 +22,7 @@ use Novuscom\CMFBundle\Form\LoginType;
 use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
 use Novuscom\CMFBundle\UserEvents;
 use Novuscom\CMFBundle\Entity\Product;
+use Novuscom\CMFBundle\Entity\Order;
 use Novuscom\CMFBundle\Services\Section as Section;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\MenuFactory;
@@ -34,6 +35,7 @@ use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Util\TokenGenerator;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Block controller.
@@ -41,6 +43,47 @@ use FOS\UserBundle\Event\FilterUserResponseEvent;
  */
 class ComponentController extends Controller
 {
+
+    public function OrderAction($params, Request $request)
+    {
+        $page_class = $this->get('Page');
+        $page = $page_class->GetById($params['page_id']);
+
+        $Cart = $this->get('Cart');
+        $cart = $Cart->GetCurrent();
+        if (!$cart) {
+            throw $this->createNotFoundException('Не найдена корзина');
+        }
+
+        $user = $this->container->get('security.context')
+            ->getToken()
+            ->getUser();
+
+        if (!$user)
+            throw $this->createNotFoundException('Не найден пользователь');
+
+        $order = new Order();
+        $order->setUser($user);
+        $order->setCreated(new \DateTime('now'));
+        $order->setName('Имя пользователя');
+        $order->setAddress('Адрес');
+        $order->setPhone('Телефон');
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($order);
+
+        foreach ($cart->getProduct() as $product) {
+            $product->setOrder($order);
+            //echo '<pre>' . print_r($product->getName(), true) . '</pre>';
+            $em->persist($product);
+        }
+
+        $em->flush();
+        $responseData = array(
+            'page' => $page,
+        );
+        $response = $this->render('@templates/' . $params['params']['template_directory'] . '/Shop/' . $params['template_code'] . '.html.twig', $responseData);
+        return $response;
+    }
 
     public function CartAction($params, Request $request)
     {
