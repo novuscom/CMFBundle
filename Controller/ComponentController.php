@@ -19,6 +19,7 @@ use Novuscom\CMFBundle\Entity\Block;
 use Novuscom\CMFBundle\Form\BlockType;
 use Novuscom\CMFBundle\Form\RegisterType;
 use Novuscom\CMFBundle\Form\LoginType;
+use Novuscom\CMFBundle\Form\OrderType;
 use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
 use Novuscom\CMFBundle\UserEvents;
 use Novuscom\CMFBundle\Entity\Product;
@@ -61,23 +62,35 @@ class ComponentController extends Controller
 
         if (!$user)
             throw $this->createNotFoundException('Не найден пользователь');
-
-        $order = new Order();
-        $order->setUser($user);
-        $order->setCreated(new \DateTime('now'));
-        $order->setName('Имя пользователя');
-        $order->setAddress('Адрес');
-        $order->setPhone('Телефон');
         $em = $this->getDoctrine()->getManager();
-        $em->persist($order);
+        $routeName = $request->get('_route');
 
-        foreach ($cart->getProduct() as $product) {
-            $product->setOrder($order);
-            //echo '<pre>' . print_r($product->getName(), true) . '</pre>';
-            $em->persist($product);
+
+        $form = $this->createForm(new OrderType());
+        if ($request->getMethod() == 'POST') {
+            $order = new Order();
+            $order->setUser($user);
+            $order->setCreated(new \DateTime('now'));
+            $form->handleRequest($request);
+            $data = $form->getData();
+            $order->setName($data['name']);
+            $order->setAddress($data['address']);
+            $order->setPhone($data['phone']);
+            $em->persist($order);
+
+            foreach ($cart->getProduct() as $product) {
+                $product->setOrder($order);
+                //echo '<pre>' . print_r($product->getName(), true) . '</pre>';
+                $em->persist($product);
+            }
+
+            $em->flush();
+            $this->get('session')->getFlashBag()->add(
+                'ok',
+                'Ваш заказ оформлен'
+            );
+            return $this->redirect($this->generateUrl($routeName));
         }
-
-        $em->flush();
         $responseData = array(
             'page' => $page,
         );
@@ -91,9 +104,18 @@ class ComponentController extends Controller
         $page = $page_class->GetById($params['page_id']);
         $Cart = $this->get('Cart');
         $cart = $Cart->GetCurrent();
+
+        $form = $this->createForm(new OrderType(), null, array(
+            'action' => $this->generateUrl('order'),
+            'method' => 'POST',
+            'attr' => array('class' => ''),
+        ));
+        $formView = $form->createView();
+
         $responseData = array(
             'page' => $page,
-            'cart' => $cart
+            'cart' => $cart,
+            'form' => $formView,
         );
         $response = $this->render('@templates/' . $params['params']['template_directory'] . '/Shop/' . $params['template_code'] . '.html.twig', $responseData);
         return $response;
@@ -128,9 +150,14 @@ class ComponentController extends Controller
             return $response;
         }
 
-        $user = $this->container->get('security.context')
-            ->getToken()
-            ->getUser();
+        $user_id = null;
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $user = $this->container->get('security.context')
+                ->getToken()
+                ->getUser();
+            $user_id = $user->getId();
+        }
 
         $Cart = $this->get('Cart');
         $cart = $Cart->GetCurrent();
@@ -140,9 +167,12 @@ class ComponentController extends Controller
         if (array_key_exists('weight', $productRequest) == false)
             $productRequest['weight'] = 0;
 
-
         $Product = $this->get('Product');
-        $product = $Product->IfStoredInCart($element->getId(), $cart->getId(), $user->getId());
+        $product = $Product->IfStoredInCart(
+            $element->getId(),
+            $cart->getId(),
+            $user_id
+        );
         if ($product == false) {
             $product = new Product();
             $product->setName($productRequest['name']);
