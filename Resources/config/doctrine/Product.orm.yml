@@ -40,4 +40,10 @@ Novuscom\CMFBundle\Entity\Product:
                 name: element_id
                 referencedColumnName: id
                 nullable: false
+        order:
+            targetEntity: Order
+            joinColumn:
+                name: order_id
+                referencedColumnName: id
+                onDelete: CASCADE
     lifecycleCallbacks: {  }

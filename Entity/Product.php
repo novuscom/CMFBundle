@@ -283,4 +283,33 @@ class Product
     {
         return $this->cart;
     }
+    /**
+     * @var \Novuscom\CMFBundle\Entity\Order
+     */
+    private $order;
+
+
+    /**
+     * Set order
+     *
+     * @param \Novuscom\CMFBundle\Entity\Order $order
+     *
+     * @return Product
+     */
+    public function setOrder(\Novuscom\CMFBundle\Entity\Order $order = null)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return \Novuscom\CMFBundle\Entity\Order
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
 }
