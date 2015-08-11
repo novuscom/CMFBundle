@@ -1,0 +1,47 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body -%}
+    <h1>Заказы</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Создан</th>
+            <th>Адрес</th>
+            <th>Телефон</th>
+            <th>Имя заказчика</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('admin_order_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.address }}</td>
+                <td>{{ entity.phone }}</td>
+                <td>{{ entity.name }}</td>
+                <td>
+                    {#<ul>
+                        <li>
+                            <a href="{{ path('admin_order_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_order_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>#}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {#<ul>
+        <li>
+            <a href="{{ path('admin_order_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>#}
+{% endblock %}

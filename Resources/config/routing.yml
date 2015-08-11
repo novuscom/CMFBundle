@@ -69,6 +69,11 @@ NovuscomCMFBundle_admin_property:
     resource: "@NovuscomCMFBundle/Resources/config/routing/property.yml"
     prefix:   /admin/property
 
+NovuscomCMFBundle_admin_order:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/order.yml"
+    prefix:   /admin/order
+
+
 CMFMediaBundle_admin_file:
     resource: "@NovuscomCMFBundle/Resources/config/routing/file.yml"
     prefix:   /admin/file
