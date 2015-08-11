@@ -178,7 +178,7 @@ class ComponentController extends Controller
             $product->setName($productRequest['name']);
             $product->setUrl($productRequest['url']);
             $product->setQuantity($productRequest['quantity']);
-            $product->setRoute($productRequest['route']);
+            $product->setRoute('false');
             $product->setPrice($productRequest['price']);
             $product->setCart($cart);
             $product->setElement($element);
