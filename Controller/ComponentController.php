@@ -69,7 +69,7 @@ class ComponentController extends Controller
         $form = $this->createForm(new OrderType());
         if ($request->getMethod() == 'POST') {
             $order = new Order();
-            $order->setUser($user);
+            //$order->setUser($user);
             $order->setCreated(new \DateTime('now'));
             $form->handleRequest($request);
             $data = $form->getData();
@@ -170,8 +170,7 @@ class ComponentController extends Controller
         $Product = $this->get('Product');
         $product = $Product->IfStoredInCart(
             $element->getId(),
-            $cart->getId(),
-            $user_id
+            $cart->getId()
         );
         if ($product == false) {
             $product = new Product();
@@ -201,7 +200,7 @@ class ComponentController extends Controller
             'QUANTITY' => $product->getQuantity(),
             'CART_ID' => $product->getCart()->getId(),
             'ELEMENT_ID' => $product->getElement()->getId(),
-            'USER_ID' => $product->getCart()->getUser()->getId(),
+            //'USER_ID' => $product->getCart()->getUser()->getId(),
         );
 
         $cookie = new Cookie('cart', $cart->getId());

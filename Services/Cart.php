@@ -70,7 +70,7 @@ class Cart
             $this->logger->addInfo('ИД корзины найден в куках: '.$cartCookie);
             $cart = $this->em->getRepository('NovuscomCMFBundle:Cart')->findOneBy(array(
                 'id' => $cartCookie,
-                'user' => $this->getUserReference($user->getId())
+                //'user' => $this->getUserReference($user->getId())
             ));
             if (count($cart) != 1) {
                 $this->logger->addNotice('Корзина не найдена по ID пользователя и ID корзины');
