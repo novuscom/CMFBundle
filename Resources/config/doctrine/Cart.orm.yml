@@ -13,6 +13,8 @@ Novuscom\CMFBundle\Entity\Cart:
             type: datetime
         updated:
             type: datetime
+        code:
+            type: text
     oneToOne:
         user:
             targetEntity: Novuscom\CMFUserBundle\Entity\User
