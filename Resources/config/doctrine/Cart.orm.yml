@@ -14,7 +14,10 @@ Novuscom\CMFBundle\Entity\Cart:
         updated:
             type: datetime
         code:
-            type: text
+            type: string
+            length: 50
+            unique: true
+            nullable: false
     oneToOne:
         user:
             targetEntity: Novuscom\CMFUserBundle\Entity\User

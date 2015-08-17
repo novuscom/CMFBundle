@@ -199,11 +199,12 @@ class ComponentController extends Controller
             'ID' => $product->getId(),
             'QUANTITY' => $product->getQuantity(),
             'CART_ID' => $product->getCart()->getId(),
+	        'CART_CODE' => $product->getCart()->getCode(),
             'ELEMENT_ID' => $product->getElement()->getId(),
             //'USER_ID' => $product->getCart()->getUser()->getId(),
         );
 
-        $cookie = new Cookie('cart', $cart->getId());
+        $cookie = new Cookie('cart', $cart->getCode());
         $response->setContent(json_encode($result));
         $response->headers->setCookie($cookie);
         return $response;
