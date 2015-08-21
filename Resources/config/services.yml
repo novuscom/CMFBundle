@@ -43,6 +43,7 @@ services:
         arguments: [@doctrine.orm.entity_manager, @logger]
     ElementsList:
         class:        "%ElementsList.class%"
+        scope: prototype
         arguments: [ @doctrine.orm.entity_manager, @Element, @logger, @Section ]
     Crumbs:
         class:        "%Crumbs.class%"
