@@ -1204,8 +1204,8 @@ class ComponentController extends Controller
         //$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/' . $host . '/components/ElementsList/');
         $cacheDriver = new \Doctrine\Common\Cache\ApcCache();
         $cacheDriver->setNamespace('ElementsListAction_' . $env . '_' . $params['BLOCK_ID']);
-        //if (false) {
-        if ($fooString = $cacheDriver->fetch($cacheId)) {
+        if (false) {
+        **if ($fooString = $cacheDriver->fetch($cacheId)) {
             //echo '<pre>' . print_r('есть такое в кеше', true) . '</pre>';
             $render = unserialize($fooString);
         } else {
