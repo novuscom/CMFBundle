@@ -604,6 +604,8 @@ class ComponentController extends Controller
 			), $parentFullCode = trim($CODE, '/'));
 
 
+			//echo '<pre>'.print_r($section->getId(), true).'</pre>';
+
 			/*
 			 * Элементы
 			 */
@@ -1170,7 +1172,7 @@ class ComponentController extends Controller
 		if ($this->checkConstruction()) {
 			return $this->constructionResponse();
 		};
-
+		$logger = $this->get('logger');
 		/**
 		 * Переменные
 		 */
@@ -1198,7 +1200,6 @@ class ComponentController extends Controller
 		if (!array_key_exists('OPTIONS', $params)) {
 			$params['OPTIONS'] = null;
 		}
-
 		/**
 		 * Кэш
 		 */
@@ -1212,21 +1213,23 @@ class ComponentController extends Controller
 		} else {
 			$response_data = array();
 
-			//echo '<pre>' . print_r($params, true) . '</pre>';
+			$logger->info('Выбор списка элементов из инфоблока ' . $params['BLOCK_ID']);
+
 
 			/**
 			 * Элементы
 			 */
-			$ElementsList = $this->get('ElementsList');
+			$ElementsList =  $this->get('ElementsList');
 			$ElementsList->setBlockId($params['BLOCK_ID']);
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
+			// TODO Здесь по идее не надо передавать false. Узнать как объявлять новый сервис
+			$ElementsList->setSections(false);
 			// TODO Здесь в сервисе ElementList - выбирать все свойства
 			$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date'));
 			$ElementsList->setFilter(array('active' => true));
 			$ElementsList->setLimit($params['LIMIT']);
 			$ElementsList->setOrder(array('name', 'asc'));
 			$elements = $ElementsList->getResult();
-
 
 			/**
 			 * Данные попадающие в шаблон
