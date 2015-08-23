@@ -217,6 +217,7 @@ class SiteController extends Controller
             throw $this->createNotFoundException('Unable to find Site entity.');
         }
 
+        $Site = $this->get('Site');
 
         $originalAliases = new ArrayCollection();
 
@@ -248,14 +249,7 @@ class SiteController extends Controller
                     }
                 }
 
-                $host = $request->headers->get('host');
-                $cacheElement = 'robots_txt';
-                $cacheProd = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/prod/sys/' . $host . '/etc/');
-                $cacheDev = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/dev/sys/' . $host . '/etc/');
-                //$cacheProd = new \Doctrine\Common\Cache\ApcCache();
-                //$cacheDev = new \Doctrine\Common\Cache\ApcCache();
-                $cacheProd->delete($cacheElement);
-                $cacheDev->delete($cacheElement);
+                $Site->clearCache();
                 $em->flush();
 
                 return $this->redirect($this->generateUrl('cmf_admin_site_edit', array('id' => $id)));
