@@ -437,4 +437,33 @@ class Site
     {
         return $this->blocks;
     }
+    /**
+     * @var array
+     */
+    private $emails;
+
+
+    /**
+     * Set emails
+     *
+     * @param array $emails
+     *
+     * @return Site
+     */
+    public function setEmails($emails)
+    {
+        $this->emails = $emails;
+
+        return $this;
+    }
+
+    /**
+     * Get emails
+     *
+     * @return array
+     */
+    public function getEmails()
+    {
+        return $this->emails;
+    }
 }
