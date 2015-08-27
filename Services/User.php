@@ -7,7 +7,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class User
 {
-    public function getUserSites($user = false){
+
+    public function isAuthorized()
+    {
+        // IS_AUTHENTICATED_REMEMBERED
+        return ($this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'));
+    }
+
+    public function getUserSites($user = false)
+    {
         if (!$user) {
             $user = $this->container->get('security.token_storage')->getToken()->getUser();
         }
@@ -17,10 +25,9 @@ class User
         $repo->from('NovuscomCMFBundle:Site', 'n', 'n.id');
         $repo->select(array('n.name, n.id'));
 
-        if ($this->container->get('security.context')->isGranted('ROLE_ADMIN')){
+        if ($this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
 
-        }
-        else {
+        } else {
             if ($sitesId = $user->getSitesId()) {
                 $repo->where('n.id IN (:sites_id)');
                 $repo->setParameter('sites_id', $sitesId);
@@ -34,7 +41,8 @@ class User
 
     private $container;
 
-    public function __construct(ContainerInterface $container){
+    public function __construct(ContainerInterface $container)
+    {
         $this->container = $container;
     }
 }
