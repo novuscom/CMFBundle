@@ -78,6 +78,10 @@ class ComponentController extends Controller
 			$order->setPhone($data['phone']);
 			$em->persist($order);
 
+
+			$Site = $this->get('Site');
+			$site = $Site->getCurrentSite();
+
 			foreach ($cart->getProduct() as $product) {
 				$product->setOrder($order);
 				//echo '<pre>' . print_r($product->getName(), true) . '</pre>';
@@ -89,12 +93,11 @@ class ComponentController extends Controller
 				'ok',
 				'Ваш заказ оформлен'
 			);
-
 			$url = $request->getSchemeAndHttpHost().$this->get('router')->generate('admin_order_show', array('id' => $order->getId()));
 			$message = \Swift_Message::newInstance()
 				->setSubject('Новый заказ на сайте')
 				->setFrom('info@novuscom.ru')
-				->setTo(array('info@novuscom.ru'))
+				->setTo($site['emails'])
 				->setBody(
 					$this->get('templating')->render(
 						'NovuscomCMFBundle:Email:NewOrder.html.twig',

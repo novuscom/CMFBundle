@@ -22,7 +22,7 @@ class Site
     {
         $repo = $this->entityManager->createQueryBuilder('n');
         $repo->from('NovuscomCMFBundle:Site', 'n');
-        $repo->select('n.id, n.name, n.closed, n.code, n.robots_txt');
+        $repo->select('n.id, n.name, n.closed, n.code, n.robots_txt, n.emails');
         $repo->where('n.id = :id');
         $repo->setParameter('id', $siteId);
         $repo->setMaxResults(1);
