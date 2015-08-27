@@ -89,6 +89,24 @@ class ComponentController extends Controller
 				'ok',
 				'Ваш заказ оформлен'
 			);
+
+			$url = $request->getSchemeAndHttpHost().$this->get('router')->generate('admin_order_show', array('id' => $order->getId()));
+			$message = \Swift_Message::newInstance()
+				->setSubject('Новый заказ на сайте')
+				->setFrom('info@novuscom.ru')
+				->setTo(array('info@novuscom.ru'))
+				->setBody(
+					$this->get('templating')->render(
+						'NovuscomCMFBundle:Email:NewOrder.html.twig',
+						array(
+							'id' => $order->getId(),
+							'url' => $url,
+						)
+					),
+					'text/html'
+				);
+			$this->get('mailer')->send($message);
+
 			return $this->redirect($this->generateUrl($routeName));
 		}
 		$responseData = array(
