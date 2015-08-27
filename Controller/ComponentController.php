@@ -88,8 +88,10 @@ class ComponentController extends Controller
 				//echo '<pre>' . print_r($product->getName(), true) . '</pre>';
 				$em->persist($product);
 			}
-
+			$em->remove($cart);
+			$Cart->removeCurrentCart();
 			$em->flush();
+
 			$this->get('session')->getFlashBag()->add(
 				'ok',
 				'Ваш заказ оформлен'
@@ -109,6 +111,7 @@ class ComponentController extends Controller
 					),
 					'text/html'
 				);
+
 			$this->get('mailer')->send($message);
 
 			return $this->redirect($this->generateUrl($routeName));

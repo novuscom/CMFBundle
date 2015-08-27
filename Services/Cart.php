@@ -50,7 +50,16 @@ class Cart
 		return $cart;
 	}
 
-	public function GetCurrent()
+	public function removeCurrentCart()
+	{
+		$current = $this->GetCurrent();
+		$this->requestStack->getCurrentRequest()->cookies->remove('cart');
+		$this->em->remove($current);
+	}
+
+	private $currentCart;
+
+	private function setCurrent()
 	{
 		$this->logger->addInfo('Получение текущей корзины');
 		$stringClassName = $this->getUserClassName();
@@ -75,7 +84,15 @@ class Cart
 				$this->logger->addNotice('Корзина найдена - ' . $cart->getId());
 			}
 		}
+		$this->currentCart = $cart;
 		return $cart;
+	}
+
+	public function GetCurrent()
+	{
+		if (empty($this->currentCart) == true)
+			$this->setCurrent();
+		return $this->currentCart;
 	}
 
 	private function getUserReference($user_id)
