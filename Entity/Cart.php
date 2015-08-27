@@ -187,4 +187,14 @@ class Cart
 	{
 		return $this->code;
 	}
+
+	public function getTotal()
+	{
+		$result = 0;
+		foreach ($this->getProduct() as $product) {
+			$result = $result + $product->getSum();
+		}
+		return $result;
+	}
+
 }
