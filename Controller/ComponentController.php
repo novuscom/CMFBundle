@@ -84,6 +84,7 @@ class ComponentController extends Controller
 
 			foreach ($cart->getProduct() as $product) {
 				$product->setOrder($order);
+				$product->setCart(null);
 				//echo '<pre>' . print_r($product->getName(), true) . '</pre>';
 				$em->persist($product);
 			}
