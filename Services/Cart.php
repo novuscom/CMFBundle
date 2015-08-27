@@ -54,7 +54,6 @@ class Cart
     public function removeCurrentCart()
     {
         $current = $this->GetCurrent();
-        $this->requestStack->getCurrentRequest()->cookies->remove('cart');
         $this->em->remove($current);
     }
 

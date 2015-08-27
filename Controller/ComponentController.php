@@ -113,8 +113,9 @@ class ComponentController extends Controller
                 );
 
             $this->get('mailer')->send($message);
-
-            return $this->redirect($this->generateUrl($routeName));
+            $response = new RedirectResponse($this->generateUrl($routeName));
+            $response->headers->clearCookie('cart');
+            return $response;
         }
         $responseData = array(
             'page' => $page,
