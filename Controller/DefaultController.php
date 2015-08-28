@@ -113,7 +113,7 @@ class DefaultController extends Controller
     public function closedAction()
     {
         $site = $this->getSite();
-        $response = $this->render('CMFTemplateBundle:Closed:site_' . $site['id'] . '.html.twig');
+        $response = $this->render('NovuscomCMFBundle:Status:Closed.html.twig');
         $response->setStatusCode(403);
         return $response;
     }
