@@ -11,7 +11,7 @@ services:
         class: Novuscom\CMFBundle\Twig\TemplateExtension
         tags:
             - { name: twig.extension }
-        arguments: [@service_container, @logger]
+        arguments: [@service_container, @logger, @Utils]
     User:
         class:        Novuscom\CMFBundle\Services\User
         arguments: [ @service_container, @logger ]
@@ -36,6 +36,9 @@ services:
     Product:
         class:        Novuscom\CMFBundle\Services\Product
         arguments: [ @doctrine.orm.entity_manager, @logger ]
+    Utils:
+        class:        Novuscom\CMFBundle\Services\Utils
+        arguments: [ @logger ]
     cmf_routing.routing_loader:
         class: Novuscom\CMFBundle\Routing\ExtraLoader
         tags:
