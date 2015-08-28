@@ -106,6 +106,16 @@ class PageType extends AbstractType
             ),
             'required' => false
         ));
+        $builder->add('preview_picture', 'file', array(
+            'label' => 'Картинка для анонса',
+            'mapped' => false,
+            'required' => false
+        ));
+        $builder->add('detail_picture', 'file', array(
+            'label' => 'Картинка для анонса',
+            'required' => false,
+            'mapped' => false,
+        ));
     }
 
     /**

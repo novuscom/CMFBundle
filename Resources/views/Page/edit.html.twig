@@ -1,23 +1,32 @@
 {% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
 {% block body -%}
-	<div class="box">
-		<div class="box-body">
-			<h4 class="box-title">Изменение страницы</h4>
+    <div class="box">
+        <div class="box-body">
+            <h4 class="box-title">Изменение страницы</h4>
 
-			{{ form(edit_form) }}
+            {{ form(edit_form) }}
+            {% if entity.previewPicture is not empty %}
+            <a class="fancybox"
+               href="{{ asset('upload/images/'~entity.previewPicture.name) }}"><img
+                        src="{{ asset('upload/images/'~entity.previewPicture.name) | imagine_filter('my_thumb') }}"/></a>
+            <div>
+                <a href="#"><i class="fa fa-trash-o"></i>
+                    удалить превью пикчу</a>
+            </div>
+            {% else %}
+            {% endif %}
+            <p>
+                <a class="btn btn-info"
+                   href="{{ path('cmf_admin_site_pages', {'site_id':app.request.get('site_id')}) }}">
+                    Список страниц
+                </a>
+            </p>
 
-			<p>
-				<a class="btn btn-info"
-				   href="{{ path('cmf_admin_site_pages', {'site_id':app.request.get('site_id')}) }}">
-					Список страниц
-				</a>
-			</p>
-
-			<p>{{ form(delete_form) }}</p>
-		</div>
-	</div>
+            <p>{{ form(delete_form) }}</p>
+        </div>
+    </div>
 {% endblock %}
 {% block javascript %}
-	{{ elfinder_tinymce_init4('tinymce') }}
-	{{ tinymce_init() }}
+    {{ elfinder_tinymce_init4('tinymce') }}
+    {{ tinymce_init() }}
 {% endblock %}
