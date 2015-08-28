@@ -3,6 +3,7 @@
   "description": "Symfony2 based CMF",
   "type": "symfony-bundle",
   "homepage": "https://github.com/novuscom/CMFBundle",
+  "minimum-stability": "dev",
   "license": "MIT",
   "keywords": [
 	"cmf",
