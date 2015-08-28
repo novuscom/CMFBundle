@@ -433,7 +433,7 @@ class ComponentController extends Controller
         $logger = $this->get('logger');
         $route_params = $request->get('_route_params');
         $routeName = $request->get('_route');
-        $pageRoute = ($routeName == 'cmf_page_frontend');
+        $pageRoute = ($routeName == 'cmf_page_frontend' || $routeName == 'page');
         if (!isset($route_params['params']) && !$pageRoute) {
             $logger->notice('параметры маршрута не известны и это не маршрут для статических страниц, возвращаем пустой результат (' . print_r($route_params, true) . ')');
             return new Response();
@@ -476,7 +476,7 @@ class ComponentController extends Controller
                 } else {
                     $codes_array[] = $p->getUrl();
                     $crumbs[] = array(
-                        'url' => $this->generateUrl('cmf_page_frontend', array('name' => implode('/', $codes_array))),
+                        'url' => $this->generateUrl($routeName, array('name' => implode('/', $codes_array))),
                         'name' => $p->getName(),
                     );
                 }
@@ -518,7 +518,7 @@ class ComponentController extends Controller
                 $element = $em->getRepository('NovuscomCMFBundle:Element')->findOneBy($filter);
                 $codes_array[] = $element->getCode();
                 $crumbs[] = array(
-                    'url' => $this->generateUrl('cmf_page_frontend', array('name' => implode('/', $codes_array))),
+                    'url' => $this->generateUrl($routeName, array('name' => implode('/', $codes_array))),
                     'name' => $element->getName(),
                 );
             }
