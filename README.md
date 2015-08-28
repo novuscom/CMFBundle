@@ -16,7 +16,9 @@ CMF на Symfony2
 
 ### Устанавливаем Composer ###
 
-Необходимо установить **Composer** для работы с пакетами, если еще не установлен. 
+Необходимо установить **Composer** для работы с пакетами, если еще не установлен.
+`curl -sS https://getcomposer.org/installer | php`
+
 [https://getcomposer.org/download/](https://getcomposer.org/download/)
 
 ### Устанавливаем Novuscom.CMF ###
