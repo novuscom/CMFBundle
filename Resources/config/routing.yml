@@ -213,6 +213,12 @@ NovuscomCMFBundle_Extra:
     type: extra
 
 
+page:
+    path:     /{url}/
+    defaults: { _controller: NovuscomCMFBundle:Default:index }
+    requirements:
+        url: .+
+
 cmf_page_frontend:
     path:     /{name}/
     defaults: { _controller: NovuscomCMFBundle:Default:index }
