@@ -812,7 +812,7 @@ class ComponentController extends Controller
                     $elementsId[] = $es->getElement()->getId();
                 }
                 if (!$elementsId) {
-                    $logger->notice('Не найдены элементы в разделе [' . $SECTION_CODE . '] [' . $section->getId() . '] [' . $section->getName() . ']');
+                    $logger->notice('Не найдены элементы в разделе [' . $SECTION_CODE . ']');
                     throw $this->createNotFoundException('Элемент не найден');
                 }
             }
