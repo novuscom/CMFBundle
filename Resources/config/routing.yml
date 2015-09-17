@@ -219,3 +219,8 @@ cmf_page_frontend:
     requirements:
         name: .+
 
+page:
+    path:     /{url}/
+    defaults: { _controller: NovuscomCMFBundle:Default:index }
+    requirements:
+        url: .+

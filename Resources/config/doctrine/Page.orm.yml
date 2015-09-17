@@ -56,6 +56,19 @@ Novuscom\CMFBundle\Entity\Page:
         siteId:
             type: integer
             column: site_id
+    oneToOne:
+        PreviewPicture:
+            targetEntity: Novuscom\CMFBundle\Entity\File
+            joinColumn:
+                name: preview_picture
+                referencedColumnName: id
+                onDelete: "CASCADE"
+        DetailPicture:
+            targetEntity: Novuscom\CMFBundle\Entity\File
+            joinColumn:
+                name: detail_picture
+                referencedColumnName: id
+                onDelete: "CASCADE"
     manyToOne:
       parent:
         targetEntity: Page

@@ -44,6 +44,9 @@ class TemplateExtension extends \Twig_Extension
 			'str_repeat' => new \Twig_Function_Method($this, 'StrRepeat'),
 			'msg' => new \Twig_Function_Method($this, 'msg'),
 			'is_main_page' => new \Twig_Function_Method($this, 'IsMainPage'),
+            'IsMainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
+            'mainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
+            'isMainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
 		);
 	}
 

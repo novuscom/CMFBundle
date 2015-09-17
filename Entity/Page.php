@@ -98,6 +98,16 @@ class Page
     private $site;
 
     /**
+     * @var \Novuscom\CMFBundle\Entity\File
+     */
+    private $PreviewPicture;
+
+    /**
+     * @var \Novuscom\CMFBundle\Entity\File
+     */
+    private $DetailPicture;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -560,5 +570,50 @@ class Page
     public function getController()
     {
         return $this->controller;
+    }
+    /**
+     * Set PreviewPicture
+     *
+     * @param \Novuscom\CMFBundle\Entity\File $previewPicture
+     * @return Element
+     */
+    public function setPreviewPicture(\Novuscom\CMFBundle\Entity\File $previewPicture = null)
+    {
+        $this->PreviewPicture = $previewPicture;
+
+        return $this;
+    }
+
+    /**
+     * Get PreviewPicture
+     *
+     * @return \Novuscom\CMFBundle\Entity\File
+     */
+    public function getPreviewPicture()
+    {
+        return $this->PreviewPicture;
+    }
+
+    /**
+     * Set DetailPicture
+     *
+     * @param \Novuscom\CMFBundle\Entity\File $detailPicture
+     * @return Element
+     */
+    public function setDetailPicture(\Novuscom\CMFBundle\Entity\File $detailPicture = null)
+    {
+        $this->DetailPicture = $detailPicture;
+
+        return $this;
+    }
+
+    /**
+     * Get DetailPicture
+     *
+     * @return \Novuscom\CMFBundle\Entity\File
+     */
+    public function getDetailPicture()
+    {
+        return $this->DetailPicture;
     }
 }

@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Novuscom\CMFBundle\Entity\Page;
+use Novuscom\CMFBundle\Entity\File;
 use Novuscom\CMFBundle\Form\PageType;
 
 /**
@@ -103,6 +104,8 @@ class PageController extends Controller
 
             //exit;
 
+            $this->createPreviewPicture($page, $form['preview_picture']->getData());
+
 
             $em->persist($page);
             $em->flush();
@@ -119,6 +122,31 @@ class PageController extends Controller
             'entity' => $page,
             'form' => $form->createView(),
         ));
+    }
+
+    private function createPreviewPicture($entity, $file, $description = '')
+    {
+        if ($file) {
+            $em = $this->getDoctrine()->getManager();
+            $extension = $file->guessExtension();
+            $dir = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/';
+            if (!$extension) {
+                $extension = 'bin';
+            }
+            $newName = md5(time()) . '.' . $extension;
+            $file->move($dir, $newName);
+            /*
+             * Создание и сохранение информации о файле
+             */
+            $File = new File();
+            $File->setName($newName);
+            $File->setType($file->getClientMimeType());
+            $File->setSize($file->getClientSize());
+            $File->setDescription($description);
+            $em->persist($File);
+            $entity->setPreviewPicture($File);
+        }
+
     }
 
     /**
@@ -321,6 +349,9 @@ class PageController extends Controller
             }*/
             $this->clearCache($id);
 
+            $this->deletePreviewPicture($entity);
+            $this->createPreviewPicture($entity, $editForm['preview_picture']->getData());
+
             $em->flush();
             $siteId = $this->getRequest()->get('site_id');
             return $this->redirect($this->generateUrl('cmf_admin_page_edit',
@@ -337,6 +368,20 @@ class PageController extends Controller
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    private function deletePreviewPicture(\Novuscom\CMFBundle\Entity\Page $element)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $previewPicture = $element->getPreviewPicture();
+        if ($previewPicture) {
+            $element->setPreviewPicture(null);
+            $em->persist($element);
+            $em->remove($previewPicture);
+            $fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/' . $previewPicture->getName();
+            $em->flush();
+            unlink($fileName);
+        }
     }
 
     /**
