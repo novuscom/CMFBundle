@@ -741,8 +741,8 @@ class ComponentController extends Controller
          */
         $cacheDriver->setNamespace('ElementAction_' . $env . '_' . $params['BLOCK_ID']);
         $cacheId = json_encode(array($params, $CODE, $ID));
-        //if (false) {
-        if ($fooString = $cacheDriver->fetch($cacheId)) {
+        if (false) {
+        //if ($fooString = $cacheDriver->fetch($cacheId)) {
             //echo '<pre>' . print_r('кешированные данные', true) . '</pre>';
             $cacheData = unserialize($fooString);
         } else {
