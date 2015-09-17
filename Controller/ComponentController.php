@@ -444,6 +444,7 @@ class ComponentController extends Controller
         $cacheDriver->setNamespace('CrumbsAction_' . $env);
         $cacheId = json_encode(array($params, $route_params));
         $existParams = (array_key_exists('params', $route_params));
+        //echo '<pre>' . print_r('крошки', true) . '</pre>'; exit;
         if (false) {
             //if ($fooString = $cacheDriver->fetch($cacheId)) {
             //echo '<pre>' . print_r('крошки закешированы', true) . '</pre>';
@@ -467,6 +468,7 @@ class ComponentController extends Controller
             }
 
             $path = $repo->getPath($page);
+            //echo '<pre>' . print_r('крошки', true) . '</pre>'; exit;
             foreach ($path as $p) {
                 if ($p->getLvl() == 0) {
                     $crumbs[] = array(
@@ -476,7 +478,7 @@ class ComponentController extends Controller
                 } else {
                     $codes_array[] = $p->getUrl();
                     $crumbs[] = array(
-                        'url' => $this->generateUrl($routeName, array('name' => implode('/', $codes_array))),
+                        'url' => $this->generateUrl('page', array('url' => implode('/', $codes_array))),
                         'name' => $p->getName(),
                     );
                 }
@@ -485,6 +487,7 @@ class ComponentController extends Controller
             /*
              * Хлебные крошки для раздела
              */
+            $section_codes_array = $codes_array;
             if ($existParams && $route_params['params']['controller_code'] == 'section') {
                 $logger->info('Создаем хлебные крошки для раздела');
                 $crumbs = $this->getCrumbsForSection($route_params['CODE'], $route_params, $crumbs, $codes_array);
@@ -518,7 +521,8 @@ class ComponentController extends Controller
                 $element = $em->getRepository('NovuscomCMFBundle:Element')->findOneBy($filter);
                 $codes_array[] = $element->getCode();
                 $crumbs[] = array(
-                    'url' => $this->generateUrl($routeName, array('name' => implode('/', $codes_array))),
+                    //'url' => $this->generateUrl($routeName, array('name' => implode('/', $codes_array))),
+                    'url' => $this->generateUrl($routeName, array('SECTION_CODE' => implode('/', $section_codes_array), 'CODE'=>$element->getCode())),
                     'name' => $element->getName(),
                 );
             }
