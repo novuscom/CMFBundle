@@ -17,7 +17,7 @@ class User
     public function getUserSites($user = false)
     {
         if (!$user) {
-            $user = $this->container->get('security.token_storage')->getToken()->getUser();
+            $user = $this->getCurrentUser();
         }
         $em = $this->container->get('doctrine.orm.entity_manager');
 
@@ -37,6 +37,13 @@ class User
         $sql = $query->getSql();
         $sites = $query->getResult();
         return $sites;
+    }
+
+    public function getCurrentUser(){
+        $user = $this->container->get('security.context')
+            ->getToken()
+            ->getUser();
+        return $user;
     }
 
     private $container;
