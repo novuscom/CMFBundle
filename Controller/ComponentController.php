@@ -223,7 +223,10 @@ class ComponentController extends Controller
         $result['MESSAGE'] = 'Product added to cart';
         $result['DATA'] = array(
             'ID' => $product->getId(),
-            'QUANTITY' => $product->getQuantity(),
+            'PRODUCT_QUANTITY' => $product->getQuantity(),
+            'CART_PRODUCTS' => $cart->getProductsCount(),
+			'CART_ELEMENTS_COUNT' => $cart->getElementsCount(),
+            'CART_TOTAL'=> $cart->getTotal(),
             'CART_ID' => $product->getCart()->getId(),
             'CART_CODE' => $product->getCart()->getCode(),
             'ELEMENT_ID' => $product->getElement()->getId(),

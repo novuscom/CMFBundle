@@ -197,4 +197,16 @@ class Cart
 		return $result;
 	}
 
+	public function getProductsCount(){
+		return count($this->getProduct());
+	}
+
+	public function getElementsCount(){
+		$result = 0;
+		foreach ($this->getProduct() as $product) {
+			$result = $result + $product->getQuantity();
+		}
+		return $result;
+	}
+
 }
