@@ -124,6 +124,19 @@ class ComponentController extends Controller
         return $response;
     }
 
+	public function SmallCartAction($params = array(), Request $request)
+	{
+		$Site = $this->get('Site');
+		$currentSite = $Site->getCurrentSite();
+		$Cart = $this->get('Cart');
+		$cart = $Cart->GetCurrent();
+		$responseData = array(
+			'cart' => $cart,
+		);
+		$response = $this->render('@templates/' . $currentSite['code'] . '/Shop/smallCart.html.twig', $responseData);
+		return $response;
+	}
+
     public function CartAction($params, Request $request)
     {
         $page_class = $this->get('Page');
