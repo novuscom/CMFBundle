@@ -35,7 +35,7 @@ services:
         arguments: [ @doctrine.orm.entity_manager, @logger, @request_stack, @service_container, @User ]
     Product:
         class:        Novuscom\CMFBundle\Services\Product
-        arguments: [ @doctrine.orm.entity_manager, @logger ]
+        arguments: [ @doctrine.orm.entity_manager, @Cart, @logger ]
     Utils:
         class:        Novuscom\CMFBundle\Services\Utils
         arguments: [ @logger ]

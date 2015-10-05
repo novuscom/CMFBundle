@@ -207,6 +207,10 @@ cmf_page_main:
     path:     /
     defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
 
+delete_product_json:
+    path:     /delete-product.json
+    defaults: { _controller: "NovuscomCMFBundle:Component:DeleteProduct" }
+    requirements: { _method: post|delete }
 
 NovuscomCMFBundle_Extra:
     resource: .
