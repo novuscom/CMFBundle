@@ -256,7 +256,7 @@ class ComponentController extends Controller
 			$element->getId(),
 			$cart->getId()
 		);
-		if ($productRequest['quantity'] < 1 || is_numeric($productRequest['quantity']) == false)
+		if (array_key_exists('quantity', $productRequest)==false || $productRequest['quantity'] < 1 || is_numeric($productRequest['quantity']) == false)
 			$productRequest['quantity'] = 1;
 		if ($product == false) {
 			$product = new Product();
