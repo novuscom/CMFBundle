@@ -45,6 +45,34 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class ComponentController extends Controller
 {
 
+	public function RecountCartAction(Request $request)
+	{
+		$logger = $this->get('logger');
+		$PRODUCT_ID = intval($request->get('PRODUCT_ID'));
+		$QUANTITY = intval($request->get('QUANTITY'));
+		$logger->debug('quantity: '.$QUANTITY);
+		$logger->debug('product id: '.$PRODUCT_ID);
+		if (!$PRODUCT_ID || !$QUANTITY)
+			$this->JSON404('Incorrect data');
+		$Product = $this->get('Product');
+		$product = $Product->getProduct($PRODUCT_ID);
+		$product->setQuantity($QUANTITY);
+		$this->getDoctrine()->getManager()->flush();
+		$cart = $product->getCart();
+
+		$result = array(
+			'DATA' => array(
+				'CART_TOTAL' => $cart->getTotal(),
+				'PRODUCT_SUM' => $product->getSum()
+			)
+		);
+
+		$response = new Response();
+		$response->headers->set('Content-Type', 'application/json; charset=UTF-8');
+		$response->setContent(json_encode($result));
+		return $response;
+	}
+
 	public function OrderAction($params, Request $request)
 	{
 		$page_class = $this->get('Page');
@@ -150,17 +178,17 @@ class ComponentController extends Controller
 		$response = new Response();
 		$Product = $this->get('Product');
 		$product = $Product->getProduct($productId);
-		if (count($product)!=1) {
+		if (count($product) != 1) {
 			return $this->JSON404('Product not found');
 		}
-		$result['MESSAGE'] = 'Product deleted '.$product->getName();
+		$result['MESSAGE'] = 'Product deleted ' . $product->getName();
 		$Product->removeEntity($product);
 		$result['STATUS'] = true;
 		$cart = $Product->getCart();
 		$result['DATA'] = array(
-			'CART'=>array(
-				'PRODUCTS'=>$cart->getProductsCount(),
-				'ELEMENTS_COUNT'=>$cart->getElementsCount(),
+			'CART' => array(
+				'PRODUCTS' => $cart->getProductsCount(),
+				'ELEMENTS_COUNT' => $cart->getElementsCount(),
 				'TOTAL' => $cart->getTotal(),
 			)
 		);
@@ -256,7 +284,7 @@ class ComponentController extends Controller
 			$element->getId(),
 			$cart->getId()
 		);
-		if (array_key_exists('quantity', $productRequest)==false || $productRequest['quantity'] < 1 || is_numeric($productRequest['quantity']) == false)
+		if (array_key_exists('quantity', $productRequest) == false || $productRequest['quantity'] < 1 || is_numeric($productRequest['quantity']) == false)
 			$productRequest['quantity'] = 1;
 		if ($product == false) {
 			$product = new Product();
