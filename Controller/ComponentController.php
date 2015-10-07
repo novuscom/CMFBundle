@@ -1115,7 +1115,7 @@ class ComponentController extends Controller
 				$response_data['page'] = $page;
 			}
 			$template_code = $params['template_code'];
-			$template_dir = $params['params']['template_directory'];
+			$template_dir = $site->getCode();
 			$response = $this->render('@templates/' . $template_dir . '/Element/' . $template_code . '.html.twig', $response_data);
 			$cacheData = array(
 				'response' => $response,
@@ -1321,6 +1321,8 @@ class ComponentController extends Controller
 		if (!array_key_exists('OPTIONS', $params)) {
 			$params['OPTIONS'] = null;
 		}
+		$Site = $this->get('Site');
+		$site = $Site->getCurrent();
 		/**
 		 * Кэш
 		 */
@@ -1360,7 +1362,7 @@ class ComponentController extends Controller
 			$response_data['options'] = $params['OPTIONS'];
 			$response_data['page'] = $page_repository->find($params['page_id']);
 
-			$render = $this->render('@templates/' . $params['params']['template_directory'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
+			$render = $this->render('@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
 
 			$cacheDriver->save($cacheId, serialize($render));
 		}
