@@ -32,6 +32,11 @@ class Site
         return $result[0];
     }
 
+    public function getCurrent()
+    {
+        return $this->getCurrentSite();
+    }
+
     /**
      * Возвращает массив с ифнормацией о текущем сайте
      * @return array
