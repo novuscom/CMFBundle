@@ -42,6 +42,8 @@ class PropertyType extends AbstractType
                 'DATE_TIME' => 'Дата и время',
                 'U' => 'Пользователь',
                 'LIST' => 'Список',
+                'TEXT' => 'Простой текст',
+                'HTML' => 'HTML',
             ),
             'required' => true,
             'attr' => array(
