@@ -159,6 +159,8 @@ class TemplateExtension extends \Twig_Extension
 
 	public function render($options)
 	{
+		$Site = $this->container->get('Site');
+		$currentSite = $Site->getCurrentSite();
 		$time_start = microtime(1);
 		$request = $this->container->get('request');
 		$env = $this->container->getParameter("kernel.environment");
@@ -167,7 +169,7 @@ class TemplateExtension extends \Twig_Extension
 		$cacheId = json_encode($options);
 		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/menu/');
 		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
-		$namespace = 'menu_' . $env . '_' . $options['id'];
+		$namespace = 'menu_'.$currentSite['code'].'_' . $env . '_' . $options['id'];
 		$this->logger->info('Menu ' . $options['id'] . ' NameSpace: ' . $namespace);
 		$cacheDriver->setNamespace($namespace);
 		if ($fooString = $cacheDriver->fetch($cacheId) /*and $env=='prod'*/) {
