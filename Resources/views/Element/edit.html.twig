@@ -38,12 +38,13 @@
                     {{ form_errors(edit_form.preview_picture_alt) }}
                 </div>
                 {% if entity.previewPicture is not empty %}
-                    <a class="fancybox"
-                       href="{{ asset('upload/images/'~entity.previewPicture.name) }}"><img
-                                src="{{ asset('upload/images/'~entity.previewPicture.name) | imagine_filter('my_thumb') }}"/></a>
+                    <a class="fancybox" href="{{ entity.previewPicture.getImagePath }}">
+						{% set file = resize_image(entity.previewPicture.getImagePath, 'proportional', [100, 100]) %}
+						<img src="{{ file.src }}"/>
+					</a>
                     <div>
                         <a href="#"><i class="fa fa-trash-o"></i>
-                            удалить превью пикчу</a>
+                            удалить превью картинку</a>
                     </div>
                 {% else %}
                 {% endif %}
@@ -67,8 +68,8 @@
                 </div>
                 {% if entity.detailPicture is not empty %}
                     <a class="fancybox"
-                       href="{{ asset('upload/images/'~entity.detailPicture.name) }}"><img
-                                src="{{ asset('upload/images/'~entity.detailPicture.name) | imagine_filter('my_thumb') }}"/></a>
+                       href="{{ 'upload/images/'~entity.detailPicture.name }}"><img
+                                src="{{ 'upload/images/'~entity.detailPicture.name | imagine_filter('my_thumb') }}"/></a>
                     <div>
                         <a href="#"><i class="fa fa-trash-o"></i>
                             удалить детейл пикчу</a>
