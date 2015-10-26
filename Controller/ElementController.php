@@ -461,11 +461,11 @@ class ElementController extends Controller
                         } else {
                             //echo '<pre>стоп. ' . print_r($p->getData(), true) . '</pre>';
                             //exit;
-                            /*$property = new ElementProperty();
-                            $property->setElement($entity);
-                            $property->setProperty($prop);
-                            $property->setValue($p->getData());
-                            $em->persist($property);*/
+                            $ElementProperty = new ElementProperty();
+                            $ElementProperty->setElement($entity);
+                            $ElementProperty->setProperty($property);
+                            $ElementProperty->setValue($p->getData());
+                            $em->persist($ElementProperty);
                         }
 
                     }
