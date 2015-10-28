@@ -11,6 +11,20 @@ use Monolog\Logger;
 class Section
 {
 
+    public function ElementsSections($elementsID){
+        $repo = $this->em->getRepository('NovuscomCMFBundle:ElementSection');
+		$refs = array();
+		foreach ($elementsID as $e) {
+			$refs[] = $this->em->getReference('Novuscom\CMFBundle\Entity\Block', $e);
+		}
+        $rows = $repo->findBy(array('element'=>$refs));
+		$result = array();
+		foreach ($rows as $r) {
+			$result[$r->getElement()->getId()] = $r->getSection();
+		}
+        return $result;
+    }
+
     public function getChildren($section){
         $repo = $this->em->getRepository('NovuscomCMFBundle:Section');
         $path = $repo->getChildren($section);

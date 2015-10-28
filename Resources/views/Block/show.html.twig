@@ -78,9 +78,9 @@
 							<td>{{ s.rgt }}</td>
 							<td>
 								{% if s.previewPicture is not empty %}
-									<a class="fancybox"
-									   href="{{ asset('upload/images/'~s.previewPicture.name) }}"><img
-												src="{{ asset('upload/images/'~s.previewPicture.name) | imagine_filter('my_thumb') }}"/></a>
+									{% set file = resize_image(s.previewPicture.getImagePath, 'proportional', [100, 100]) %}
+									<a class="fancybox" href="{{ s.previewPicture.getImagePath }}"><img
+												src="{{ file.src }}"/></a>
 								{% else %}
 								{% endif %}
 							</td>
@@ -165,9 +165,9 @@
 						<td>{{ element.sort }}</td>
 						<td>
 							{% if element.previewPicture is not empty %}
-								<a class="fancybox"
-								   href="{{ asset('upload/images/'~element.previewPicture.name) }}"><img
-											src="{{ asset('upload/images/'~element.previewPicture.name) | imagine_filter('my_thumb') }}"/></a>
+								{% set file = resize_image(element.previewPicture.getImagePath, 'proportional', [100, 100]) %}
+								<a class="fancybox" href="{{ element.previewPicture.getImagePath }}"><img
+											src="{{ file.src }}"/></a>
 							{% else %}
 							{% endif %}
 						</td>

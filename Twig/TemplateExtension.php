@@ -44,12 +44,26 @@ class TemplateExtension extends \Twig_Extension
 			'str_repeat' => new \Twig_Function_Method($this, 'StrRepeat'),
 			'msg' => new \Twig_Function_Method($this, 'msg'),
 			'is_main_page' => new \Twig_Function_Method($this, 'IsMainPage'),
-            'IsMainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
-            'mainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
-            'isMainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
+			'IsMainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
+			'mainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
+			'isMainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
+			'ElementsSections' => new \Twig_Function_Method($this, 'ElementsSections'),
 		);
 	}
 
+	public function ElementsSections($elementsArray)
+	{
+		$this->logger->info('twig getElementsList' . print_r($elementsArray, true));
+		$elementsId = array();
+		foreach ($elementsArray as $e) {
+			$elementsId[] = $e['id'];
+		}
+		//echo '<pre>' . print_r($elementsId, true) . '</pre>'; exit;
+
+		$Section = $this->container->get('Section');
+		$sections = $Section->ElementsSections($elementsId);
+		return $sections;
+	}
 
 	public function getGlobals()
 	{
@@ -169,7 +183,7 @@ class TemplateExtension extends \Twig_Extension
 		$cacheId = json_encode($options);
 		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/menu/');
 		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
-		$namespace = 'menu_'.$currentSite['code'].'_' . $env . '_' . $options['id'];
+		$namespace = 'menu_' . $currentSite['code'] . '_' . $env . '_' . $options['id'];
 		$this->logger->info('Menu ' . $options['id'] . ' NameSpace: ' . $namespace);
 		$cacheDriver->setNamespace($namespace);
 		if ($fooString = $cacheDriver->fetch($cacheId) /*and $env=='prod'*/) {

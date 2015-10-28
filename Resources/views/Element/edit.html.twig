@@ -39,7 +39,7 @@
                 </div>
                 {% if entity.previewPicture is not empty %}
                     <a class="fancybox" href="{{ entity.previewPicture.getImagePath }}">
-						{% set file = resize_image(entity.previewPicture.getImagePath, 'proportional', [100, 100]) %}
+						{% set file = resize_image(entity.previewPicture.getImagePath, 'proportional', [200, 200]) %}
 						<img src="{{ file.src }}"/>
 					</a>
                     <div>

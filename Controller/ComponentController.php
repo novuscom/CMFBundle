@@ -747,7 +747,8 @@ class ComponentController extends Controller
 			$ElementsList->setBlockId($params['BLOCK_ID']);
 			$ElementsList->setSectionId($section->getId());
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture'));
-			$ElementsList->selectProperties(array('address', 'shirota', 'price'));
+			// TODO Здесь сделать выборку всех доступных свойств ифноблока
+			$ElementsList->selectProperties(array('address', 'shirota', 'price', 'format_name'));
 			$ElementsList->setOrder(array('name', 'asc'));
 			//echo '<pre>' . print_r($params, true) . '</pre>';
 			if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
