@@ -947,7 +947,9 @@ class ComponentController extends Controller
 				$logger->notice('Элемент не найден по фильтру: <pre>' . print_r($filter, true) . '</pre>');
 				throw $this->createNotFoundException('Элемент не найден');
 			}
-
+			if ($section==false){
+				$section = $element->getSection();
+			}
 
 			/**
 			 * Получение информации о страницах
@@ -1352,14 +1354,13 @@ class ComponentController extends Controller
 
 			$logger->info('Выбор списка элементов из инфоблока ' . $params['BLOCK_ID']);
 
-
 			/**
 			 * Элементы
 			 */
 			$ElementsList = $this->get('ElementsList');
 			$ElementsList->setBlockId($params['BLOCK_ID']);
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
-			//$ElementsList->setSections(false);
+			$ElementsList->setSectionsId($params['SECTION_ID']);
 			// TODO Здесь в сервисе ElementList - выбирать все свойства
 			$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
 			$ElementsList->setFilter(array('active' => true));
