@@ -53,7 +53,7 @@ class TemplateExtension extends \Twig_Extension
 
 	public function ElementsSections($elementsArray)
 	{
-		$this->logger->info('twig getElementsList' . print_r($elementsArray, true));
+		//$this->logger->info('twig getElementsList' . print_r($elementsArray, true));
 		$elementsId = array();
 		foreach ($elementsArray as $e) {
 			$elementsId[] = $e['id'];

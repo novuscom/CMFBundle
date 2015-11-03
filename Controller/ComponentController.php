@@ -947,8 +947,11 @@ class ComponentController extends Controller
 				$logger->notice('Элемент не найден по фильтру: <pre>' . print_r($filter, true) . '</pre>');
 				throw $this->createNotFoundException('Элемент не найден');
 			}
-			if ($section==false){
-				$section = $element->getSection();
+			if ($section == false) {
+				$section = array();
+				foreach($element->getSection() as $s) {
+					$section[] = $s;
+				}
 			}
 
 			/**
@@ -1007,7 +1010,6 @@ class ComponentController extends Controller
 				}
 				$properties_by_code[$code]['value'] = $value;
 			}
-
 
 			/**
 			 * Значения свойства типа "файл"
@@ -1117,7 +1119,8 @@ class ComponentController extends Controller
 				'header' => $entity_element->getHeader(),
 				'description' => $entity_element->getDescription(),
 				'keywords' => $entity_element->getKeywords(),
-				'section' => $section
+				'section' => $section,
+				'params' => $params
 			);
 			if (!$response_data['title'])
 				$response_data['title'] = $entity_element->getName();
@@ -1360,7 +1363,8 @@ class ComponentController extends Controller
 			$ElementsList = $this->get('ElementsList');
 			$ElementsList->setBlockId($params['BLOCK_ID']);
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
-			$ElementsList->setSectionsId($params['SECTION_ID']);
+			if (array_key_exists('SECTION_ID', $params))
+				$ElementsList->setSectionsId($params['SECTION_ID']);
 			// TODO Здесь в сервисе ElementList - выбирать все свойства
 			$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
 			$ElementsList->setFilter(array('active' => true));
@@ -1375,6 +1379,7 @@ class ComponentController extends Controller
 			$response_data['elements'] = $elements;
 			$response_data['options'] = $params['OPTIONS'];
 			$response_data['page'] = $page_repository->find($params['page_id']);
+			$response_data['params'] = $params;
 
 			$render = $this->render('@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
 
