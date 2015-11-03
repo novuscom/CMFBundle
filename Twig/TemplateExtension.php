@@ -53,13 +53,10 @@ class TemplateExtension extends \Twig_Extension
 
 	public function ElementsSections($elementsArray)
 	{
-		//$this->logger->info('twig getElementsList' . print_r($elementsArray, true));
 		$elementsId = array();
 		foreach ($elementsArray as $e) {
 			$elementsId[] = $e['id'];
 		}
-		//echo '<pre>' . print_r($elementsId, true) . '</pre>'; exit;
-
 		$Section = $this->container->get('Section');
 		$sections = $Section->ElementsSections($elementsId);
 		return $sections;
@@ -76,7 +73,6 @@ class TemplateExtension extends \Twig_Extension
 	private function generateMenuFromTree($tree, $menu, $routeCode, $currentCode)
 	{
 		foreach ($tree as $item) {
-			//echo '<pre>' . print_r($item, true) . '</pre>';
 			$url = $this->urlGenerator->generate($routeCode, array('CODE' => $item['full_code']));
 			$menuItem = $menu->addChild($item['name'], array('uri' => $url));
 			$menuItem->setAttribute('data-id', $item['id']);
