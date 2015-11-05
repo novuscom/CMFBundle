@@ -54,6 +54,10 @@ class ComponentController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findAll();
 
+		$Site = $this->get('Site');
+		$currentAlias = $Site->getAlias();
+		$alias = $currentAlias['name'];
+
 		$needRoutes = array(
 			'@attributes' => array(
 				'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9'
@@ -78,6 +82,7 @@ class ComponentController extends Controller
 			} else {
 				$url = $this->get('router')->generate('cmf_page_main');
 			}
+			$url = 'http://'.$alias.$url;
 			$needRoutes['url'][] = array(
 				'loc' => $url,
 			);
