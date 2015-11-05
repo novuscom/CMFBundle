@@ -47,9 +47,6 @@ class ElementsList
 				$this->setSectionId($id);
 			}
 		}
-		if (is_numeric($id)) {
-			$this->setSectionId($id);
-		}
 	}
 	private $includeSubSections;
 
