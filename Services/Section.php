@@ -15,7 +15,7 @@ class Section
         $repo = $this->em->getRepository('NovuscomCMFBundle:ElementSection');
 		$refs = array();
 		foreach ($elementsID as $e) {
-			$refs[] = $this->em->getReference('Novuscom\CMFBundle\Entity\Element', $e);
+			$refs[] = $this->em->getReference('Novuscom\CMFBundle\Entity\Block', $e);
 		}
         $rows = $repo->findBy(array('element'=>$refs));
 		$result = array();
