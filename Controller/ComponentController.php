@@ -28,6 +28,7 @@ use Novuscom\CMFBundle\Services\Section as Section;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
+use LSS\Array2XML;
 
 
 use FOS\UserBundle\Event\UserEvent;
@@ -44,6 +45,58 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class ComponentController extends Controller
 {
+
+	public function SiteMapXMLAction(Request $request)
+	{
+		$logger = $this->get('logger');
+
+		$result = array();
+		$em = $this->getDoctrine()->getManager();
+		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findAll();
+
+		$needRoutes = array(
+			'@attributes' => array(
+				'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9'
+			),
+			'url' => array());
+
+		/*
+		 * Страницы
+		 */
+		$pagesRepo = $em->getRepository('NovuscomCMFBundle:Page');
+		$pages = $pagesRepo->findAll();
+		foreach ($pages as $p) {
+			$codes = array();
+			foreach ($pagesRepo->getPath($p) as $path) {
+				$codes[] = $path->getUrl();
+			}
+			$url = implode('/', $codes);
+			$url = str_replace('//', '/', $url);
+			if ($p->getLvl() > 0) {
+				$url = trim($url, '/');
+				$url = $this->get('router')->generate('page', array('url' => $url));
+			} else {
+				$url = $this->get('router')->generate('cmf_page_main');
+			}
+			$needRoutes['url'][] = array(
+				'loc' => $url,
+			);
+		}
+		$xml = Array2XML::createXML('urlset', $needRoutes)->saveXML();
+		//$this->msg($xml->saveXML());
+		foreach ($routes as $r) {
+			$params = json_encode($r->getParams());
+		}
+		$response = new Response();
+		$response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
+		$response->setContent($xml);
+		return $response;
+	}
+
+	private function msg($result)
+	{
+		echo '<pre>' . print_r($result, true) . '</pre>';
+	}
 
 	public function RecountCartAction(Request $request)
 	{
@@ -949,7 +1002,7 @@ class ComponentController extends Controller
 			}
 			if ($section == false) {
 				$section = array();
-				foreach($element->getSection() as $s) {
+				foreach ($element->getSection() as $s) {
 					$section[] = $s;
 				}
 			}
