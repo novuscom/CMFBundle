@@ -22,6 +22,9 @@ doctrine:
         result_cache_driver: apc
         #resolve_target_entities:
         #    CMF\PageBundle\Model\PageSubjectInterface: CMF\SiteBundle\Entity\Site
+        dql:
+            numeric_functions:
+                Rand: Novuscom\CMFBundle\DQL\RandFunction
         mappings:
             translatable:
                 type: annotation

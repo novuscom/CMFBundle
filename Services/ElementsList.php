@@ -139,6 +139,18 @@ class ElementsList
 		return $this->notId;
 	}
 
+	private $random = false;
+
+	public function setRandom($random)
+	{
+		$this->random = $random;
+	}
+
+	public function getRandom()
+	{
+		return $this->random;
+	}
+
 	public function getResult()
 	{
 
@@ -219,7 +231,8 @@ class ElementsList
 		if ($this->getLimit() > 0) {
 			$elements_repo->setMaxResults($this->getLimit());
 		}
-
+		if ($this->getRandom() !== false)
+			$elements_repo->addSelect('RAND() as HIDDEN rand')->orderBy('rand');
 		$query = $elements_repo->getQuery();
 		$sql = $query->getSql();
 		$this->sql = $sql;
