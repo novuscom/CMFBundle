@@ -28,6 +28,7 @@ use Novuscom\CMFBundle\Services\Section as Section;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
+use LSS\Array2XML;
 
 
 use FOS\UserBundle\Event\UserEvent;
@@ -44,6 +45,58 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class ComponentController extends Controller
 {
+
+	public function SiteMapXMLAction(Request $request)
+	{
+		$logger = $this->get('logger');
+
+		$result = array();
+		$em = $this->getDoctrine()->getManager();
+		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findAll();
+
+		$needRoutes = array(
+			'@attributes' => array(
+				'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9'
+			),
+			'url' => array());
+
+		/*
+		 * Страницы
+		 */
+		$pagesRepo = $em->getRepository('NovuscomCMFBundle:Page');
+		$pages = $pagesRepo->findAll();
+		foreach ($pages as $p) {
+			$codes = array();
+			foreach ($pagesRepo->getPath($p) as $path) {
+				$codes[] = $path->getUrl();
+			}
+			$url = implode('/', $codes);
+			$url = str_replace('//', '/', $url);
+			if ($p->getLvl() > 0) {
+				$url = trim($url, '/');
+				$url = $this->get('router')->generate('page', array('url' => $url));
+			} else {
+				$url = $this->get('router')->generate('cmf_page_main');
+			}
+			$needRoutes['url'][] = array(
+				'loc' => $url,
+			);
+		}
+		$xml = Array2XML::createXML('urlset', $needRoutes)->saveXML();
+		//$this->msg($xml->saveXML());
+		foreach ($routes as $r) {
+			$params = json_encode($r->getParams());
+		}
+		$response = new Response();
+		$response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
+		$response->setContent($xml);
+		return $response;
+	}
+
+	private function msg($result)
+	{
+		echo '<pre>' . print_r($result, true) . '</pre>';
+	}
 
 	public function RecountCartAction(Request $request)
 	{
@@ -949,7 +1002,7 @@ class ComponentController extends Controller
 			}
 			if ($section == false) {
 				$section = array();
-				foreach($element->getSection() as $s) {
+				foreach ($element->getSection() as $s) {
 					$section[] = $s;
 				}
 			}
@@ -1010,6 +1063,7 @@ class ComponentController extends Controller
 				}
 				$properties_by_code[$code]['value'] = $value;
 			}
+
 
 			/**
 			 * Значения свойства типа "файл"
@@ -1119,8 +1173,7 @@ class ComponentController extends Controller
 				'header' => $entity_element->getHeader(),
 				'description' => $entity_element->getDescription(),
 				'keywords' => $entity_element->getKeywords(),
-				'section' => $section,
-				'params' => $params
+				'section' => $section
 			);
 			if (!$response_data['title'])
 				$response_data['title'] = $entity_element->getName();
@@ -1357,16 +1410,21 @@ class ComponentController extends Controller
 
 			$logger->info('Выбор списка элементов из инфоблока ' . $params['BLOCK_ID']);
 
+
 			/**
 			 * Элементы
 			 */
 			$ElementsList = $this->get('ElementsList');
 			$ElementsList->setBlockId($params['BLOCK_ID']);
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
+<<<<<<< HEAD
 			if (array_key_exists('SECTION_ID', $params))
 				$ElementsList->setSectionsId($params['SECTION_ID']);
 			if (array_key_exists('NOT_ID', $params))
 				$ElementsList->setNotId($params['NO_ID']);
+=======
+			//$ElementsList->setSections(false);
+>>>>>>> c7091dd5470f1c00d0d0a8317feb3d219f02003c
 			// TODO Здесь в сервисе ElementList - выбирать все свойства
 			$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
 			$ElementsList->setFilter(array('active' => true));
@@ -1381,7 +1439,6 @@ class ComponentController extends Controller
 			$response_data['elements'] = $elements;
 			$response_data['options'] = $params['OPTIONS'];
 			$response_data['page'] = $page_repository->find($params['page_id']);
-			$response_data['params'] = $params;
 
 			$render = $this->render('@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
 

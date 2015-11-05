@@ -201,12 +201,6 @@ cmf_robots_txt:
     path:     /robots.txt
     defaults: { _controller: NovuscomCMFBundle:Default:robots }
 
-
-
-cmf_page_main:
-    path:     /
-    defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
-
 recount_cart_json:
     path:     /recount-cart.json
     defaults: { _controller: "NovuscomCMFBundle:Component:RecountCart" }
@@ -216,6 +210,14 @@ delete_product_json:
     path:     /delete-product.json
     defaults: { _controller: "NovuscomCMFBundle:Component:DeleteProduct" }
     requirements: { _method: post|delete }
+
+sitemap_xml:
+    path:     /sitemap.xml
+    defaults: { _controller: "NovuscomCMFBundle:Component:SiteMapXML" }
+
+cmf_page_main:
+    path:     /
+    defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
 
 NovuscomCMFBundle_Extra:
     resource: .
