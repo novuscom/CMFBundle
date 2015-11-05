@@ -29,7 +29,10 @@ services:
         arguments: [ @logger, @doctrine.orm.entity_manager ]
     Element:
         class:        Novuscom\CMFBundle\Services\Element
-        arguments: [ @doctrine.orm.entity_manager, @logger ]
+        arguments: [ @doctrine.orm.entity_manager, @logger, @service_container, @Utils, @router ]
+    Route:
+        class:        Novuscom\CMFBundle\Services\Route
+        arguments: [ @doctrine.orm.entity_manager, @logger, @service_container, @Utils, @router ]
     Cart:
         class:        Novuscom\CMFBundle\Services\Cart
         arguments: [ @doctrine.orm.entity_manager, @logger, @request_stack, @service_container, @User ]

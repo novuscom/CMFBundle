@@ -54,16 +54,18 @@ class ComponentController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findAll();
 
+		$Route = $this->get('Route');
 		$Site = $this->get('Site');
 		$currentAlias = $Site->getAlias();
 		$alias = $currentAlias['name'];
+		$prefix = 'http://' . $alias;
 
 		$needRoutes = array(
 			'@attributes' => array(
 				'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9'
 			),
 			'url' => array());
-
+		$urlArray = array();
 		/*
 		 * Страницы
 		 */
@@ -82,16 +84,45 @@ class ComponentController extends Controller
 			} else {
 				$url = $this->get('router')->generate('cmf_page_main');
 			}
-			$url = 'http://'.$alias.$url;
-			$needRoutes['url'][] = array(
+			$url = $prefix . $url;
+			$urlArray[] = array(
 				'loc' => $url,
 			);
 		}
-		$xml = Array2XML::createXML('urlset', $needRoutes)->saveXML();
-		//$this->msg($xml->saveXML());
+
+
 		foreach ($routes as $r) {
-			$params = json_encode($r->getParams());
+			$params = json_decode($r->getParams(), true);
+			/*$this->msg($r->getName());
+			$this->msg($r->getCode());
+			$this->msg($r->getTemplate());
+			$this->msg($r->getController());*/
+			foreach ($r->getBlock()->getElement() as $element) {
+				if ($element->getActive() == false)
+					continue;
+				$url = false;
+				if ($r->getController() == 'NovuscomCMFBundle:Component:Element')
+					$url = $prefix . $Route->getUrl($r->getCode(), $element);
+
+				if ($url !== false)
+					$urlArray[] = array(
+						'loc' => $url,
+					);
+			}
+			foreach ($r->getBlock()->getSection() as $section) {
+				$url = false;
+				if ($r->getController() == 'NovuscomCMFBundle:Component:Section')
+					$url = $prefix . $Route->getUrl($r->getCode(), $section);
+				if ($url !== false)
+					$urlArray[] = array(
+						'loc' => $url,
+					);
+			}
+
 		}
+		sort($urlArray);
+		$needRoutes['url'] = $urlArray;;
+		$xml = Array2XML::createXML('urlset', $needRoutes)->saveXML();
 		$response = new Response();
 		$response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
 		$response->setContent($xml);

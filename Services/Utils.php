@@ -8,6 +8,10 @@ class Utils
 {
 	CONST VERSION = '0.0.5.11';
 
+	public function msg($object){
+		echo '<pre>'.print_r($object, true).'</pre>';
+	}
+
 	public function getVersion(){
 		return self::VERSION;
 	}
