@@ -1417,14 +1417,11 @@ class ComponentController extends Controller
 			$ElementsList = $this->get('ElementsList');
 			$ElementsList->setBlockId($params['BLOCK_ID']);
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
-<<<<<<< HEAD
+
 			if (array_key_exists('SECTION_ID', $params))
 				$ElementsList->setSectionsId($params['SECTION_ID']);
 			if (array_key_exists('NOT_ID', $params))
-				$ElementsList->setNotId($params['NO_ID']);
-=======
-			//$ElementsList->setSections(false);
->>>>>>> c7091dd5470f1c00d0d0a8317feb3d219f02003c
+				$ElementsList->setNotId($params['NOT_ID']);
 			// TODO Здесь в сервисе ElementList - выбирать все свойства
 			$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
 			$ElementsList->setFilter(array('active' => true));
@@ -1439,6 +1436,7 @@ class ComponentController extends Controller
 			$response_data['elements'] = $elements;
 			$response_data['options'] = $params['OPTIONS'];
 			$response_data['page'] = $page_repository->find($params['page_id']);
+			$response_data['params'] = $params;
 
 			$render = $this->render('@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
 
