@@ -37,9 +37,11 @@ class ElementsList
 
 	private $sections = array();
 
-	public function setSections($sections){
+	public function setSections($sections)
+	{
 		$this->sections = $sections;
 	}
+
 	public function setSectionsId($id)
 	{
 		if (is_array($id)) {
@@ -51,6 +53,7 @@ class ElementsList
 			$this->setSectionId($id);
 		}
 	}
+
 	private $includeSubSections;
 
 	public function setIncludeSubSections($includeSubSections)
@@ -124,6 +127,18 @@ class ElementsList
 		return $this->selectProperties;
 	}
 
+	private $notId;
+
+	public function setNotId($notId)
+	{
+		$this->notId = $notId;
+	}
+
+	public function getNotId()
+	{
+		return $this->notId;
+	}
+
 	public function getResult()
 	{
 
@@ -192,20 +207,24 @@ class ElementsList
 				$elements_repo->setParameter($key, $val);
 			}
 		}
+		if ($this->getNotId()) {
+			$elements_repo->andWhere('n.id NOT IN(:not_id)');
+			$elements_repo->setParameter('not_id', $this->getNotId());
+		}
 		$order = $this->getOrder();
 		if ($order) {
 			$elements_repo->orderBy('n.sort', 'asc');
 			$elements_repo->addOrderBy('n.' . $order[0], $order[1]);
 		}
 		if ($this->getLimit() > 0) {
-
 			$elements_repo->setMaxResults($this->getLimit());
 		}
+
 		$query = $elements_repo->getQuery();
 		$sql = $query->getSql();
 		$this->sql = $sql;
 		$elements = $query->getResult();
-		
+
 		/**
 		 * Получение preview picture
 		 */

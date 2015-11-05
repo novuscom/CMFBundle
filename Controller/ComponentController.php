@@ -1365,6 +1365,8 @@ class ComponentController extends Controller
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
 			if (array_key_exists('SECTION_ID', $params))
 				$ElementsList->setSectionsId($params['SECTION_ID']);
+			if (array_key_exists('NOT_ID', $params))
+				$ElementsList->setNotId($params['NO_ID']);
 			// TODO Здесь в сервисе ElementList - выбирать все свойства
 			$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
 			$ElementsList->setFilter(array('active' => true));
