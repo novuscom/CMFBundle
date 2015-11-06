@@ -97,26 +97,31 @@ class ComponentController extends Controller
 			$this->msg($r->getCode());
 			$this->msg($r->getTemplate());
 			$this->msg($r->getController());*/
+			if ($r->getBlock() == false)
+				continue;
 			foreach ($r->getBlock()->getElement() as $element) {
 				if ($element->getActive() == false)
 					continue;
 				$url = false;
 				if ($r->getController() == 'NovuscomCMFBundle:Component:Element')
-					$url = $prefix . $Route->getUrl($r->getCode(), $element);
-
-				if ($url !== false)
+					$url = $Route->getUrl($r->getCode(), $element);
+				if ($url !== false) {
+					$url = $prefix . $url;
 					$urlArray[] = array(
 						'loc' => $url,
 					);
+				}
 			}
 			foreach ($r->getBlock()->getSection() as $section) {
 				$url = false;
 				if ($r->getController() == 'NovuscomCMFBundle:Component:Section')
-					$url = $prefix . $Route->getUrl($r->getCode(), $section);
-				if ($url !== false)
+					$url = $Route->getUrl($r->getCode(), $section);
+				if ($url !== false) {
+					$url = $prefix . $url;
 					$urlArray[] = array(
 						'loc' => $url,
 					);
+				}
 			}
 
 		}
