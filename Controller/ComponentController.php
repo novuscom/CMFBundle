@@ -1370,6 +1370,7 @@ class ComponentController extends Controller
 				'sections' => $sections,
 			);
 			$response_data['page'] = $page;
+			$response_data['params'] = $params;
 
 			//echo '<pre>' . print_r($sections, true) . '</pre>';
 
