@@ -124,10 +124,7 @@ class ComponentController extends Controller
 
 		}
 		$urlArray = array_unique($urlArray);
-		echo '<pre>' . print_r($urlArray, true) . '</pre>';
-		exit;
 		sort($urlArray);
-
 		foreach ($urlArray as $u) {
 			$needRoutes['url'][]['loc'][] = $u;
 		}
