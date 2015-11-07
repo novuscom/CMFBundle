@@ -15,6 +15,7 @@
                         <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Активность</th>
                             <th>Name</th>
                             <th>Code</th>
                             <th>Template</th>
@@ -27,7 +28,15 @@
                         <tbody>
                         {% for entity in entities %}
                             <tr>
-                                <td><a href="{{ path('admin_route_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                <td><a href="{{ path('admin_route_show', { 'id': entity.id }) }}">{{ entity.id }}</a>
+                                </td>
+                                <td>
+                                    {% if (entity.active) %}
+                                        <i class="glyphicon glyphicon-check"></i>
+                                    {% else %}
+                                        <i class="glyphicon glyphicon-unchecked"></i>
+                                    {% endif %}
+                                </td>
                                 <td>{{ entity.name }}</td>
                                 <td>{{ entity.code }}</td>
                                 <td>{{ entity.template }}</td>
@@ -35,7 +44,8 @@
                                 <td>{{ entity.sort }}</td>
                                 <td>
                                     <a class="btn btn-info" href="{{ path('admin_route_show', { 'id': entity.id }) }}">show</a>
-                                    <a class="btn btn-warning" href="{{ path('admin_route_edit', { 'id': entity.id }) }}">edit</a>
+                                    <a class="btn btn-warning"
+                                       href="{{ path('admin_route_edit', { 'id': entity.id }) }}">edit</a>
                                 </td>
                                 <td>{{ entity.params }}</td>
                             </tr>
