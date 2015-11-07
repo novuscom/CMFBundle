@@ -52,7 +52,8 @@ class ComponentController extends Controller
 
 		$result = array();
 		$em = $this->getDoctrine()->getManager();
-		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findAll();
+		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findBy(array('active' => true));
+
 
 		$Route = $this->get('Route');
 		$Site = $this->get('Site');
@@ -69,8 +70,11 @@ class ComponentController extends Controller
 		/*
 		 * Страницы
 		 */
+		$Site = $this->get('Site');
+		$currentSite = $Site->getCurrentSite();
+		$siteRef = $em->getReference('Novuscom\CMFBundle\Entity\Site', $currentSite['id']);
 		$pagesRepo = $em->getRepository('NovuscomCMFBundle:Page');
-		$pages = $pagesRepo->findAll();
+		$pages = $pagesRepo->findBy(array('site' => $siteRef));
 		foreach ($pages as $p) {
 			$codes = array();
 			foreach ($pagesRepo->getPath($p) as $path) {
@@ -85,9 +89,7 @@ class ComponentController extends Controller
 				$url = $this->get('router')->generate('cmf_page_main');
 			}
 			$url = $prefix . $url;
-			$urlArray[] = array(
-				'loc' => $url,
-			);
+			$urlArray[] = $url;
 		}
 
 
@@ -97,31 +99,36 @@ class ComponentController extends Controller
 			$this->msg($r->getCode());
 			$this->msg($r->getTemplate());
 			$this->msg($r->getController());*/
+			if ($r->getBlock() == false)
+				continue;
 			foreach ($r->getBlock()->getElement() as $element) {
 				if ($element->getActive() == false)
 					continue;
 				$url = false;
 				if ($r->getController() == 'NovuscomCMFBundle:Component:Element')
-					$url = $prefix . $Route->getUrl($r->getCode(), $element);
-
-				if ($url !== false)
-					$urlArray[] = array(
-						'loc' => $url,
-					);
+					$url = $Route->getUrl($r->getCode(), $element);
+				if ($url !== false) {
+					$url = $prefix . $url;
+					$urlArray[] = $url;
+				}
 			}
 			foreach ($r->getBlock()->getSection() as $section) {
 				$url = false;
 				if ($r->getController() == 'NovuscomCMFBundle:Component:Section')
-					$url = $prefix . $Route->getUrl($r->getCode(), $section);
-				if ($url !== false)
-					$urlArray[] = array(
-						'loc' => $url,
-					);
+					$url = $Route->getUrl($r->getCode(), $section);
+				if ($url !== false) {
+					$url = $prefix . $url;
+					$urlArray[] = $url;
+				}
 			}
 
 		}
+		$urlArray = array_unique($urlArray);
 		sort($urlArray);
-		$needRoutes['url'] = $urlArray;;
+		foreach ($urlArray as $u) {
+			$needRoutes['url'][]['loc'][] = $u;
+		}
+
 		$xml = Array2XML::createXML('urlset', $needRoutes)->saveXML();
 		$response = new Response();
 		$response->headers->set('Content-Type', 'application/xml; charset=UTF-8');

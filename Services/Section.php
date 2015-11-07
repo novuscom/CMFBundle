@@ -49,18 +49,22 @@ class Section
         $cacheDriver->delete($fullCode);
     }
 
+	public function getCodeString($section){
+		$codes = array();
+		$path = $this->getPath($section);
+		foreach ($path as $s) {
+			$codes[] = $s->getCode();
+		}
+		$fullCode = implode('/', $codes);
+		return $fullCode;
+	}
+
     public function getFullCode($id){
-        $this->logger->info('Section->getFullCode('.print_r($id, true).')');
         $repo = $this->em->getRepository('NovuscomCMFBundle:Section');
         $fullCode = false;
         if (is_numeric($id)) {
-            $codes = array();
             $section = $repo->find($id);
-            $path = $this->getPath($section);
-            foreach ($path as $s) {
-                $codes[] = $s->getCode();
-            }
-            $fullCode = implode('/', $codes);
+            $fullCode = $this->getCodeString($section);
         }
         if (is_array($id)) {
             $id = array_unique($id);
@@ -75,6 +79,10 @@ class Section
                 $full = implode('/', $codes);
                 $fullCode[$s->getId()] = $full;
             }
+        }
+        if (is_object($id)) {
+	        //echo '<pre>'.print_r('is_object', true).'</pre>';
+	        $fullCode = $this->getCodeString($id);
         }
         return $fullCode;
     }
