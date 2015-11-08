@@ -84,18 +84,17 @@ class ComponentController extends Controller
 					$url = $Route->getUrl($r->getCode(), $element);
 				if ($url !== false) {
 					$url = $prefix . $url;
-					$result['e-'.$element->getId()]['url'] = $url;
+					$result['e-' . $element->getId()]['url'] = $url;
 				}
 			}
 		}
 		$countResults = count($result);
 		$queryEntity = $em->getRepository('NovuscomCMFBundle:SearchQuery')->findOneByQuery($query);
 		if ($queryEntity) {
-			$queryEntity->setQuantity(($queryEntity->getQuantity()+1));
+			$queryEntity->setQuantity(($queryEntity->getQuantity() + 1));
 			$queryEntity->setResults($countResults);
 			$queryEntity->setTime(new \DateTime('now'));
-		}
-		else {
+		} else {
 			$queryEntity = new SearchQuery();
 			$queryEntity->setQuantity(1);
 			$queryEntity->setQuery($query);
@@ -1004,13 +1003,15 @@ class ComponentController extends Controller
 	{
 		$logger = $this->get('logger');
 		$logger->notice('Начал работу контроллер ElementAction');
-
+		if (array_key_exists('BLOCK_ID', $params) == false) {
+			$params['BLOCK_ID'] = false;
+		}
 		$env = $this->get('kernel')->getEnvironment();
 		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
 		/*
 		 * Кэш в зависиомсти от окружения нужен для того чтобы правильные ссылки кешировались
 		 */
-		$cacheDriver->setNamespace('ElementAction_' . $env . '_' . $params['BLOCK_ID']);
+		$cacheDriver->setNamespace('ElementAction_' . $env . '_' . intval($params['BLOCK_ID']));
 		$cacheId = json_encode(array($params, $CODE, $ID));
 		if (false) {
 			//if ($fooString = $cacheDriver->fetch($cacheId)) {
@@ -1045,11 +1046,13 @@ class ComponentController extends Controller
 			/**
 			 * Получаем информацию об инфоблоке
 			 */
-			$block = $em->getRepository('NovuscomCMFBundle:Block')->findOneBy(
-				array(
-					'id' => $block_id,
-				)
-			);
+			$block = false;
+			if ($block_id != false)
+				$block = $em->getRepository('NovuscomCMFBundle:Block')->findOneBy(
+					array(
+						'id' => $block_id,
+					)
+				);
 
 			/**
 			 * Получаем ид инфоблоков которые принадлежат текущему сайту
@@ -1066,7 +1069,7 @@ class ComponentController extends Controller
 			/**
 			 * Если инфоблок не принадлежит данному сайту - выдаем ошибку
 			 */
-			if (!in_array($block->getId(), $sites_blocks_id)) {
+			if ($block && !in_array($block->getId(), $sites_blocks_id)) {
 				throw $this->createNotFoundException('Инфоблок не принадлежит данному сайту');
 			}
 
@@ -1075,6 +1078,7 @@ class ComponentController extends Controller
 			 */
 			$section = false;
 			$elementsId = array();
+
 			if ($SECTION_CODE) {
 				$SectionClass = $this->get('SectionClass');
 				$section = $SectionClass->GetSectionByPath($SECTION_CODE, $block_id, $params['params']);
@@ -1098,7 +1102,8 @@ class ComponentController extends Controller
 			if ($ID) {
 				$filter['id'] = $ID;
 			}
-			$filter['block'] = $block_id;
+			if ($block_id)
+				$filter['block'] = $block_id;
 			if ($elementsId) {
 				$filter['id'] = $elementsId;
 			}
