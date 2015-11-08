@@ -97,6 +97,10 @@ NovuscomCMFBundle_admin_route:
     resource: "@NovuscomCMFBundle/Resources/config/routing/route.yml"
     prefix:   /admin/route
 
+NovuscomCMFBundle_admin_searchquery:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/searchquery.yml"
+    prefix:   /admin/searchquery
+
 NovuscomCMFBundle_admin_cart:
     resource: "@NovuscomCMFBundle/Resources/config/routing/cart.yml"
     prefix:   /admin/cart
