@@ -46,6 +46,63 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class ComponentController extends Controller
 {
 
+	public function SearchAction($params = false,
+	                             Request $request)
+	{
+		$Route = $this->get('Route');
+		$query = $request->query->get('q');
+		$Site = $this->get('Site');
+		$currentSite = $Site->getCurrentSite();
+		$currentAlias = $Site->getAlias();
+		$alias = $currentAlias['name'];
+		$prefix = 'http://' . $alias;
+
+		$em = $this->getDoctrine()->getManager();
+
+		$result = array();
+
+		$elements = $em->getRepository("NovuscomCMFBundle:Element")->createQueryBuilder('o')
+			->where('o.name LIKE :query')
+			->setParameter('query', '%' . $query . '%')
+			->getQuery()
+			->getResult();
+
+		$blocks = array();
+
+		foreach ($elements as $e) {
+			//$url = $Route->getUrl($r->getCode(), $element);
+			$result['e-' . $e->getId()] = array(
+				'title' => $e->getName(),
+				'type' => 'element',
+			);
+			$blocks[] = $em->getReference('Novuscom\CMFBundle\Entity\Block', $e->getBlock()->getId());
+		}
+
+		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findBy(array(
+			'active' => true,
+			'block' => $blocks
+		));
+
+		foreach ($routes as $r) {
+			foreach ($elements as $element) {
+				$url = false;
+				if ($r->getController() == 'NovuscomCMFBundle:Component:Element')
+					$url = $Route->getUrl($r->getCode(), $element);
+				if ($url !== false) {
+					$url = $prefix . $url;
+					$result['e-'.$element->getId()]['url'] = $url;
+				}
+			}
+		}
+
+		$responseData = array(
+			'query' => $query,
+			'result' => $result
+		);
+		$response = $this->render('@templates/' . $currentSite['code'] . '/Search/index.html.twig', $responseData);
+		return $response;
+	}
+
 	public function SiteMapXMLAction(Request $request)
 	{
 		$logger = $this->get('logger');

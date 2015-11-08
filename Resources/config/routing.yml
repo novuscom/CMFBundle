@@ -215,6 +215,11 @@ sitemap_xml:
     path:     /sitemap.xml
     defaults: { _controller: "NovuscomCMFBundle:Component:SiteMapXML" }
 
+search:
+    path:     /search/
+    defaults: { _controller: "NovuscomCMFBundle:Component:Search" }
+    requirements: { _method: get|post }
+
 cmf_page_main:
     path:     /
     defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
