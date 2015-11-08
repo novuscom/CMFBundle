@@ -24,6 +24,7 @@ use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
 use Novuscom\CMFBundle\UserEvents;
 use Novuscom\CMFBundle\Entity\Product;
 use Novuscom\CMFBundle\Entity\Order;
+use Novuscom\CMFBundle\Entity\SearchQuery;
 use Novuscom\CMFBundle\Services\Section as Section;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\MenuFactory;
@@ -50,17 +51,14 @@ class ComponentController extends Controller
 	                             Request $request)
 	{
 		$Route = $this->get('Route');
-		$query = $request->query->get('q');
+		$query = trim($request->query->get('q'));
 		$Site = $this->get('Site');
 		$currentSite = $Site->getCurrentSite();
 		$currentAlias = $Site->getAlias();
 		$alias = $currentAlias['name'];
 		$prefix = 'http://' . $alias;
-
 		$em = $this->getDoctrine()->getManager();
-
 		$result = array();
-
 		$elements = $em->getRepository("NovuscomCMFBundle:Element")->createQueryBuilder('o')
 			->where('o.name LIKE :query')
 			->setParameter('query', '%' . $query . '%')
@@ -68,21 +66,17 @@ class ComponentController extends Controller
 			->getResult();
 
 		$blocks = array();
-
 		foreach ($elements as $e) {
-			//$url = $Route->getUrl($r->getCode(), $element);
 			$result['e-' . $e->getId()] = array(
 				'title' => $e->getName(),
 				'type' => 'element',
 			);
 			$blocks[] = $em->getReference('Novuscom\CMFBundle\Entity\Block', $e->getBlock()->getId());
 		}
-
 		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findBy(array(
 			'active' => true,
 			'block' => $blocks
 		));
-
 		foreach ($routes as $r) {
 			foreach ($elements as $element) {
 				$url = false;
@@ -94,7 +88,22 @@ class ComponentController extends Controller
 				}
 			}
 		}
-
+		$countResults = count($result);
+		$queryEntity = $em->getRepository('NovuscomCMFBundle:SearchQuery')->findOneByQuery($query);
+		if ($queryEntity) {
+			$queryEntity->setQuantity(($queryEntity->getQuantity()+1));
+			$queryEntity->setResults($countResults);
+			$queryEntity->setTime(new \DateTime('now'));
+		}
+		else {
+			$queryEntity = new SearchQuery();
+			$queryEntity->setQuantity(1);
+			$queryEntity->setQuery($query);
+			$queryEntity->setResults($countResults);
+			$queryEntity->setTime(new \DateTime('now'));
+			$em->persist($queryEntity);
+		}
+		$em->flush();
 		$responseData = array(
 			'query' => $query,
 			'result' => $result
