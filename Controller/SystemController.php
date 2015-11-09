@@ -16,28 +16,33 @@ use Symfony\Component\Process\Process;
 
 class SystemController extends Controller
 {
-    public function updateAction()
-    {
+	public function updateAction()
+	{
 
-        return $this->render('NovuscomCMFBundle:System:index.html.twig', array());
-    }
+		return $this->render('NovuscomCMFBundle:System:index.html.twig', array());
+	}
 
-    public function upgradeAction()
-    {
-        $path = realpath($this->get('kernel')->getRootDir() . '/../');
-        $object = $this->runCommand($path, 'COMPOSER_HOME="' . $path . '" php composer.phar update --ansi');
-        $response = new Response(json_encode($object));
-        $response->headers->set('Content-Type', 'application/json; charset=UTF-8');
-        return $response;
-    }
+	public function upgradeAction()
+	{
+		$path = realpath($this->get('kernel')->getRootDir() . '/../');
+		$result = array(
+			$this->runCommand($path, 'COMPOSER_HOME="' . $path . '" php composer.phar update --ansi'),
+			$this->runCommand($path, 'COMPOSER_HOME="' . $path . '" php composer.phar dump-autoload --optimize'),
+			$this->runCommand($path, 'php app/console cache:clear'),
+			$this->runCommand($path, 'php app/console cache:clear --env=prod --no-debug'),
+		);
+		$response = new Response(json_encode($result));
+		$response->headers->set('Content-Type', 'application/json; charset=UTF-8');
+		return $response;
+	}
 
-    private function runCommand($path, $command)
-    {
-        $process = new Process('cd ' . $path . ';' . $command);
-        $process->run();
-        $stdout = $process->getOutput();
-        $stderr = $process->getErrorOutput();
-        $result = $process->getExitCode();
-        return (object)compact('command', 'stdout', 'stderr', 'result');
-    }
+	private function runCommand($path, $command)
+	{
+		$process = new Process('cd ' . $path . ';' . $command);
+		$process->run();
+		$stdout = $process->getOutput();
+		$stderr = $process->getErrorOutput();
+		$result = $process->getExitCode();
+		return (object)compact('command', 'stdout', 'stderr', 'result');
+	}
 }
