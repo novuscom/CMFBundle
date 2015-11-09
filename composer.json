@@ -16,18 +16,6 @@
 	}
   ],
   "require": {
-	"php": ">=5.3.3",
-	"symfony/symfony": "2.7.1",
-	"doctrine/orm": "2.5.0",
-	"doctrine/doctrine-bundle": "1.4.0",
-	"twig/extensions": "1.0.*",
-	"symfony/assetic-bundle": "2.5.0",
-	"symfony/swiftmailer-bundle": "2.3.*",
-	"symfony/monolog-bundle": "2.3.*",
-	"sensio/distribution-bundle": "2.3.*",
-	"sensio/framework-extra-bundle": "2.3.*",
-	"sensio/generator-bundle": "2.3.*",
-	"incenteev/composer-parameter-handler": "~2.0",
 	"gedmo/doctrine-extensions": "dev-master",
 	"friendsofsymfony/user-bundle": "~2.0@dev",
 	"knplabs/knp-menu": "2.0.*@dev",
@@ -42,7 +30,9 @@
 	"snc/redis-bundle": "1.1.x-dev",
 	"predis/predis": "0.8.x-dev",
 	"stfalcon/tinymce-bundle": "dev-master",
-	"helios-ag/fm-elfinder-bundle": "~5"
+	"helios-ag/fm-elfinder-bundle": "~5",
+	"openlss/lib-array2xml": "^0.0.10",
+	"ifsnop/mysqldump-php": "2.*"
   },
   "require-dev": {
 	"friendsofsymfony/user-bundle": "~2.0@dev"

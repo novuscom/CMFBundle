@@ -13,6 +13,7 @@ use Composer\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Process\Process;
+use Ifsnop\Mysqldump as IMysqldump;
 
 class SystemController extends Controller
 {
@@ -24,8 +25,18 @@ class SystemController extends Controller
 
 	public function upgradeAction()
 	{
+
+		$dump = new IMysqldump\Mysqldump(
+			'mysql:host=localhost;dbname='.$this->container->getParameter('database_name'),
+			$this->getParameter('database_user'),
+			$this->getParameter('database_password')
+		);
+		$dump->start($this->get('kernel')->getRootDir().'/dump-'.date('d-m-Y_h-i-s').'.sql');
 		$path = realpath($this->get('kernel')->getRootDir() . '/../');
 		$result = array(
+			$this->runCommand($path, 'curl -sS https://getcomposer.org/installer | php'),
+			$this->runCommand($path, 'php app/console doctrine:schema:update --dump-sql'),
+			$this->runCommand($path, 'php app/console doctrine:schema:update --force'),
 			$this->runCommand($path, 'COMPOSER_HOME="' . $path . '" php composer.phar update --ansi'),
 			$this->runCommand($path, 'COMPOSER_HOME="' . $path . '" php composer.phar dump-autoload --optimize'),
 			$this->runCommand($path, 'php app/console cache:clear'),
