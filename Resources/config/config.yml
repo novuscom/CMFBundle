@@ -1,3 +1,6 @@
+parameters:
+    locale: ru
+    database_driver: pdo_mysql
 # Doctrine Configuration
 doctrine:
     dbal:
