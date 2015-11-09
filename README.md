@@ -88,4 +88,4 @@ CMF на Symfony2
 
  `php app/console cache:clear`
 
- 9. *example.com/admin*
+9. *example.com/admin*
