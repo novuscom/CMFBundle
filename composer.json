@@ -16,26 +16,8 @@
 	}
   ],
   "require": {
-	"gedmo/doctrine-extensions": "dev-master",
-	"friendsofsymfony/user-bundle": "~2.0@dev",
-	"knplabs/knp-menu": "2.0.*@dev",
-	"knplabs/knp-menu-bundle": "2.0.*@dev",
-	"whiteoctober/breadcrumbs-bundle": "dev-master",
-	"apy/breadcrumbtrail-bundle": "dev-master",
-	"mopa/bootstrap-bundle": "v3.0.0-beta2",
-	"twbs/bootstrap": "v3.0.0",
-	"knplabs/knp-paginator-bundle": "^2.4",
-	"liip/imagine-bundle": "1.2.3",
-	"misd/guzzle-bundle": "~1.0",
-	"snc/redis-bundle": "1.1.x-dev",
-	"predis/predis": "0.8.x-dev",
-	"stfalcon/tinymce-bundle": "dev-master",
-	"helios-ag/fm-elfinder-bundle": "~5",
-	"openlss/lib-array2xml": "^0.0.10",
-	"ifsnop/mysqldump-php": "2.*"
   },
   "require-dev": {
-	"friendsofsymfony/user-bundle": "~2.0@dev"
   },
   "repositories": [
 	{
