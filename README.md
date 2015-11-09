@@ -52,12 +52,12 @@ CMF на Symfony2
 2. Выполняем команду `composer update`
     Composer поставит зависимости. 
 
-2. Переходим по адресу *example.com/config.php* (example.com - адрес вашего сайта) - проверяем все ли рекомендации symfomy выполнены.
+3. Переходим по адресу *example.com/config.php* (example.com - адрес вашего сайта) - проверяем все ли рекомендации symfomy выполнены.
     Выполняем если нет.
 
-3. Переходим по ссылке **Configure your Symfony Application online**, указываем доступы к базе данных и сохраняем
+4. Переходим по ссылке **Configure your Symfony Application online**, указываем доступы к базе данных и сохраняем
 
-4. Добавляем в app/AppKernel.php строчки
+5. Добавляем в app/AppKernel.php строчки
  ```php
     new Knp\Bundle\MenuBundle\KnpMenuBundle(),
     new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
@@ -72,10 +72,20 @@ CMF на Symfony2
     new FOS\UserBundle\FOSUserBundle(),
  ```
 
-5. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
+6. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
+7. Содержимое файла *app/config/routing.yml*
+ ```
+ NovuscomCMFBundle:
+     resource: "@NovuscomCMFBundle/Resources/config/routing.yml"
+ ```
 
-6. Содержимое файла *app/config/routing.yml*
-```
-NovuscomCMFBundle:
-    resource: "@NovuscomCMFBundle/Resources/config/routing.yml"
-```
+8.
+ `php app/console cache:clear --env=prod --no-debug`
+
+ `composer dump-autoload --optimize`
+
+ `php app/console cache:clear --env=prod --no-debug`
+
+ `php app/console cache:clear`
+
+ 9. *example.com/admin*
