@@ -1095,7 +1095,9 @@ class ComponentController extends Controller
 			/*
 			 * Получаем информацию об элементе
 			 */
-			$filter = array();
+			$filter = array(
+				'active'=>true
+			);
 			if ($CODE) {
 				$filter['code'] = $CODE;
 			}
