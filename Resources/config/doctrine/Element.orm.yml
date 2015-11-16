@@ -30,6 +30,8 @@ Novuscom\CMFBundle\Entity\Element:
             type: smallint
             length: 4
             nullable: true
+            options:
+                default: 500
         active:
             type: boolean
         header:

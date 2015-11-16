@@ -224,9 +224,16 @@ class ElementsList
 			$elements_repo->setParameter('not_id', $this->getNotId());
 		}
 		$order = $this->getOrder();
+
 		if ($order) {
-			$elements_repo->orderBy('n.sort', 'asc');
-			$elements_repo->addOrderBy('n.' . $order[0], $order[1]);
+			foreach($order as $key=>$val) {
+				$elements_repo->addOrderBy('n.' . $key, $val);
+			}
+		}
+		else {
+			//echo '<pre>' . print_r('Стандартьная сортировка', true) . '</pre>';
+			$elements_repo->orderBy('n.id', 'desc');
+			$elements_repo->addOrderBy('n.sort', 'asc');
 		}
 		if ($this->getLimit() > 0) {
 			$elements_repo->setMaxResults($this->getLimit());

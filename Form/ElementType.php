@@ -20,7 +20,7 @@ class ElementType extends AbstractType
         $builder->add('active', 'checkbox', array(
             'label' => 'Активность',
             'required' => false,
-            'data' => true,
+            //'data' => true,
         ));
 
         $builder->add('name', 'text', array(

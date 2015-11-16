@@ -420,7 +420,7 @@ class Element
     public function addElementPropertyDT(\Novuscom\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT)
     {
         $this->ElementPropertyDT[] = $elementPropertyDT;
-    
+
         return $this;
     }
 
@@ -437,7 +437,7 @@ class Element
     /**
      * Get ElementPropertyDT
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getElementPropertyDT()
     {
@@ -464,14 +464,14 @@ class Element
     public function setActive($active)
     {
         $this->active = $active;
-    
+
         return $this;
     }
 
     /**
      * Get active
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getActive()
     {

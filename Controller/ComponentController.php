@@ -910,7 +910,7 @@ class ComponentController extends Controller
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture'));
 			// TODO Здесь сделать выборку всех доступных свойств ифноблока
 			$ElementsList->selectProperties(array('address', 'shirota', 'price', 'format_name'));
-			$ElementsList->setOrder(array('name', 'asc'));
+			$ElementsList->setOrder(array('sort'=>'asc', 'name'=>'asc', 'id'=>'desc'));
 			//echo '<pre>' . print_r($params, true) . '</pre>';
 			if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
 				$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
@@ -1542,7 +1542,7 @@ class ComponentController extends Controller
 			$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
 			$ElementsList->setFilter(array('active' => true));
 			$ElementsList->setLimit($params['LIMIT']);
-			$ElementsList->setOrder(array('name', 'asc'));
+			$ElementsList->setOrder(array('sort'=>'asc', 'name'=>'asc', 'id'=>'desc'));
 			$elements = $ElementsList->getResult();
 
 			/**
