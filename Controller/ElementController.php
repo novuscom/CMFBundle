@@ -763,9 +763,10 @@ class ElementController extends Controller
 
 
 		$entity = new Element();
-		$form = $this->createCreateForm($entity);
 		$entity->setSort(500);
 		$entity->setActive(true);
+		$form = $this->createCreateForm($entity);
+
 		$crumbs->add('Создание элемента');
 		return $this->render('NovuscomCMFBundle:Element:new.html.twig', array(
 			'entity' => $entity,
