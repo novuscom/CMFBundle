@@ -72,12 +72,12 @@ CMF на Symfony2
     new FOS\UserBundle\FOSUserBundle(),
  ```
 
-6. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
-7. Содержимое файла *app/config/routing.yml*
+6. Содержимое файла *app/config/routing.yml*
  ```
- NovuscomCMFBundle:
-     resource: "@NovuscomCMFBundle/Resources/config/routing.yml"
+  NovuscomCMFBundle:
+      resource: "@NovuscomCMFBundle/Resources/config/routing.yml"
  ```
+7. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
 
 8.
  `php app/console cache:clear --env=prod --no-debug`
@@ -88,4 +88,5 @@ CMF на Symfony2
 
  `php app/console cache:clear`
 
-9. *example.com/admin*
+9.
+*example.com/admin*
