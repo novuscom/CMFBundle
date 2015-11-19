@@ -77,10 +77,21 @@ CMF на Symfony2
   NovuscomCMFBundle:
       resource: "@NovuscomCMFBundle/Resources/config/routing.yml"
  ```
-7. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
+7. Содержимое файла *app/config/config.yml*
+ ```
+ imports:
+    - { resource: @NovuscomCMFBundle/Resources/config/config.yml }
+    - { resource: parameters.yml }
 
-8.
- `php app/console cache:clear --env=prod --no-debug`
+framework:
+    # ...
+    templating:
+        assets_version: 08.11.2015,16:11
+ ```
+ 
+8. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
+
+9. `php app/console cache:clear --env=prod --no-debug`
 
  `composer dump-autoload --optimize`
 
@@ -88,5 +99,4 @@ CMF на Symfony2
 
  `php app/console cache:clear`
 
-9.
-*example.com/admin*
+10. *example.com/admin*
