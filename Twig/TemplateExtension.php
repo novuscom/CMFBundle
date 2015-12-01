@@ -255,7 +255,10 @@ class TemplateExtension extends \Twig_Extension
 
 		$items_array = array();
 		foreach ($entities as $e) {
-			$url = $this->urlGenerator->generate('cmf_page_frontend', array('name' => $e->getUrl()));
+			if (preg_match('/^(http|https|ftp):\/\//', $e->getUrl()))
+				$url = $e->getUrl();
+			else
+				$url = $this->urlGenerator->generate('cmf_page_frontend', array('name' => $e->getUrl()));
 			$items_array[] = array(
 				'name' => $e->getName(),
 				'url' => $url,
