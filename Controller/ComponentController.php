@@ -1430,7 +1430,8 @@ class ComponentController extends Controller
 			 * Пагинация
 			 */
 			$pagination = $this->getPagination($elements, $PAGE, $params, $site, $fullCode);
-
+			if ($this->paginationRedirect!==false)
+				return new RedirectResponse($this->paginationRedirect);
 
 			/*
 			 * Массив данных
@@ -1545,6 +1546,8 @@ class ComponentController extends Controller
 			$pageEntity = $page_repository->find($params['page_id']);
 			if ($pageEntity) {
 				$pagination = $this->getPagination($elements, $PAGE, $params, $site);
+				if ($this->paginationRedirect!==false)
+					return new RedirectResponse($this->paginationRedirect);
 				$response_data['pagination'] = $pagination;
 			}
 
@@ -1566,6 +1569,7 @@ class ComponentController extends Controller
 		return $render;
 	}
 
+	private $paginationRedirect = false;
 
 	private function getPagination($elements, $PAGE, $routeParams, $site, $sectionFullCode = false)
 	{
@@ -1582,6 +1586,15 @@ class ComponentController extends Controller
 		$pagination->setTemplate('@templates/' . $site['code'] . '/Pagination/' . $routeParams['template_code'] . '.html.twig');
 		if ($PAGE > 1 && count($pagination) < 1) {
 			throw $this->createNotFoundException('Не найдено элементов на странице ' . $PAGE);
+		}
+		if (preg_match('/^(.+?)(_pagination)+$/', $routeParams['template_code'], $matches) && $PAGE == 1) {
+			//$this->msg($matches);
+			if ($sectionFullCode)
+				$url = $this->get('router')->generate($matches[1], array('CODE'=>$sectionFullCode));
+			else
+				$url = $this->get('router')->generate($matches[1]);
+			//$this->msg($url);
+			$this->paginationRedirect = $url;
 		}
 		return $pagination;
 	}
