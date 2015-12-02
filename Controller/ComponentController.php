@@ -845,154 +845,6 @@ class ComponentController extends Controller
 		return $this->get('kernel')->getRootDir() . '/cache/' . $env . '/sys/SectionAction/';
 	}
 
-	public function SectionAction($params, $CODE, Request $request, $PAGE = 1)
-	{
-		$logger = $this->get('logger');
-		$logger->info('SectionAction');
-		$logger->info(print_r($params, true));
-		$env = $this->getEnv();
-		$route_name = $request->get('_route');
-		$route_params = $request->get('_route_params');
-		$cacheDir = $this->getCahceDir();
-		$logger->info('Директория кеша = ' . $cacheDir);
-		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($cacheDir);
-		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
-		$fullCode = trim($CODE, '/');
-		$cacheDriver->setNamespace('SectionAction_' . $env . '_' . $params['BLOCK_ID'] . '_' . $fullCode);
-		$cacheId = $fullCode . '[page=' . $PAGE . ']';
-		$logger->info('Cache id = ' . print_r($cacheId, true));
-		if (false) {
-			//if ($fooString = $cacheDriver->fetch($cacheId)) {
-			$logger->info('Информацию берем из кеша');
-			$response = unserialize($fooString);
-		} else {
-			if ($this->checkConstruction()) {
-				return $this->constructionResponse();
-			};
-			$em = $this->getDoctrine()->getManager();
-
-			/*
-			 * Страница
-			 */
-			$page_class = $this->get('Page');
-			$page = $page_class->GetById($params['page_id']);
-
-
-			/*
-			 * Раздел
-			 */
-			$SectionClass = $this->get('SectionClass');
-			$section = $SectionClass->GetSectionByPath($CODE, $params['BLOCK_ID'], $params['params']);
-			if (!$section) {
-				$logger->notice('Раздел не найден по пути ' . $CODE . '');
-				throw $this->createNotFoundException('Раздел не найден по пути ' . $CODE);
-			}
-			$section->setFullCode($fullCode);
-
-
-			/*
-			 * Подразделы
-			 */
-			$sections = $SectionClass->SectionsList(array(
-				'block_id' => $params['BLOCK_ID'],
-				'section_id' => $section->getId()
-			), $parentFullCode = trim($CODE, '/'));
-
-
-			//echo '<pre>'.print_r($section->getId(), true).'</pre>';
-
-			/*
-			 * Элементы
-			 */
-			$ElementsList = $this->get('ElementsList');
-			$ElementsList->setBlockId($params['BLOCK_ID']);
-			$ElementsList->setSectionId($section->getId());
-			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture'));
-			// TODO Здесь сделать выборку всех доступных свойств ифноблока
-			$ElementsList->selectProperties(array('address', 'shirota', 'price', 'format_name'));
-			$ElementsList->setOrder(array('sort'=>'asc', 'name'=>'asc', 'id'=>'desc'));
-			//echo '<pre>' . print_r($params, true) . '</pre>';
-			if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
-				$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
-			$elements = $ElementsList->getResult();
-
-
-			/*
-			 * Обработка элементов перед выдачей
-			 */
-			$elementRoute = (array_key_exists('ELEMENT_ROUTE', $params['params']));
-			foreach ($elements as &$e) {
-				$e['url'] = false;
-				if ($elementRoute)
-					$e['url'] = $this->generateUrl($params['params']['ELEMENT_ROUTE'], array(
-						'SECTION_CODE' => $e['parent_section_full_code'],
-						'CODE' => $e['code']
-					));
-			}
-
-			// TODO Здесь надо сделать редирект с первой страницы на раздел
-			/*$url = $this->generateUrl('cmf_page_frontend', array(
-				'name' => $parentFullCode,
-			));*/
-			//echo '<pre>' . print_r($url, true) . '</pre>';
-
-			/*
-			 * Пагинация
-			 */
-			//echo '<pre>' . print_r($route_params, true) . '</pre>';
-			$paginator = $this->get('knp_paginator');
-			$pagination = $paginator->paginate(
-				$elements,
-				$PAGE/*page number*/,
-				12/*limit per page*/
-			);
-
-			$pagination->setUsedRoute('stroyshop_catalog_pagination');
-			$pagination->setParam('CODE', $fullCode);
-			$pagination->setTemplate('@templates/' . $params['params']['template_directory'] . '/Pagination/' . $params['template_code'] . '.html.twig');
-			//$pagination->setParam('PAGE', $PAGE);
-			if ($PAGE > 1 && count($pagination) < 1) {
-				throw $this->createNotFoundException('Не найдено элементов на странице ' . $PAGE);
-			}
-			//echo '<pre>' . print_r(count($pagination), true) . '</pre>';
-
-
-			/*
-			 * Массив данных
-			 */
-			$response_data = array(
-				'page' => $page,
-				'section' => $section,
-				'elements' => $elements,
-				'sections' => $sections,
-				'title' => $section->getTitle(),
-				'description' => $section->getDescription(),
-				'keywords' => $section->getKeywords(),
-				'header' => $section->getName(),
-				'pagination' => $pagination,
-			);
-
-			if (!$response_data['title'])
-				$response_data['title'] = $section->getName();
-			if (!$response_data['description'])
-				$response_data['description'] = $section->getName();
-			if (!$response_data['keywords'])
-				$response_data['keywords'] = $section->getName();
-
-
-			/*
-			 * Ответ
-			 */
-			$response = $this->render('@templates/' . $params['params']['template_directory'] . '/Section/' . $params['template_code'] . '.html.twig', $response_data);
-
-			$cacheDriver->save($cacheId, serialize($response));
-		}
-
-
-		return $response;
-	}
-
-
 	public function ElementAction(
 		$params = false,
 		$CODE = false,
@@ -1096,7 +948,7 @@ class ComponentController extends Controller
 			 * Получаем информацию об элементе
 			 */
 			$filter = array(
-				'active'=>true
+				'active' => true
 			);
 			if ($CODE) {
 				$filter['code'] = $CODE;
@@ -1477,7 +1329,146 @@ class ComponentController extends Controller
 		return $result;
 	}
 
-	public function ElementsListAction($params, Request $request)
+	public function SectionAction($params, $CODE, Request $request, $PAGE = 1)
+	{
+		$logger = $this->get('logger');
+		$logger->info('SectionAction');
+		$logger->info(print_r($params, true));
+		$env = $this->getEnv();
+		$route_name = $request->get('_route');
+		$route_params = $request->get('_route_params');
+		$Site = $this->get('Site');
+		$site = $Site->getCurrent();
+		$routeOptions = array();
+		if (array_key_exists('params', $params) == true)
+			$routeOptions = $params['params'];
+
+		$cacheDir = $this->getCahceDir();
+		$logger->info('Директория кеша = ' . $cacheDir);
+		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($cacheDir);
+		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		$fullCode = trim($CODE, '/');
+		$cacheDriver->setNamespace('SectionAction_' . $env . '_' . $params['BLOCK_ID'] . '_' . $fullCode);
+		$cacheId = $fullCode . '[page=' . $PAGE . ']';
+		$logger->info('Cache id = ' . print_r($cacheId, true));
+		if (false) {
+			//if ($fooString = $cacheDriver->fetch($cacheId)) {
+			$logger->info('Информацию берем из кеша');
+			$response = unserialize($fooString);
+		} else {
+			if ($this->checkConstruction()) {
+				return $this->constructionResponse();
+			};
+			$em = $this->getDoctrine()->getManager();
+
+			/*
+			 * Страница
+			 */
+			$page_class = $this->get('Page');
+			$page = $page_class->GetById($params['page_id']);
+
+
+			/*
+			 * Раздел
+			 */
+			$SectionClass = $this->get('SectionClass');
+			$section = $SectionClass->GetSectionByPath($CODE, $params['BLOCK_ID'], $routeOptions);
+			if (!$section) {
+				$logger->notice('Раздел не найден по пути ' . $CODE . '');
+				throw $this->createNotFoundException('Раздел не найден по пути ' . $CODE);
+			}
+			$section->setFullCode($fullCode);
+
+
+			/*
+			 * Подразделы
+			 */
+			$sections = $SectionClass->SectionsList(array(
+				'block_id' => $params['BLOCK_ID'],
+				'section_id' => $section->getId()
+			), $parentFullCode = trim($CODE, '/'));
+
+
+			//echo '<pre>'.print_r($section->getId(), true).'</pre>';
+
+			/*
+			 * Элементы
+			 */
+			$ElementsList = $this->get('ElementsList');
+			$ElementsList->setBlockId($params['BLOCK_ID']);
+			$ElementsList->setSectionId($section->getId());
+			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture'));
+			// TODO Здесь сделать выборку всех доступных свойств ифноблока
+			$ElementsList->selectProperties(array('address', 'shirota', 'price', 'format_name'));
+			$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
+			//echo '<pre>' . print_r($params, true) . '</pre>';
+			if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
+				$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
+			$elements = $ElementsList->getResult();
+
+
+			/*
+			 * Обработка элементов перед выдачей
+			 */
+			$elementRoute = (array_key_exists('ELEMENT_ROUTE', $routeOptions));
+			foreach ($elements as &$e) {
+				$e['url'] = false;
+				if ($elementRoute)
+					$e['url'] = $this->generateUrl($params['params']['ELEMENT_ROUTE'], array(
+						'SECTION_CODE' => $e['parent_section_full_code'],
+						'CODE' => $e['code']
+					));
+			}
+
+			// TODO Здесь надо сделать редирект с первой страницы на раздел
+			/*$url = $this->generateUrl('cmf_page_frontend', array(
+				'name' => $parentFullCode,
+			));*/
+			//echo '<pre>' . print_r($url, true) . '</pre>';
+
+			/*
+			 * Пагинация
+			 */
+			$pagination = $this->getPagination($elements, $PAGE, $params, $site, $fullCode);
+
+
+			/*
+			 * Массив данных
+			 */
+			$response_data = array(
+				'page' => $page,
+				'section' => $section,
+				'elements' => $elements,
+				'sections' => $sections,
+				'title' => $section->getTitle(),
+				'description' => $section->getDescription(),
+				'keywords' => $section->getKeywords(),
+				'header' => $section->getName(),
+				'pagination' => $pagination,
+			);
+
+			if (!$response_data['title'])
+				$response_data['title'] = $section->getName();
+			if (!$response_data['description'])
+				$response_data['description'] = $section->getName();
+			if (!$response_data['keywords'])
+				$response_data['keywords'] = $section->getName();
+
+
+			/*
+			 * Ответ
+			 */
+			$response = $this->render('@templates/' . $site['code'] . '/Section/' . $params['template_code'] . '.html.twig', $response_data);
+
+			$cacheDriver->save($cacheId, serialize($response));
+		}
+
+
+		return $response;
+	}
+
+
+	public function ElementsListAction($params, Request $request, $PAGE = 1)
 	{
 		if ($this->checkConstruction()) {
 			return $this->constructionResponse();
@@ -1496,8 +1487,11 @@ class ComponentController extends Controller
 			$section_id = $params['section_id'];
 		}
 		$template_code = 'default';
+		//$this->msg($params);
 		if (array_key_exists('template_code', $params)) {
 			$template_code = $params['template_code'];
+			/*if (array_key_exists('params', $params) && array_key_exists('template_code', $params['params']))
+				$template_code = $params['params']['template_code'];*/
 		}
 		$env = $this->get('kernel')->getEnvironment();
 		$exist_page_id = array_key_exists('page_id', $params);
@@ -1544,8 +1538,16 @@ class ComponentController extends Controller
 			$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
 			$ElementsList->setFilter(array('active' => true));
 			$ElementsList->setLimit($params['LIMIT']);
-			$ElementsList->setOrder(array('sort'=>'asc', 'name'=>'asc', 'id'=>'desc'));
+			$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
 			$elements = $ElementsList->getResult();
+
+
+			$pageEntity = $page_repository->find($params['page_id']);
+			if ($pageEntity) {
+				$pagination = $this->getPagination($elements, $PAGE, $params, $site);
+				$response_data['pagination'] = $pagination;
+			}
+
 
 			/**
 			 * Данные попадающие в шаблон
@@ -1553,8 +1555,9 @@ class ComponentController extends Controller
 
 			$response_data['elements'] = $elements;
 			$response_data['options'] = $params['OPTIONS'];
-			$response_data['page'] = $page_repository->find($params['page_id']);
+			$response_data['page'] = $pageEntity;
 			$response_data['params'] = $params;
+
 
 			$render = $this->render('@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
 
@@ -1563,6 +1566,25 @@ class ComponentController extends Controller
 		return $render;
 	}
 
+
+	private function getPagination($elements, $PAGE, $routeParams, $site, $sectionFullCode = false)
+	{
+		$paginator = $this->get('knp_paginator');
+		$pagination = $paginator->paginate(
+			$elements,
+			$PAGE,
+			16
+		);
+		$pagination_route = preg_replace('/^(.+?)(_pagination)*$/', '\\1_pagination', $routeParams['template_code']);
+		$pagination->setUsedRoute($pagination_route);
+		if ($sectionFullCode)
+			$pagination->setParam('CODE', $sectionFullCode);
+		$pagination->setTemplate('@templates/' . $site['code'] . '/Pagination/' . $routeParams['template_code'] . '.html.twig');
+		if ($PAGE > 1 && count($pagination) < 1) {
+			throw $this->createNotFoundException('Не найдено элементов на странице ' . $PAGE);
+		}
+		return $pagination;
+	}
 
 	private function getAlias()
 	{
