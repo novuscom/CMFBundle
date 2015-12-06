@@ -61,6 +61,7 @@ class ComponentController extends Controller
 		$result = array();
 		$elements = $em->getRepository("NovuscomCMFBundle:Element")->createQueryBuilder('o')
 			->where('o.name LIKE :query')
+			->andWhere('o.active = 1')
 			->setParameter('query', '%' . $query . '%')
 			->getQuery()
 			->getResult();
