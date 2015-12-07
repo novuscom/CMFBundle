@@ -1472,6 +1472,9 @@ class ComponentController extends Controller
 
 	public function ElementsListAction($params, Request $request, $PAGE = 1)
 	{
+		if (is_numeric($PAGE)==false|| $PAGE < 1) {
+			throw $this->createNotFoundException('Не может быть страницы меньше нуля для постраничной навигации и должно быть числом');
+		}
 		if ($this->checkConstruction()) {
 			return $this->constructionResponse();
 		};
