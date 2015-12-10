@@ -57,7 +57,7 @@ class PageType extends AbstractType
         $entity = $builder->getData();
 
         if ($options['SHOW_URL'])
-            $builder->add('url', null, array('attr' => array('class' => 'form-control col-lg-4',), 'label' => 'Адрес (без слеша)',));
+            $builder->add('url', null, array('attr' => array('class' => 'form-control',), 'label' => 'Адрес (без слеша)',));
 
         if ($options['SHOW_PARENT']) {
             $builder->add('parent', 'choice', array(
@@ -95,7 +95,7 @@ class PageType extends AbstractType
                     }
 
                 },
-                'attr' => array('class' => 'form-control col-lg-4'),
+                'attr' => array('class' => 'form-control'),
                 'label' => 'Родитель',
             ));
         }
