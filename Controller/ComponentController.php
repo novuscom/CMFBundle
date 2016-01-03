@@ -24,10 +24,12 @@ use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
 use Novuscom\CMFBundle\UserEvents;
 use Novuscom\CMFBundle\Entity\Product;
 use Novuscom\CMFBundle\Entity\Order;
+use Novuscom\CMFBundle\Entity\SearchQuery;
 use Novuscom\CMFBundle\Services\Section as Section;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
+use LSS\Array2XML;
 
 
 use FOS\UserBundle\Event\UserEvent;
@@ -44,6 +46,166 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class ComponentController extends Controller
 {
+
+	public function SearchAction($params = false,
+	                             Request $request)
+	{
+		$Route = $this->get('Route');
+		$query = trim($request->query->get('q'));
+		$Site = $this->get('Site');
+		$currentSite = $Site->getCurrentSite();
+		$currentAlias = $Site->getAlias();
+		$alias = $currentAlias['name'];
+		$prefix = 'http://' . $alias;
+		$em = $this->getDoctrine()->getManager();
+		$result = array();
+		$elements = $em->getRepository("NovuscomCMFBundle:Element")->createQueryBuilder('o')
+			->where('o.name LIKE :query')
+			->andWhere('o.active = 1')
+			->setParameter('query', '%' . $query . '%')
+			->getQuery()
+			->getResult();
+
+		$blocks = array();
+		foreach ($elements as $e) {
+			$result['e-' . $e->getId()] = array(
+				'title' => $e->getName(),
+				'type' => 'element',
+			);
+			$blocks[] = $em->getReference('Novuscom\CMFBundle\Entity\Block', $e->getBlock()->getId());
+		}
+		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findBy(array(
+			'active' => true,
+			'block' => $blocks
+		));
+		foreach ($routes as $r) {
+			foreach ($elements as $element) {
+				$url = false;
+				if ($r->getController() == 'NovuscomCMFBundle:Component:Element')
+					$url = $Route->getUrl($r->getCode(), $element);
+				if ($url !== false) {
+					$url = $prefix . $url;
+					$result['e-' . $element->getId()]['url'] = $url;
+				}
+			}
+		}
+		$countResults = count($result);
+		$queryEntity = $em->getRepository('NovuscomCMFBundle:SearchQuery')->findOneByQuery($query);
+		if ($queryEntity) {
+			$queryEntity->setQuantity(($queryEntity->getQuantity() + 1));
+			$queryEntity->setResults($countResults);
+			$queryEntity->setTime(new \DateTime('now'));
+		} else {
+			$queryEntity = new SearchQuery();
+			$queryEntity->setQuantity(1);
+			$queryEntity->setQuery($query);
+			$queryEntity->setResults($countResults);
+			$queryEntity->setTime(new \DateTime('now'));
+			$em->persist($queryEntity);
+		}
+		$em->flush();
+		$responseData = array(
+			'query' => $query,
+			'result' => $result
+		);
+		$response = $this->render('@templates/' . $currentSite['code'] . '/Search/index.html.twig', $responseData);
+		return $response;
+	}
+
+	public function SiteMapXMLAction(Request $request)
+	{
+		$logger = $this->get('logger');
+
+		$result = array();
+		$em = $this->getDoctrine()->getManager();
+		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findBy(array('active' => true));
+
+
+		$Route = $this->get('Route');
+		$Site = $this->get('Site');
+		$currentAlias = $Site->getAlias();
+		$alias = $currentAlias['name'];
+		$prefix = 'http://' . $alias;
+
+		$needRoutes = array(
+			'@attributes' => array(
+				'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9'
+			),
+			'url' => array());
+		$urlArray = array();
+		/*
+		 * Страницы
+		 */
+		$Site = $this->get('Site');
+		$currentSite = $Site->getCurrentSite();
+		$siteRef = $em->getReference('Novuscom\CMFBundle\Entity\Site', $currentSite['id']);
+		$pagesRepo = $em->getRepository('NovuscomCMFBundle:Page');
+		$pages = $pagesRepo->findBy(array('site' => $siteRef));
+		foreach ($pages as $p) {
+			$codes = array();
+			foreach ($pagesRepo->getPath($p) as $path) {
+				$codes[] = $path->getUrl();
+			}
+			$url = implode('/', $codes);
+			$url = str_replace('//', '/', $url);
+			if ($p->getLvl() > 0) {
+				$url = trim($url, '/');
+				$url = $this->get('router')->generate('page', array('url' => $url));
+			} else {
+				$url = $this->get('router')->generate('cmf_page_main');
+			}
+			$url = $prefix . $url;
+			$urlArray[] = $url;
+		}
+
+
+		foreach ($routes as $r) {
+			$params = json_decode($r->getParams(), true);
+			/*$this->msg($r->getName());
+			$this->msg($r->getCode());
+			$this->msg($r->getTemplate());
+			$this->msg($r->getController());*/
+			if ($r->getBlock() == false)
+				continue;
+			foreach ($r->getBlock()->getElement() as $element) {
+				if ($element->getActive() == false)
+					continue;
+				$url = false;
+				if ($r->getController() == 'NovuscomCMFBundle:Component:Element')
+					$url = $Route->getUrl($r->getCode(), $element);
+				if ($url !== false) {
+					$url = $prefix . $url;
+					$urlArray[] = $url;
+				}
+			}
+			foreach ($r->getBlock()->getSection() as $section) {
+				$url = false;
+				if ($r->getController() == 'NovuscomCMFBundle:Component:Section')
+					$url = $Route->getUrl($r->getCode(), $section);
+				if ($url !== false) {
+					$url = $prefix . $url;
+					$urlArray[] = $url;
+				}
+			}
+
+		}
+		$urlArray = array_unique($urlArray);
+		sort($urlArray);
+		foreach ($urlArray as $u) {
+			$needRoutes['url'][]['loc'][] = $u;
+		}
+
+		$xml = Array2XML::createXML('urlset', $needRoutes)->saveXML();
+		$response = new Response();
+		$response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
+		$response->setContent($xml);
+		return $response;
+	}
+
+	private function msg($result)
+	{
+		echo '<pre>' . print_r($result, true) . '</pre>';
+	}
 
 	public function RecountCartAction(Request $request)
 	{
@@ -684,153 +846,6 @@ class ComponentController extends Controller
 		return $this->get('kernel')->getRootDir() . '/cache/' . $env . '/sys/SectionAction/';
 	}
 
-	public function SectionAction($params, $CODE, Request $request, $PAGE = 1)
-	{
-		$logger = $this->get('logger');
-		$logger->info('SectionAction');
-		$logger->info(print_r($params, true));
-		$env = $this->getEnv();
-		$route_name = $request->get('_route');
-		$route_params = $request->get('_route_params');
-		$cacheDir = $this->getCahceDir();
-		$logger->info('Директория кеша = ' . $cacheDir);
-		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($cacheDir);
-		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
-		$fullCode = trim($CODE, '/');
-		$cacheDriver->setNamespace('SectionAction_' . $env . '_' . $params['BLOCK_ID'] . '_' . $fullCode);
-		$cacheId = $fullCode . '[page=' . $PAGE . ']';
-		$logger->info('Cache id = ' . print_r($cacheId, true));
-		if (false) {
-			//if ($fooString = $cacheDriver->fetch($cacheId)) {
-			$logger->info('Информацию берем из кеша');
-			$response = unserialize($fooString);
-		} else {
-			if ($this->checkConstruction()) {
-				return $this->constructionResponse();
-			};
-			$em = $this->getDoctrine()->getManager();
-
-			/*
-			 * Страница
-			 */
-			$page_class = $this->get('Page');
-			$page = $page_class->GetById($params['page_id']);
-
-
-			/*
-			 * Раздел
-			 */
-			$SectionClass = $this->get('SectionClass');
-			$section = $SectionClass->GetSectionByPath($CODE, $params['BLOCK_ID'], $params['params']);
-			if (!$section) {
-				$logger->notice('Раздел не найден по пути ' . $CODE . '');
-				throw $this->createNotFoundException('Раздел не найден по пути ' . $CODE);
-			}
-			$section->setFullCode($fullCode);
-
-
-			/*
-			 * Подразделы
-			 */
-			$sections = $SectionClass->SectionsList(array(
-				'block_id' => $params['BLOCK_ID'],
-				'section_id' => $section->getId()
-			), $parentFullCode = trim($CODE, '/'));
-
-
-			//echo '<pre>'.print_r($section->getId(), true).'</pre>';
-
-			/*
-			 * Элементы
-			 */
-			$ElementsList = $this->get('ElementsList');
-			$ElementsList->setBlockId($params['BLOCK_ID']);
-			$ElementsList->setSectionId($section->getId());
-			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture'));
-			$ElementsList->selectProperties(array('address', 'shirota', 'price'));
-			$ElementsList->setOrder(array('name', 'asc'));
-			//echo '<pre>' . print_r($params, true) . '</pre>';
-			if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
-				$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
-			$elements = $ElementsList->getResult();
-
-
-			/*
-			 * Обработка элементов перед выдачей
-			 */
-			$elementRoute = (array_key_exists('ELEMENT_ROUTE', $params['params']));
-			foreach ($elements as &$e) {
-				$e['url'] = false;
-				if ($elementRoute)
-					$e['url'] = $this->generateUrl($params['params']['ELEMENT_ROUTE'], array(
-						'SECTION_CODE' => $e['parent_section_full_code'],
-						'CODE' => $e['code']
-					));
-			}
-
-			// TODO Здесь надо сделать редирект с первой страницы на раздел
-			/*$url = $this->generateUrl('cmf_page_frontend', array(
-				'name' => $parentFullCode,
-			));*/
-			//echo '<pre>' . print_r($url, true) . '</pre>';
-
-			/*
-			 * Пагинация
-			 */
-			//echo '<pre>' . print_r($route_params, true) . '</pre>';
-			$paginator = $this->get('knp_paginator');
-			$pagination = $paginator->paginate(
-				$elements,
-				$PAGE/*page number*/,
-				12/*limit per page*/
-			);
-
-			$pagination->setUsedRoute('stroyshop_catalog_pagination');
-			$pagination->setParam('CODE', $fullCode);
-			$pagination->setTemplate('@templates/' . $params['params']['template_directory'] . '/Pagination/' . $params['template_code'] . '.html.twig');
-			//$pagination->setParam('PAGE', $PAGE);
-			if ($PAGE > 1 && count($pagination) < 1) {
-				throw $this->createNotFoundException('Не найдено элементов на странице ' . $PAGE);
-			}
-			//echo '<pre>' . print_r(count($pagination), true) . '</pre>';
-
-
-			/*
-			 * Массив данных
-			 */
-			$response_data = array(
-				'page' => $page,
-				'section' => $section,
-				'elements' => $elements,
-				'sections' => $sections,
-				'title' => $section->getTitle(),
-				'description' => $section->getDescription(),
-				'keywords' => $section->getKeywords(),
-				'header' => $section->getName(),
-				'pagination' => $pagination,
-			);
-
-			if (!$response_data['title'])
-				$response_data['title'] = $section->getName();
-			if (!$response_data['description'])
-				$response_data['description'] = $section->getName();
-			if (!$response_data['keywords'])
-				$response_data['keywords'] = $section->getName();
-
-
-			/*
-			 * Ответ
-			 */
-			$response = $this->render('@templates/' . $params['params']['template_directory'] . '/Section/' . $params['template_code'] . '.html.twig', $response_data);
-
-			$cacheDriver->save($cacheId, serialize($response));
-		}
-
-
-		return $response;
-	}
-
-
 	public function ElementAction(
 		$params = false,
 		$CODE = false,
@@ -841,13 +856,15 @@ class ComponentController extends Controller
 	{
 		$logger = $this->get('logger');
 		$logger->notice('Начал работу контроллер ElementAction');
-
+		if (array_key_exists('BLOCK_ID', $params) == false) {
+			$params['BLOCK_ID'] = false;
+		}
 		$env = $this->get('kernel')->getEnvironment();
 		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
 		/*
 		 * Кэш в зависиомсти от окружения нужен для того чтобы правильные ссылки кешировались
 		 */
-		$cacheDriver->setNamespace('ElementAction_' . $env . '_' . $params['BLOCK_ID']);
+		$cacheDriver->setNamespace('ElementAction_' . $env . '_' . intval($params['BLOCK_ID']));
 		$cacheId = json_encode(array($params, $CODE, $ID));
 		if (false) {
 			//if ($fooString = $cacheDriver->fetch($cacheId)) {
@@ -882,11 +899,13 @@ class ComponentController extends Controller
 			/**
 			 * Получаем информацию об инфоблоке
 			 */
-			$block = $em->getRepository('NovuscomCMFBundle:Block')->findOneBy(
-				array(
-					'id' => $block_id,
-				)
-			);
+			$block = false;
+			if ($block_id != false)
+				$block = $em->getRepository('NovuscomCMFBundle:Block')->findOneBy(
+					array(
+						'id' => $block_id,
+					)
+				);
 
 			/**
 			 * Получаем ид инфоблоков которые принадлежат текущему сайту
@@ -903,7 +922,7 @@ class ComponentController extends Controller
 			/**
 			 * Если инфоблок не принадлежит данному сайту - выдаем ошибку
 			 */
-			if (!in_array($block->getId(), $sites_blocks_id)) {
+			if ($block && !in_array($block->getId(), $sites_blocks_id)) {
 				throw $this->createNotFoundException('Инфоблок не принадлежит данному сайту');
 			}
 
@@ -912,6 +931,7 @@ class ComponentController extends Controller
 			 */
 			$section = false;
 			$elementsId = array();
+
 			if ($SECTION_CODE) {
 				$SectionClass = $this->get('SectionClass');
 				$section = $SectionClass->GetSectionByPath($SECTION_CODE, $block_id, $params['params']);
@@ -928,14 +948,17 @@ class ComponentController extends Controller
 			/*
 			 * Получаем информацию об элементе
 			 */
-			$filter = array();
+			$filter = array(
+				'active' => true
+			);
 			if ($CODE) {
 				$filter['code'] = $CODE;
 			}
 			if ($ID) {
 				$filter['id'] = $ID;
 			}
-			$filter['block'] = $block_id;
+			if ($block_id)
+				$filter['block'] = $block_id;
 			if ($elementsId) {
 				$filter['id'] = $elementsId;
 			}
@@ -946,7 +969,12 @@ class ComponentController extends Controller
 				$logger->notice('Элемент не найден по фильтру: <pre>' . print_r($filter, true) . '</pre>');
 				throw $this->createNotFoundException('Элемент не найден');
 			}
-
+			if ($section == false) {
+				$section = array();
+				foreach ($element->getSection() as $s) {
+					$section[] = $s;
+				}
+			}
 
 			/**
 			 * Получение информации о страницах
@@ -1275,6 +1303,7 @@ class ComponentController extends Controller
 				'sections' => $sections,
 			);
 			$response_data['page'] = $page;
+			$response_data['params'] = $params;
 
 			//echo '<pre>' . print_r($sections, true) . '</pre>';
 
@@ -1301,8 +1330,151 @@ class ComponentController extends Controller
 		return $result;
 	}
 
-	public function ElementsListAction($params, Request $request)
+	public function SectionAction($params, $CODE, Request $request, $PAGE = 1)
 	{
+		$logger = $this->get('logger');
+		$logger->info('SectionAction');
+		$logger->info(print_r($params, true));
+		$env = $this->getEnv();
+		$route_name = $request->get('_route');
+		$route_params = $request->get('_route_params');
+		$Site = $this->get('Site');
+		$site = $Site->getCurrent();
+		$routeOptions = array();
+		if (array_key_exists('params', $params) == true)
+			$routeOptions = $params['params'];
+
+		$cacheDir = $this->getCahceDir();
+		$logger->info('Директория кеша = ' . $cacheDir);
+		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($cacheDir);
+		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		$fullCode = trim($CODE, '/');
+		$cacheDriver->setNamespace('SectionAction_' . $env . '_' . $params['BLOCK_ID'] . '_' . $fullCode);
+		$cacheId = $fullCode . '[page=' . $PAGE . ']';
+		$logger->info('Cache id = ' . print_r($cacheId, true));
+		if (false) {
+			//if ($fooString = $cacheDriver->fetch($cacheId)) {
+			$logger->info('Информацию берем из кеша');
+			$response = unserialize($fooString);
+		} else {
+			if ($this->checkConstruction()) {
+				return $this->constructionResponse();
+			};
+			$em = $this->getDoctrine()->getManager();
+
+			/*
+			 * Страница
+			 */
+			$page_class = $this->get('Page');
+			$page = $page_class->GetById($params['page_id']);
+
+
+			/*
+			 * Раздел
+			 */
+			$SectionClass = $this->get('SectionClass');
+			$section = $SectionClass->GetSectionByPath($CODE, $params['BLOCK_ID'], $routeOptions);
+			if (!$section) {
+				$logger->notice('Раздел не найден по пути ' . $CODE . '');
+				throw $this->createNotFoundException('Раздел не найден по пути ' . $CODE);
+			}
+			$section->setFullCode($fullCode);
+
+
+			/*
+			 * Подразделы
+			 */
+			$sections = $SectionClass->SectionsList(array(
+				'block_id' => $params['BLOCK_ID'],
+				'section_id' => $section->getId()
+			), $parentFullCode = trim($CODE, '/'));
+
+
+			//echo '<pre>'.print_r($section->getId(), true).'</pre>';
+
+			/*
+			 * Элементы
+			 */
+			$ElementsList = $this->get('ElementsList');
+			$ElementsList->setBlockId($params['BLOCK_ID']);
+			$ElementsList->setSectionId($section->getId());
+			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture'));
+			// TODO Здесь сделать выборку всех доступных свойств ифноблока
+			$ElementsList->selectProperties(array('address', 'shirota', 'price', 'format_name'));
+			$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
+			//echo '<pre>' . print_r($params, true) . '</pre>';
+			if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
+				$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
+			$elements = $ElementsList->getResult();
+
+
+			/*
+			 * Обработка элементов перед выдачей
+			 */
+			$elementRoute = (array_key_exists('ELEMENT_ROUTE', $routeOptions));
+			foreach ($elements as &$e) {
+				$e['url'] = false;
+				if ($elementRoute)
+					$e['url'] = $this->generateUrl($params['params']['ELEMENT_ROUTE'], array(
+						'SECTION_CODE' => $e['parent_section_full_code'],
+						'CODE' => $e['code']
+					));
+			}
+
+			// TODO Здесь надо сделать редирект с первой страницы на раздел
+			/*$url = $this->generateUrl('cmf_page_frontend', array(
+				'name' => $parentFullCode,
+			));*/
+			//echo '<pre>' . print_r($url, true) . '</pre>';
+
+			/*
+			 * Пагинация
+			 */
+			$pagination = $this->getPagination($elements, $PAGE, $params, $site, $fullCode);
+			if ($this->paginationRedirect!==false)
+				return new RedirectResponse($this->paginationRedirect);
+
+			/*
+			 * Массив данных
+			 */
+			$response_data = array(
+				'page' => $page,
+				'section' => $section,
+				'elements' => $elements,
+				'sections' => $sections,
+				'title' => $section->getTitle(),
+				'description' => $section->getDescription(),
+				'keywords' => $section->getKeywords(),
+				'header' => $section->getName(),
+				'pagination' => $pagination,
+			);
+
+			if (!$response_data['title'])
+				$response_data['title'] = $section->getName();
+			if (!$response_data['description'])
+				$response_data['description'] = $section->getName();
+			if (!$response_data['keywords'])
+				$response_data['keywords'] = $section->getName();
+
+
+			/*
+			 * Ответ
+			 */
+			$response = $this->render('@templates/' . $site['code'] . '/Section/' . $params['template_code'] . '.html.twig', $response_data);
+
+			$cacheDriver->save($cacheId, serialize($response));
+		}
+
+
+		return $response;
+	}
+
+
+	public function ElementsListAction($params, Request $request, $PAGE = 1)
+	{
+		if (is_numeric($PAGE)==false|| $PAGE < 1) {
+			throw $this->createNotFoundException('Не может быть страницы меньше нуля для постраничной навигации и должно быть числом');
+		}
 		if ($this->checkConstruction()) {
 			return $this->constructionResponse();
 		};
@@ -1320,8 +1492,11 @@ class ComponentController extends Controller
 			$section_id = $params['section_id'];
 		}
 		$template_code = 'default';
+		//$this->msg($params);
 		if (array_key_exists('template_code', $params)) {
 			$template_code = $params['template_code'];
+			/*if (array_key_exists('params', $params) && array_key_exists('template_code', $params['params']))
+				$template_code = $params['params']['template_code'];*/
 		}
 		$env = $this->get('kernel')->getEnvironment();
 		$exist_page_id = array_key_exists('page_id', $params);
@@ -1358,13 +1533,28 @@ class ComponentController extends Controller
 			$ElementsList = $this->get('ElementsList');
 			$ElementsList->setBlockId($params['BLOCK_ID']);
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
-			//$ElementsList->setSections(false);
+			if (array_key_exists('SECTION_ID', $params))
+				$ElementsList->setSectionsId($params['SECTION_ID']);
+			if (array_key_exists('NOT_ID', $params))
+				$ElementsList->setNotId($params['NOT_ID']);
+			if (array_key_exists('RANDOM', $params))
+				$ElementsList->setRandom(true);
 			// TODO Здесь в сервисе ElementList - выбирать все свойства
 			$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
 			$ElementsList->setFilter(array('active' => true));
 			$ElementsList->setLimit($params['LIMIT']);
-			$ElementsList->setOrder(array('name', 'asc'));
+			$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
 			$elements = $ElementsList->getResult();
+
+
+			$pageEntity = $page_repository->find($params['page_id']);
+			if ($pageEntity) {
+				$pagination = $this->getPagination($elements, $PAGE, $params, $site);
+				if ($this->paginationRedirect!==false)
+					return new RedirectResponse($this->paginationRedirect);
+				$response_data['pagination'] = $pagination;
+			}
+
 
 			/**
 			 * Данные попадающие в шаблон
@@ -1372,7 +1562,9 @@ class ComponentController extends Controller
 
 			$response_data['elements'] = $elements;
 			$response_data['options'] = $params['OPTIONS'];
-			$response_data['page'] = $page_repository->find($params['page_id']);
+			$response_data['page'] = $pageEntity;
+			$response_data['params'] = $params;
+
 
 			$render = $this->render('@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
 
@@ -1381,6 +1573,35 @@ class ComponentController extends Controller
 		return $render;
 	}
 
+	private $paginationRedirect = false;
+
+	private function getPagination($elements, $PAGE, $routeParams, $site, $sectionFullCode = false)
+	{
+		$paginator = $this->get('knp_paginator');
+		$pagination = $paginator->paginate(
+			$elements,
+			$PAGE,
+			16
+		);
+		$pagination_route = preg_replace('/^(.+?)(_pagination)*$/', '\\1_pagination', $routeParams['template_code']);
+		$pagination->setUsedRoute($pagination_route);
+		if ($sectionFullCode)
+			$pagination->setParam('CODE', $sectionFullCode);
+		$pagination->setTemplate('@templates/' . $site['code'] . '/Pagination/' . $routeParams['template_code'] . '.html.twig');
+		if ($PAGE > 1 && count($pagination) < 1) {
+			throw $this->createNotFoundException('Не найдено элементов на странице ' . $PAGE);
+		}
+		if (preg_match('/^(.+?)(_pagination)+$/', $routeParams['template_code'], $matches) && $PAGE == 1) {
+			//$this->msg($matches);
+			if ($sectionFullCode)
+				$url = $this->get('router')->generate($matches[1], array('CODE'=>$sectionFullCode));
+			else
+				$url = $this->get('router')->generate($matches[1]);
+			//$this->msg($url);
+			$this->paginationRedirect = $url;
+		}
+		return $pagination;
+	}
 
 	private function getAlias()
 	{

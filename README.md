@@ -25,27 +25,78 @@ CMF на Symfony2
 
 Страница пакета на сайте packagist.org [https://packagist.org/packages/novuscom/cmfbundle](https://packagist.org/packages/novuscom/cmfbundle)
 
-1. Выполняем команду `composer require novuscom/cmfbundle`
- 
-    Или же в блок *require* файла *composer.json* в корне проекта помещаем строчку `"novuscom/cmfbundle": "dev-master"`
-    и выполняем команду `composer update`
- 
+1. В блоке *require* файла composer.json добавляем следующие пакеты:
+   ```json
+
+    "gedmo/doctrine-extensions": "dev-master",
+    "friendsofsymfony/user-bundle": "~2.0@dev",
+    "knplabs/knp-menu": "2.0.*@dev",
+    "knplabs/knp-menu-bundle": "2.0.*@dev",
+    "whiteoctober/breadcrumbs-bundle": "dev-master",
+    "apy/breadcrumbtrail-bundle": "dev-master",
+    "mopa/bootstrap-bundle": "v3.0.0-beta2",
+    "twbs/bootstrap": "v3.0.0",
+    "knplabs/knp-paginator-bundle": "^2.4",
+    "liip/imagine-bundle": "1.2.3",
+    "misd/guzzle-bundle": "~1.0",
+    "snc/redis-bundle": "1.1.x-dev",
+    "predis/predis": "0.8.x-dev",
+    "stfalcon/tinymce-bundle": "dev-master",
+    "helios-ag/fm-elfinder-bundle": "~5",
+    "novuscom/cmfbundle": "0.0.6.*",
+    "novuscom/cmfuserbundle": "0.0.6.3",
+    "openlss/lib-array2xml": "^0.0.10",
+    "ifsnop/mysqldump-php": "2.*"
+
+   ```
+2. Выполняем команду `composer update`
     Composer поставит зависимости. 
 
-2. Переходим по адресу *example.com/config.php* (example.com - адрес вашего сайта) - проверяем все ли рекомендации symfomy выполнены.
+3. Переходим по адресу *example.com/config.php* (example.com - адрес вашего сайта) - проверяем все ли рекомендации symfomy выполнены.
     Выполняем если нет.
 
-3. Переходим по ссылке **Configure your Symfony Application online**, указываем доступы к базе данных и сохраняем
+4. Переходим по ссылке **Configure your Symfony Application online**, указываем доступы к базе данных и сохраняем
 
-4. Добавляем в app/AppKernel.php строчку `new Novuscom\CMFBundle\NovuscomCMFBundle(),`
+5. Добавляем в app/AppKernel.php строчки
+ ```php
+    new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+    new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+    new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),
+    new APY\BreadcrumbTrailBundle\APYBreadcrumbTrailBundle(),
+    new Liip\ImagineBundle\LiipImagineBundle(),
+    new Misd\GuzzleBundle\MisdGuzzleBundle(),
+    new Novuscom\CMFBundle\NovuscomCMFBundle(),
+    new Novuscom\CMFUserBundle\NovuscomCMFUserBundle(),
+    new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+    new FM\ElfinderBundle\FMElfinderBundle(),
+    new FOS\UserBundle\FOSUserBundle(),
+ ```
 
-5. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
+6. Содержимое файла *app/config/routing.yml*
+ ```
+  NovuscomCMFBundle:
+      resource: "@NovuscomCMFBundle/Resources/config/routing.yml"
+ ```
+7. Содержимое файла *app/config/config.yml*
+ ```
+ imports:
+    - { resource: @NovuscomCMFBundle/Resources/config/config.yml }
+    - { resource: parameters.yml }
 
+framework:
+    # ...
+    templating:
+        assets_version: 08.11.2015,16:11
+ ```
+ 
+8. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
 
+9. `php app/console cache:clear --env=prod --no-debug`
 
+ `composer dump-autoload --optimize`
 
+ `php app/console cache:clear --env=prod --no-debug`
 
+ `php app/console cache:clear`
 
-
-
-
+10. *example.com/admin*

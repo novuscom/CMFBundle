@@ -37,9 +37,11 @@ class ElementsList
 
 	private $sections = array();
 
-	public function setSections($sections){
+	public function setSections($sections)
+	{
 		$this->sections = $sections;
 	}
+
 	public function setSectionsId($id)
 	{
 		if (is_array($id)) {
@@ -47,7 +49,11 @@ class ElementsList
 				$this->setSectionId($id);
 			}
 		}
+		if (is_numeric($id)) {
+			$this->setSectionId($id);
+		}
 	}
+
 	private $includeSubSections;
 
 	public function setIncludeSubSections($includeSubSections)
@@ -121,6 +127,30 @@ class ElementsList
 		return $this->selectProperties;
 	}
 
+	private $notId;
+
+	public function setNotId($notId)
+	{
+		$this->notId = $notId;
+	}
+
+	public function getNotId()
+	{
+		return $this->notId;
+	}
+
+	private $random = false;
+
+	public function setRandom($random)
+	{
+		$this->random = $random;
+	}
+
+	public function getRandom()
+	{
+		return $this->random;
+	}
+
 	public function getResult()
 	{
 
@@ -189,20 +219,32 @@ class ElementsList
 				$elements_repo->setParameter($key, $val);
 			}
 		}
+		if ($this->getNotId()) {
+			$elements_repo->andWhere('n.id NOT IN(:not_id)');
+			$elements_repo->setParameter('not_id', $this->getNotId());
+		}
 		$order = $this->getOrder();
+
 		if ($order) {
-			$elements_repo->orderBy('n.sort', 'asc');
-			$elements_repo->addOrderBy('n.' . $order[0], $order[1]);
+			foreach($order as $key=>$val) {
+				$elements_repo->addOrderBy('n.' . $key, $val);
+			}
+		}
+		else {
+			//echo '<pre>' . print_r('Стандартьная сортировка', true) . '</pre>';
+			$elements_repo->orderBy('n.id', 'desc');
+			$elements_repo->addOrderBy('n.sort', 'asc');
 		}
 		if ($this->getLimit() > 0) {
-
 			$elements_repo->setMaxResults($this->getLimit());
 		}
+		if ($this->getRandom() !== false)
+			$elements_repo->addSelect('RAND() as HIDDEN rand')->orderBy('rand');
 		$query = $elements_repo->getQuery();
 		$sql = $query->getSql();
 		$this->sql = $sql;
 		$elements = $query->getResult();
-		
+
 		/**
 		 * Получение preview picture
 		 */

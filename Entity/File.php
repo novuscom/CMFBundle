@@ -9,180 +9,182 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class File
 {
-    
-    /**
-     * @var integer
-     */
-    private $id;
 
-    /**
-     * @var string
-     */
-    private $name;
+	/**
+	 * @var integer
+	 */
+	private $id;
 
-    /**
-     * @var integer
-     */
-    private $size;
+	/**
+	 * @var string
+	 */
+	private $name;
 
-    /**
-     * @var string
-     */
-    private $description;
+	/**
+	 * @var integer
+	 */
+	private $size;
 
-    /**
-     * @var string
-     */
-    private $type;
+	/**
+	 * @var string
+	 */
+	private $description;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $property;
+	/**
+	 * @var string
+	 */
+	private $type;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->property = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $property;
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return File
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    
-        return $this;
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->property = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set size
-     *
-     * @param integer $size
-     * @return File
-     */
-    public function setSize($size)
-    {
-        $this->size = $size;
-    
-        return $this;
-    }
+	/**
+	 * Set name
+	 *
+	 * @param string $name
+	 * @return File
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 
-    /**
-     * Get size
-     *
-     * @return integer 
-     */
-    public function getSize()
-    {
-        return $this->size;
-    }
+		return $this;
+	}
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return File
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    
-        return $this;
-    }
+	/**
+	 * Get name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
+	/**
+	 * Set size
+	 *
+	 * @param integer $size
+	 * @return File
+	 */
+	public function setSize($size)
+	{
+		$this->size = $size;
 
-    /**
-     * Set type
-     *
-     * @param string $type
-     * @return File
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get type
-     *
-     * @return string 
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
+	/**
+	 * Get size
+	 *
+	 * @return integer
+	 */
+	public function getSize()
+	{
+		return $this->size;
+	}
 
-    /**
-     * Add property
-     *
-     * @param \Novuscom\CMFBundle\Entity\ElementPropertyF $property
-     * @return File
-     */
-    public function addProperty(\Novuscom\CMFBundle\Entity\ElementPropertyF $property)
-    {
-        $this->property[] = $property;
-    
-        return $this;
-    }
+	/**
+	 * Set description
+	 *
+	 * @param string $description
+	 * @return File
+	 */
+	public function setDescription($description)
+	{
+		$this->description = $description;
 
-    /**
-     * Remove property
-     *
-     * @param \Novuscom\CMFBundle\Entity\ElementPropertyF $property
-     */
-    public function removeProperty(\Novuscom\CMFBundle\Entity\ElementPropertyF $property)
-    {
-        $this->property->removeElement($property);
-    }
+		return $this;
+	}
 
-    /**
-     * Get property
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProperty()
-    {
-        return $this->property;
-    }
-    public function getImagePath(){
-        return '/upload/images/'.$this->getName();
-    }
+	/**
+	 * Get description
+	 *
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		return $this->description;
+	}
+
+	/**
+	 * Set type
+	 *
+	 * @param string $type
+	 * @return File
+	 */
+	public function setType($type)
+	{
+		$this->type = $type;
+
+		return $this;
+	}
+
+	/**
+	 * Get type
+	 *
+	 * @return string
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+
+	/**
+	 * Add property
+	 *
+	 * @param \Novuscom\CMFBundle\Entity\ElementPropertyF $property
+	 * @return File
+	 */
+	public function addProperty(\Novuscom\CMFBundle\Entity\ElementPropertyF $property)
+	{
+		$this->property[] = $property;
+
+		return $this;
+	}
+
+	/**
+	 * Remove property
+	 *
+	 * @param \Novuscom\CMFBundle\Entity\ElementPropertyF $property
+	 */
+	public function removeProperty(\Novuscom\CMFBundle\Entity\ElementPropertyF $property)
+	{
+		$this->property->removeElement($property);
+	}
+
+	/**
+	 * Get property
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getProperty()
+	{
+		return $this->property;
+	}
+
+	public function getImagePath()
+	{
+		return '/upload/images/' . $this->getName();
+	}
 }

@@ -8,6 +8,7 @@
             <li class=""><a data-toggle="tab" href="#tab_2" aria-expanded="false">Краткое описание</a></li>
             <li class=""><a data-toggle="tab" href="#tab_3" aria-expanded="false">Подробное описание</a></li>
             <li class=""><a data-toggle="tab" href="#tab_4" aria-expanded="false">Свойства</a></li>
+            <li class=""><a data-toggle="tab" href="#tab_5" aria-expanded="false">Разделы</a></li>
         </ul>
         <div class="tab-content">
             <div id="tab_1" class="tab-pane active">
@@ -39,7 +40,7 @@
                 </div>
                 {% if entity.previewPicture is not empty %}
                     <a class="fancybox" href="{{ entity.previewPicture.getImagePath }}">
-						{% set file = resize_image(entity.previewPicture.getImagePath, 'proportional', [100, 100]) %}
+						{% set file = resize_image(entity.previewPicture.getImagePath, 'proportional', [200, 200]) %}
 						<img src="{{ file.src }}"/>
 					</a>
                     <div>

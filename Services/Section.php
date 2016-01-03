@@ -11,6 +11,20 @@ use Monolog\Logger;
 class Section
 {
 
+    public function ElementsSections($elementsID){
+        $repo = $this->em->getRepository('NovuscomCMFBundle:ElementSection');
+		$refs = array();
+		foreach ($elementsID as $e) {
+			$refs[] = $this->em->getReference('Novuscom\CMFBundle\Entity\Block', $e);
+		}
+        $rows = $repo->findBy(array('element'=>$refs));
+		$result = array();
+		foreach ($rows as $r) {
+			$result[$r->getElement()->getId()] = $r->getSection();
+		}
+        return $result;
+    }
+
     public function getChildren($section){
         $repo = $this->em->getRepository('NovuscomCMFBundle:Section');
         $path = $repo->getChildren($section);
@@ -35,18 +49,22 @@ class Section
         $cacheDriver->delete($fullCode);
     }
 
+	public function getCodeString($section){
+		$codes = array();
+		$path = $this->getPath($section);
+		foreach ($path as $s) {
+			$codes[] = $s->getCode();
+		}
+		$fullCode = implode('/', $codes);
+		return $fullCode;
+	}
+
     public function getFullCode($id){
-        $this->logger->info('Section->getFullCode('.print_r($id, true).')');
         $repo = $this->em->getRepository('NovuscomCMFBundle:Section');
         $fullCode = false;
         if (is_numeric($id)) {
-            $codes = array();
             $section = $repo->find($id);
-            $path = $this->getPath($section);
-            foreach ($path as $s) {
-                $codes[] = $s->getCode();
-            }
-            $fullCode = implode('/', $codes);
+            $fullCode = $this->getCodeString($section);
         }
         if (is_array($id)) {
             $id = array_unique($id);
@@ -61,6 +79,10 @@ class Section
                 $full = implode('/', $codes);
                 $fullCode[$s->getId()] = $full;
             }
+        }
+        if (is_object($id)) {
+	        //echo '<pre>'.print_r('is_object', true).'</pre>';
+	        $fullCode = $this->getCodeString($id);
         }
         return $fullCode;
     }

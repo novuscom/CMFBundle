@@ -97,6 +97,10 @@ NovuscomCMFBundle_admin_route:
     resource: "@NovuscomCMFBundle/Resources/config/routing/route.yml"
     prefix:   /admin/route
 
+NovuscomCMFBundle_admin_searchquery:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/searchquery.yml"
+    prefix:   /admin/searchquery
+
 NovuscomCMFBundle_admin_cart:
     resource: "@NovuscomCMFBundle/Resources/config/routing/cart.yml"
     prefix:   /admin/cart
@@ -214,6 +218,19 @@ delete_product_json:
     path:     /delete-product.json
     defaults: { _controller: "NovuscomCMFBundle:Component:DeleteProduct" }
     requirements: { _method: post|delete }
+
+sitemap_xml:
+    path:     /sitemap.xml
+    defaults: { _controller: "NovuscomCMFBundle:Component:SiteMapXML" }
+
+search:
+    path:     /search/
+    defaults: { _controller: "NovuscomCMFBundle:Component:Search" }
+    requirements: { _method: get|post }
+
+cmf_page_main:
+    path:     /
+    defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
 
 NovuscomCMFBundle_Extra:
     resource: .

@@ -67,6 +67,9 @@ class Admin extends ContainerAware
 			$menu->addChild('Заказы', array(
 				'route' => 'admin_order'
 			));
+			$menu->addChild('Поисковые запросы', array(
+				'route' => 'admin_searchquery'
+			));
 		}
 
 		$blocks = $em->getRepository('NovuscomCMFBundle:Block')->findBySites($sites);

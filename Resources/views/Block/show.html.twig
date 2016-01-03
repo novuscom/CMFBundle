@@ -78,9 +78,9 @@
 							<td>{{ s.rgt }}</td>
 							<td>
 								{% if s.previewPicture is not empty %}
-									<a class="fancybox"
-									   href="{{ asset('upload/images/'~s.previewPicture.name) }}"><img
-												src="{{ asset('upload/images/'~s.previewPicture.name) | imagine_filter('my_thumb') }}"/></a>
+									{% set file = resize_image(s.previewPicture.getImagePath, 'proportional', [100, 100]) %}
+									<a class="fancybox" href="{{ s.previewPicture.getImagePath }}"><img
+												src="{{ file.src }}"/></a>
 								{% else %}
 								{% endif %}
 							</td>
@@ -144,6 +144,7 @@
 				<thead>
 				<tr>
 					<th>Id</th>
+					<th>Активность</th>
 					<th>Название</th>
 					<th>Код</th>
 					<th>Сортировка</th>
@@ -159,15 +160,22 @@
 							<a href="{{ path('admin_element_edit', { 'id': element.id, 'block_id':entity.id }) }}">{{ element.id }}</a>
 						</td>
 						<td>
+							{% if (element.active) %}
+								<i class="glyphicon glyphicon-check"></i>
+							{% else %}
+								<i class="glyphicon glyphicon-unchecked"></i>
+							{% endif %}
+						</td>
+						<td>
 							<a href="{{ path('admin_element_edit', { 'id': element.id, 'block_id':entity.id }) }}">{{ element.name|raw }}</a>
 						</td>
 						<td>{{ element.code }}</td>
 						<td>{{ element.sort }}</td>
 						<td>
 							{% if element.previewPicture is not empty %}
-								<a class="fancybox"
-								   href="{{ asset('upload/images/'~element.previewPicture.name) }}"><img
-											src="{{ asset('upload/images/'~element.previewPicture.name) | imagine_filter('my_thumb') }}"/></a>
+								{% set file = resize_image(element.previewPicture.getImagePath, 'proportional', [100, 100]) %}
+								<a class="fancybox" href="{{ element.previewPicture.getImagePath }}"><img
+											src="{{ file.src }}"/></a>
 							{% else %}
 							{% endif %}
 						</td>
@@ -186,6 +194,7 @@
 				<tfoot>
 				<tr>
 					<th>Id</th>
+					<th>Активность</th>
 					<th>Название</th>
 					<th>Код</th>
 					<th>Сортировка</th>
