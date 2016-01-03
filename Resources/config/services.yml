@@ -46,7 +46,7 @@ services:
         class: Novuscom\CMFBundle\Routing\ExtraLoader
         tags:
             - { name: routing.loader }
-        arguments: [@doctrine.orm.entity_manager, @logger]
+        arguments: [@doctrine.orm.entity_manager, @logger, @Site, @request_stack]
     ElementsList:
         class:        "%ElementsList.class%"
         scope: prototype
