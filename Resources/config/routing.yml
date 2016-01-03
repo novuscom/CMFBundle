@@ -203,9 +203,7 @@ cmf_robots_txt:
 
 
 
-cmf_page_main:
-    path:     /
-    defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
+
 
 recount_cart_json:
     path:     /recount-cart.json
@@ -220,7 +218,10 @@ delete_product_json:
 NovuscomCMFBundle_Extra:
     resource: .
     type: extra
-
+    
+cmf_page_main:
+    path:     /
+    defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
 
 cmf_page_frontend:
     path:     /{name}/
