@@ -218,8 +218,9 @@ class DefaultController extends Controller
                     return $response;
                 }
             }
-            $page = $this->getPageArray($page);
-            $pageTemplate = $page->getTemplate();
+
+            //$page = $this->getPageArray($page);
+            $pageTemplate = $this->getTemplate();
             $response = $this->render($pageTemplate,
                 array(
                     'page' => $page,
@@ -239,9 +240,10 @@ class DefaultController extends Controller
         return $response;
     }
 
-    private function getTemplate($templateDir, $templateCode)
+    private function getTemplate($templateDir = false, $templateCode = 'default')
     {
-        return $template = '@templates/' . $templateDir . '/Pages/' . $templateCode . '.html.twig';
+	    $site = $this->getSite();
+        return $template = '@templates/' . $site['code'] . '/Pages/' . $templateCode . '.html.twig';
     }
 
     // TODO Удалить, т.к. перенесено в сервис
