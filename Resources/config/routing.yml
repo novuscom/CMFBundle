@@ -236,6 +236,10 @@ cmf_page_main:
     path:     /
     defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
 
+main:
+    path:     /
+    defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
+
 cmf_page_frontend:
     path:     /{name}/
     defaults: { _controller: NovuscomCMFBundle:Default:index }
