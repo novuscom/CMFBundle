@@ -1123,6 +1123,10 @@ class ComponentController extends Controller
 				'lastModified' => $entity_element->getLastModified(),
 				'previewPicture' => array(),
 				'detailPicture' => array(),
+				'header' => $entity_element->getHeader(),
+				'title' => $entity_element->getTitle(),
+				'keywords' => $entity_element->getKeywords(),
+				'description' => $entity_element->getDescription(),
 			);
 			if ($previewPicture = $entity_element->getPreviewPicture()) {
 				$element['previewPicture']['path'] = $previewPicture->getImagePath();
@@ -1564,6 +1568,9 @@ class ComponentController extends Controller
 			$response_data['options'] = $params['OPTIONS'];
 			$response_data['page'] = $pageEntity;
 			$response_data['params'] = $params;
+			$response_data['title'] = $pageEntity->getTitle();
+			$response_data['header'] = $pageEntity->getHeader();
+			$response_data['description'] = $pageEntity->getDescription();
 
 
 			$render = $this->render('@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
