@@ -105,13 +105,13 @@ class ExtraLoader implements LoaderInterface
 			if (is_array($route_params) && array_key_exists('method', $route_params)) {
 				$method = $route_params['method'];
 			}
-
+			$requirements['domains'] = implode($aliasesArray, '|');
 			$route = new Route(
 				$r->getTemplate(),
 				$defaults,
 				$requirements,
 				array(),
-				implode($aliasesArray, '|'),
+				"{domains}",
 				array(),
 				$method
 			);
