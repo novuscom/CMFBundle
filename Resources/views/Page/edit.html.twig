@@ -18,8 +18,13 @@
                         {{ form_row(edit_form.header) }}
                     </div>
                     <div class="col-md-4">
-                        {{ form_row(edit_form.url) }}
-                        {{ form_row(edit_form.parent) }}
+                        {% if edit_form.url is defined %}
+                            {{ form_row(edit_form.url) }}
+                        {% endif %}
+                        {% if edit_form.parent is not null %}
+                            {{ form_row(edit_form.parent) }}
+                        {% endif %}
+
                         {{ form_row(edit_form.template) }}
                     </div>
                 </div>
@@ -47,7 +52,7 @@
             <div class="row">
                 <div class="col col-md-4">
                     <ul class="list-inline">
-                        <li>{{ form_widget(edit_form.submit, {'attr':{'class':'btn-block btn-success'}}) }}</li>
+                        <li>{{ form_widget(edit_form.submit, {'attr':{'class':'btn-success'}}) }}</li>
                         <li><a class="btn btn-info"
                                href="{{ path('cmf_admin_site_pages', {'site_id':app.request.get('site_id')}) }}">
                                 Список страниц
