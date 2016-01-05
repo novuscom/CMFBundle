@@ -87,6 +87,7 @@ class ExtraLoader implements LoaderInterface
 			$defaults = array(
 				'_controller' => $r->getController(),
 				'params' => $params,
+				'domains'=>$aliasesArray[0]
 			);
 			//$logger->error('<pre>'.print_r($r->getParams(), true).'</pre>');
 			//$logger->error('<pre>'.print_r($route_params, true).'</pre>');
