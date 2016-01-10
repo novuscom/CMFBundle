@@ -184,6 +184,7 @@ stfalcon_tinymce:
             relative_urls: false
             file_browser_callback : elFinderBrowser
             image_class_list:
+                - {title: 'нет класса', value: ''}
                 - {title: 'Слева', value: 'left-image'}
                 - {title: 'Справа', value: 'right-image'}
             content_css: "/admin/dist/tinymce/content.css"
