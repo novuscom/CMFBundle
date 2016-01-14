@@ -1,5 +1,4 @@
 admin_property:
-<<<<<<< HEAD
     path:  /
     defaults: { _controller: "NovuscomCMFBundle:Property:index" }
 
@@ -13,46 +12,19 @@ admin_property_new:
 
 admin_property_create:
     path:  /create
-=======
-    pattern:  /
-    defaults: { _controller: "NovuscomCMFBundle:Property:index" }
-
-admin_property_show:
-    pattern:  /{id}/show
-    defaults: { _controller: "NovuscomCMFBundle:Property:show" }
-
-admin_property_new:
-    pattern:  /new
-    defaults: { _controller: "NovuscomCMFBundle:Property:new" }
-
-admin_property_create:
-    pattern:  /create
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Property:create" }
     requirements: { _method: post }
 
 admin_property_edit:
-<<<<<<< HEAD
     path:  /{id}/edit
     defaults: { _controller: "NovuscomCMFBundle:Property:edit" }
 
 admin_property_update:
     path:  /{id}/update
-=======
-    pattern:  /{id}/edit
-    defaults: { _controller: "NovuscomCMFBundle:Property:edit" }
-
-admin_property_update:
-    pattern:  /{id}/update
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Property:update" }
     requirements: { _method: post|put }
 
 admin_property_delete:
-<<<<<<< HEAD
     path:  /{id}/delete
-=======
-    pattern:  /{id}/delete
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Property:delete" }
     requirements: { _method: post|delete }

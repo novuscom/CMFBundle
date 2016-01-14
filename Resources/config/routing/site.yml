@@ -1,5 +1,4 @@
 admin_site:
-<<<<<<< HEAD
     path:  /
     defaults: { _controller: "NovuscomCMFBundle:Site:index" }
 
@@ -13,46 +12,19 @@ admin_site_new:
 
 admin_site_create:
     path:  /create
-=======
-    pattern:  /
-    defaults: { _controller: "NovuscomCMFBundle:Site:index" }
-
-admin_site_show:
-    pattern:  /{id}/show
-    defaults: { _controller: "NovuscomCMFBundle:Site:show" }
-
-admin_site_new:
-    pattern:  /new
-    defaults: { _controller: "NovuscomCMFBundle:Site:new" }
-
-admin_site_create:
-    pattern:  /create
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Site:create" }
     requirements: { _method: post }
 
 admin_site_edit:
-<<<<<<< HEAD
     path:  /{id}/edit
     defaults: { _controller: "NovuscomCMFBundle:Site:edit" }
 
 admin_site_update:
     path:  /{id}/update
-=======
-    pattern:  /{id}/edit
-    defaults: { _controller: "NovuscomCMFBundle:Site:edit" }
-
-admin_site_update:
-    pattern:  /{id}/update
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Site:update" }
     requirements: { _method: post|put }
 
 admin_site_delete:
-<<<<<<< HEAD
     path:  /{id}/delete
-=======
-    pattern:  /{id}/delete
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Site:delete" }
     requirements: { _method: post|delete }

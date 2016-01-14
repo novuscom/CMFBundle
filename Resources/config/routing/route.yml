@@ -1,5 +1,4 @@
 admin_route:
-<<<<<<< HEAD
     path:  /
     defaults: { _controller: "NovuscomCMFBundle:Route:index" }
 
@@ -13,46 +12,19 @@ admin_route_new:
 
 admin_route_create:
     path:  /create
-=======
-    pattern:  /
-    defaults: { _controller: "NovuscomCMFBundle:Route:index" }
-
-admin_route_show:
-    pattern:  /{id}/show
-    defaults: { _controller: "NovuscomCMFBundle:Route:show" }
-
-admin_route_new:
-    pattern:  /new
-    defaults: { _controller: "NovuscomCMFBundle:Route:new" }
-
-admin_route_create:
-    pattern:  /create
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Route:create" }
     requirements: { _method: post }
 
 admin_route_edit:
-<<<<<<< HEAD
     path:  /{id}/edit
     defaults: { _controller: "NovuscomCMFBundle:Route:edit" }
 
 admin_route_update:
     path:  /{id}/update
-=======
-    pattern:  /{id}/edit
-    defaults: { _controller: "NovuscomCMFBundle:Route:edit" }
-
-admin_route_update:
-    pattern:  /{id}/update
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Route:update" }
     requirements: { _method: post|put }
 
 admin_route_delete:
-<<<<<<< HEAD
     path:  /{id}/delete
-=======
-    pattern:  /{id}/delete
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Route:delete" }
     requirements: { _method: post|delete }

@@ -1,5 +1,4 @@
 admin_section__new:
-<<<<<<< HEAD
     path:  /block-{id}/new-section/
     defaults: { _controller: "NovuscomCMFBundle:Section:new" }
 
@@ -21,37 +20,10 @@ admin_section__new_in_section:
 
 admin_section__create:
     path:  /block-{id}/create-section/
-=======
-    pattern:  /block-{id}/new-section/
-    defaults: { _controller: "NovuscomCMFBundle:Section:new" }
-
-admin_section__edit:
-    pattern:  /block-{id}/edit-section-{section_id}/
-    defaults: { _controller: "NovuscomCMFBundle:Section:edit" }
-
-admin_section__delete:
-    pattern:  /block-{block_id}/delete-section-{section_id}/
-    defaults: { _controller: "NovuscomCMFBundle:Section:delete" }
-
-admin_section__update:
-    pattern:  /block-{id}/update-section-{section_id}/
-    defaults: { _controller: "NovuscomCMFBundle:Section:update" }
-
-admin_section__new_in_section:
-    pattern:  /block-{id}/section-{section_id}/new-section/
-    defaults: { _controller: "NovuscomCMFBundle:Section:new" }
-
-admin_section__create:
-    pattern:  /block-{id}/create-section/
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Section:create" }
     requirements: { _method: post }
 
 admin_section__create_in_section:
-<<<<<<< HEAD
     path:  /block-{id}/section-{section_id}/create-section/
-=======
-    pattern:  /block-{id}/section-{section_id}/create-section/
->>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Section:create" }
     requirements: { _method: post }
