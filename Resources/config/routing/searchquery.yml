@@ -1,4 +1,5 @@
 admin_searchquery:
+<<<<<<< HEAD
     path:  /
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:index" }
 
@@ -12,19 +13,46 @@ admin_searchquery_new:
 
 admin_searchquery_create:
     path:  /create
+=======
+    pattern:  /
+    defaults: { _controller: "NovuscomCMFBundle:SearchQuery:index" }
+
+admin_searchquery_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:SearchQuery:show" }
+
+admin_searchquery_new:
+    pattern:  /new
+    defaults: { _controller: "NovuscomCMFBundle:SearchQuery:new" }
+
+admin_searchquery_create:
+    pattern:  /create
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:create" }
     requirements: { _method: post }
 
 admin_searchquery_edit:
+<<<<<<< HEAD
     path:  /{id}/edit
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:edit" }
 
 admin_searchquery_update:
     path:  /{id}/update
+=======
+    pattern:  /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:SearchQuery:edit" }
+
+admin_searchquery_update:
+    pattern:  /{id}/update
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:update" }
     requirements: { _method: post|put }
 
 admin_searchquery_delete:
+<<<<<<< HEAD
     path:  /{id}/delete
+=======
+    pattern:  /{id}/delete
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:delete" }
     requirements: { _method: post|delete }

@@ -10,16 +10,28 @@ _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
 
 fos_user_security_login:
+<<<<<<< HEAD
     path:  /admin_login/
     defaults: { _controller: "FOSUserBundle:Security:login" }
 
 fos_user_security_check:
     path:  /login_check/
+=======
+    pattern:  /admin_login/
+    defaults: { _controller: "FOSUserBundle:Security:login" }
+
+fos_user_security_check:
+    pattern:  /login_check/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "FOSUserBundle:Security:check" }
     requirements: { _method: post }
 
 fos_user_security_logout:
+<<<<<<< HEAD
     path:  /logout/
+=======
+    pattern:  /logout/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "FOSUserBundle:Security:logout" }
 
 
@@ -110,67 +122,115 @@ NovuscomCMFBundle_admin_product:
     prefix:   /admin/product
 
 cmf_admin_homepage:
+<<<<<<< HEAD
     path:  /admin/
+=======
+    pattern:  /admin/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: NovuscomCMFBundle:Admin:index }
 
 
 cmf_admin_site_list:
+<<<<<<< HEAD
     path:  /admin/site/
     defaults: { _controller: "NovuscomCMFBundle:Site:index" }
 
 cmf_admin_site_show:
     path:  /admin/site/{id}/
+=======
+    pattern:  /admin/site/
+    defaults: { _controller: "NovuscomCMFBundle:Site:index" }
+
+cmf_admin_site_show:
+    pattern:  /admin/site/{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Site:show" }
     requirements:
         id: \d+
 
 cmf_admin_site_new:
+<<<<<<< HEAD
     path:  /admin/site/new/
     defaults: { _controller: "NovuscomCMFBundle:Site:new" }
 
 cmf_admin_site_create:
     path:  /admin/site/create/
+=======
+    pattern:  /admin/site/new/
+    defaults: { _controller: "NovuscomCMFBundle:Site:new" }
+
+cmf_admin_site_create:
+    pattern:  /admin/site/create/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Site:create" }
     requirements: { _method: post }
 
 cmf_admin_site_edit:
+<<<<<<< HEAD
     path:  /admin/site/{id}/edit/
+=======
+    pattern:  /admin/site/{id}/edit/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Site:edit" }
     requirements:
         id: \d+
 
 cmf_admin_site_update:
+<<<<<<< HEAD
     path:  /admin/site/{id}/update/
+=======
+    pattern:  /admin/site/{id}/update/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Site:update" }
     requirements: { _method: post|put, id: \d+ }
 
 
 cmf_admin_site_delete:
+<<<<<<< HEAD
     path:  /admin/site/{id}/delete/
+=======
+    pattern:  /admin/site/{id}/delete/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Site:delete" }
     requirements: { _method: post|delete, id: \d+ }
 
 
 
 cmf_admin_site_pages:
+<<<<<<< HEAD
     path:  /admin/site/{site_id}/pages/
+=======
+    pattern:  /admin/site/{site_id}/pages/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: NovuscomCMFBundle:Page:index }
     requirements:
         site_id: \d+
 
 cmf_admin_page_new:
+<<<<<<< HEAD
     path:  /admin/site/{site_id}/pages/new/
+=======
+    pattern:  /admin/site/{site_id}/pages/new/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Page:new" }
     requirements:
         site_id: \d+
 
 cmf_admin_page_create:
+<<<<<<< HEAD
     path:  /admin/site/{site_id}/pages/create/
+=======
+    pattern:  /admin/site/{site_id}/pages/create/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Page:create" }
     requirements: { _method: post }
 
 cmf_admin_page_show:
+<<<<<<< HEAD
     path:  /admin/site/{site_id}/pages/{id}/
+=======
+    pattern:  /admin/site/{site_id}/pages/{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Page:show" }
     requirements:
         id: \d+
@@ -178,14 +238,22 @@ cmf_admin_page_show:
 
 
 cmf_admin_page_edit:
+<<<<<<< HEAD
     path:  /admin/site/{site_id}/pages/{id}/edit/
+=======
+    pattern:  /admin/site/{site_id}/pages/{id}/edit/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Page:edit" }
     requirements:
         id: \d+
         site_id: \d+
 
 cmf_admin_page_update:
+<<<<<<< HEAD
     path:  /admin/site/{site_id}/pages/{id}/update/
+=======
+    pattern:  /admin/site/{site_id}/pages/{id}/update/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Page:update" }
     requirements:
         _method: post|put
@@ -193,7 +261,11 @@ cmf_admin_page_update:
         site_id: \d+
 
 cmf_admin_page_delete:
+<<<<<<< HEAD
     path:  /admin/site/{site_id}/pages/{id}/delete/
+=======
+    pattern:  /admin/site/{site_id}/pages/{id}/delete/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Page:delete" }
     requirements: { _method: post|delete }
     requirements:

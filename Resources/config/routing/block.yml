@@ -1,86 +1,158 @@
 admin_block:
+<<<<<<< HEAD
     path:  /
     defaults: { _controller: "NovuscomCMFBundle:Block:index" }
 
 admin_block_show:
     path:  /block-{id}/
+=======
+    pattern:  /
+    defaults: { _controller: "NovuscomCMFBundle:Block:index" }
+
+admin_block_show:
+    pattern:  /block-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Block:show", section_id: false }
     requirements: { id: \d+ }
 
 admin_block_show_section:
+<<<<<<< HEAD
     path:  /block-{id}/section-{section_id}/
+=======
+    pattern:  /block-{id}/section-{section_id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Block:show" }
     requirements: { id: \d+, section_id: \d+ }
 
 admin_block_new:
+<<<<<<< HEAD
     path:  /block-new/
     defaults: { _controller: "NovuscomCMFBundle:Block:new" }
 
 admin_block_create:
     path:  /block-create/
+=======
+    pattern:  /block-new/
+    defaults: { _controller: "NovuscomCMFBundle:Block:new" }
+
+admin_block_create:
+    pattern:  /block-create/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Block:create" }
     requirements: { _method: post }
 
 admin_block_edit:
+<<<<<<< HEAD
     path:  /block-edit-{id}/
     defaults: { _controller: "NovuscomCMFBundle:Block:edit" }
 
 admin_block_update:
     path:  /block-update-{id}/
+=======
+    pattern:  /block-edit-{id}/
+    defaults: { _controller: "NovuscomCMFBundle:Block:edit" }
+
+admin_block_update:
+    pattern:  /block-update-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Block:update" }
     requirements: { _method: post|put }
 
 admin_block_delete:
+<<<<<<< HEAD
     path:  /block-delete-{id}/
+=======
+    pattern:  /block-delete-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Block:delete" }
     requirements: { _method: post|delete }
 
 admin_element_in_section:
+<<<<<<< HEAD
     path:  /block-{id}/section-{section_id}/new-element/
+=======
+    pattern:  /block-{id}/section-{section_id}/new-element/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Element:new" }
     requirements: { id: \d+, section_id: \d+ }
 
 admin_element_in_block:
+<<<<<<< HEAD
     path:  /block-{id}/new-element/
+=======
+    pattern:  /block-{id}/new-element/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Element:new", section_id: false }
     requirements: { id: \d+}
 
 admin_element_create_in_section:
+<<<<<<< HEAD
     path:  /block-{id}/section-{section_id}/create-element/
+=======
+    pattern:  /block-{id}/section-{section_id}/create-element/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Element:create" }
     requirements: { _method: post, id: \d+, section_id: \d+ }
 
 admin_element_create_in_block:
+<<<<<<< HEAD
     path:  /block-{id}/create-element/
+=======
+    pattern:  /block-{id}/create-element/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Element:create", section_id: false }
     requirements: { _method: post, id: \d+, section_id: \d+ }
 
 admin_element_edit:
+<<<<<<< HEAD
     path:  /block-{block_id}/edit-element-{id}/
+=======
+    pattern:  /block-{block_id}/edit-element-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Element:edit" }
     requirements: {id: \d+, block_id: \d+}
 
 admin_element_edit_in_section:
+<<<<<<< HEAD
     path:  /block-{block_id}/section-{section_id}/edit-element-{id}/
+=======
+    pattern:  /block-{block_id}/section-{section_id}/edit-element-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Element:edit" }
     requirements: {id: \d+, block_id: \d+, section_id: \d+}
 
 admin_element_update:
+<<<<<<< HEAD
     path:  /block-{block_id}/update-element-{id}/
+=======
+    pattern:  /block-{block_id}/update-element-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Element:update" }
     requirements: { _method: post|put, id: \d+, block_id: \d+ }
 
 admin_element_update_in_section:
+<<<<<<< HEAD
     path:  /block-{block_id}/section-{section_id}/update-element-{id}/
+=======
+    pattern:  /block-{block_id}/section-{section_id}/update-element-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Element:update" }
     requirements: { _method: post|put, id: \d+, block_id: \d+, section_id: \d+ }
 
 admin_element_delete:
+<<<<<<< HEAD
     path:  /delete-element-{id}/
+=======
+    pattern:  /delete-element-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Element:delete" }
     requirements: { _method: post|delete }
 
 admin_delete_element_preview_picture:
+<<<<<<< HEAD
     path:  /delete-element-preview-picture-{element_id}/
+=======
+    pattern:  /delete-element-preview-picture-{element_id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:Element:deletePreviewPicture" }
     requirements: { _method: post|delete, element_id: \d+}

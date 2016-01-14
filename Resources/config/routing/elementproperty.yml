@@ -1,4 +1,5 @@
 admin_elementproperty:
+<<<<<<< HEAD
     path:  /
     defaults: { _controller: "NovuscomCMFBundle:ElementProperty:index" }
 
@@ -12,19 +13,46 @@ admin_elementproperty_new:
 
 admin_elementproperty_create:
     path:  /create
+=======
+    pattern:  /
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:index" }
+
+admin_elementproperty_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:show" }
+
+admin_elementproperty_new:
+    pattern:  /new
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:new" }
+
+admin_elementproperty_create:
+    pattern:  /create
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:ElementProperty:create" }
     requirements: { _method: post }
 
 admin_elementproperty_edit:
+<<<<<<< HEAD
     path:  /{id}/edit
     defaults: { _controller: "NovuscomCMFBundle:ElementProperty:edit" }
 
 admin_elementproperty_update:
     path:  /{id}/update
+=======
+    pattern:  /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:edit" }
+
+admin_elementproperty_update:
+    pattern:  /{id}/update
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:ElementProperty:update" }
     requirements: { _method: post|put }
 
 admin_elementproperty_delete:
+<<<<<<< HEAD
     path:  /{id}/delete
+=======
+    pattern:  /{id}/delete
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:ElementProperty:delete" }
     requirements: { _method: post|delete }

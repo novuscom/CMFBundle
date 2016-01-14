@@ -1,37 +1,65 @@
 admin_blockgroup:
+<<<<<<< HEAD
     path:  /
     defaults: { _controller: "NovuscomCMFBundle:BlockGroup:index" }
 
 admin_blockgroup_show:
     path:  /blockgroup-{id}/
+=======
+    pattern:  /
+    defaults: { _controller: "NovuscomCMFBundle:BlockGroup:index" }
+
+admin_blockgroup_show:
+    pattern:  /blockgroup-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:BlockGroup:show" }
     requirements:
         id: \d+
 
 admin_blockgroup_new:
+<<<<<<< HEAD
     path:  /blockgroup-new/
     defaults: { _controller: "NovuscomCMFBundle:BlockGroup:new" }
 
 admin_blockgroup_create:
     path:  /blockgroup-create/
+=======
+    pattern:  /blockgroup-new/
+    defaults: { _controller: "NovuscomCMFBundle:BlockGroup:new" }
+
+admin_blockgroup_create:
+    pattern:  /blockgroup-create/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:BlockGroup:create" }
     requirements: { _method: post }
 
 
 admin_blockgroup_edit:
+<<<<<<< HEAD
     path:  /blockgroup-edit-{id}/
+=======
+    pattern:  /blockgroup-edit-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:BlockGroup:edit" }
     requirements:
         id: \d+
 
 admin_blockgroup_update:
+<<<<<<< HEAD
     path:  /blockgroup-update-{id}/
+=======
+    pattern:  /blockgroup-update-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:BlockGroup:update" }
     requirements: { _method: post|put, id: \d+ }
 
 
 admin_blockgroup_delete:
+<<<<<<< HEAD
     path:  /blockgroup-delete-{id}/
+=======
+    pattern:  /blockgroup-delete-{id}/
+>>>>>>> 525d180da3e2b35d6835ee702b951d4ef7e02637
     defaults: { _controller: "NovuscomCMFBundle:BlockGroup:delete" }
     requirements: { _method: post|delete, id: \d+ }
 
