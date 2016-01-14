@@ -78,14 +78,10 @@ class SiteController extends Controller
      */
     private function createCreateForm(Site $entity)
     {
-        $form = $this->createForm(new SiteType(), $entity, array(
+        $form = $this->createForm(SiteType::class, $entity, array(
             'action' => $this->generateUrl('cmf_admin_site_create'),
             'method' => 'POST',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Сохранить', 'attr' => array(
-            'class' => 'btn btn-success'
-        )));
 
         return $form;
     }
