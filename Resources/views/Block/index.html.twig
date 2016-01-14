@@ -1,0 +1,47 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body -%}
+
+
+
+    <div class="box">
+        <div class="box-header">
+            <div class="box-header">
+                Инфоблоки
+            </div>
+        </div>
+        <div class="box-body">
+            <table class="table table-bordered table-striped table-hover table-heading table-datatable"
+                   id="datatable-1">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td><a href="{{ path('admin_block_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                        <td><a href="{{ path('admin_block_edit', { 'id': entity.id }) }}"><b>{{ entity.name }}</b></a></td>
+                        <td>{{ entity.code }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="box-footer">
+            <a class="btn btn-success" href="{{ path('admin_block_new') }}">
+                Новый инфоблок
+            </a>
+        </div>
+    </div>
+{% endblock %}

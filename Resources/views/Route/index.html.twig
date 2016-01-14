@@ -1,0 +1,70 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-name">
+                        <i class="fa fa-table"></i>
+                        <span>Список маршрутов</span>
+                    </div>
+                </div>
+                <div class="box-content no-padding">
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Активность</th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Template</th>
+                            <th>Controller</th>
+                            <th>Сортировка</th>
+                            <th>Actions</th>
+                            <th>Params</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+                                <td><a href="{{ path('admin_route_show', { 'id': entity.id }) }}">{{ entity.id }}</a>
+                                </td>
+                                <td>
+                                    {% if (entity.active) %}
+                                        <i class="glyphicon glyphicon-check"></i>
+                                    {% else %}
+                                        <i class="glyphicon glyphicon-unchecked"></i>
+                                    {% endif %}
+                                </td>
+                                <td>{{ entity.name }}</td>
+                                <td>{{ entity.code }}</td>
+                                <td>{{ entity.template }}</td>
+                                <td>{{ entity.controller }}</td>
+                                <td>{{ entity.sort }}</td>
+                                <td>
+                                    <a class="btn btn-info" href="{{ path('admin_route_show', { 'id': entity.id }) }}">show</a>
+                                    <a class="btn btn-warning"
+                                       href="{{ path('admin_route_edit', { 'id': entity.id }) }}">edit</a>
+                                </td>
+                                <td>{{ entity.params }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_route_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+{% endblock %}

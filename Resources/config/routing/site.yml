@@ -1,0 +1,30 @@
+admin_site:
+    path:  /
+    defaults: { _controller: "NovuscomCMFBundle:Site:index" }
+
+admin_site_show:
+    path:  /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:Site:show" }
+
+admin_site_new:
+    path:  /new
+    defaults: { _controller: "NovuscomCMFBundle:Site:new" }
+
+admin_site_create:
+    path:  /create
+    defaults: { _controller: "NovuscomCMFBundle:Site:create" }
+    requirements: { _method: post }
+
+admin_site_edit:
+    path:  /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:Site:edit" }
+
+admin_site_update:
+    path:  /{id}/update
+    defaults: { _controller: "NovuscomCMFBundle:Site:update" }
+    requirements: { _method: post|put }
+
+admin_site_delete:
+    path:  /{id}/delete
+    defaults: { _controller: "NovuscomCMFBundle:Site:delete" }
+    requirements: { _method: post|delete }

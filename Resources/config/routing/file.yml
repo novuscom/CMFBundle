@@ -1,0 +1,30 @@
+admin_file:
+    path:     /
+    defaults: { _controller: "NovuscomCMFBundle:File:index" }
+
+admin_file_show:
+    path:     /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:File:show" }
+
+admin_file_new:
+    path:     /new
+    defaults: { _controller: "NovuscomCMFBundle:File:new" }
+
+admin_file_create:
+    path:     /create
+    defaults: { _controller: "NovuscomCMFBundle:File:create" }
+    requirements: { _method: post }
+
+admin_file_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:File:edit" }
+
+admin_file_update:
+    path:     /{id}/update
+    defaults: { _controller: "NovuscomCMFBundle:File:update" }
+    requirements: { _method: post|put }
+
+admin_file_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "NovuscomCMFBundle:File:delete" }
+    requirements: { _method: post|delete }

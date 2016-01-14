@@ -1,0 +1,6 @@
+textarea.form-control{
+    resize: none;
+}
+#orchestra_CMSBundle_page_content{
+    height: 380px;
+}

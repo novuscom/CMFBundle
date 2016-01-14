@@ -1,0 +1,253 @@
+cmf_add_to_cart_json:
+    path:     /addtocart.json
+    defaults: { _controller: "NovuscomCMFBundle:Component:AddToCartJSON" }
+    requirements:
+        _method: post|put
+        product: .+
+
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+fos_user_security_login:
+    path:  /admin_login/
+    defaults: { _controller: "FOSUserBundle:Security:login" }
+
+fos_user_security_check:
+    path:  /login_check/
+    defaults: { _controller: "FOSUserBundle:Security:check" }
+    requirements: { _method: post }
+
+fos_user_security_logout:
+    path:  /logout/
+    defaults: { _controller: "FOSUserBundle:Security:logout" }
+
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register_user
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
+
+elfinder:
+     resource: "@FMElfinderBundle/Resources/config/routing.yml"
+
+
+NovuscomCMFUserBundle_admin_user:
+    resource: "@NovuscomCMFUserBundle/Resources/config/routing/user.yml"
+    prefix:   /admin/user
+
+NovuscomCMFUserBundle_admin_system:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/system.yml"
+    prefix:   /admin/system
+
+NovuscomCMFUserBundle_admin_group:
+    resource: "@NovuscomCMFUserBundle/Resources/config/routing/group.yml"
+    prefix:   /admin/group
+
+NovuscomCMFBundle_admin_menu:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/menu.yml"
+
+NovuscomCMFBundle_admin_menuitem:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/menuitem.yml"
+
+NovuscomCMFBundle_admin_propertylist:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/propertylist.yml"
+    prefix:   /admin/propertylist
+
+NovuscomCMFBundle_admin_property:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/property.yml"
+    prefix:   /admin/property
+
+NovuscomCMFBundle_admin_order:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/order.yml"
+    prefix:   /admin/order
+
+
+CMFMediaBundle_admin_file:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/file.yml"
+    prefix:   /admin/file
+NovuscomCMFBundle_admin_elementproperty:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/elementproperty.yml"
+    prefix:   /admin/elementproperty
+
+NovuscomCMFBundle_admin_blockgroup:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/blockgroup.yml"
+    prefix:   /admin/blockgroup
+
+NovuscomCMFBundle_admin_block:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/block.yml"
+    prefix:   /admin/block
+
+NovuscomCMFBundle_admin_section:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/section.yml"
+    prefix:   /admin/
+
+NovuscomCMFBundle_admin_route:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/route.yml"
+    prefix:   /admin/route
+
+NovuscomCMFBundle_admin_searchquery:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/searchquery.yml"
+    prefix:   /admin/searchquery
+
+NovuscomCMFBundle_admin_cart:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/cart.yml"
+    prefix:   /admin/cart
+
+NovuscomCMFBundle_admin_product:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/product.yml"
+    prefix:   /admin/product
+
+cmf_admin_homepage:
+    path:  /admin/
+    defaults: { _controller: NovuscomCMFBundle:Admin:index }
+
+
+cmf_admin_site_list:
+    path:  /admin/site/
+    defaults: { _controller: "NovuscomCMFBundle:Site:index" }
+
+cmf_admin_site_show:
+    path:  /admin/site/{id}/
+    defaults: { _controller: "NovuscomCMFBundle:Site:show" }
+    requirements:
+        id: \d+
+
+cmf_admin_site_new:
+    path:  /admin/site/new/
+    defaults: { _controller: "NovuscomCMFBundle:Site:new" }
+
+cmf_admin_site_create:
+    path:  /admin/site/create/
+    defaults: { _controller: "NovuscomCMFBundle:Site:create" }
+    requirements: { _method: post }
+
+cmf_admin_site_edit:
+    path:  /admin/site/{id}/edit/
+    defaults: { _controller: "NovuscomCMFBundle:Site:edit" }
+    requirements:
+        id: \d+
+
+cmf_admin_site_update:
+    path:  /admin/site/{id}/update/
+    defaults: { _controller: "NovuscomCMFBundle:Site:update" }
+    requirements: { _method: post|put, id: \d+ }
+
+
+cmf_admin_site_delete:
+    path:  /admin/site/{id}/delete/
+    defaults: { _controller: "NovuscomCMFBundle:Site:delete" }
+    requirements: { _method: post|delete, id: \d+ }
+
+
+
+cmf_admin_site_pages:
+    path:  /admin/site/{site_id}/pages/
+    defaults: { _controller: NovuscomCMFBundle:Page:index }
+    requirements:
+        site_id: \d+
+
+cmf_admin_page_new:
+    path:  /admin/site/{site_id}/pages/new/
+    defaults: { _controller: "NovuscomCMFBundle:Page:new" }
+    requirements:
+        site_id: \d+
+
+cmf_admin_page_create:
+    path:  /admin/site/{site_id}/pages/create/
+    defaults: { _controller: "NovuscomCMFBundle:Page:create" }
+    requirements: { _method: post }
+
+cmf_admin_page_show:
+    path:  /admin/site/{site_id}/pages/{id}/
+    defaults: { _controller: "NovuscomCMFBundle:Page:show" }
+    requirements:
+        id: \d+
+        site_id: \d+
+
+
+cmf_admin_page_edit:
+    path:  /admin/site/{site_id}/pages/{id}/edit/
+    defaults: { _controller: "NovuscomCMFBundle:Page:edit" }
+    requirements:
+        id: \d+
+        site_id: \d+
+
+cmf_admin_page_update:
+    path:  /admin/site/{site_id}/pages/{id}/update/
+    defaults: { _controller: "NovuscomCMFBundle:Page:update" }
+    requirements:
+        _method: post|put
+        id: \d+
+        site_id: \d+
+
+cmf_admin_page_delete:
+    path:  /admin/site/{site_id}/pages/{id}/delete/
+    defaults: { _controller: "NovuscomCMFBundle:Page:delete" }
+    requirements: { _method: post|delete }
+    requirements:
+        id: \d+
+        site_id: \d+
+
+
+cmf_robots_txt:
+    path:     /robots.txt
+    defaults: { _controller: NovuscomCMFBundle:Default:robots }
+
+
+
+
+
+recount_cart_json:
+    path:     /recount-cart.json
+    defaults: { _controller: "NovuscomCMFBundle:Component:RecountCart" }
+    requirements: { _method: post }
+
+delete_product_json:
+    path:     /delete-product.json
+    defaults: { _controller: "NovuscomCMFBundle:Component:DeleteProduct" }
+    requirements: { _method: post|delete }
+
+sitemap_xml:
+    path:     /sitemap.xml
+    defaults: { _controller: "NovuscomCMFBundle:Component:SiteMapXML" }
+
+search:
+    path:     /search/
+    defaults: { _controller: "NovuscomCMFBundle:Component:Search" }
+    requirements: { _method: get|post }
+
+NovuscomCMFBundle_Extra:
+    resource: .
+    type: extra
+    
+cmf_page_main:
+    path:     /
+    defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
+
+main:
+    path:     /
+    defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }
+
+cmf_page_frontend:
+    path:     /{name}/
+    defaults: { _controller: NovuscomCMFBundle:Default:index }
+    requirements:
+        name: .+
+
+page:
+    path:     /{url}/
+    defaults: { _controller: NovuscomCMFBundle:Default:index }
+    requirements:
+        url: .+

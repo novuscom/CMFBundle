@@ -1,0 +1,23 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body -%}
+    <div class="box">
+        <div class="box-header">
+            <h4 class="box-title">Редактирование маршрута</h4>
+        </div>
+        <div class="box-body">
+
+
+            {{ form(edit_form) }}
+
+            <ul class="list-unstyled">
+                <li>
+                    <a href="{{ path('admin_route') }}" class="btn btn-info">
+                        К списку
+                    </a>
+                </li>
+                <li>{{ form(delete_form) }}</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

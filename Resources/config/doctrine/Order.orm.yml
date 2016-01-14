@@ -1,0 +1,40 @@
+Novuscom\CMFBundle\Entity\Order:
+    type: entity
+    table: OrderEntity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        created:
+            type: datetime
+        address:
+            type: string
+            length: 255
+        phone:
+            type: string
+            length: 50
+        name:
+            type: string
+            length: 255
+    oneToMany:
+        product:
+            targetEntity: Product
+            mappedBy: order
+            cascade: ["persist"]
+    manyToOne:
+        user:
+            targetEntity: Novuscom\CMFUserBundle\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                onDelete: "CASCADE"
+        status:
+            targetEntity: StatusOrder
+            joinColumn:
+                name: status_id
+                referencedColumnName: id
+                onDelete: "CASCADE"
+    lifecycleCallbacks: {  }

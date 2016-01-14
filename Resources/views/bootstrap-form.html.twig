@@ -1,0 +1,44 @@
+{% extends "bootstrap_3_layout.html.twig" %}
+{% block collection_widget %}
+    {% spaceless %}
+        <div class="cmf-form-collection">
+            <div class="cmf-form-collection__list">
+                {% for child in form %}
+                    <div class="form-group cmf-form-collection__item row">
+                        <div class="col-lg-2 cmf-form-collection__label">{{ form_label(child) }}</div>
+                        <div class="col-lg-10 cmf-form-collection__field">
+                            {{ form_widget(child) }}
+                            <button type="button" class="btn btn-default btn-xs cmf-form-collection__button-remove">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+                {{ form_errors(form) }}
+            </div>
+
+            {#{{ dump(form_widget(form.vars.prototype))  }}#}
+            {% if form.vars.prototype is defined %}
+                <div class="form-group cmf-form-collection__item cmf-form-collection__template row" style="display: none" >
+                    <div class="col-lg-2 cmf-form-collection__label"></div>
+                    <div class="col-lg-10 cmf-form-collection__field">
+                        <button type="button" class="btn btn-default btn-xs cmf-form-collection__button-remove">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="cmf-form-collection__button-box">
+                    <button type="button" class="btn btn-default btn-sm cmf-form-collection__button"
+                            data-prototype="{{ form_widget(form.vars.prototype) | e }}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </div>
+            {% endif %}
+
+        </div>
+    {% endspaceless %}
+{% endblock collection_widget %}
+
+
+
+

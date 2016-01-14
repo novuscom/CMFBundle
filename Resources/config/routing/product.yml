@@ -1,0 +1,30 @@
+admin_product:
+    path:     /
+    defaults: { _controller: "NovuscomCMFBundle:Product:index" }
+
+admin_product_show:
+    path:     /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:Product:show" }
+
+admin_product_new:
+    path:     /new
+    defaults: { _controller: "NovuscomCMFBundle:Product:new" }
+
+admin_product_create:
+    path:     /create
+    defaults: { _controller: "NovuscomCMFBundle:Product:create" }
+    requirements: { _method: post }
+
+admin_product_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:Product:edit" }
+
+admin_product_update:
+    path:     /{id}/update
+    defaults: { _controller: "NovuscomCMFBundle:Product:update" }
+    requirements: { _method: post|put }
+
+admin_product_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "NovuscomCMFBundle:Product:delete" }
+    requirements: { _method: post|delete }

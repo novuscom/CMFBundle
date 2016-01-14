@@ -1,0 +1,21 @@
+Novuscom\CMFBundle\Entity\SearchQuery:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\SearchQueryRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        query:
+            type: string
+            length: 255
+        quantity:
+            type: integer
+        results:
+            type: integer
+        time:
+            type: datetime
+    lifecycleCallbacks: {  }

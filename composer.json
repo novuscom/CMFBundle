@@ -1,0 +1,39 @@
+{
+  "name": "novuscom/cmfbundle",
+  "description": "Symfony2 based CMF",
+  "type": "symfony-bundle",
+  "homepage": "https://github.com/novuscom/CMFBundle",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "keywords": [
+	"cmf",
+	"cmf bundle"
+  ],
+  "authors": [
+	{
+	  "name": "Alexander Averichev",
+	  "email": "averichev@yandex.ru"
+	}
+  ],
+  "require": {
+	"helios-ag/fm-elfinder-bundle": "6.0.1"
+  },
+  "require-dev": {
+  },
+  "repositories": [
+	{
+	  "type": "vcs",
+	  "url": "https://github.com/novuscom/CMFBundle.git"
+	}
+  ],
+  "autoload": {
+	"psr-4": {
+	  "Novuscom\\CMFBundle\\": ""
+	}
+  },
+  "extra": {
+	"branch-alias": {
+	  "dev-master": "0.0.6-dev"
+	}
+  }
+}
