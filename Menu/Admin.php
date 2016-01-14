@@ -16,9 +16,10 @@ class Admin implements ContainerAwareInterface
 		$em = $this->container->get('doctrine.orm.entity_manager');
 
 
-		$request = $this->container->get('request');
-		$routeName = $request->get('_route');
-		$routeParams = $request->get('_route_params');
+		$request = $this->container->get('request_stack')->getCurrentRequest();
+		//echo '<pre>' . print_r($request->attributes->get('_route'), true) . '</pre>'; exit;
+		$routeName = $request->attributes->get('_route');
+		$routeParams = $request->attributes->get('_route_params');
 
 		//echo '<pre>' . print_r($routeName, true) . '</pre>';
 		//echo '<pre>' . print_r($routeParams, true) . '</pre>';
@@ -53,7 +54,7 @@ class Admin implements ContainerAwareInterface
 		$blocksList = $menu->addChild('Инфоблоки', array(
 			'route' => 'admin_block'
 		));
-		if ($this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
+		if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
 			$menu->addChild('Группы пользователей', array(
 				'route' => 'admin_group'
 			));
