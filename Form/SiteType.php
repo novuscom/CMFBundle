@@ -2,16 +2,15 @@
 
 namespace Novuscom\CMFBundle\Form;
 
+use Novuscom\CMFBundle\Entity\Alias;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Novuscom\CMFBundle\Form\AliasType;
-
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 class SiteType extends AbstractType
@@ -22,17 +21,12 @@ class SiteType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-
-		$entity = $builder->getData();
-
-		//echo '<pre>'.print_r($entity->getEmails(), true).'</pre>';
 		$builder->add('name', TextType::class, array(
 			'label' => 'Название сайта',
 			'attr' => array(
 				'class' => 'form-control'
 			)
 		));
-
 		$builder->add('code', TextType::class, array(
 			'label' => 'Код',
 		));
@@ -54,6 +48,9 @@ class SiteType extends AbstractType
 			'mapped' => true,
 			'by_reference' => false,
 			'allow_add' => true,
+			'entry_options' => array(
+				//'data' => array()
+			)
 		));
 		$builder->add('robotsTxt', TextareaType::class, array('required' => false, 'attr' => array(
 			'class' => 'form-control'
@@ -68,15 +65,11 @@ class SiteType extends AbstractType
 		)));
 	}
 
-	/**
-	 * @param OptionsResolverInterface $resolver
-	 */
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
+	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
 			'data_class' => 'Novuscom\CMFBundle\Entity\Site',
 			//'cascade_validation' => true,
-
 		));
 	}
 
