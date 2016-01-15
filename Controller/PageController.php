@@ -4,6 +4,7 @@ namespace Novuscom\CMFBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use Novuscom\CMFBundle\Entity\Page;
 use Novuscom\CMFBundle\Entity\File;
@@ -200,7 +201,7 @@ class PageController extends Controller
             'CHOICES' => $this->getPagesList(),
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Создать'));
+        $form->add('submit', SubmitType::class, array('label' => 'Создать'));
 
         return $form;
     }
@@ -311,7 +312,7 @@ class PageController extends Controller
             'SITE_ID' => $siteId,
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-success')));
+        $form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-success')));
 
         return $form;
     }
@@ -427,7 +428,7 @@ class PageController extends Controller
             )
             )
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Удалить', 'attr' => array('class' => 'btn btn-danger')))
+            ->add('submit', SubmitType::class, array('label' => 'Удалить', 'attr' => array('class' => 'btn btn-danger')))
             ->getForm();
     }
 }
