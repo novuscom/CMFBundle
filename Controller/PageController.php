@@ -188,7 +188,7 @@ class PageController extends Controller
             }
         }
 
-        $form = $this->createForm(new PageType(), $entity, array(
+        $form = $this->createForm(PageType::class, $entity, array(
             'action' => $this->generateUrl(
                 'cmf_admin_page_create',
                 array('site_id' => $siteId)
@@ -298,7 +298,7 @@ class PageController extends Controller
             $showURL = false;
         }
         $siteId = $this->getRequest()->get('site_id');
-        $form = $this->createForm(new PageType(), $entity, array(
+        $form = $this->createForm(PageType::class, $entity, array(
             'action' => $this->generateUrl('cmf_admin_page_update',
                 array(
                     'id' => $entity->getId(),
