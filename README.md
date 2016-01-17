@@ -52,17 +52,15 @@ CMF на Symfony2
 
 5. Добавляем в app/AppKernel.php строчки
  ```php
-    new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-    new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-    new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),
-    new APY\BreadcrumbTrailBundle\APYBreadcrumbTrailBundle(),
-    new Liip\ImagineBundle\LiipImagineBundle(),
-    new Misd\GuzzleBundle\MisdGuzzleBundle(),
-    new Novuscom\CMFBundle\NovuscomCMFBundle(),
-    new Novuscom\CMFUserBundle\NovuscomCMFUserBundle(),
-    new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
-    new FM\ElfinderBundle\FMElfinderBundle(),
-    new FOS\UserBundle\FOSUserBundle(),
+        new Novuscom\CMFBundle\NovuscomCMFBundle(),
+        new Novuscom\CMFUserBundle\NovuscomCMFUserBundle(),
+        new FOS\UserBundle\FOSUserBundle(),
+	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+	new FM\ElfinderBundle\FMElfinderBundle(),
+	new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+	new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+	new APY\BreadcrumbTrailBundle\APYBreadcrumbTrailBundle(),
+	new Liip\ImagineBundle\LiipImagineBundle(),
  ```
 
 6. Содержимое файла *app/config/routing.yml*
