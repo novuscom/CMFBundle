@@ -28,25 +28,18 @@ CMF на Symfony2
 1. В блоке *require* файла composer.json добавляем следующие пакеты:
    ```json
 
-    "gedmo/doctrine-extensions": "dev-master",
-    "friendsofsymfony/user-bundle": "~2.0@dev",
-    "knplabs/knp-menu": "2.0.*@dev",
-    "knplabs/knp-menu-bundle": "2.0.*@dev",
-    "whiteoctober/breadcrumbs-bundle": "dev-master",
-    "apy/breadcrumbtrail-bundle": "dev-master",
-    "mopa/bootstrap-bundle": "v3.0.0-beta2",
-    "twbs/bootstrap": "v3.0.0",
-    "knplabs/knp-paginator-bundle": "^2.4",
-    "liip/imagine-bundle": "1.2.3",
-    "misd/guzzle-bundle": "~1.0",
-    "snc/redis-bundle": "1.1.x-dev",
-    "predis/predis": "0.8.x-dev",
-    "stfalcon/tinymce-bundle": "dev-master",
-    "helios-ag/fm-elfinder-bundle": "~5",
-    "novuscom/cmfbundle": "0.0.6.*",
-    "novuscom/cmfuserbundle": "0.0.6.3",
-    "openlss/lib-array2xml": "^0.0.10",
-    "ifsnop/mysqldump-php": "2.*"
+	"novuscom/cmfbundle": "0.0.6.*",
+	"novuscom/cmfuserbundle": "0.0.6.*",
+	"gedmo/doctrine-extensions": "^2.4",
+	"friendsofsymfony/user-bundle": "dev-master",
+	"knplabs/knp-paginator-bundle": "^2.5",
+	"helios-ag/fm-elfinder-bundle": "^6.0",
+	"stfalcon/tinymce-bundle": "^0.4.0",
+	"symfony/assetic-bundle": "^2.7",
+	"knplabs/knp-menu": "^2.1",
+	"knplabs/knp-menu-bundle": "^2.1",
+	"apy/breadcrumbtrail-bundle": "dev-master",
+   "liip/imagine-bundle": "^1.4"
 
    ```
 2. Выполняем команду `composer update`
