@@ -11,7 +11,11 @@ class User
     public function isAuthorized()
     {
         // IS_AUTHENTICATED_REMEMBERED
+<<<<<<< HEAD
         return ($this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'));
+=======
+        return ($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'));
+>>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
     }
 
     public function getUserSites($user = false)
@@ -25,7 +29,11 @@ class User
         $repo->from('NovuscomCMFBundle:Site', 'n', 'n.id');
         $repo->select(array('n.name, n.id'));
 
+<<<<<<< HEAD
         if ($this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
+=======
+        if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+>>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
 
         } else {
             if ($sitesId = $user->getSitesId()) {
@@ -40,7 +48,11 @@ class User
     }
 
     public function getCurrentUser(){
+<<<<<<< HEAD
         $user = $this->container->get('security.context')
+=======
+        $user = $this->container->get('security.token_storage')
+>>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
             ->getToken()
             ->getUser();
         return $user;

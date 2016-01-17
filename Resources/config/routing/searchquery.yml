@@ -1,30 +1,30 @@
 admin_searchquery:
-    pattern:  /
+    path:  /
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:index" }
 
 admin_searchquery_show:
-    pattern:  /{id}/show
+    path:  /{id}/show
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:show" }
 
 admin_searchquery_new:
-    pattern:  /new
+    path:  /new
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:new" }
 
 admin_searchquery_create:
-    pattern:  /create
+    path:  /create
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:create" }
     requirements: { _method: post }
 
 admin_searchquery_edit:
-    pattern:  /{id}/edit
+    path:  /{id}/edit
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:edit" }
 
 admin_searchquery_update:
-    pattern:  /{id}/update
+    path:  /{id}/update
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:update" }
     requirements: { _method: post|put }
 
 admin_searchquery_delete:
-    pattern:  /{id}/delete
+    path:  /{id}/delete
     defaults: { _controller: "NovuscomCMFBundle:SearchQuery:delete" }
     requirements: { _method: post|delete }

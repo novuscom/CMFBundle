@@ -11,63 +11,63 @@ services:
         class: Novuscom\CMFBundle\Twig\TemplateExtension
         tags:
             - { name: twig.extension }
-        arguments: [@service_container, @logger, @Utils]
+        arguments: ["@service_container", "@logger", "@Utils"]
     User:
         class:        Novuscom\CMFBundle\Services\User
-        arguments: [ @service_container, @logger ]
+        arguments: [ "@service_container", "@logger" ]
     Site:
         class:        Novuscom\CMFBundle\Services\Site
-        arguments: [ @service_container, @logger, @request_stack, @doctrine.orm.entity_manager ]
+        arguments: [ "@service_container", "@logger", "@request_stack", "@doctrine.orm.entity_manager" ]
     File:
         class:        "%File.class%"
-        arguments: [ @service_container ]
+        arguments: [ "@service_container" ]
     Page:
         class:        Novuscom\CMFBundle\Services\Page
-        arguments: [ @doctrine.orm.entity_manager, @logger, @Site ]
+        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@Site" ]
     Section:
         class:        Novuscom\CMFBundle\Services\Section
-        arguments: [ @logger, @doctrine.orm.entity_manager ]
+        arguments: [ "@logger", "@doctrine.orm.entity_manager" ]
     Element:
         class:        Novuscom\CMFBundle\Services\Element
-        arguments: [ @doctrine.orm.entity_manager, @logger, @service_container, @Utils, @router ]
+        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@service_container", "@Utils", "@router" ]
     Route:
         class:        Novuscom\CMFBundle\Services\Route
-        arguments: [ @doctrine.orm.entity_manager, @logger, @service_container, @Utils, @router ]
+        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@service_container", "@Utils", "@router" ]
     Cart:
         class:        Novuscom\CMFBundle\Services\Cart
-        arguments: [ @doctrine.orm.entity_manager, @logger, @request_stack, @service_container, @User ]
+        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@request_stack", "@service_container", "@User" ]
     Product:
         class:        Novuscom\CMFBundle\Services\Product
-        arguments: [ @doctrine.orm.entity_manager, @Cart, @logger ]
+        arguments: [ "@doctrine.orm.entity_manager", "@Cart", "@logger" ]
     Utils:
         class:        Novuscom\CMFBundle\Services\Utils
-        arguments: [ @logger ]
+        arguments: [ "@logger" ]
     cmf_routing.routing_loader:
         class: Novuscom\CMFBundle\Routing\ExtraLoader
         tags:
             - { name: routing.loader }
-        arguments: [@doctrine.orm.entity_manager, @logger, @Site, @request_stack]
+        arguments: ["@doctrine.orm.entity_manager", "@logger", "@Site", "@request_stack"]
     ElementsList:
         class:        "%ElementsList.class%"
         scope: prototype
-        arguments: [ @doctrine.orm.entity_manager, @Element, @logger, @Section ]
+        arguments: [ "@doctrine.orm.entity_manager", "@Element", "@logger", "@Section" ]
     Crumbs:
         class:        "%Crumbs.class%"
-        arguments: [ @doctrine.orm.entity_manager, @logger, @apy_breadcrumb_trail ]
+        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@apy_breadcrumb_trail" ]
     SectionClass:
         class:        "%SectionClass%"
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ["@doctrine.orm.entity_manager"]
     PageClass:
         class:        "%page_class%"
         calls:
             - [setContainer, ["@service_container"]]
-    Guzzle:
-        class: %guzzle.client.class%
-        tags:
-            - { name:guzzle.client }
-        arguments: ["http://www.google.com/"]
+#    Guzzle:
+#        class: %guzzle.client.class%
+#        tags:
+#            - { name:guzzle.client }
+#        arguments: ["http://www.google.com/"]
     user_events_listener:
         class: Novuscom\CMFBundle\Event\UserSubscriber
-        arguments: [@service_container]
+        arguments: ["@service_container"]
         tags:
             - { name: kernel.event_listener, event: user.register, method: onUserRegister }
