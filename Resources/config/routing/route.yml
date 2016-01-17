@@ -1,0 +1,30 @@
+admin_route:
+    pattern:  /
+    defaults: { _controller: "NovuscomCMFBundle:Route:index" }
+
+admin_route_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:Route:show" }
+
+admin_route_new:
+    pattern:  /new
+    defaults: { _controller: "NovuscomCMFBundle:Route:new" }
+
+admin_route_create:
+    pattern:  /create
+    defaults: { _controller: "NovuscomCMFBundle:Route:create" }
+    requirements: { _method: post }
+
+admin_route_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:Route:edit" }
+
+admin_route_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "NovuscomCMFBundle:Route:update" }
+    requirements: { _method: post|put }
+
+admin_route_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "NovuscomCMFBundle:Route:delete" }
+    requirements: { _method: post|delete }

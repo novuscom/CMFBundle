@@ -1,0 +1,57 @@
+Novuscom\CMFBundle\Entity\Block:
+    repositoryClass: Novuscom\CMFBundle\Entity\BlockRepository
+    type: entity
+    table: Block
+    id:
+       id:
+          type: integer
+          generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 255
+        code:
+            type: string
+            length: 255
+            nullable: true
+        group_id:
+            type: integer
+            nullable: true
+    oneToMany:
+        property:
+            targetEntity: Property
+            mappedBy: block
+            cascade: ["persist"]
+        element:
+            targetEntity: Element
+            mappedBy: block
+            cascade: ["persist"]
+        section:
+            targetEntity: Section
+            mappedBy: block
+            cascade: ["persist"]
+        routes:
+            targetEntity: Novuscom\CMFBundle\Entity\Route
+            mappedBy: block
+            cascade: ["persist"]
+    manyToOne:
+        group:
+            targetEntity: BlockGroup
+            inversedBy: block
+            joinColumn:
+                name: group_id
+                referencedColumnName: id
+    manyToMany:
+        sites:
+            targetEntity: Novuscom\CMFBundle\Entity\Site
+            inversedBy: blocks
+            joinTable:
+                name: Block_Site
+                joinColumns:
+                    block_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    site_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
+    lifecycleCallbacks: {  }

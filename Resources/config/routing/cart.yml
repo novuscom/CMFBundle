@@ -1,0 +1,30 @@
+admin_cart:
+    path:     /
+    defaults: { _controller: "NovuscomCMFBundle:Cart:index" }
+
+admin_cart_show:
+    path:     /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:Cart:show" }
+
+admin_cart_new:
+    path:     /new
+    defaults: { _controller: "NovuscomCMFBundle:Cart:new" }
+
+admin_cart_create:
+    path:     /create
+    defaults: { _controller: "NovuscomCMFBundle:Cart:create" }
+    requirements: { _method: post }
+
+admin_cart_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:Cart:edit" }
+
+admin_cart_update:
+    path:     /{id}/update
+    defaults: { _controller: "NovuscomCMFBundle:Cart:update" }
+    requirements: { _method: post|put }
+
+admin_cart_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "NovuscomCMFBundle:Cart:delete" }
+    requirements: { _method: post|delete }

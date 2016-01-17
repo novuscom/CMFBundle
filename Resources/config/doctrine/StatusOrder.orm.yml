@@ -1,0 +1,21 @@
+Novuscom\CMFBundle\Entity\StatusOrder:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\StatusOrderRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        description:
+            type: string
+            length: 255
+        code:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

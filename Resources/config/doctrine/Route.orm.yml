@@ -1,0 +1,53 @@
+Novuscom\CMFBundle\Entity\Route:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\RouteRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            length: 255
+        code:
+            type: string
+            length: 255
+        template:
+            type: string
+            length: 255
+        controller:
+            type: string
+            length: 255
+        params:
+            type: string
+            length: 255
+            nullable: true
+        active:
+            type: boolean
+        sort:
+            type: integer
+            nullable: true
+    manyToOne:
+        site:
+            targetEntity: Novuscom\CMFBundle\Entity\Site
+            inversedBy: routes
+            joinColumn:
+                name: site_id
+                referencedColumnName: id
+                onDelete: CASCADE
+        block:
+            targetEntity: Novuscom\CMFBundle\Entity\Block
+            inversedBy: routes
+            joinColumn:
+                name: block_id
+                referencedColumnName: id
+        page:
+            targetEntity: Novuscom\CMFBundle\Entity\Page
+            inversedBy: routes
+            joinColumn:
+                name: page_id
+                referencedColumnName: id
+                onDelete: "SET NULL"
+    lifecycleCallbacks: {  }

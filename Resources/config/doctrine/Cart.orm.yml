@@ -1,0 +1,32 @@
+Novuscom\CMFBundle\Entity\Cart:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\CartRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        created:
+            type: datetime
+        updated:
+            type: datetime
+        code:
+            type: string
+            length: 50
+            unique: true
+            nullable: false
+    oneToOne:
+        user:
+            targetEntity: Novuscom\CMFUserBundle\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+    oneToMany:
+        product:
+            targetEntity: Product
+            mappedBy: cart
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

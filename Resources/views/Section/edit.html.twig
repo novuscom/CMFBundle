@@ -1,0 +1,79 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body -%}
+    <h1 class="page-header">Изменение раздела</h1>
+    {{ form_start(edit_form) }}
+    <div class="row">
+
+        <div class="col-xs-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab_1" aria-expanded="true">Основная информация</a>
+                    </li>
+                    <li class=""><a data-toggle="tab" href="#tab_2" aria-expanded="false">Краткое описание</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab_3" aria-expanded="false">Подробное описание</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab_1" class="tab-pane active">
+                        <div class="row">
+                            <div class="col-md-4">
+                                {{ form_row(edit_form.name) }}
+                                {{ form_row(edit_form.code) }}
+                                {{ form_row(edit_form.title) }}
+                                {{ form_row(edit_form.keywords) }}
+                                {{ form_row(edit_form.description) }}
+                            </div>
+                            <div class="col-md-1">
+                                {{ form_row(edit_form.sort) }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="tab_2" class="tab-pane">
+						{{ form_row(edit_form.preview_picture) }}
+						{% if entity.previewPicture is not empty %}
+							<a class="fancybox"
+							   href="{{ asset('upload/images/'~entity.previewPicture.name) }}"><img
+										src="{{ asset('upload/images/'~entity.previewPicture.name) | imagine_filter('my_thumb') }}"/></a>
+							<div>
+								<a href="#"><i class="fa fa-trash-o"></i>
+									удалить превью пикчу</a>
+							</div>
+						{% else %}
+						{% endif %}
+                        {{ form_label(edit_form.preview_text) }}
+						{{ form_widget(edit_form.preview_text, {'attr':{'class':'tinymce', 'style':'height: 400px;'}}) }}
+						{{ form_errors(edit_form.preview_text) }}
+                    </div>
+                    <div id="tab_3" class="tab-pane">
+                        {{ form_label(edit_form.detail_text) }}
+						{{ form_widget(edit_form.detail_text, {'attr':{'class':'tinymce', 'style':'height: 400px;'}}) }}
+						{{ form_errors(edit_form.detail_text) }}
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col col-md-1">
+                            {{ form_widget(edit_form.submit, {'attr':{'class':'btn-block btn-success'}}) }}
+                        </div>
+                        <div class="col col-md-1">
+                            {#<a class="btn btn-info btn-block" href="{{ path('admin_block_show_section', {'id':block.id, 'section_id':entity.id}) }}"><i class="glyphicon glyphicon-list"></i> К списку</a>#}
+                        </div>
+                        <div class="col-md-1 pull-right">
+                            <a href="#" data-trigger="[data-delete]" class="btn btn-danger">Удалить</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    {{ form_end(edit_form) }}
+    <div class="hidden">{{ form(delete_form) }}</div>
+{% endblock %}
+{% block javascript %}
+	{{ elfinder_tinymce_init4('tinymce') }}
+	{{ tinymce_init() }}
+{% endblock %}
