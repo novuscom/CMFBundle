@@ -71,7 +71,7 @@ CMF на Symfony2
 7. Содержимое файла *app/config/config.yml*
  ```
  imports:
-    - { resource: @NovuscomCMFBundle/Resources/config/config.yml }
+    - { resource: "@NovuscomCMFBundle/Resources/config/config.yml" }
     - { resource: parameters.yml }
 
 framework:
