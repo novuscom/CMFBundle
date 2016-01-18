@@ -149,11 +149,7 @@ class DefaultController extends Controller
             $logger->alert($msg);
             throw $this->createNotFoundException($msg);
         }
-<<<<<<< HEAD
-        $securityContext = $this->container->get('security.context');
-=======
         $securityContext = $this->container->get('security.authorization_checker');
->>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
         if ($site['closed'] && !$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $response = $this->forward('NovuscomCMFBundle:Default:closed', array());
         } else {
