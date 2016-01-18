@@ -27,28 +27,7 @@ CMF на Symfony2
 
 1. В блоке *require* файла composer.json добавляем следующие пакеты:
    ```json
-
-<<<<<<< HEAD
-    "gedmo/doctrine-extensions": "dev-master",
-    "friendsofsymfony/user-bundle": "~2.0@dev",
-    "knplabs/knp-menu": "2.0.*@dev",
-    "knplabs/knp-menu-bundle": "2.0.*@dev",
-    "whiteoctober/breadcrumbs-bundle": "dev-master",
-    "apy/breadcrumbtrail-bundle": "dev-master",
-    "mopa/bootstrap-bundle": "v3.0.0-beta2",
-    "twbs/bootstrap": "v3.0.0",
-    "knplabs/knp-paginator-bundle": "^2.4",
-    "liip/imagine-bundle": "1.2.3",
-    "misd/guzzle-bundle": "~1.0",
-    "snc/redis-bundle": "1.1.x-dev",
-    "predis/predis": "0.8.x-dev",
-    "stfalcon/tinymce-bundle": "dev-master",
-    "helios-ag/fm-elfinder-bundle": "~5",
-    "novuscom/cmfbundle": "0.0.6.*",
-    "novuscom/cmfuserbundle": "0.0.6.3",
-    "openlss/lib-array2xml": "^0.0.10",
-    "ifsnop/mysqldump-php": "2.*"
-=======
+   
 	"novuscom/cmfbundle": "0.0.6.*",
 	"novuscom/cmfuserbundle": "0.0.6.*",
 	"gedmo/doctrine-extensions": "^2.4",
@@ -60,9 +39,8 @@ CMF на Symfony2
 	"knplabs/knp-menu": "^2.1",
 	"knplabs/knp-menu-bundle": "^2.1",
 	"apy/breadcrumbtrail-bundle": "dev-master",
-   "liip/imagine-bundle": "^1.4"
->>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
-
+	"liip/imagine-bundle": "^1.4"
+        
    ```
 2. Выполняем команду `composer update`
     Composer поставит зависимости. 
@@ -74,29 +52,15 @@ CMF на Symfony2
 
 5. Добавляем в app/AppKernel.php строчки
  ```php
-<<<<<<< HEAD
-    new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-    new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-    new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),
-    new APY\BreadcrumbTrailBundle\APYBreadcrumbTrailBundle(),
-    new Liip\ImagineBundle\LiipImagineBundle(),
-    new Misd\GuzzleBundle\MisdGuzzleBundle(),
-    new Novuscom\CMFBundle\NovuscomCMFBundle(),
-    new Novuscom\CMFUserBundle\NovuscomCMFUserBundle(),
-    new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
-    new FM\ElfinderBundle\FMElfinderBundle(),
-    new FOS\UserBundle\FOSUserBundle(),
-=======
-        new Novuscom\CMFBundle\NovuscomCMFBundle(),
-        new Novuscom\CMFUserBundle\NovuscomCMFUserBundle(),
-        new FOS\UserBundle\FOSUserBundle(),
-	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-	new FM\ElfinderBundle\FMElfinderBundle(),
-	new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
-	new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-	new APY\BreadcrumbTrailBundle\APYBreadcrumbTrailBundle(),
-	new Liip\ImagineBundle\LiipImagineBundle(),
->>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
+ new Novuscom\CMFBundle\NovuscomCMFBundle(),
+ new Novuscom\CMFUserBundle\NovuscomCMFUserBundle(),
+ new FOS\UserBundle\FOSUserBundle(),
+ new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+ new FM\ElfinderBundle\FMElfinderBundle(),
+ new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+ new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+ new APY\BreadcrumbTrailBundle\APYBreadcrumbTrailBundle(),
+ new Liip\ImagineBundle\LiipImagineBundle(),
  ```
 
 6. Содержимое файла *app/config/routing.yml*
@@ -107,17 +71,8 @@ CMF на Symfony2
 7. Содержимое файла *app/config/config.yml*
  ```
  imports:
-<<<<<<< HEAD
-    - { resource: @NovuscomCMFBundle/Resources/config/config.yml }
-=======
     - { resource: "@NovuscomCMFBundle/Resources/config/config.yml" }
->>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
     - { resource: parameters.yml }
-
-framework:
-    # ...
-    templating:
-        assets_version: 08.11.2015,16:11
  ```
  
 8. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
@@ -130,8 +85,4 @@ framework:
 
  `php app/console cache:clear`
 
-<<<<<<< HEAD
 10. *example.com/admin*
-=======
-10. *example.com/admin*
->>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
