@@ -1,0 +1,30 @@
+admin_propertylist:
+    path:     /
+    defaults: { _controller: "NovuscomCMFBundle:PropertyList:index" }
+
+admin_propertylist_show:
+    path:     /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:PropertyList:show" }
+
+admin_propertylist_new:
+    path:     /new
+    defaults: { _controller: "NovuscomCMFBundle:PropertyList:new" }
+
+admin_propertylist_create:
+    path:     /create
+    defaults: { _controller: "NovuscomCMFBundle:PropertyList:create" }
+    requirements: { _method: post }
+
+admin_propertylist_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:PropertyList:edit" }
+
+admin_propertylist_update:
+    path:     /{id}/update
+    defaults: { _controller: "NovuscomCMFBundle:PropertyList:update" }
+    requirements: { _method: post|put }
+
+admin_propertylist_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "NovuscomCMFBundle:PropertyList:delete" }
+    requirements: { _method: post|delete }

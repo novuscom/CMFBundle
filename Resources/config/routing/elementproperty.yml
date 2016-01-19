@@ -1,0 +1,30 @@
+admin_elementproperty:
+    path:  /
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:index" }
+
+admin_elementproperty_show:
+    path:  /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:show" }
+
+admin_elementproperty_new:
+    path:  /new
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:new" }
+
+admin_elementproperty_create:
+    path:  /create
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:create" }
+    requirements: { _method: post }
+
+admin_elementproperty_edit:
+    path:  /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:edit" }
+
+admin_elementproperty_update:
+    path:  /{id}/update
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:update" }
+    requirements: { _method: post|put }
+
+admin_elementproperty_delete:
+    path:  /{id}/delete
+    defaults: { _controller: "NovuscomCMFBundle:ElementProperty:delete" }
+    requirements: { _method: post|delete }

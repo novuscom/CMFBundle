@@ -1,0 +1,14 @@
+#Novuscom\CMFBundle\Entity\Site:
+#    properties:
+#        name:
+#            - Ip: ~
+#        alias:
+#            - Email: ~
+
+Novuscom\CMFBundle\Entity\Alias:
+#    constraints:
+#        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+#    properties:
+#        name:
+#           - Ip: ~
+#           - Novuscom\CMFBundle\Validator\Constraints\Alias: ~

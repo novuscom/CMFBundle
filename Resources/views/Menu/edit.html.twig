@@ -1,0 +1,30 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+
+{% block body -%}
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Изменение меню</h3>
+                </div>
+                <div class="box-body">
+                    {{ form(edit_form) }}
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col col-md-6">
+                            <a class="btn btn-info" href="{{ path('admin_menu', {'site_id':site.id}) }}">
+                                <i class="glyphicon glyphicon-list"></i> Список меню
+                            </a>
+                        </div>
+                        <div class="col col-md-6 text-right">
+                            {{ form(delete_form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

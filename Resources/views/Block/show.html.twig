@@ -1,0 +1,228 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body -%}
+
+	<div class="box">
+		<div class="box-header">
+			<h4 class="box-title">{{ entity.name }}
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('admin_block_edit', {'id':entity.id}) }}"><i
+								class="fa fa-cog"></i></a>
+				{% endif %}
+			</h4>
+		</div>
+		<div class="box-body">
+
+			{#<h4>Информация об инфоблоке</h4>#}
+			<dl class="dl-horizontal">
+				<dt>ID</dt>
+				<dd>{{ entity.id }}</dd>
+				<dt>Код</dt>
+				<dd>{{ entity.code }}</dd>
+			</dl>
+
+		</div>
+	</div>
+	<div class="box">
+		<div class="box-header">
+
+			{% if section is not empty %}
+				<h4 class="box-title">{{ section.name }}
+					<a href="{{ path('admin_section__edit', { 'id': entity.id, 'section_id': section.id }) }}"><i
+								class="glyphicon glyphicon-pencil"></i></a>
+				</h4>
+			{% else %}
+				<h4 class="box-title">
+					Разделы инфоблока
+				</h4>
+			{% endif %}
+
+		</div>
+		{% if sections is not empty %}
+			<div class="box-body">
+				{% if section is not empty %}
+					<dl class="dl-horizontal">
+						<dt>ID</dt>
+						<dd>{{ section.id }}</dd>
+						<dt>Код</dt>
+						<dd>{{ section.code }}</dd>
+					</dl>
+				{% endif %}
+				<table class="table ">
+					<thead>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Code</th>
+						<th>Sort</th>
+						<th>Lvl</th>
+						<th>Lft</th>
+						<th>Rgt</th>
+						<th>Картинка</th>
+						<th>Actions</th>
+					</tr>
+					</thead>
+					<tbody>
+					{% for s in sections %}
+						<tr>
+							<td>
+								<a href="{{ path('admin_block_show_section', { 'id': entity.id, 'section_id':s.id }) }}">{{ s.id }}</a>
+							</td>
+							<td>
+								<a href="{{ path('admin_block_show_section', { 'id': entity.id, 'section_id':s.id }) }}">{{ s.name }}</a>
+							</td>
+							<td>{{ s.code }}</td>
+							<td>{{ s.sort }}</td>
+							<td>{{ s.lvl }}</td>
+							<td>{{ s.lft }}</td>
+							<td>{{ s.rgt }}</td>
+							<td>
+								{% if s.previewPicture is not empty %}
+									{% set file = resize_image(s.previewPicture.getImagePath, 'proportional', [100, 100]) %}
+									<a class="fancybox" href="{{ s.previewPicture.getImagePath }}"><img
+												src="{{ file.src }}"/></a>
+								{% else %}
+								{% endif %}
+							</td>
+							<td>
+								{#<a class="btn btn-info" href="{{ path('admin_block_show_section', { 'id': entity.id, 'section_id':s.id }) }}">показать</a>#}
+								<a class="btn btn-warning"
+								   href="{{ path('admin_section__edit', { 'id': entity.id, 'section_id': s.id }) }}">редактировать</a>
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+					<tfoot>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Code</th>
+						<th>Sort</th>
+						<th>Lvl</th>
+						<th>Lft</th>
+						<th>Rgt</th>
+						<th>Картинка</th>
+						<th>Actions</th>
+					</tr>
+					</tfoot>
+				</table>
+			</div>
+		{% else %}
+			<div class="box-body">
+				<p>Нет разделов</p>
+			</div>
+		{% endif %}
+
+		<div class="box-footer">
+			<div class="row">
+				<div class="col col-xs-12">
+					{% if section is not empty %}
+						<a class="btn btn-success"
+						   href="{{ path('admin_section__new_in_section', {'id':entity.id, 'section_id':section.id}) }}">
+							<i class="glyphicon glyphicon-plus-sign"></i>
+							Добавить
+							раздел</a>
+					{% else %}
+						<a class="btn btn-success" href="{{ path('admin_section__new', {'id':entity.id}) }}">
+							<i class="glyphicon glyphicon-plus-sign"></i>
+							Добавить раздел</a>
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="box">
+		<div class="box-header">
+			<h5 class="box-title">Элементы раздела</h5>
+		</div>
+		<div class="box-body">
+			<table class="table table-bordered table-striped table-hover table-heading table-datatable"
+				   id="datatable-1">
+				<thead>
+				<tr>
+					<th>Id</th>
+					<th>Активность</th>
+					<th>Название</th>
+					<th>Код</th>
+					<th>Сортировка</th>
+					<th>Картинка для анонса</th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+
+				{% for element in elements %}
+					<tr>
+						<td>
+							<a href="{{ path('admin_element_edit', { 'id': element.id, 'block_id':entity.id }) }}">{{ element.id }}</a>
+						</td>
+						<td>
+							{% if (element.active) %}
+								<i class="glyphicon glyphicon-check"></i>
+							{% else %}
+								<i class="glyphicon glyphicon-unchecked"></i>
+							{% endif %}
+						</td>
+						<td>
+							<a href="{{ path('admin_element_edit', { 'id': element.id, 'block_id':entity.id }) }}">{{ element.name|raw }}</a>
+						</td>
+						<td>{{ element.code }}</td>
+						<td>{{ element.sort }}</td>
+						<td>
+							{% if element.previewPicture is not empty %}
+								{% set file = resize_image(element.previewPicture.getImagePath, 'proportional', [100, 100]) %}
+								<a class="fancybox" href="{{ element.previewPicture.getImagePath }}"><img
+											src="{{ file.src }}"/></a>
+							{% else %}
+							{% endif %}
+						</td>
+						<td>
+							{% if section is not empty %}
+								<a class="btn btn-warning"
+								   href="{{ path('admin_element_edit_in_section', { 'id': element.id, 'block_id':entity.id, 'section_id':section.id }) }}">edit</a>
+							{% else %}
+								<a class="btn btn-warning"
+								   href="{{ path('admin_element_edit', { 'id': element.id, 'block_id':entity.id }) }}">редактировать</a>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+				<tfoot>
+				<tr>
+					<th>Id</th>
+					<th>Активность</th>
+					<th>Название</th>
+					<th>Код</th>
+					<th>Сортировка</th>
+					<th>Картинка для анонса</th>
+					<th></th>
+				</tr>
+				</tfoot>
+			</table>
+		</div>
+		<div class="box-footer">
+			<div class="row">
+				<div class="col col-xs-12">
+					{% if section is not empty %}
+						<a class="btn btn-success"
+						   href="{{ path('admin_element_in_section', {'id':entity.id, 'section_id':section.id}) }}">
+							<i class="glyphicon glyphicon-plus-sign"></i>
+							Добавить
+							элемент</a>
+					{% else %}
+						<a class="btn btn-success" href="{{ path('admin_element_in_block', {'id':entity.id}) }}">
+							<i class="glyphicon glyphicon-plus-sign"></i>
+							Добавить
+							элемент</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

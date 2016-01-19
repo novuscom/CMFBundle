@@ -1,0 +1,48 @@
+Novuscom\CMFBundle\Entity\Property:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\PropertyRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            length: 255
+        code:
+            type: string
+            length: 255
+        type:
+            type: string
+            length: '30'
+        info:
+            type: text
+            nullable: true
+    manyToOne:
+        block:
+            targetEntity: Block
+            inversedBy: property
+            joinColumn:
+                name: block_id
+                referencedColumnName: id
+                onDelete: "CASCADE"
+    oneToMany:
+        PropertyList:
+            targetEntity: PropertyList
+            mappedBy: property
+            cascade: ["persist"]
+        ElementProperty:
+            targetEntity: ElementProperty
+            mappedBy: property
+            cascade: ["persist"]
+        ElementPropertyF:
+            targetEntity: ElementPropertyF
+            mappedBy: property
+            cascade: ["persist"]
+        ElementPropertyDT:
+            targetEntity: ElementPropertyDT
+            mappedBy: property
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

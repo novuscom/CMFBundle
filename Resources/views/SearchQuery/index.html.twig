@@ -1,0 +1,38 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-name">
+                        <i class="fa fa-table"></i>
+                        <span>Что ищут пользователи</span>
+                    </div>
+                </div>
+                <div class="box-content no-padding">
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable">
+                        <thead>
+                        <tr>
+                            <th>Запрос</th>
+                            <th>Сколько раз искали</th>
+                            <th>Количество результатов<br/>при последнем запросе</th>
+                            <th>Дата/Время последнего запроса</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+                                <td>{{ entity.query }}</td>
+                                <td>{{ entity.quantity }}</td>
+                                <td>{{ entity.results }}</td>
+                                <td>{{ entity.time|date("d.m.Y H:i") }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

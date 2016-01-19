@@ -1,0 +1,30 @@
+Novuscom\CMFBundle\Entity\Menu:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\MenuRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            length: 255
+        code:
+            type: string
+            length: 255
+    manyToOne:
+        site:
+            targetEntity: Novuscom\CMFBundle\Entity\Site
+            inversedBy: menu
+            joinColumn:
+                name: site_id
+                referencedColumnName: id
+                onDelete: CASCADE
+    oneToMany:
+        item:
+            targetEntity: Novuscom\CMFBundle\Entity\Item
+            mappedBy: menu
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

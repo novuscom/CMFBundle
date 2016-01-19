@@ -1,0 +1,26 @@
+Novuscom\CMFBundle\Entity\ElementSection:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\ElementSectionRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    manyToOne:
+        element:
+            targetEntity: Element
+            inversedBy: section
+            joinColumn:
+                name: element_id
+                referencedColumnName: id
+                onDelete: "CASCADE"
+        section:
+            targetEntity: Section
+            inversedBy: element
+            joinColumn:
+                name: section_id
+                referencedColumnName: id
+                onDelete: "CASCADE"
+    lifecycleCallbacks: {  }

@@ -1,0 +1,57 @@
+Novuscom\CMFBundle\Entity\BlockGroup:
+    type: entity
+    table: null
+    repositoryClass: Gedmo\Tree\Entity\Repository\NestedTreeRepository
+    gedmo:
+      tree:
+        type: nested
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            length: 255
+        code:
+            type: string
+            length: 255
+        lft:
+            type: integer
+            gedmo:
+              - treeLeft
+        rgt:
+            type: integer
+            gedmo:
+              - treeRight
+        lvl:
+            type: integer
+            gedmo:
+              - treeLevel
+        root:
+            type: integer
+            nullable: true
+            gedmo:
+              - treeRoot
+    manyToOne:
+      parent:
+        targetEntity: Novuscom\CMFBundle\Entity\BlockGroup
+        inversedBy: children
+        joinColumn:
+          name: parent_id
+          referencedColumnName: id
+          onDelete: CASCADE
+        gedmo:
+          - treeParent
+    oneToMany:
+      children:
+        targetEntity: Novuscom\CMFBundle\Entity\BlockGroup
+        mappedBy: parent
+        orderBy:
+          lft: ASC
+      block:
+        targetEntity: Block
+        mappedBy: group
+        cascade: ["persist"]
+    lifecycleCallbacks: {  }
