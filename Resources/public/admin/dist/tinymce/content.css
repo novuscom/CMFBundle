@@ -1,0 +1,17 @@
+hr{
+	clear: both;
+	float: none;
+	margin: 30px 0;
+	border: none;
+	background: black;
+	height: 1px;
+}
+
+.left-image{
+	float: left;
+	margin-right: 15px;
+}
+.right-image{
+	float: right;
+	margin-left: 15px;
+}
