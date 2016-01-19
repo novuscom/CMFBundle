@@ -3,15 +3,6 @@ namespace Novuscom\CMFBundle\Menu;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Knp\Menu\FactoryInterface;
-<<<<<<< HEAD
-use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpFoundation\Request;
-use Novuscom\CMFBundle\Event\ConfigureMenuEvent;
-
-class Admin extends ContainerAware
-{
-
-=======
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,22 +11,15 @@ use Novuscom\CMFBundle\Event\ConfigureMenuEvent;
 class Admin implements ContainerAwareInterface
 {
 	use ContainerAwareTrait;
->>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
 	public function MainMenu(FactoryInterface $factory, array $options)
 	{
 		$em = $this->container->get('doctrine.orm.entity_manager');
 
 
-<<<<<<< HEAD
-		$request = $this->container->get('request');
-		$routeName = $request->get('_route');
-		$routeParams = $request->get('_route_params');
-=======
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		//echo '<pre>' . print_r($request->attributes->get('_route'), true) . '</pre>'; exit;
 		$routeName = $request->attributes->get('_route');
 		$routeParams = $request->attributes->get('_route_params');
->>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
 
 		//echo '<pre>' . print_r($routeName, true) . '</pre>';
 		//echo '<pre>' . print_r($routeParams, true) . '</pre>';
@@ -70,11 +54,7 @@ class Admin implements ContainerAwareInterface
 		$blocksList = $menu->addChild('Инфоблоки', array(
 			'route' => 'admin_block'
 		));
-<<<<<<< HEAD
-		if ($this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
-=======
 		if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
->>>>>>> 6b120d6339f9c8f270f714255a66ce26fbe4eb5c
 			$menu->addChild('Группы пользователей', array(
 				'route' => 'admin_group'
 			));
