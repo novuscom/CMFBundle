@@ -4,6 +4,9 @@ namespace Novuscom\CMFBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ItemType extends AbstractType
@@ -14,17 +17,17 @@ class ItemType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text', array(
+        $builder->add('name', TextType::class, array(
             'label'=>'Название',
         ));
-        $builder->add('url', 'text', array(
+        $builder->add('url', TextType::class, array(
             'label'=>'Адрес',
         ));
-        $builder->add('sort', 'number', array(
+        $builder->add('sort', NumberType::class, array(
             'label'=>'Сортировка',
             'required'=>false,
         ));
-        $builder->add('submit', 'submit', array(
+        $builder->add('submit', SubmitType::class, array(
             'label'=>'Сохранить',
             'attr'=>array(
                 'class'=>'btn btn-success',

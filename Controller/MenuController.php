@@ -4,7 +4,7 @@ namespace Novuscom\CMFBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Novuscom\CMFBundle\Entity\Menu;
 use Novuscom\CMFBundle\Form\MenuType;
 
@@ -66,7 +66,7 @@ class MenuController extends Controller
      */
     private function createCreateForm(Menu $entity, $site_id)
     {
-        $form = $this->createForm(new MenuType(), $entity, array(
+        $form = $this->createForm(MenuType::class, $entity, array(
             'action' => $this->generateUrl('admin_menu_create', array('site_id' => $site_id)),
             'method' => 'POST',
         ));
@@ -247,7 +247,7 @@ class MenuController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_menu_delete', array('id' => $id, 'site_id' => $site_id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', SubmitType::class, array('label' => 'Delete'))
             ->getForm();
     }
 }

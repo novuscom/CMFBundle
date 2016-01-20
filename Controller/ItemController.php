@@ -69,7 +69,7 @@ class ItemController extends Controller
      */
     private function createCreateForm(Item $entity, $menu_id, $site_id)
     {
-        $form = $this->createForm(new ItemType(), $entity, array(
+        $form = $this->createForm(ItemType::class, $entity, array(
             'action' => $this->generateUrl('admin_menuitem_create', array('menu_id' => $menu_id, 'site_id' => $site_id)),
             'method' => 'POST',
         ));
