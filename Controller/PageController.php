@@ -70,7 +70,7 @@ class PageController extends Controller
 	{
 		//print_r('createAction'); exit;
 		$page = new Page();
-		$siteId = $this->getRequest()->get('site_id');
+		$siteId = $request->get('site_id');
 		//print_r($siteId); exit;
 		$form = $this->createCreateForm($page, $siteId);
 		$form->handleRequest($request);
