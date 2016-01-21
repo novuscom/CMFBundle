@@ -28,7 +28,7 @@
   ],
   "autoload": {
 	"psr-4": {
-	  "Novuscom\\CMFBundle\\": ""
+	  "Novuscom\\Bundle\\CMFBundle\\": ""
 	}
   },
   "extra": {
