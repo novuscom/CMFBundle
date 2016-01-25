@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ItemType extends AbstractType
@@ -17,6 +18,7 @@ class ItemType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+	    $entity = $builder->getData();
         $builder->add('name', TextType::class, array(
             'label'=>'Название',
         ));
@@ -27,12 +29,47 @@ class ItemType extends AbstractType
             'label'=>'Сортировка',
             'required'=>false,
         ));
-        $builder->add('submit', SubmitType::class, array(
-            'label'=>'Сохранить',
-            'attr'=>array(
-                'class'=>'btn btn-success',
-            )
+
+	    $options['MENU_ID'] = 1;
+        $builder->add('parent', EntityType::class, array(
+            'class' => 'NovuscomCMFBundle:Item',
+            'choice_label' => 'name',
+            'query_builder' => function ($er) use ($options, $entity) {
+                if ($entity->getId()) {
+                    $nots = $er->createQueryBuilder('s')
+                        ->select('s.id')
+                        ->where("s.lft > " . $entity->getLft() . " AND s.rgt < " . $entity->getRgt() . '')
+                        ->getQuery()
+                        ->getResult();
+                    $notsId = array($entity->getId());
+                    foreach ($nots as $val) {
+                        $notsId[] = $val['id'];
+                    }
+                    $q = $er->createQueryBuilder('s');
+                    $linked = $q
+                        ->where($q->expr()->notIn('s.id', $notsId))
+                        ->andwhere("s.menu = :menuId")
+                        ->setParameters(array('menuId' => $options['MENU_ID']))
+                        ->orderBy('s.lft', 'ASC');
+                    return $linked;
+                } else {
+                    return $er->createQueryBuilder('s')
+                        ->where("s.menu = :menuId")
+                        ->orderBy('s.lft', 'ASC')
+                        ->setParameters(array('menuId' => $options['MENU_ID']));
+                }
+
+            },
+            'attr' => array('class' => 'form-control'),
+            'label' => 'Родитель',
+	        'required' => false,
         ));
+	    $builder->add('submit', SubmitType::class, array(
+		    'label'=>'Сохранить',
+		    'attr'=>array(
+			    'class'=>'btn btn-success',
+		    )
+	    ));
     }
 
     /**

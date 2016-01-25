@@ -1,13 +1,22 @@
 {% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
 
 {% block body -%}
-    <h1>Изменение пункта меню</h1>
-
-    {{ form(edit_form) }}
-
-    <ul class="list-unstyled">
-
-        <li><a class="btn btn-info" href="{{ path('admin_menu_show', {'id':app.request.get('menu_id'), 'site_id':app.request.get('site_id')}) }}">Список пунктов</a></li>
-        <li>{{ form(delete_form) }}</li>
-    </ul>
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="box">
+                <div class="box-header">
+                    <h1 class="box-title">Изменить пункт меню</h1>
+                </div>
+                <div class="box-body">
+                    {{ form(edit_form) }}
+                </div>
+                <div class="box-footer">
+                    <ul class="list-unstyled">
+                        <li><a class="btn btn-info" href="{{ path('admin_menu_show', {'id':app.request.get('menu_id'), 'site_id':app.request.get('site_id')}) }}">Список пунктов</a></li>
+                        <li>{{ form(delete_form) }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Novuscom\Bundle\CMFBundle\Entity\Item;
 use Novuscom\Bundle\CMFBundle\Form\ItemType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * Item controller.
@@ -167,7 +168,7 @@ class ItemController extends Controller
      */
     private function createEditForm(Item $entity, $site_id, $menu_id)
     {
-        $form = $this->createForm(new ItemType(), $entity, array(
+        $form = $this->createForm(ItemType::class, $entity, array(
             'action' => $this->generateUrl('admin_menuitem_update', array(
                 'id' => $entity->getId(),
                 'site_id' => $site_id,
@@ -176,7 +177,7 @@ class ItemController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        //$form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
@@ -275,7 +276,7 @@ class ItemController extends Controller
                 'menu_id' => $menu_id,
             )))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', SubmitType::class, array('label' => 'Delete'))
             ->getForm();
     }
 }

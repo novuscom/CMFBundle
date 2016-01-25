@@ -266,4 +266,27 @@ class Item
 	{
 		return $this->root;
 	}
+
+	/**
+	 * Set parent
+	 *
+	 * @param \Novuscom\Bundle\CMFBundle\Entity\Item $parent
+	 * @return Page
+	 */
+	public function setParent(\Novuscom\Bundle\CMFBundle\Entity\Item $parent = null)
+	{
+		$this->parent = $parent;
+
+		return $this;
+	}
+
+	/**
+	 * Get parent
+	 *
+	 * @return \Novuscom\Bundle\CMFBundle\Entity\Item
+	 */
+	public function getParent()
+	{
+		return $this->parent;
+	}
 }
