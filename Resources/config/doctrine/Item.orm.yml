@@ -1,7 +1,10 @@
 Novuscom\Bundle\CMFBundle\Entity\Item:
     type: entity
     table: MenuItem
-    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\ItemRepository
+    repositoryClass: Gedmo\Tree\Entity\Repository\NestedTreeRepository
+    gedmo:
+        tree:
+            type: nested
     fields:
         id:
             type: integer
@@ -17,6 +20,29 @@ Novuscom\Bundle\CMFBundle\Entity\Item:
         sort:
             type: smallint
             nullable: true
+        lft:
+            type: integer
+            gedmo:
+              - treeLeft
+        rgt:
+            type: integer
+            gedmo:
+              - treeRight
+        lvl:
+            type: integer
+            gedmo:
+              - treeLevel
+        root:
+            type: integer
+            nullable: true
+            gedmo:
+              - treeRoot
+    oneToMany:
+        children:
+            targetEntity: Item
+            mappedBy: parent
+            orderBy:
+                lft: ASC
     manyToOne:
         menu:
             targetEntity: Novuscom\Bundle\CMFBundle\Entity\Menu
@@ -25,4 +51,13 @@ Novuscom\Bundle\CMFBundle\Entity\Item:
                 name: menu_id
                 referencedColumnName: id
                 onDelete: CASCADE
+        parent:
+            targetEntity: Item
+            inversedBy: children
+            joinColumn:
+                name: parent_id
+                referencedColumnName: id
+                onDelete: CASCADE
+            gedmo:
+                - treeParent
     lifecycleCallbacks: {  }
