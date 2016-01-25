@@ -1,4 +1,4 @@
-Novuscom\CMFBundle\Entity\Section:
+Novuscom\Bundle\CMFBundle\Entity\Section:
     type: entity
     table: null
     repositoryClass: Gedmo\Tree\Entity\Repository\NestedTreeRepository

@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

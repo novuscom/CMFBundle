@@ -231,7 +231,7 @@ search:
 NovuscomCMFBundle_Extra:
     resource: .
     type: extra
-    
+
 cmf_page_main:
     path:     /
     defaults: { _controller: NovuscomCMFBundle:Default:index, name: false }

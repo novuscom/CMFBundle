@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,7 +26,7 @@ class PropertyList
     private $code;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\Property
+     * @var \Novuscom\Bundle\CMFBundle\Entity\Property
      */
     private $property;
 
@@ -90,10 +90,10 @@ class PropertyList
     /**
      * Set property
      *
-     * @param \Novuscom\CMFBundle\Entity\Property $property
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Property $property
      * @return PropertyList
      */
-    public function setProperty(\Novuscom\CMFBundle\Entity\Property $property)
+    public function setProperty(\Novuscom\Bundle\CMFBundle\Entity\Property $property)
     {
         $this->property = $property;
     
@@ -103,7 +103,7 @@ class PropertyList
     /**
      * Get property
      *
-     * @return \Novuscom\CMFBundle\Entity\Property
+     * @return \Novuscom\Bundle\CMFBundle\Entity\Property
      */
     public function getProperty()
     {

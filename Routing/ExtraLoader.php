@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Routing;
+namespace Novuscom\Bundle\CMFBundle\Routing;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
@@ -9,7 +9,7 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
-use Novuscom\CMFBundle\Services\Site;
+use Novuscom\Bundle\CMFBundle\Services\Site;
 
 
 class ExtraLoader implements LoaderInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Tests\Controller;
+namespace Novuscom\Bundle\CMFBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

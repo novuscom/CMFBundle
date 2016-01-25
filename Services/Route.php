@@ -1,13 +1,13 @@
 <?php
 
-namespace Novuscom\CMFBundle\Services;
+namespace Novuscom\Bundle\CMFBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Router;
 use Doctrine\Common\Collections\ArrayCollection;
 use Monolog\Logger;
-use Novuscom\CMFBundle\Entity\ElementSection;
-use Novuscom\CMFBundle\Services\Utils;
+use Novuscom\Bundle\CMFBundle\Entity\ElementSection;
+use Novuscom\Bundle\CMFBundle\Services\Utils;
 
 class Route
 {
@@ -32,17 +32,17 @@ class Route
 			return false;
 		$routeParams = array();
 		if (in_array('CODE', $routeInfo['vars'])) {
-			if (get_class($object) == 'Novuscom\CMFBundle\Entity\Element') {
+			if (get_class($object) == 'Novuscom\Bundle\CMFBundle\Entity\Element') {
 				$routeParams['CODE'] = $object->getCode();
 			}
-			if (get_class($object) == 'Novuscom\CMFBundle\Entity\Section') {
+			if (get_class($object) == 'Novuscom\Bundle\CMFBundle\Entity\Section') {
 				$code = $this->container->get('Section')->getFullCode($object);
 				$routeParams['CODE'] = $code;
 			}
 		}
 		if (in_array('SECTION_CODE', $routeInfo['vars'])) {
 			//$this->Utils->msg(get_class($object));
-			if (get_class($object) == 'Novuscom\CMFBundle\Entity\Element') {
+			if (get_class($object) == 'Novuscom\Bundle\CMFBundle\Entity\Element') {
 				$sections = $object->getSection();
 				$section = $sections[0]->getSection();
 				$code = $this->container->get('Section')->getFullCode($section);

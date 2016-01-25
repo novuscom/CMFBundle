@@ -1,9 +1,9 @@
 <?php
 
-namespace Novuscom\CMFBundle\Controller;
+namespace Novuscom\Bundle\CMFBundle\Controller;
 
 
-use Novuscom\CMFBundle\Entity\Page;
+use Novuscom\Bundle\CMFBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,7 +1,7 @@
-Novuscom\CMFBundle\Entity\StatusOrder:
+Novuscom\Bundle\CMFBundle\Entity\StatusOrder:
     type: entity
     table: null
-    repositoryClass: Novuscom\CMFBundle\Entity\StatusOrderRepository
+    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\StatusOrderRepository
     id:
         id:
             type: integer

@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Controller;
+namespace Novuscom\Bundle\CMFBundle\Controller;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;

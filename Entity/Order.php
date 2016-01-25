@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 /**
  * OrderEntity
@@ -48,7 +48,7 @@ class Order
     private $user;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\StatusOrder
+     * @var \Novuscom\Bundle\CMFBundle\Entity\StatusOrder
      */
     private $status;
 
@@ -176,11 +176,11 @@ class Order
     /**
      * Set status
      *
-     * @param \Novuscom\CMFBundle\Entity\StatusOrder $status
+     * @param \Novuscom\Bundle\CMFBundle\Entity\StatusOrder $status
      *
      * @return Order
      */
-    public function setStatus(\Novuscom\CMFBundle\Entity\StatusOrder $status = null)
+    public function setStatus(\Novuscom\Bundle\CMFBundle\Entity\StatusOrder $status = null)
     {
         $this->status = $status;
 
@@ -190,7 +190,7 @@ class Order
     /**
      * Get status
      *
-     * @return \Novuscom\CMFBundle\Entity\StatusOrder
+     * @return \Novuscom\Bundle\CMFBundle\Entity\StatusOrder
      */
     public function getStatus()
     {
@@ -212,11 +212,11 @@ class Order
     /**
      * Add product
      *
-     * @param \Novuscom\CMFBundle\Entity\Product $product
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Product $product
      *
      * @return Order
      */
-    public function addProduct(\Novuscom\CMFBundle\Entity\Product $product)
+    public function addProduct(\Novuscom\Bundle\CMFBundle\Entity\Product $product)
     {
         $this->product[] = $product;
 
@@ -226,9 +226,9 @@ class Order
     /**
      * Remove product
      *
-     * @param \Novuscom\CMFBundle\Entity\Product $product
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Product $product
      */
-    public function removeProduct(\Novuscom\CMFBundle\Entity\Product $product)
+    public function removeProduct(\Novuscom\Bundle\CMFBundle\Entity\Product $product)
     {
         $this->product->removeElement($product);
     }

@@ -1,7 +1,7 @@
-Novuscom\CMFBundle\Entity\Element:
+Novuscom\Bundle\CMFBundle\Entity\Element:
     type: entity
     table: null
-    repositoryClass: Novuscom\CMFBundle\Entity\ElementRepository
+    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\ElementRepository
     fields:
         id:
             type: integer
@@ -52,13 +52,13 @@ Novuscom\CMFBundle\Entity\Element:
             nullable: true
     oneToOne:
         PreviewPicture:
-            targetEntity: Novuscom\CMFBundle\Entity\File
+            targetEntity: Novuscom\Bundle\CMFBundle\Entity\File
             joinColumn:
                 name: preview_picture
                 referencedColumnName: id
                 onDelete: "CASCADE"
         DetailPicture:
-            targetEntity: Novuscom\CMFBundle\Entity\File
+            targetEntity: Novuscom\Bundle\CMFBundle\Entity\File
             joinColumn:
                 name: detail_picture
                 referencedColumnName: id

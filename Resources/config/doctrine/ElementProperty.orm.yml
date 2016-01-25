@@ -1,7 +1,7 @@
-Novuscom\CMFBundle\Entity\ElementProperty:
+Novuscom\Bundle\CMFBundle\Entity\ElementProperty:
     type: entity
     table: null
-    repositoryClass: Novuscom\CMFBundle\Entity\ElementPropertyRepository
+    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\ElementPropertyRepository
     fields:
         id:
             type: integer

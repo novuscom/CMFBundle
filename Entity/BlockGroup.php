@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -111,7 +111,7 @@ class BlockGroup
     private $block;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\BlockGroup
+     * @var \Novuscom\Bundle\CMFBundle\Entity\BlockGroup
      */
     private $parent;
 
@@ -219,10 +219,10 @@ class BlockGroup
     /**
      * Add children
      *
-     * @param \Novuscom\CMFBundle\Entity\BlockGroup $children
+     * @param \Novuscom\Bundle\CMFBundle\Entity\BlockGroup $children
      * @return BlockGroup
      */
-    public function addChildren(\Novuscom\CMFBundle\Entity\BlockGroup $children)
+    public function addChildren(\Novuscom\Bundle\CMFBundle\Entity\BlockGroup $children)
     {
         $this->children[] = $children;
     
@@ -232,9 +232,9 @@ class BlockGroup
     /**
      * Remove children
      *
-     * @param \Novuscom\CMFBundle\Entity\BlockGroup $children
+     * @param \Novuscom\Bundle\CMFBundle\Entity\BlockGroup $children
      */
-    public function removeChildren(\Novuscom\CMFBundle\Entity\BlockGroup $children)
+    public function removeChildren(\Novuscom\Bundle\CMFBundle\Entity\BlockGroup $children)
     {
         $this->children->removeElement($children);
     }
@@ -252,10 +252,10 @@ class BlockGroup
     /**
      * Add block
      *
-     * @param \Novuscom\CMFBundle\Entity\Block $block
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Block $block
      * @return BlockGroup
      */
-    public function addBlock(\Novuscom\CMFBundle\Entity\Block $block)
+    public function addBlock(\Novuscom\Bundle\CMFBundle\Entity\Block $block)
     {
         $this->block[] = $block;
     
@@ -265,9 +265,9 @@ class BlockGroup
     /**
      * Remove block
      *
-     * @param \Novuscom\CMFBundle\Entity\Block $block
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Block $block
      */
-    public function removeBlock(\Novuscom\CMFBundle\Entity\Block $block)
+    public function removeBlock(\Novuscom\Bundle\CMFBundle\Entity\Block $block)
     {
         $this->block->removeElement($block);
     }
@@ -285,10 +285,10 @@ class BlockGroup
     /**
      * Set parent
      *
-     * @param \Novuscom\CMFBundle\Entity\BlockGroup $parent
+     * @param \Novuscom\Bundle\CMFBundle\Entity\BlockGroup $parent
      * @return BlockGroup
      */
-    public function setParent(\Novuscom\CMFBundle\Entity\BlockGroup $parent = null)
+    public function setParent(\Novuscom\Bundle\CMFBundle\Entity\BlockGroup $parent = null)
     {
         $this->parent = $parent;
     
@@ -298,7 +298,7 @@ class BlockGroup
     /**
      * Get parent
      *
-     * @return \Novuscom\CMFBundle\Entity\BlockGroup
+     * @return \Novuscom\Bundle\CMFBundle\Entity\BlockGroup
      */
     public function getParent()
     {

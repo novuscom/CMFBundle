@@ -1,4 +1,4 @@
-Novuscom\CMFBundle\Entity\Page:
+Novuscom\Bundle\CMFBundle\Entity\Page:
     type: entity
     table: null
     repositoryClass: Gedmo\Tree\Entity\Repository\NestedTreeRepository
@@ -58,13 +58,13 @@ Novuscom\CMFBundle\Entity\Page:
             column: site_id
     oneToOne:
         PreviewPicture:
-            targetEntity: Novuscom\CMFBundle\Entity\File
+            targetEntity: Novuscom\Bundle\CMFBundle\Entity\File
             joinColumn:
                 name: preview_picture
                 referencedColumnName: id
                 onDelete: "CASCADE"
         DetailPicture:
-            targetEntity: Novuscom\CMFBundle\Entity\File
+            targetEntity: Novuscom\Bundle\CMFBundle\Entity\File
             joinColumn:
                 name: detail_picture
                 referencedColumnName: id

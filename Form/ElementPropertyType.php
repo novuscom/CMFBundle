@@ -1,15 +1,15 @@
 <?php
 
-namespace Novuscom\CMFBundle\Form;
+namespace Novuscom\Bundle\CMFBundle\Form;
 
-use Novuscom\CMFBundle\Entity\Element;
+use Novuscom\Bundle\CMFBundle\Entity\Element;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-use Novuscom\CMFBundle\Entity\ElementProperty;
+use Novuscom\Bundle\CMFBundle\Entity\ElementProperty;
 
 class ElementPropertyType extends AbstractType
 {
@@ -48,7 +48,7 @@ class ElementPropertyType extends AbstractType
 					/**
 					 * Получаем значения свойства
 					 */
-					$property_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $p->getId());
+					$property_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Property', $p->getId());
 					$PropertyList = $this->em->getRepository('NovuscomCMFBundle:PropertyList')->findBy(array(
 						'property' => $property_reference,
 					));
@@ -273,8 +273,8 @@ class ElementPropertyType extends AbstractType
 					if ($info && is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true) {
 						$data = array();
 						/*
-						$element_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Element', 251);
-						$property_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $p->getId());
+						$element_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Element', 251);
+						$property_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Property', $p->getId());
 						$ElementProperty = $this->em->getRepository('NovuscomCMFBundle:ElementProperty')->findBy(array(
 							'element'=>$element_reference,
 							'property'=>$property_reference
@@ -391,8 +391,8 @@ class ElementPropertyType extends AbstractType
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
 	{
 		$resolver->setDefaults(array(
-			//'data_class' => 'Novuscom\CMFBundle\Entity\FormProperty',
-			'data_class' => 'Novuscom\CMFBundle\Entity\Element',
+			//'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\FormProperty',
+			'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Element',
 		));
 		/*$resolver->setRequired(array(
 			'em',

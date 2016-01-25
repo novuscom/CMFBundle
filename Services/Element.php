@@ -1,13 +1,13 @@
 <?php
 
-namespace Novuscom\CMFBundle\Services;
+namespace Novuscom\Bundle\CMFBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Router;
 use Doctrine\Common\Collections\ArrayCollection;
 use Monolog\Logger;
-use Novuscom\CMFBundle\Entity\ElementSection;
-use Novuscom\CMFBundle\Services\Utils;
+use Novuscom\Bundle\CMFBundle\Entity\ElementSection;
+use Novuscom\Bundle\CMFBundle\Services\Utils;
 
 class Element
 {
@@ -22,7 +22,7 @@ class Element
 	public function getElementSections($element_id)
 	{
 		$result = array();
-		$element_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Block', $element_id);
+		$element_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Block', $element_id);
 		$ElementSection = $this->em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array(
 			'element' => $element_reference
 		));
@@ -74,7 +74,7 @@ class Element
 		//echo '<pre>' . print_r($filter, true) . '</pre>';
 		//exit;
 
-		$block_reference = $em->getReference('Novuscom\CMFBundle\Entity\Block', $filter['BLOCK_ID']);
+		$block_reference = $em->getReference('Novuscom\Bundle\CMFBundle\Entity\Block', $filter['BLOCK_ID']);
 		$properties_filter = array(
 			'block' => $block_reference,
 		);

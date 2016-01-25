@@ -1,11 +1,11 @@
 <?php
 
-namespace Novuscom\CMFBundle\Services;
+namespace Novuscom\Bundle\CMFBundle\Services;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Novuscom\CMFBundle\Entity\ElementSection;
+use Novuscom\Bundle\CMFBundle\Entity\ElementSection;
 use Doctrine\DBAL\Types\BooleanType;
-use Novuscom\CMFBundle\Services\Section as SectionService;
+use Novuscom\Bundle\CMFBundle\Services\Section as SectionService;
 use Monolog\Logger;
 
 class ElementsList

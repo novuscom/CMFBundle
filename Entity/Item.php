@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,7 +30,7 @@ class Item
     private $sort;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\Menu
+     * @var \Novuscom\Bundle\CMFBundle\Entity\Menu
      */
     private $menu;
 
@@ -117,10 +117,10 @@ class Item
     /**
      * Set menu
      *
-     * @param \Novuscom\CMFBundle\Entity\Menu $menu
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Menu $menu
      * @return Item
      */
-    public function setMenu(\Novuscom\CMFBundle\Entity\Menu $menu = null)
+    public function setMenu(\Novuscom\Bundle\CMFBundle\Entity\Menu $menu = null)
     {
         $this->menu = $menu;
     
@@ -130,7 +130,7 @@ class Item
     /**
      * Get menu
      *
-     * @return \Novuscom\CMFBundle\Entity\Menu
+     * @return \Novuscom\Bundle\CMFBundle\Entity\Menu
      */
     public function getMenu()
     {

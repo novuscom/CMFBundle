@@ -1,7 +1,7 @@
-Novuscom\CMFBundle\Entity\SearchQuery:
+Novuscom\Bundle\CMFBundle\Entity\SearchQuery:
     type: entity
     table: null
-    repositoryClass: Novuscom\CMFBundle\Entity\SearchQueryRepository
+    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\SearchQueryRepository
     id:
         id:
             type: integer

@@ -1,10 +1,10 @@
 <?php
 
-namespace Novuscom\CMFBundle\Services;
+namespace Novuscom\Bundle\CMFBundle\Services;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Novuscom\CMFBundle\Entity\ElementSection;
-use Novuscom\CMFBundle\Services\Cart;
+use Novuscom\Bundle\CMFBundle\Entity\ElementSection;
+use Novuscom\Bundle\CMFBundle\Services\Cart;
 
 class Product
 {
@@ -12,7 +12,7 @@ class Product
 	public function getProduct($productId, $cartId=false)
 	{
 		if ($cartId)
-			$cart_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Cart', $cartId);
+			$cart_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Cart', $cartId);
 		else {
 			$cart_reference = $this->Cart->GetCurrent();
 		}
@@ -44,10 +44,10 @@ class Product
 
 	public function IfStoredInCart($element_id, $cart_id = false)
 	{
-		$element_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Element', $element_id);
+		$element_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Element', $element_id);
 		$cart_reference = null;
 		if ($cart_id)
-			$cart_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Cart', $cart_id);
+			$cart_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Cart', $cart_id);
 		$entity = $this->em->getRepository('NovuscomCMFBundle:Product')->findOneBy(array(
 			'element' => $element_reference,
 			'cart' => $cart_reference
@@ -59,7 +59,7 @@ class Product
 	{
 		if (is_numeric($element_id) == false)
 			return false;
-		$element_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Element', $element_id);
+		$element_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Element', $element_id);
 		$entity = $this->em->getRepository('NovuscomCMFBundle:Product')->findOneBy(array(
 			'element' => $element_reference
 		));

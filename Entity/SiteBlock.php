@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,12 +17,12 @@ class SiteBlock
     private $id;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\Site
+     * @var \Novuscom\Bundle\CMFBundle\Entity\Site
      */
     private $site;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\Block
+     * @var \Novuscom\Bundle\CMFBundle\Entity\Block
      */
     private $block;
 
@@ -40,10 +40,10 @@ class SiteBlock
     /**
      * Set site
      *
-     * @param \Novuscom\CMFBundle\Entity\Site $site
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Site $site
      * @return SiteBlock
      */
-    public function setSite(\Novuscom\CMFBundle\Entity\Site $site = null)
+    public function setSite(\Novuscom\Bundle\CMFBundle\Entity\Site $site = null)
     {
         $this->site = $site;
     
@@ -53,7 +53,7 @@ class SiteBlock
     /**
      * Get site
      *
-     * @return \Novuscom\CMFBundle\Entity\Site
+     * @return \Novuscom\Bundle\CMFBundle\Entity\Site
      */
     public function getSite()
     {
@@ -63,10 +63,10 @@ class SiteBlock
     /**
      * Set block
      *
-     * @param \Novuscom\CMFBundle\Entity\Block $block
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Block $block
      * @return SiteBlock
      */
-    public function setBlock(\Novuscom\CMFBundle\Entity\Block $block = null)
+    public function setBlock(\Novuscom\Bundle\CMFBundle\Entity\Block $block = null)
     {
         $this->block = $block;
     
@@ -76,7 +76,7 @@ class SiteBlock
     /**
      * Get block
      *
-     * @return \Novuscom\CMFBundle\Entity\Block
+     * @return \Novuscom\Bundle\CMFBundle\Entity\Block
      */
     public function getBlock()
     {

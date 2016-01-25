@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Form;
+namespace Novuscom\Bundle\CMFBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

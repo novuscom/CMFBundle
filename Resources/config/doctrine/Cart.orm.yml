@@ -1,7 +1,7 @@
-Novuscom\CMFBundle\Entity\Cart:
+Novuscom\Bundle\CMFBundle\Entity\Cart:
     type: entity
     table: null
-    repositoryClass: Novuscom\CMFBundle\Entity\CartRepository
+    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\CartRepository
     id:
         id:
             type: integer

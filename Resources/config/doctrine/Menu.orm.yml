@@ -1,7 +1,7 @@
-Novuscom\CMFBundle\Entity\Menu:
+Novuscom\Bundle\CMFBundle\Entity\Menu:
     type: entity
     table: null
-    repositoryClass: Novuscom\CMFBundle\Entity\MenuRepository
+    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\MenuRepository
     fields:
         id:
             type: integer
@@ -16,7 +16,7 @@ Novuscom\CMFBundle\Entity\Menu:
             length: 255
     manyToOne:
         site:
-            targetEntity: Novuscom\CMFBundle\Entity\Site
+            targetEntity: Novuscom\Bundle\CMFBundle\Entity\Site
             inversedBy: menu
             joinColumn:
                 name: site_id
@@ -24,7 +24,7 @@ Novuscom\CMFBundle\Entity\Menu:
                 onDelete: CASCADE
     oneToMany:
         item:
-            targetEntity: Novuscom\CMFBundle\Entity\Item
+            targetEntity: Novuscom\Bundle\CMFBundle\Entity\Item
             mappedBy: menu
             cascade: ["persist"]
     lifecycleCallbacks: {  }

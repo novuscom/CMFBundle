@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\DependencyInjection;
+namespace Novuscom\Bundle\CMFBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

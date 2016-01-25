@@ -1,12 +1,12 @@
 <?php
 
-namespace Novuscom\CMFBundle\Controller;
+namespace Novuscom\Bundle\CMFBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Novuscom\CMFBundle\Entity\Cart;
-use Novuscom\CMFBundle\Form\CartType;
+use Novuscom\Bundle\CMFBundle\Entity\Cart;
+use Novuscom\Bundle\CMFBundle\Form\CartType;
 
 /**
  * Cart controller.

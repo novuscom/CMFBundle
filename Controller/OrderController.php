@@ -1,12 +1,12 @@
 <?php
 
-namespace Novuscom\CMFBundle\Controller;
+namespace Novuscom\Bundle\CMFBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Novuscom\CMFBundle\Entity\Order;
-use Novuscom\CMFBundle\Form\OrderType;
+use Novuscom\Bundle\CMFBundle\Entity\Order;
+use Novuscom\Bundle\CMFBundle\Form\OrderType;
 
 /**
  * Order controller.

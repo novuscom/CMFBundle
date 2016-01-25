@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Form;
+namespace Novuscom\Bundle\CMFBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -206,11 +206,11 @@ class ElementType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Novuscom\CMFBundle\Entity\Element',
+            'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Element',
             'em' => false,
             'blockObject' => false,
             'params' => false,
-            //'data_class' => 'Novuscom\CMFBundle\Entity\FormElement'
+            //'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\FormElement'
         ));
     }
 

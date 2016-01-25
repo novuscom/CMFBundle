@@ -1,7 +1,7 @@
-Novuscom\CMFBundle\Entity\Item:
+Novuscom\Bundle\CMFBundle\Entity\Item:
     type: entity
     table: MenuItem
-    repositoryClass: Novuscom\CMFBundle\Entity\ItemRepository
+    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\ItemRepository
     fields:
         id:
             type: integer
@@ -19,7 +19,7 @@ Novuscom\CMFBundle\Entity\Item:
             nullable: true
     manyToOne:
         menu:
-            targetEntity: Novuscom\CMFBundle\Entity\Menu
+            targetEntity: Novuscom\Bundle\CMFBundle\Entity\Menu
             inversedBy: item
             joinColumn:
                 name: menu_id

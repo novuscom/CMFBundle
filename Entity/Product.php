@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 /**
  * Product
@@ -227,12 +227,12 @@ class Product
 	}
 
 	/**
-	 * @var \Novuscom\CMFBundle\Entity\Element
+	 * @var \Novuscom\Bundle\CMFBundle\Entity\Element
 	 */
 	private $element;
 
 	/**
-	 * @var \Novuscom\CMFBundle\Entity\Cart
+	 * @var \Novuscom\Bundle\CMFBundle\Entity\Cart
 	 */
 	private $cart;
 
@@ -240,11 +240,11 @@ class Product
 	/**
 	 * Set element
 	 *
-	 * @param \Novuscom\CMFBundle\Entity\Element $element
+	 * @param \Novuscom\Bundle\CMFBundle\Entity\Element $element
 	 *
 	 * @return Product
 	 */
-	public function setElement(\Novuscom\CMFBundle\Entity\Element $element = null)
+	public function setElement(\Novuscom\Bundle\CMFBundle\Entity\Element $element = null)
 	{
 		$this->element = $element;
 
@@ -254,7 +254,7 @@ class Product
 	/**
 	 * Get element
 	 *
-	 * @return \Novuscom\CMFBundle\Entity\Element
+	 * @return \Novuscom\Bundle\CMFBundle\Entity\Element
 	 */
 	public function getElement()
 	{
@@ -264,11 +264,11 @@ class Product
 	/**
 	 * Set cart
 	 *
-	 * @param \Novuscom\CMFBundle\Entity\Cart $cart
+	 * @param \Novuscom\Bundle\CMFBundle\Entity\Cart $cart
 	 *
 	 * @return Product
 	 */
-	public function setCart(\Novuscom\CMFBundle\Entity\Cart $cart = null)
+	public function setCart(\Novuscom\Bundle\CMFBundle\Entity\Cart $cart = null)
 	{
 		$this->cart = $cart;
 
@@ -278,7 +278,7 @@ class Product
 	/**
 	 * Get cart
 	 *
-	 * @return \Novuscom\CMFBundle\Entity\Cart
+	 * @return \Novuscom\Bundle\CMFBundle\Entity\Cart
 	 */
 	public function getCart()
 	{
@@ -286,7 +286,7 @@ class Product
 	}
 
 	/**
-	 * @var \Novuscom\CMFBundle\Entity\Order
+	 * @var \Novuscom\Bundle\CMFBundle\Entity\Order
 	 */
 	private $order;
 
@@ -294,11 +294,11 @@ class Product
 	/**
 	 * Set order
 	 *
-	 * @param \Novuscom\CMFBundle\Entity\Order $order
+	 * @param \Novuscom\Bundle\CMFBundle\Entity\Order $order
 	 *
 	 * @return Product
 	 */
-	public function setOrder(\Novuscom\CMFBundle\Entity\Order $order = null)
+	public function setOrder(\Novuscom\Bundle\CMFBundle\Entity\Order $order = null)
 	{
 		$this->order = $order;
 
@@ -308,7 +308,7 @@ class Product
 	/**
 	 * Get order
 	 *
-	 * @return \Novuscom\CMFBundle\Entity\Order
+	 * @return \Novuscom\Bundle\CMFBundle\Entity\Order
 	 */
 	public function getOrder()
 	{

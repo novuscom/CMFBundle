@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,12 +26,12 @@ class ElementProperty
     private $description;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\Element
+     * @var \Novuscom\Bundle\CMFBundle\Entity\Element
      */
     private $element;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\Property
+     * @var \Novuscom\Bundle\CMFBundle\Entity\Property
      */
     private $property;
 
@@ -95,10 +95,10 @@ class ElementProperty
     /**
      * Set element
      *
-     * @param \Novuscom\CMFBundle\Entity\Element $element
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Element $element
      * @return ElementProperty
      */
-    public function setElement(\Novuscom\CMFBundle\Entity\Element $element = null)
+    public function setElement(\Novuscom\Bundle\CMFBundle\Entity\Element $element = null)
     {
         $this->element = $element;
     
@@ -108,7 +108,7 @@ class ElementProperty
     /**
      * Get element
      *
-     * @return \Novuscom\CMFBundle\Entity\Element
+     * @return \Novuscom\Bundle\CMFBundle\Entity\Element
      */
     public function getElement()
     {
@@ -118,10 +118,10 @@ class ElementProperty
     /**
      * Set property
      *
-     * @param \Novuscom\CMFBundle\Entity\Property $property
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Property $property
      * @return ElementProperty
      */
-    public function setProperty(\Novuscom\CMFBundle\Entity\Property $property = null)
+    public function setProperty(\Novuscom\Bundle\CMFBundle\Entity\Property $property = null)
     {
         $this->property = $property;
     
@@ -131,7 +131,7 @@ class ElementProperty
     /**
      * Get property
      *
-     * @return \Novuscom\CMFBundle\Entity\Property
+     * @return \Novuscom\Bundle\CMFBundle\Entity\Property
      */
     public function getProperty()
     {

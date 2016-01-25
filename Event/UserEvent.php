@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Event;
+namespace Novuscom\Bundle\CMFBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 

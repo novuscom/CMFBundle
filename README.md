@@ -52,7 +52,7 @@ CMF на Symfony2
 
 5. Добавляем в app/AppKernel.php строчки
  ```php
- new Novuscom\CMFBundle\NovuscomCMFBundle(),
+ new Novuscom\Bundle\CMFBundle\NovuscomCMFBundle(),
  new Novuscom\CMFUserBundle\NovuscomCMFUserBundle(),
  new FOS\UserBundle\FOSUserBundle(),
  new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),

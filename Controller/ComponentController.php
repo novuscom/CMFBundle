@@ -1,8 +1,8 @@
 <?php
 
-namespace Novuscom\CMFBundle\Controller;
+namespace Novuscom\Bundle\CMFBundle\Controller;
 
-use Novuscom\CMFBundle\Event\UserSubscriber;
+use Novuscom\Bundle\CMFBundle\Event\UserSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request as Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,19 +13,19 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Novuscom\CMFBundle\Entity\SiteBlock;
-use Novuscom\CMFBundle\Entity\Site;
-use Novuscom\CMFBundle\Entity\Block;
-use Novuscom\CMFBundle\Form\BlockType;
-use Novuscom\CMFBundle\Form\RegisterType;
-use Novuscom\CMFBundle\Form\LoginType;
-use Novuscom\CMFBundle\Form\OrderType;
-use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
-use Novuscom\CMFBundle\UserEvents;
-use Novuscom\CMFBundle\Entity\Product;
-use Novuscom\CMFBundle\Entity\Order;
-use Novuscom\CMFBundle\Entity\SearchQuery;
-use Novuscom\CMFBundle\Services\Section as Section;
+use Novuscom\Bundle\CMFBundle\Entity\SiteBlock;
+use Novuscom\Bundle\CMFBundle\Entity\Site;
+use Novuscom\Bundle\CMFBundle\Entity\Block;
+use Novuscom\Bundle\CMFBundle\Form\BlockType;
+use Novuscom\Bundle\CMFBundle\Form\RegisterType;
+use Novuscom\Bundle\CMFBundle\Form\LoginType;
+use Novuscom\Bundle\CMFBundle\Form\OrderType;
+use Novuscom\Bundle\CMFBundle\Event\UserEvent as CMFUserEvent;
+use Novuscom\Bundle\CMFBundle\UserEvents;
+use Novuscom\Bundle\CMFBundle\Entity\Product;
+use Novuscom\Bundle\CMFBundle\Entity\Order;
+use Novuscom\Bundle\CMFBundle\Entity\SearchQuery;
+use Novuscom\Bundle\CMFBundle\Services\Section as Section;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
@@ -72,7 +72,7 @@ class ComponentController extends Controller
 				'title' => $e->getName(),
 				'type' => 'element',
 			);
-			$blocks[] = $em->getReference('Novuscom\CMFBundle\Entity\Block', $e->getBlock()->getId());
+			$blocks[] = $em->getReference('Novuscom\Bundle\CMFBundle\Entity\Block', $e->getBlock()->getId());
 		}
 		$routes = $em->getRepository('NovuscomCMFBundle:Route')->findBy(array(
 			'active' => true,
@@ -138,7 +138,7 @@ class ComponentController extends Controller
 		 */
 		$Site = $this->get('Site');
 		$currentSite = $Site->getCurrentSite();
-		$siteRef = $em->getReference('Novuscom\CMFBundle\Entity\Site', $currentSite['id']);
+		$siteRef = $em->getReference('Novuscom\Bundle\CMFBundle\Entity\Site', $currentSite['id']);
 		$pagesRepo = $em->getRepository('NovuscomCMFBundle:Page');
 		$pages = $pagesRepo->findBy(array('site' => $siteRef));
 		foreach ($pages as $p) {

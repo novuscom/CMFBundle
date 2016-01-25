@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Twig;
+namespace Novuscom\Bundle\CMFBundle\Twig;
 
 use Knp\Menu\Loader\NodeLoader;
 use Knp\Menu\Matcher\Matcher;
@@ -11,8 +11,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Monolog\Logger;
 
-use Novuscom\CMFBundle\Services\File;
-use Novuscom\CMFBundle\Services\Utils;
+use Novuscom\Bundle\CMFBundle\Services\File;
+use Novuscom\Bundle\CMFBundle\Services\Utils;
 
 
 class TemplateExtension extends \Twig_Extension

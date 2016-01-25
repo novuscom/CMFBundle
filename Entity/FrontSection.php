@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -106,12 +106,12 @@ class FrontSection
     private $children;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\Section
+     * @var \Novuscom\Bundle\CMFBundle\Entity\Section
      */
     private $parent;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\Block
+     * @var \Novuscom\Bundle\CMFBundle\Entity\Block
      */
     private $block;
 
@@ -218,10 +218,10 @@ class FrontSection
     /**
      * Add children
      *
-     * @param \Novuscom\CMFBundle\Entity\Section $children
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Section $children
      * @return Section
      */
-    public function addChildren(\Novuscom\CMFBundle\Entity\Section $children)
+    public function addChildren(\Novuscom\Bundle\CMFBundle\Entity\Section $children)
     {
         $this->children[] = $children;
 
@@ -231,9 +231,9 @@ class FrontSection
     /**
      * Remove children
      *
-     * @param \Novuscom\CMFBundle\Entity\Section $children
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Section $children
      */
-    public function removeChildren(\Novuscom\CMFBundle\Entity\Section $children)
+    public function removeChildren(\Novuscom\Bundle\CMFBundle\Entity\Section $children)
     {
         $this->children->removeElement($children);
     }
@@ -251,10 +251,10 @@ class FrontSection
     /**
      * Set parent
      *
-     * @param \Novuscom\CMFBundle\Entity\Section $parent
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Section $parent
      * @return Section
      */
-    public function setParent(\Novuscom\CMFBundle\Entity\Section $parent = null)
+    public function setParent(\Novuscom\Bundle\CMFBundle\Entity\Section $parent = null)
     {
         $this->parent = $parent;
 
@@ -264,7 +264,7 @@ class FrontSection
     /**
      * Get parent
      *
-     * @return \Novuscom\CMFBundle\Entity\Section
+     * @return \Novuscom\Bundle\CMFBundle\Entity\Section
      */
     public function getParent()
     {
@@ -274,10 +274,10 @@ class FrontSection
     /**
      * Set block
      *
-     * @param \Novuscom\CMFBundle\Entity\Block $block
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Block $block
      * @return Section
      */
-    public function setBlock(\Novuscom\CMFBundle\Entity\Block $block = null)
+    public function setBlock(\Novuscom\Bundle\CMFBundle\Entity\Block $block = null)
     {
         $this->block = $block;
 
@@ -287,7 +287,7 @@ class FrontSection
     /**
      * Get block
      *
-     * @return \Novuscom\CMFBundle\Entity\Block
+     * @return \Novuscom\Bundle\CMFBundle\Entity\Block
      */
     public function getBlock()
     {
@@ -302,10 +302,10 @@ class FrontSection
     /**
      * Add element
      *
-     * @param \Novuscom\CMFBundle\Entity\Element $element
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Element $element
      * @return Section
      */
-    public function addElement(\Novuscom\CMFBundle\Entity\Element $element)
+    public function addElement(\Novuscom\Bundle\CMFBundle\Entity\Element $element)
     {
         $this->element[] = $element;
 
@@ -315,9 +315,9 @@ class FrontSection
     /**
      * Remove element
      *
-     * @param \Novuscom\CMFBundle\Entity\Element $element
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Element $element
      */
-    public function removeElement(\Novuscom\CMFBundle\Entity\Element $element)
+    public function removeElement(\Novuscom\Bundle\CMFBundle\Entity\Element $element)
     {
         $this->element->removeElement($element);
     }

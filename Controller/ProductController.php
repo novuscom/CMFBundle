@@ -1,12 +1,12 @@
 <?php
 
-namespace Novuscom\CMFBundle\Controller;
+namespace Novuscom\Bundle\CMFBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Novuscom\CMFBundle\Entity\Product;
-use Novuscom\CMFBundle\Form\ProductType;
+use Novuscom\Bundle\CMFBundle\Entity\Product;
+use Novuscom\Bundle\CMFBundle\Form\ProductType;
 
 /**
  * Product controller.

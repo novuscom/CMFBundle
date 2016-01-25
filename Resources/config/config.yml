@@ -27,7 +27,7 @@ doctrine:
         #    CMF\PageBundle\Model\PageSubjectInterface: CMF\SiteBundle\Entity\Site
         dql:
             numeric_functions:
-                Rand: Novuscom\CMFBundle\DQL\RandFunction
+                Rand: Novuscom\Bundle\CMFBundle\DQL\RandFunction
         mappings:
             translatable:
                 type: annotation

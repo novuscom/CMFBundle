@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,7 +30,7 @@ class Menu
     private $item;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\Site
+     * @var \Novuscom\Bundle\CMFBundle\Entity\Site
      */
     private $site;
 
@@ -101,10 +101,10 @@ class Menu
     /**
      * Add item
      *
-     * @param \Novuscom\CMFBundle\Entity\Item $item
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Item $item
      * @return Menu
      */
-    public function addItem(\Novuscom\CMFBundle\Entity\Item $item)
+    public function addItem(\Novuscom\Bundle\CMFBundle\Entity\Item $item)
     {
         $this->item[] = $item;
     
@@ -114,9 +114,9 @@ class Menu
     /**
      * Remove item
      *
-     * @param \Novuscom\CMFBundle\Entity\Item $item
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Item $item
      */
-    public function removeItem(\Novuscom\CMFBundle\Entity\Item $item)
+    public function removeItem(\Novuscom\Bundle\CMFBundle\Entity\Item $item)
     {
         $this->item->removeElement($item);
     }
@@ -134,10 +134,10 @@ class Menu
     /**
      * Set site
      *
-     * @param \Novuscom\CMFBundle\Entity\Site $site
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Site $site
      * @return Menu
      */
-    public function setSite(\Novuscom\CMFBundle\Entity\Site $site = null)
+    public function setSite(\Novuscom\Bundle\CMFBundle\Entity\Site $site = null)
     {
         $this->site = $site;
     
@@ -147,7 +147,7 @@ class Menu
     /**
      * Get site
      *
-     * @return \Novuscom\CMFBundle\Entity\Site
+     * @return \Novuscom\Bundle\CMFBundle\Entity\Site
      */
     public function getSite()
     {

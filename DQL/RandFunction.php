@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\DQL;
+namespace Novuscom\Bundle\CMFBundle\DQL;
 
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;

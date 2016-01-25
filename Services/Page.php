@@ -1,11 +1,11 @@
 <?php
 
-namespace Novuscom\CMFBundle\Services;
+namespace Novuscom\Bundle\CMFBundle\Services;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use \Novuscom\CMFBundle\Services\Site;
+use \Novuscom\Bundle\CMFBundle\Services\Site;
 use Monolog\Logger;
 
 class Page
@@ -142,7 +142,7 @@ class Page
 					->andWhere("p.rgt<:right")
 					->andWhere("p.url=:url")
 					->setParameters(array(
-						'site' => $em->getReference('Novuscom\CMFBundle\Entity\Site', $site['id']),
+						'site' => $em->getReference('Novuscom\Bundle\CMFBundle\Entity\Site', $site['id']),
 						'left' => $root->getLft(),
 						'right' => $root->getRgt(),
 						'url' => $codeArray[$maxLevel - 1]

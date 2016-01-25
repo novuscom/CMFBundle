@@ -1,8 +1,8 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
-use Novuscom\CMFBundle\Entity\SiteBlock;
+use Novuscom\Bundle\CMFBundle\Entity\SiteBlock;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,7 +58,7 @@ class Block
     private $routes;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\BlockGroup
+     * @var \Novuscom\Bundle\CMFBundle\Entity\BlockGroup
      */
     private $group;
 
@@ -156,10 +156,10 @@ class Block
     /**
      * Add SiteBlock
      *
-     * @param \Novuscom\CMFBundle\Entity\SiteBlock $siteBlock
+     * @param \Novuscom\Bundle\CMFBundle\Entity\SiteBlock $siteBlock
      * @return Block
      */
-    public function addSiteBlock(\Novuscom\CMFBundle\Entity\SiteBlock $siteBlock)
+    public function addSiteBlock(\Novuscom\Bundle\CMFBundle\Entity\SiteBlock $siteBlock)
     {
         $this->SiteBlock[] = $siteBlock;
     
@@ -169,9 +169,9 @@ class Block
     /**
      * Remove SiteBlock
      *
-     * @param \Novuscom\CMFBundle\Entity\SiteBlock $siteBlock
+     * @param \Novuscom\Bundle\CMFBundle\Entity\SiteBlock $siteBlock
      */
-    public function removeSiteBlock(\Novuscom\CMFBundle\Entity\SiteBlock $siteBlock)
+    public function removeSiteBlock(\Novuscom\Bundle\CMFBundle\Entity\SiteBlock $siteBlock)
     {
         $this->SiteBlock->removeElement($siteBlock);
     }
@@ -189,10 +189,10 @@ class Block
     /**
      * Add property
      *
-     * @param \Novuscom\CMFBundle\Entity\Property $property
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Property $property
      * @return Block
      */
-    public function addProperty(\Novuscom\CMFBundle\Entity\Property $property)
+    public function addProperty(\Novuscom\Bundle\CMFBundle\Entity\Property $property)
     {
         $this->property[] = $property;
     
@@ -202,9 +202,9 @@ class Block
     /**
      * Remove property
      *
-     * @param \Novuscom\CMFBundle\Entity\Property $property
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Property $property
      */
-    public function removeProperty(\Novuscom\CMFBundle\Entity\Property $property)
+    public function removeProperty(\Novuscom\Bundle\CMFBundle\Entity\Property $property)
     {
         $this->property->removeElement($property);
     }
@@ -222,10 +222,10 @@ class Block
     /**
      * Add element
      *
-     * @param \Novuscom\CMFBundle\Entity\Element $element
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Element $element
      * @return Block
      */
-    public function addElement(\Novuscom\CMFBundle\Entity\Element $element)
+    public function addElement(\Novuscom\Bundle\CMFBundle\Entity\Element $element)
     {
         $this->element[] = $element;
     
@@ -235,9 +235,9 @@ class Block
     /**
      * Remove element
      *
-     * @param \Novuscom\CMFBundle\Entity\Element $element
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Element $element
      */
-    public function removeElement(\Novuscom\CMFBundle\Entity\Element $element)
+    public function removeElement(\Novuscom\Bundle\CMFBundle\Entity\Element $element)
     {
         $this->element->removeElement($element);
     }
@@ -255,10 +255,10 @@ class Block
     /**
      * Add section
      *
-     * @param \Novuscom\CMFBundle\Entity\Section $section
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Section $section
      * @return Block
      */
-    public function addSection(\Novuscom\CMFBundle\Entity\Section $section)
+    public function addSection(\Novuscom\Bundle\CMFBundle\Entity\Section $section)
     {
         $this->section[] = $section;
     
@@ -268,9 +268,9 @@ class Block
     /**
      * Remove section
      *
-     * @param \Novuscom\CMFBundle\Entity\Section $section
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Section $section
      */
-    public function removeSection(\Novuscom\CMFBundle\Entity\Section $section)
+    public function removeSection(\Novuscom\Bundle\CMFBundle\Entity\Section $section)
     {
         $this->section->removeElement($section);
     }
@@ -288,10 +288,10 @@ class Block
     /**
      * Add routes
      *
-     * @param \Novuscom\CMFBundle\Entity\Route $routes
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Route $routes
      * @return Block
      */
-    public function addRoute(\Novuscom\CMFBundle\Entity\Route $routes)
+    public function addRoute(\Novuscom\Bundle\CMFBundle\Entity\Route $routes)
     {
         $this->routes[] = $routes;
     
@@ -301,9 +301,9 @@ class Block
     /**
      * Remove routes
      *
-     * @param \Novuscom\CMFBundle\Entity\Route $routes
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Route $routes
      */
-    public function removeRoute(\Novuscom\CMFBundle\Entity\Route $routes)
+    public function removeRoute(\Novuscom\Bundle\CMFBundle\Entity\Route $routes)
     {
         $this->routes->removeElement($routes);
     }
@@ -321,10 +321,10 @@ class Block
     /**
      * Set group
      *
-     * @param \Novuscom\CMFBundle\Entity\BlockGroup $group
+     * @param \Novuscom\Bundle\CMFBundle\Entity\BlockGroup $group
      * @return Block
      */
-    public function setGroup(\Novuscom\CMFBundle\Entity\BlockGroup $group = null)
+    public function setGroup(\Novuscom\Bundle\CMFBundle\Entity\BlockGroup $group = null)
     {
         $this->group = $group;
     
@@ -334,7 +334,7 @@ class Block
     /**
      * Get group
      *
-     * @return \Novuscom\CMFBundle\Entity\BlockGroup
+     * @return \Novuscom\Bundle\CMFBundle\Entity\BlockGroup
      */
     public function getGroup()
     {
@@ -349,10 +349,10 @@ class Block
     /**
      * Add menu
      *
-     * @param \Novuscom\CMFBundle\Entity\Menu $menu
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Menu $menu
      * @return Block
      */
-    public function addMenu(\Novuscom\CMFBundle\Entity\Menu $menu)
+    public function addMenu(\Novuscom\Bundle\CMFBundle\Entity\Menu $menu)
     {
         $this->menu[] = $menu;
     
@@ -362,9 +362,9 @@ class Block
     /**
      * Remove menu
      *
-     * @param \Novuscom\CMFBundle\Entity\Menu $menu
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Menu $menu
      */
-    public function removeMenu(\Novuscom\CMFBundle\Entity\Menu $menu)
+    public function removeMenu(\Novuscom\Bundle\CMFBundle\Entity\Menu $menu)
     {
         $this->menu->removeElement($menu);
     }
@@ -387,10 +387,10 @@ class Block
     /**
      * Add sites
      *
-     * @param \Novuscom\CMFBundle\Entity\Site $sites
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Site $sites
      * @return Block
      */
-    public function addSite(\Novuscom\CMFBundle\Entity\Site $sites)
+    public function addSite(\Novuscom\Bundle\CMFBundle\Entity\Site $sites)
     {
         $this->sites[] = $sites;
     
@@ -400,9 +400,9 @@ class Block
     /**
      * Remove sites
      *
-     * @param \Novuscom\CMFBundle\Entity\Site $sites
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Site $sites
      */
-    public function removeSite(\Novuscom\CMFBundle\Entity\Site $sites)
+    public function removeSite(\Novuscom\Bundle\CMFBundle\Entity\Site $sites)
     {
         $this->sites->removeElement($sites);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle;
+namespace Novuscom\Bundle\CMFBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

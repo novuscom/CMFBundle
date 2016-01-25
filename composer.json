@@ -27,10 +27,11 @@
 	}
   ],
   "autoload": {
-	"psr-4": {
-	  "Novuscom\\Bundle\\CMFBundle\\": ""
+	"psr-0": {
+	  "Novuscom\\CMFBundle\\": ""
 	}
   },
+  "target-dir" : "Novuscom/CMFBundle",
   "extra": {
 	"branch-alias": {
 	  "dev-master": "0.0.6-dev"

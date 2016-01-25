@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\CMFBundle\Entity;
+namespace Novuscom\Bundle\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -46,7 +46,7 @@ class Property
     private $ElementPropertyF;
 
     /**
-     * @var \Novuscom\CMFBundle\Entity\Block
+     * @var \Novuscom\Bundle\CMFBundle\Entity\Block
      */
     private $block;
 
@@ -164,10 +164,10 @@ class Property
     /**
      * Add ElementProperty
      *
-     * @param \Novuscom\CMFBundle\Entity\ElementProperty $elementProperty
+     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementProperty $elementProperty
      * @return Property
      */
-    public function addElementProperty(\Novuscom\CMFBundle\Entity\ElementProperty $elementProperty)
+    public function addElementProperty(\Novuscom\Bundle\CMFBundle\Entity\ElementProperty $elementProperty)
     {
         $this->ElementProperty[] = $elementProperty;
     
@@ -177,9 +177,9 @@ class Property
     /**
      * Remove ElementProperty
      *
-     * @param \Novuscom\CMFBundle\Entity\ElementProperty $elementProperty
+     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementProperty $elementProperty
      */
-    public function removeElementProperty(\Novuscom\CMFBundle\Entity\ElementProperty $elementProperty)
+    public function removeElementProperty(\Novuscom\Bundle\CMFBundle\Entity\ElementProperty $elementProperty)
     {
         $this->ElementProperty->removeElement($elementProperty);
     }
@@ -197,10 +197,10 @@ class Property
     /**
      * Add ElementPropertyF
      *
-     * @param \Novuscom\CMFBundle\Entity\ElementPropertyF $elementPropertyF
+     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $elementPropertyF
      * @return Property
      */
-    public function addElementPropertyF(\Novuscom\CMFBundle\Entity\ElementPropertyF $elementPropertyF)
+    public function addElementPropertyF(\Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $elementPropertyF)
     {
         $this->ElementPropertyF[] = $elementPropertyF;
     
@@ -210,9 +210,9 @@ class Property
     /**
      * Remove ElementPropertyF
      *
-     * @param \Novuscom\CMFBundle\Entity\ElementPropertyF $elementPropertyF
+     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $elementPropertyF
      */
-    public function removeElementPropertyF(\Novuscom\CMFBundle\Entity\ElementPropertyF $elementPropertyF)
+    public function removeElementPropertyF(\Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $elementPropertyF)
     {
         $this->ElementPropertyF->removeElement($elementPropertyF);
     }
@@ -230,10 +230,10 @@ class Property
     /**
      * Set block
      *
-     * @param \Novuscom\CMFBundle\Entity\Block $block
+     * @param \Novuscom\Bundle\CMFBundle\Entity\Block $block
      * @return Property
      */
-    public function setBlock(\Novuscom\CMFBundle\Entity\Block $block = null)
+    public function setBlock(\Novuscom\Bundle\CMFBundle\Entity\Block $block = null)
     {
         $this->block = $block;
     
@@ -243,7 +243,7 @@ class Property
     /**
      * Get block
      *
-     * @return \Novuscom\CMFBundle\Entity\Block
+     * @return \Novuscom\Bundle\CMFBundle\Entity\Block
      */
     public function getBlock()
     {
@@ -258,10 +258,10 @@ class Property
     /**
      * Add ElementPropertyDT
      *
-     * @param \Novuscom\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT
+     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT
      * @return Property
      */
-    public function addElementPropertyDT(\Novuscom\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT)
+    public function addElementPropertyDT(\Novuscom\Bundle\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT)
     {
         $this->ElementPropertyDT[] = $elementPropertyDT;
     
@@ -271,9 +271,9 @@ class Property
     /**
      * Remove ElementPropertyDT
      *
-     * @param \Novuscom\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT
+     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT
      */
-    public function removeElementPropertyDT(\Novuscom\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT)
+    public function removeElementPropertyDT(\Novuscom\Bundle\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT)
     {
         $this->ElementPropertyDT->removeElement($elementPropertyDT);
     }
@@ -296,10 +296,10 @@ class Property
     /**
      * Add PropertyList
      *
-     * @param \Novuscom\CMFBundle\Entity\PropertyList $propertyList
+     * @param \Novuscom\Bundle\CMFBundle\Entity\PropertyList $propertyList
      * @return Property
      */
-    public function addPropertyList(\Novuscom\CMFBundle\Entity\PropertyList $propertyList)
+    public function addPropertyList(\Novuscom\Bundle\CMFBundle\Entity\PropertyList $propertyList)
     {
         $this->PropertyList[] = $propertyList;
     
@@ -309,9 +309,9 @@ class Property
     /**
      * Remove PropertyList
      *
-     * @param \Novuscom\CMFBundle\Entity\PropertyList $propertyList
+     * @param \Novuscom\Bundle\CMFBundle\Entity\PropertyList $propertyList
      */
-    public function removePropertyList(\Novuscom\CMFBundle\Entity\PropertyList $propertyList)
+    public function removePropertyList(\Novuscom\Bundle\CMFBundle\Entity\PropertyList $propertyList)
     {
         $this->PropertyList->removeElement($propertyList);
     }

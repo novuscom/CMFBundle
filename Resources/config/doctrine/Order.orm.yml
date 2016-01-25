@@ -1,4 +1,4 @@
-Novuscom\CMFBundle\Entity\Order:
+Novuscom\Bundle\CMFBundle\Entity\Order:
     type: entity
     table: OrderEntity
     id:
