@@ -234,7 +234,7 @@ class PageController extends Controller
 	 * Finds and displays a Page entity.
 	 *
 	 */
-	public function showAction($id)
+	public function showAction($id, Request $request)
 	{
 		//print_r('showAction'); exit;
 		$em = $this->getDoctrine()->getManager();
@@ -245,7 +245,7 @@ class PageController extends Controller
 			throw $this->createNotFoundException('Unable to find Page entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
+		$deleteForm = $this->createDeleteForm($id, $request);
 
 		return $this->render('NovuscomCMFBundle:Page:show.html.twig', array(
 			'entity' => $entity,
@@ -256,7 +256,7 @@ class PageController extends Controller
 	 * Displays a form to edit an existing Page entity.
 	 *
 	 */
-	public function editAction($id)
+	public function editAction($id, Request $request)
 	{
 		$em = $this->getDoctrine()->getManager();
 
@@ -268,8 +268,8 @@ class PageController extends Controller
 		}
 
 
-		$editForm = $this->createEditForm($entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createEditForm($entity, $request);
+		$deleteForm = $this->createDeleteForm($id, $request);
 
 		return $this->render('NovuscomCMFBundle:Page:edit.html.twig', array(
 			'entity' => $entity,
@@ -285,7 +285,7 @@ class PageController extends Controller
 	 *
 	 * @return \Symfony\Component\Form\Form The form
 	 */
-	private function createEditForm(Page $entity)
+	private function createEditForm(Page $entity, Request $request)
 	{
 		$showParent = false;
 		$showURL = true;
@@ -296,7 +296,7 @@ class PageController extends Controller
 		} else {
 			$showURL = false;
 		}
-		$siteId = $this->getRequest()->get('site_id');
+		$siteId = $request->get('site_id');
 		$form = $this->createForm(PageType::class, $entity, array(
 			'action' => $this->generateUrl('cmf_admin_page_update',
 				array(
@@ -336,8 +336,8 @@ class PageController extends Controller
 		}
 
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm = $this->createEditForm($entity);
+		$deleteForm = $this->createDeleteForm($id, $request);
+		$editForm = $this->createEditForm($entity, $request);
 		$editForm->handleRequest($request);
 
 		if ($editForm->isValid()) {
@@ -352,7 +352,7 @@ class PageController extends Controller
 			$this->createPreviewPicture($entity, $editForm['preview_picture']->getData());
 
 			$em->flush();
-			$siteId = $this->getRequest()->get('site_id');
+			$siteId = $request->get('site_id');
 			return $this->redirect($this->generateUrl('cmf_admin_page_edit',
 				array(
 					'id' => $id,
@@ -414,9 +414,9 @@ class PageController extends Controller
 	 *
 	 * @return \Symfony\Component\Form\Form The form
 	 */
-	private function createDeleteForm($id)
+	private function createDeleteForm($id, Request $request)
 	{
-		$siteId = $this->getRequest()->get('site_id');
+		$siteId = $request->get('site_id');
 		return $this->createFormBuilder()
 			->setAction($this->generateUrl('cmf_admin_page_delete',
 				array(
