@@ -156,7 +156,7 @@ class TemplateExtension extends \Twig_Extension
 
 	public function IsMainPage()
 	{
-		$request = $this->container->get('request');
+		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$routeName = $request->get('_route');
 		return ($routeName == 'cmf_page_main');
 	}
