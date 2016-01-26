@@ -262,7 +262,11 @@ class TemplateExtension extends \Twig_Extension
 		//echo '<pre>' . print_r($array, true) . '</pre>';
 		//exit;
 		foreach ($array as $e) {
-			$item = $menu->addChild($e['name'], array('uri' => $e['url'], 'attributes' => array(
+			if (preg_match('/^(http|https|ftp):\/\//', $e['url']))
+				$url = $e->getUrl();
+			else
+				$url = $this->urlGenerator->generate('cmf_page_frontend', array('name' => $e['url']));
+			$item = $menu->addChild($e['name'], array('uri' => $url, 'attributes' => array(
 				//'data-url' => $e['url'],
 				//'data-uri' => $_SERVER['REQUEST_URI'],
 			)));
