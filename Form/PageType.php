@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -69,9 +70,9 @@ class PageType extends AbstractType
 		};
 
 		if ($options['SHOW_PARENT']) {
-			$builder->add('parent', 'entity', array(
+			$builder->add('parent', EntityType::class, array(
 				'class' => 'NovuscomCMFBundle:Page',
-				'property' => 'name',
+				'choice_label' => 'name',
 				'query_builder' => function ($er) use ($options, $entity) {
 					if ($entity->getId()) {
 						$nots = $er->createQueryBuilder('s')
