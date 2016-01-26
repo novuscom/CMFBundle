@@ -108,7 +108,7 @@ class TemplateExtension extends \Twig_Extension
 		/*
 		 * Добавляем текущую страницу в id кеша
 		 */
-		$request = $this->container->get('request');
+		$request = $this->container->get('request_stack');
 		$routeParams = $request->get('_route_params');
 		$currentCode = false;
 		if (array_key_exists('CODE', $routeParams))
@@ -176,7 +176,8 @@ class TemplateExtension extends \Twig_Extension
 		$Site = $this->container->get('Site');
 		$currentSite = $Site->getCurrentSite();
 		$time_start = microtime(1);
-		$request = $this->container->get('request');
+		$request = $this->container->get('request_stack')->getCurrentRequest();
+		//echo '<pre>' . print_r($request, true) . '</pre>';
 		$env = $this->container->getParameter("kernel.environment");
 		$routeParams = $request->get('_route_params');
 		$options['@request_uri'] = $_SERVER['REQUEST_URI'];
@@ -186,7 +187,8 @@ class TemplateExtension extends \Twig_Extension
 		$namespace = 'menu_' . $currentSite['code'] . '_' . $env . '_' . $options['id'];
 		$this->logger->info('Menu ' . $options['id'] . ' NameSpace: ' . $namespace);
 		$cacheDriver->setNamespace($namespace);
-		if ($fooString = $cacheDriver->fetch($cacheId) /*and $env=='prod'*/) {
+		//if ($fooString = $cacheDriver->fetch($cacheId) /*and $env=='prod'*/) {
+		if (false) {
 			$result = unserialize($fooString);
 		} else {
 			$array = $this->getArray($options['id']);
@@ -199,12 +201,95 @@ class TemplateExtension extends \Twig_Extension
 		//echo $time.' мс';
 	}
 
+	private function getArray($id)
+	{
+		$repo = $this->doctrine->getRepository('NovuscomCMFBundle:Item');
+		$query = $this->doctrine
+			->createQueryBuilder()
+			->select('node')
+			->from('NovuscomCMFBundle:Item', 'node')
+			->orderBy('node.root, node.lft', 'ASC')
+			->where('node.menu = :menu_id')
+			->setParameter('menu_id', $id)
+			->getQuery();
+		$options = array(
+			'decorate' => false
+		);
+		$tree = $repo->buildTree($query->getArrayResult(), $options);
+		return $tree;
+		echo '<pre>' . print_r($tree, true) . '</pre>';
+		exit;
+		$entities = $this->doctrine->getRepository('NovuscomCMFBundle:Item')->findBy(
+			array(
+				'menu' => $id
+			),
+			array(
+				'lft' => 'asc',
+				'sort' => 'asc'
+			)
+		);
+		$items_array = array();
+		foreach ($entities as $e) {
+			if (preg_match('/^(http|https|ftp):\/\//', $e->getUrl()))
+				$url = $e->getUrl();
+			else
+				$url = $this->urlGenerator->generate('cmf_page_frontend', array('name' => $e->getUrl()));
+			$itemArray = array(
+				'name' => $e->getName(),
+				'url' => $url,
+				'lvl' => $e->getLvl(),
+				'lft' => $e->getLft(),
+				'rgt' => $e->getRgt(),
+				'root' => $e->getRoot(),
+				'id' => $e->getId(),
+				'parent' => null,
+			);
+			if ($e->getParent()) {
+				$itemArray['parent'] = $e->getParent()->getId();
+			}
+			$items_array[$e->getId()] = $itemArray;
+		}
+		$this->setMenuByParents($items_array);
+		return $items_array;
+	}
+
+	private function getMenu($options, $array, $menu = false, $currentItem = false)
+	{
+		//$array = $this->menuByParents['root'];
+		$factory = new MenuFactory();
+		if ($menu == false)
+			$menu = $factory->createItem('root');
+		//echo '<pre>' . print_r($array, true) . '</pre>';
+		//exit;
+		foreach ($array as $e) {
+			$item = $menu->addChild($e['name'], array('uri' => $e['url'], 'attributes' => array(
+				//'data-url' => $e['url'],
+				//'data-uri' => $_SERVER['REQUEST_URI'],
+			)));
+			if ($_SERVER['REQUEST_URI'] == '' . $e['url'] . '') {
+				//echo '<pre>' . print_r($_SERVER['REQUEST_URI'], true) . '</pre>';
+				//echo '<pre>' . print_r($e['url'], true) . '</pre>';
+				$item->setCurrent(true);
+			}
+			if ($e['__children']) {
+				$currentItem = $e;
+				$this->getMenu($options, $e['__children'], $item, $currentItem);
+			}
+		}
+		if (!array_key_exists('template', $options)) {
+			$options['template'] = 'default.html.twig';
+		}
+		$menuRenderer = $this->getMenuRenderer();
+		$result = $menuRenderer->render($menu, array(
+			'template' => $options['template'], 'currentAsLink' => false));
+		return $result;
+	}
 
 	private function getMenuRenderer()
 	{
 		$Site = $this->container->get('Site');
 		$currentSite = $Site->getCurrentSite();
-		$request = $this->container->get('request');
+		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$routeName = $request->get('_route');
 		$routeParams = $request->get('_route_params');
 		$twigLoader = new \Twig_Loader_Filesystem(array(
@@ -217,55 +302,6 @@ class TemplateExtension extends \Twig_Extension
 		return $menuRenderer;
 	}
 
-	private function getMenu($options, $array)
-	{
-		if (!array_key_exists('template', $options)) {
-			$options['template'] = 'default.html.twig';
-		}
-		$factory = new MenuFactory();
-		$menu = $factory->createItem('root');
-		//$menu->setCurrentAsLink(false); // не работает
-		foreach ($array as $e) {
-			$item = $menu->addChild($e['name'], array('uri' => $e['url'], 'attributes' => array(
-				'data-url' => $e['url'],
-				'data-uri' => $_SERVER['REQUEST_URI'],
-			)));
-			if ($_SERVER['REQUEST_URI'] == '' . $e['url'] . '') {
-				//echo '<pre>' . print_r($_SERVER['REQUEST_URI'], true) . '</pre>';
-				//echo '<pre>' . print_r($e['url'], true) . '</pre>';
-				$item->setCurrent(true);
-			}
-		}
-		$menuRenderer = $this->getMenuRenderer();
-		$result = $menuRenderer->render($menu, array(
-			'template' => $options['template'], 'currentAsLink' => false));
-		return $result;
-	}
-
-	private function getArray($id)
-	{
-		$entities = $this->doctrine->getRepository('NovuscomCMFBundle:Item')->findBy(
-			array(
-				'menu' => $id
-			),
-			array(
-				'sort' => 'asc'
-			)
-		);
-
-		$items_array = array();
-		foreach ($entities as $e) {
-			if (preg_match('/^(http|https|ftp):\/\//', $e->getUrl()))
-				$url = $e->getUrl();
-			else
-				$url = $this->urlGenerator->generate('cmf_page_frontend', array('name' => $e->getUrl()));
-			$items_array[] = array(
-				'name' => $e->getName(),
-				'url' => $url,
-			);
-		}
-		return $items_array;
-	}
 
 	public function getFilters()
 	{
