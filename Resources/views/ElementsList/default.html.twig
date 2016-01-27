@@ -1,0 +1,7 @@
+{% if (elements) %}
+    <ul class="slider">
+        {% for element in elements %}
+            <li>{{ element.name }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}

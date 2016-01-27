@@ -1329,7 +1329,7 @@ class ComponentController extends Controller
 	{
 		$alias = $this->getAlias();
 		$site = $alias->getSite();
-		$securityContext = $this->container->get('security.context');
+		$securityContext = $this->container->get('security.authorization_checker');
 		$result = ($site->getClosed() && !$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
 		return $result;
 	}
@@ -1557,6 +1557,10 @@ class ComponentController extends Controller
 				if ($this->paginationRedirect!==false)
 					return new RedirectResponse($this->paginationRedirect);
 				$response_data['pagination'] = $pagination;
+				$response_data['title'] = $pageEntity->getTitle();
+				$response_data['header'] = $pageEntity->getHeader();
+				$response_data['description'] = $pageEntity->getDescription();
+				$response_data['page'] = $pageEntity;
 			}
 
 
@@ -1566,11 +1570,9 @@ class ComponentController extends Controller
 
 			$response_data['elements'] = $elements;
 			$response_data['options'] = $params['OPTIONS'];
-			$response_data['page'] = $pageEntity;
+
 			$response_data['params'] = $params;
-			$response_data['title'] = $pageEntity->getTitle();
-			$response_data['header'] = $pageEntity->getHeader();
-			$response_data['description'] = $pageEntity->getDescription();
+
 
 
 			$render = $this->render('@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
