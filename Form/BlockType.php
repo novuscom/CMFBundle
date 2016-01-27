@@ -3,10 +3,21 @@
 namespace Novuscom\Bundle\CMFBundle\Form;
 
 
+use Novuscom\Bundle\CMFBundle\Form\PropertyType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class BlockType extends AbstractType
 {
@@ -21,7 +32,7 @@ class BlockType extends AbstractType
         $builder
             ->add(
                 'name',
-                'text',
+                TextType::class,
                 array(
                     'label' => 'Название',
                     'attr' => array(
@@ -29,7 +40,7 @@ class BlockType extends AbstractType
                     ),
                 )
             )
-            ->add('code', 'text',
+            ->add('code', TextType::class,
                 array(
                     'label' => 'Код',
                     'attr' => array(
@@ -41,9 +52,9 @@ class BlockType extends AbstractType
         /**
          * Сайты
          */
-        $builder->add('sites', 'entity', array(
+        $builder->add('sites', EntityType::class, array(
             'class' => 'NovuscomCMFBundle:Site',
-            'property' => 'name',
+            'choice_label' => 'name',
             'expanded' => false,
             'multiple' => true,
             //'required' => true, // почему-то не работает атрибут required
@@ -53,9 +64,9 @@ class BlockType extends AbstractType
             ),
             //'data' => $options['sites']
         ));
-        $builder->add('group', 'entity', array(
+        $builder->add('group', EntityType::class, array(
             'class' => 'NovuscomCMFBundle:BlockGroup',
-            'property' => 'name',
+            'choice_label' => 'name',
             'expanded' => false,
             'multiple' => false,
             'label' => 'Группа',
@@ -64,9 +75,9 @@ class BlockType extends AbstractType
                 'class' => 'form-control'
             ),
         ));
-        $builder->add('property', 'collection',
+        $builder->add('property', CollectionType::class,
             array(
-                'type' => new PropertyType(),
+                'entry_type' => PropertyType::class,
                 'prototype' => true,
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -83,17 +94,13 @@ class BlockType extends AbstractType
             )
         );*/
     }
-
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Block',
-            'sites' => new ArrayCollection()
-        ));
-    }
+	public function configureOptions(OptionsResolver $resolver)
+	{
+		$resolver->setDefaults(array(
+			'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Block',
+			'sites' => new ArrayCollection()
+		));
+	}
 
     /**
      * @return string

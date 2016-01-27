@@ -210,15 +210,13 @@ class SiteController extends Controller
 
 		$Site = $this->get('Site');
 
-		$originalAliases = new ArrayCollection();
 
+		$originalAliases = new ArrayCollection();
 		foreach ($entity->getAliases() as $tag) {
 			$originalAliases->add($tag);
 		}
 
-
 		$deleteForm = $this->createDeleteForm($id);
-
 		$editForm = $this->createEditForm($entity);
 
 		$editForm->handleRequest($request);

@@ -189,13 +189,13 @@ class Block
     /**
      * Add property
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Property $property
+     * @param $property
      * @return Block
      */
-    public function addProperty(\Novuscom\Bundle\CMFBundle\Entity\Property $property)
+    public function addProperty($property)
     {
-        $this->property[] = $property;
-    
+	    $property->setBlock($this);
+        $this->property->add($property);
         return $this;
     }
 
