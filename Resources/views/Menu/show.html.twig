@@ -40,7 +40,7 @@
                     {% for s in items %}
                         <tr>
                             <td>{{ s.id }}</td>
-                            <td>
+                            <td>{{ str_repeat('&mdash;', s.lvl)|raw }}
                                 <a href="{{ path('admin_menuitem_edit', {'site_id':app.request.get('site_id'), 'id':s.id,
                                     'menu_id':entity.id
                                 }) }}"><b>{{ s.name }}</b></a></td>
