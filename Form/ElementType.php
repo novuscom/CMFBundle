@@ -3,11 +3,23 @@
 namespace Novuscom\Bundle\CMFBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ElementType extends AbstractType
 {
@@ -17,20 +29,20 @@ class ElementType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('active', 'checkbox', array(
+        $builder->add('active', CheckboxType::class, array(
             'label' => 'Активность',
             'required' => false,
             //'data' => true,
         ));
 
-        $builder->add('name', 'text', array(
+        $builder->add('name', TextType::class, array(
             'attr' => array(
                 'class' => 'form-control',
                 'data-translit' => false,
             ),
             'label' => 'Название',
         ));
-        $builder->add('code', 'text', array(
+        $builder->add('code', TextType::class, array(
             'label' => 'Код',
             'required' => false,
             'attr' => array(
@@ -38,14 +50,14 @@ class ElementType extends AbstractType
                 'data-translit-alias' => false,
             ),
         ));
-        $builder->add('sort', 'integer', array(
+        $builder->add('sort', IntegerType::class, array(
             'label' => 'Сортировка',
             'required' => false,
             'attr' => array(
                 'class' => 'form-control'
             ),
         ));
-        $builder->add('preview_picture', 'file', array(
+        $builder->add('preview_picture', FileType::class, array(
             'label' => 'Картинка для анонса',
             'mapped' => false,
             'required' => false
@@ -60,10 +72,10 @@ class ElementType extends AbstractType
         if ($builder->getData()->getPreviewPicture()) {
             $previewPictureAltInfo['data']=$builder->getData()->getPreviewPicture()->getDescription();
         }
-        $previewPictureAlt = $builder->add('preview_picture_alt', 'text', $previewPictureAltInfo);
+        $previewPictureAlt = $builder->add('preview_picture_alt', TextType::class, $previewPictureAltInfo);
 
         
-        $builder->add('preview_picture_src', 'text', array(
+        $builder->add('preview_picture_src', TextType::class, array(
             'label' => 'Картинка для анонса (источник)',
             'attr' => array(
                 'class' => 'form-control',
@@ -71,12 +83,12 @@ class ElementType extends AbstractType
             'mapped' => false,
             'required' => false,
         ));
-        $builder->add('detail_picture', 'file',
+        $builder->add('detail_picture', FileType::class,
             array(
                 'label' => 'Детальная картинка',
                 'mapped' => false, 'required' => false)
         );
-        $builder->add('detail_picture_src', 'text', array(
+        $builder->add('detail_picture_src', TextType::class, array(
             'label' => 'Детальная картинка (источник)',
             'attr' => array(
                 'class' => 'form-control',
@@ -92,20 +104,20 @@ class ElementType extends AbstractType
         if ($builder->getData()->getDetailPicture()) {
             $detailPictureAltInfo['data']=$builder->getData()->getDetailPicture()->getDescription();
         }
-        $detailPictureAlt = $builder->add('detail_picture_alt', 'text', $detailPictureAltInfo);
-        $builder->add('title', 'text', array(
+        $detailPictureAlt = $builder->add('detail_picture_alt', TextType::class, $detailPictureAltInfo);
+        $builder->add('title', TextType::class, array(
             'label' => 'Заголовок окна',
             'required'=>false,
         ));
-		$builder->add('header', 'text', array(
+		$builder->add('header', TextType::class, array(
 			'label' => 'Заголовок страницы',
 			'required'=>false,
 		));
-        $builder->add('keywords', 'text', array(
+        $builder->add('keywords', TextType::class, array(
             'label' => 'Ключевые слова',
             'required'=>false,
         ));
-        $builder->add('description', 'text', array(
+        $builder->add('description', TextType::class, array(
             'label' => 'Описание',
             'required'=>false,
         ));
@@ -153,14 +165,14 @@ class ElementType extends AbstractType
         }
 
         //echo '<pre>' . print_r($options['blockObject']->getName(), true) . '</pre>';
-        $builder->add('section', 'entity', array(
+        $builder->add('section', EntityType::class, array(
             'label' => 'Раздел',
             'class' => 'NovuscomCMFBundle:Section',
-            'property' => 'name',
+            'choice_label' => 'name',
             'expanded' => false,
             'multiple' => true,
             'required' => false,
-            'empty_value' => '',
+            //'empty_value' => '',
             'empty_data' => null,
             'mapped' => false,
             'attr' => array('size' => '20'),
@@ -174,7 +186,7 @@ class ElementType extends AbstractType
         ));
         /* $builder->add('block', 'entity', array(
              'class' => 'NovuscomCMFBundle:Block',
-             'property' => 'name',
+             'choice_label' => 'name',
              'expanded' => false,
              'multiple' => false,
          ));*/
@@ -190,29 +202,25 @@ class ElementType extends AbstractType
             //'by_reference' => false,
         ));*/
 
-        $builder->add('previewText', 'textarea', array(
+        $builder->add('previewText', TextareaType::class, array(
                 'label' => 'Описание для анонса',
                 'required' => false, 'attr' => array())
         );
-        $builder->add('detailText', 'textarea', array(
+        $builder->add('detailText', TextareaType::class, array(
             'label' => 'Детальное описание',
             'required' => false, 'attr' => array()
         ));
     }
 
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Element',
-            'em' => false,
-            'blockObject' => false,
-            'params' => false,
-            //'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\FormElement'
-        ));
-    }
+	public function configureOptions(OptionsResolver $resolver)
+	{
+		$resolver->setDefaults(array(
+			'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Element',
+			'em' => false,
+			'blockObject' => false,
+			'params' => false,
+		));
+	}
 
     /**
      * @return string

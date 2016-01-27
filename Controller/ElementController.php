@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyFile;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use Novuscom\Bundle\CMFBundle\Entity\FormElement;
 use Novuscom\Bundle\CMFBundle\Entity\FormProperty;
@@ -351,7 +352,7 @@ class ElementController extends Controller
 
 
 			$em = $this->getDoctrine()->getManager();
-			$request = $this->container->get('request');
+			$request = $this->container->get('request_stack')->getCurrentRequest();
 			$params = $request->get('_route_params');
 			$block = $em->getRepository('NovuscomCMFBundle:Block')->find($params['id']);
 			$section = $em->getRepository('NovuscomCMFBundle:Section')->find($params['section_id']);
@@ -669,7 +670,7 @@ class ElementController extends Controller
 	private function createCreateForm(Element $entity)
 	{
 		$em = $this->getDoctrine()->getManager();
-		$request = $this->container->get('request');
+		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$params = $request->get('_route_params');
 		$block = $em->getRepository('NovuscomCMFBundle:Block')->find($params['id']);
 
@@ -689,7 +690,7 @@ class ElementController extends Controller
 			);
 		}
 
-		$form = $this->createForm(new ElementType(), $entity, array(
+		$form = $this->createForm(ElementType::class, $entity, array(
 			'action' => $action,
 			'method' => 'POST',
 			'blockObject' => $block,
@@ -720,7 +721,7 @@ class ElementController extends Controller
 
 		//$form->add('properties', 'collection', array('type' => new ElementPropertyType($properties, $em)));
 
-		$form->add('submit', 'submit', array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-success')));
+		$form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-success')));
 
 		return $form;
 	}
@@ -818,7 +819,7 @@ class ElementController extends Controller
 
 		//$imagine = new Imagine\Gd\Imagine();
 		$crumbs = $this->get("apy_breadcrumb_trail");
-		$crumbs->add('ACMF', 'cmf_admin_homepage');
+		$crumbs->add('nCMF', 'cmf_admin_homepage');
 		$crumbs->add('Инфоблоки', 'admin_block');
 		$crumbs->add($block->getName(), 'admin_block_show', array('id' => $block->getId()));
 
@@ -850,8 +851,6 @@ class ElementController extends Controller
 
 		$crumbs->add($entity->getName());
 
-		echo '<pre>' . print_r($entity->getActive(), true) . '</pre>';
-
 		$editForm = $this->createEditForm($entity);
 
 		$deleteForm = $this->createDeleteForm($id);
@@ -874,7 +873,7 @@ class ElementController extends Controller
 	private function createEditForm(Element $entity)
 	{
 		$em = $this->getDoctrine()->getManager();
-		$request = $this->container->get('request');
+		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$params = $request->get('_route_params');
 		$block = $em->getRepository('NovuscomCMFBundle:Block')->find($params['block_id']);
 
@@ -949,7 +948,7 @@ class ElementController extends Controller
 				'section_id' => $params['section_id']
 			));
 		}
-		$form = $this->createForm(new ElementType(), $entity, array(
+		$form = $this->createForm(ElementType::class, $entity, array(
 			'action' => $action_url,
 			'method' => 'PUT',
 			'em' => $em,
@@ -957,7 +956,7 @@ class ElementController extends Controller
 		));
 
 
-		$form->add('properties', $propertyForm,
+		$form->add('properties', ElementPropertyType::class,
 			array(
 				'mapped' => false,
 				'label' => 'Свойства',
@@ -965,7 +964,7 @@ class ElementController extends Controller
 			));
 
 
-		$form->add('submit', 'submit', array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-info')));
+		$form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-info')));
 
 		return $form;
 	}
@@ -1814,7 +1813,7 @@ class ElementController extends Controller
 		return $this->createFormBuilder()
 			->setAction($this->generateUrl('admin_element_delete', array('id' => $id)))
 			->setMethod('DELETE')
-			->add('submit', 'submit', array('label' => 'Удалить', 'attr' => array(
+			->add('submit', SubmitType::class, array('label' => 'Удалить', 'attr' => array(
 				'class' => 'btn btn-danger',
 				'data-delete' => ''
 			)))

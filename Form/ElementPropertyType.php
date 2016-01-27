@@ -26,7 +26,7 @@ class ElementPropertyType extends AbstractType
 	{
 
 
-		//return true;
+		return true;
 
 		//$builder->add('value');
 
@@ -410,12 +410,12 @@ class ElementPropertyType extends AbstractType
 		return 'cmf_blockbundle_elementproperty';
 	}
 
-	public function __construct($options, $em, $data = array())
+	/*public function __construct($options, $em, $data = array())
 	{
 		$this->options = $options;
 		$this->em = $em;
 		$this->data = $data;
-	}
+	}*/
 
 }
 
