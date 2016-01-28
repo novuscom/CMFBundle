@@ -72,6 +72,9 @@ class Admin implements ContainerAwareInterface
 			$menu->addChild('Поисковые запросы', array(
 				'route' => 'admin_searchquery'
 			));
+			$menu->addChild('Система', array(
+				'route' => 'admin_system'
+			));
 		}
 
 		$blocks = $em->getRepository('NovuscomCMFBundle:Block')->findBySites($sites);
@@ -111,9 +114,7 @@ class Admin implements ContainerAwareInterface
 			));
 		}
 
-		$menu->addChild('Система', array(
-			'route' => 'admin_system'
-		));
+
 
 
 		/*
