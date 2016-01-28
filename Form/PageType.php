@@ -72,7 +72,7 @@ class PageType extends AbstractType
 		if ($options['SHOW_PARENT']) {
 			$builder->add('parent', EntityType::class, array(
 				'class' => 'NovuscomCMFBundle:Page',
-				'choice_label' => 'name',
+				'choice_label' => 'indentedTitle',
 				'query_builder' => function ($er) use ($options, $entity) {
 					if ($entity->getId()) {
 						$nots = $er->createQueryBuilder('s')

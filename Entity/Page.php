@@ -616,4 +616,7 @@ class Page
     {
         return $this->DetailPicture;
     }
+	public function getIndentedTitle() {
+		return str_repeat("—", $this->lvl).' '.$this->name;
+	}
 }
