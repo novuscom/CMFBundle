@@ -289,4 +289,7 @@ class Item
 	{
 		return $this->parent;
 	}
+	public function getIndentedTitle() {
+		return str_repeat("—", $this->lvl).' '.$this->name;
+	}
 }

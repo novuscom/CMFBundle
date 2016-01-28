@@ -33,7 +33,7 @@ class ItemType extends AbstractType
 	    $options['MENU_ID'] = 1;
         $builder->add('parent', EntityType::class, array(
             'class' => 'NovuscomCMFBundle:Item',
-            'choice_label' => 'name',
+            'choice_label' => 'indentedTitle',
             'query_builder' => function ($er) use ($options, $entity) {
                 if ($entity->getId()) {
                     $nots = $er->createQueryBuilder('s')
@@ -50,7 +50,7 @@ class ItemType extends AbstractType
                         ->where($q->expr()->notIn('s.id', $notsId))
                         ->andwhere("s.menu = :menuId")
                         ->setParameters(array('menuId' => $options['MENU_ID']))
-                        ->orderBy('s.lft', 'ASC');
+                        ->orderBy('s.root, s.lft, s.sort', 'ASC');
                     return $linked;
                 } else {
                     return $er->createQueryBuilder('s')
