@@ -10,19 +10,18 @@
                         <span>Список маршрутов</span>
                     </div>
                 </div>
-                <div class="box-content no-padding">
+                <div class="box-body">
                     <table class="table table-bordered table-striped table-hover table-heading table-datatable">
                         <thead>
                         <tr>
                             <th>Id</th>
                             <th>Активность</th>
-                            <th>Name</th>
-                            <th>Code</th>
-                            <th>Template</th>
-                            <th>Controller</th>
+                            <th>Название</th>
+                            <th>Код</th>
+                            <th>Шаблон</th>
+                            <th>Контроллер</th>
                             <th>Сортировка</th>
-                            <th>Actions</th>
-                            <th>Params</th>
+                            <th>Пареметры</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -37,21 +36,39 @@
                                         <i class="glyphicon glyphicon-unchecked"></i>
                                     {% endif %}
                                 </td>
-                                <td>{{ entity.name }}</td>
+                                <td><a href="{{ path('admin_route_edit', { 'id': entity.id }) }}">{{ entity.name }}</a>
+                                </td>
                                 <td>{{ entity.code }}</td>
                                 <td>{{ entity.template }}</td>
                                 <td>{{ entity.controller }}</td>
                                 <td>{{ entity.sort }}</td>
-                                <td>
-                                    <a class="btn btn-info" href="{{ path('admin_route_show', { 'id': entity.id }) }}">show</a>
-                                    <a class="btn btn-warning"
-                                       href="{{ path('admin_route_edit', { 'id': entity.id }) }}">edit</a>
-                                </td>
                                 <td>{{ entity.params }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Активность</th>
+                            <th>Название</th>
+                            <th>Код</th>
+                            <th>Шаблон</th>
+                            <th>Контроллер</th>
+                            <th>Сортировка</th>
+                            <th>Пареметры</th>
+                        </tr>
+                        </tfoot>
                     </table>
+                </div>
+                <div class="box-footer">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ path('admin_route_new') }}" class="btn btn-success">
+                                <i class="fa fa-plus"></i>
+                                Создать маршрут
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -60,11 +77,5 @@
 
 
 
-    <ul>
-        <li>
-            <a href="{{ path('admin_route_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+
 {% endblock %}

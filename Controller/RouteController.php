@@ -179,42 +179,23 @@ class RouteController extends Controller
     }
 
     private function clearCache(){
-        $filenameForRemove = $_SERVER['DOCUMENT_ROOT'].'/../app/cache/dev/appDevUrlGenerator.php';
-        if ($filenameForRemove)
-        {
-            if (file_exists($filenameForRemove) &&
-                is_writable($filenameForRemove))
-            {
-                unlink ( $filenameForRemove );
-            }
-        }
-        $filenameForRemove = $_SERVER['DOCUMENT_ROOT'].'/../app/cache/dev/appDevUrlMatcher.php';
-        if ($filenameForRemove)
-        {
-            if (file_exists($filenameForRemove) &&
-                is_writable($filenameForRemove))
-            {
-                unlink ( $filenameForRemove );
-            }
-        }
-        $filenameForRemove = $_SERVER['DOCUMENT_ROOT'].'/../app/cache/prod/appProdUrlGenerator.php';
-        if ($filenameForRemove)
-        {
-            if (file_exists($filenameForRemove) &&
-                is_writable($filenameForRemove))
-            {
-                unlink ( $filenameForRemove );
-            }
-        }
-        $filenameForRemove = $_SERVER['DOCUMENT_ROOT'].'/../app/cache/prod/appProdUrlMatcher.php';
-        if ($filenameForRemove)
-        {
-            if (file_exists($filenameForRemove) &&
-                is_writable($filenameForRemove))
-            {
-                unlink ( $filenameForRemove );
-            }
-        }
+	    $files = array(
+		    $_SERVER['DOCUMENT_ROOT'].'/../app/cache/dev/appDevUrlGenerator.php',
+		    $_SERVER['DOCUMENT_ROOT'].'/../app/cache/dev/appDevUrlMatcher.php',
+		    $_SERVER['DOCUMENT_ROOT'].'/../app/cache/prod/appProdUrlGenerator.php',
+		    $_SERVER['DOCUMENT_ROOT'].'/../app/cache/prod/appProdUrlMatcher.php',
+		    $_SERVER['DOCUMENT_ROOT'].'/../var/cache/dev/appDevUrlGenerator.php',
+		    $_SERVER['DOCUMENT_ROOT'].'/../var/cache/dev/appDevUrlMatcher.php',
+		    $_SERVER['DOCUMENT_ROOT'].'/../var/cache/prod/appProdUrlGenerator.php',
+		    $_SERVER['DOCUMENT_ROOT'].'/../var/cache/prod/appProdUrlMatcher.php',
+	    );
+	    foreach ($files as $filenameForRemove) {
+		    if (file_exists($filenameForRemove) &&
+			    is_writable($filenameForRemove))
+		    {
+			    unlink ( $filenameForRemove );
+		    }
+	    }
     }
 
     /**
