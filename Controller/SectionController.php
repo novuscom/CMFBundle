@@ -11,6 +11,7 @@ use Novuscom\Bundle\CMFBundle\Entity\Section;
 use Novuscom\Bundle\CMFBundle\Entity\Page;
 use Novuscom\Bundle\CMFBundle\Form\SectionType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * Section controller.
@@ -613,7 +614,10 @@ class SectionController extends Controller
 			}
 			$this->setCrumbs($block, $entity, 'Создание раздела');
 		}
-		$this->setCrumbs($block, false, 'Создание раздела');
+		else {
+			$this->setCrumbs($block, false, 'Создание раздела');
+		}
+
 
 		$entity = new Section();
 		$form = $this->createCreateForm($entity);
@@ -649,7 +653,7 @@ class SectionController extends Controller
 	{
 		$Section = $this->get('Section');
 		$crumbs = $this->get("apy_breadcrumb_trail");
-		$crumbs->add('CMS', 'cmf_admin_homepage');
+		$crumbs->add('nCMF', 'cmf_admin_homepage');
 		$crumbs->add($block->getName(), 'admin_block_show', array('id' => $block->getId()));
 		if ($entity) {
 			$path = $Section->getPath($entity);
@@ -700,7 +704,7 @@ class SectionController extends Controller
 			throw $this->createNotFoundException('Не передана информация инфоблоке');
 		}
 		//echo '<pre>' . print_r($block->getName(), true) . '</pre>';
-		$form = $this->createForm(new SectionType(), $entity, array(
+		$form = $this->createForm(SectionType::class, $entity, array(
 			'action' => $this->generateUrl('admin_section__update', array(
 					'section_id' => $entity->getId(),
 					'id' => $block->getId())
@@ -844,7 +848,7 @@ class SectionController extends Controller
 		return $this->createFormBuilder()
 			->setAction($this->generateUrl('admin_section__delete', array('section_id' => $id, 'block_id' => $block_id)))
 			->setMethod('DELETE')
-			->add('submit', 'submit', array('label' => 'Удалить', 'attr' => array(
+			->add('submit', SubmitType::class, array('label' => 'Удалить', 'attr' => array(
 				'class' => 'btn btn-danger',
 				'data-delete' => ''
 			)))

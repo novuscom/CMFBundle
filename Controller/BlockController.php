@@ -28,7 +28,7 @@ class BlockController extends Controller
 	{
 
 		$crumbs = $this->get("apy_breadcrumb_trail");
-		$crumbs->add('ACMF', 'cmf_admin_homepage');
+		$crumbs->add('nCMF', 'cmf_admin_homepage');
 		$crumbs->add('Инфоблоки', 'admin_block');
 		$em = $this->getDoctrine()->getManager();
 
@@ -119,7 +119,7 @@ class BlockController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 		$crumbs = $this->get("apy_breadcrumb_trail");
-		$crumbs->add('CMS', 'cmf_admin_homepage');
+		$crumbs->add('nCMF', 'cmf_admin_homepage');
 		//$crumbs->add('Инфоблоки', 'admin_block');
 
 		$entity = $em->getRepository('NovuscomCMFBundle:Block')->find($id);
@@ -217,7 +217,7 @@ class BlockController extends Controller
 		$entity = $em->getRepository('NovuscomCMFBundle:Block')->find($id);
 
 		$crumbs = $this->get("apy_breadcrumb_trail");
-		$crumbs->add('CMS', 'cmf_admin_homepage');
+		$crumbs->add('nCMF', 'cmf_admin_homepage');
 		$crumbs->add('Инфоблоки', 'admin_block');
 		$crumbs->add($entity->getName(), 'admin_block_show', array('id' => $entity->getId()));
 
