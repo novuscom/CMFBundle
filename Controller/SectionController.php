@@ -542,7 +542,7 @@ class SectionController extends Controller
 
 		if ($form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
-			$request = $this->container->get('request');
+			$request = $this->container->get('request_stack')->getCurrentRequest();
 			$params = $request->get('_route_params');
 			$block = $em->getRepository('NovuscomCMFBundle:Block')->find($params['id']);
 			$redirectUrl = $this->generateUrl('admin_block_show', array('id' => $params['id']));
