@@ -224,6 +224,7 @@ class DefaultController extends Controller
             $response = $this->render($pageTemplate,
                 array(
                     'page' => $page,
+	                'content' => $page->getContent(),
                     'title' => $page->getTitle(),
                     'header' => $page->getHeader(),
                     'keywords' => $page->getKeywords(),

@@ -680,16 +680,16 @@ class ComponentController extends Controller
 		return $routes->get($routename)->getDefaults()['_controller'];
 	}
 
-	public function CrumbsAction($params, Request $request)
+	public function CrumbsAction($params = false, Request $request)
 	{
 		$time_start = microtime(1);
 		$logger = $this->get('logger');
-		$route_params = $request->get('_route_params');
-		//echo '<pre>' . print_r($params, true) . '</pre>'; exit;
-		//echo '<pre>' . print_r($route_params, true) . '</pre>'; exit;
-		$routeName = $request->get('_route');
+		$request = $this->get('request_stack')->getMasterRequest();
+		$route_params = $request->attributes->get('_route_params');
+		$routeName = $request->attributes->get('_route');
 		$pageRoute = ($routeName == 'cmf_page_frontend' || $routeName == 'page');
-		if (!isset($route_params['params']) && !$pageRoute) {
+		if(false){
+		//if (!isset($route_params['params']) && !$pageRoute) {
 			$logger->notice('параметры маршрута не известны и это не маршрут для статических страниц, возвращаем пустой результат (' . print_r($route_params, true) . ')');
 			return new Response();
 		}
@@ -701,6 +701,8 @@ class ComponentController extends Controller
 		$existParams = (array_key_exists('params', $route_params));
 		$Site = $this->get('Site');
 		$currentSite = $Site->getCurrentSite();
+		$crumbs = array();
+		//echo '<pre>' . print_r($crumbs, true) . '</pre>';
 		//echo '<pre>' . print_r('крошки', true) . '</pre>'; exit;
 		if (false) {
 			//if ($fooString = $cacheDriver->fetch($cacheId)) {
@@ -710,7 +712,6 @@ class ComponentController extends Controller
 		} else {
 			$logger->info('крошек нет в кеше');
 			$em = $this->getDoctrine()->getManager();
-			$crumbs = array();
 			$codes_array = array();
 			/*
 			 * Хлебные крошки для страниц
@@ -792,7 +793,9 @@ class ComponentController extends Controller
 
 
 			}
-
+			//echo '<pre>' . print_r($crumbs, true) . '</pre>';
+			if (!$params['template_code'])
+				$params['template_code'] = 'default';
 
 			/*
 			 * Выдаем результат
