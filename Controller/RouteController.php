@@ -4,7 +4,7 @@ namespace Novuscom\Bundle\CMFBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Novuscom\Bundle\CMFBundle\Entity\Route;
 use Novuscom\Bundle\CMFBundle\Form\RouteType;
 
@@ -63,12 +63,10 @@ class RouteController extends Controller
     private function createCreateForm(Route $entity)
     {
         $entity->setActive(true);
-        $form = $this->createForm(new RouteType(), $entity, array(
+        $form = $this->createForm(RouteType::class, $entity, array(
             'action' => $this->generateUrl('admin_route_create'),
             'method' => 'POST',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Сохранить', 'attr'=>array('class'=>'btn btn-success')));
 
         return $form;
     }
@@ -142,12 +140,10 @@ class RouteController extends Controller
     */
     private function createEditForm(Route $entity)
     {
-        $form = $this->createForm(new RouteType(), $entity, array(
+        $form = $this->createForm(RouteType::class, $entity, array(
             'action' => $this->generateUrl('admin_route_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
@@ -257,7 +253,7 @@ class RouteController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_route_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', SubmitType::class, array('label' => 'Delete'))
             ->getForm()
         ;
     }
