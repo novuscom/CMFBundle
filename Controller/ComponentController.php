@@ -1437,7 +1437,7 @@ class ComponentController extends Controller
 			$pagination = $this->getPagination($elements, $PAGE, $params, $site, $fullCode);
 			if ($this->paginationRedirect!==false)
 				return new RedirectResponse($this->paginationRedirect);
-
+			
 			/*
 			 * Массив данных
 			 */

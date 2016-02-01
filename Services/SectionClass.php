@@ -19,6 +19,7 @@ class SectionClass
 				$section['full_code'] = $parent_full_code . '/' . $section['code'];
 			else
 				$section['full_code'] = $section['code'];
+			$section['fullCode'] = $section['full_code'];
 			if (!empty($section['__children'])) {
 				$this->SetSectionsCodeTree($section['__children'], $section['full_code']);
 			}
