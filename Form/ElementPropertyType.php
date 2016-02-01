@@ -5,7 +5,7 @@ namespace Novuscom\Bundle\CMFBundle\Form;
 use Novuscom\Bundle\CMFBundle\Entity\Element;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -24,10 +24,11 @@ class ElementPropertyType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-
-
-		return true;
-
+		$request = $this->request;
+		$params = $request->get('_route_params');
+		$block = $this->em->getRepository('NovuscomCMFBundle:Block')->find($params['id']);
+		//return true;
+		echo '<pre>' . print_r('build', true) . '</pre>';
 		//$builder->add('value');
 
 
@@ -385,14 +386,12 @@ class ElementPropertyType extends AbstractType
 		return $result;
 	}
 
-	/**
-	 * @param OptionsResolverInterface $resolver
-	 */
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
+
+	public function setDefaultOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
 			//'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\FormProperty',
-			'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Element',
+			'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\ElementProperty',
 		));
 		/*$resolver->setRequired(array(
 			'em',
@@ -409,13 +408,8 @@ class ElementPropertyType extends AbstractType
 	{
 		return 'cmf_blockbundle_elementproperty';
 	}
-
-	/*public function __construct($options, $em, $data = array())
-	{
-		$this->options = $options;
-		$this->em = $em;
-		$this->data = $data;
-	}*/
+	private $request;
+	
 
 }
 

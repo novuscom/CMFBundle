@@ -68,19 +68,22 @@
                     {{ form_errors(edit_form.detail_picture_alt) }}
                 </div>
                 {% if entity.detailPicture is not empty %}
-                    <a class="fancybox"
-                       href="{{ 'upload/images/'~entity.detailPicture.name }}"><img
-                                src="{{ 'upload/images/'~entity.detailPicture.name | imagine_filter('my_thumb') }}"/></a>
+                    <a class="fancybox" href="{{ entity.detailPicture.getImagePath }}">
+                        {% set file = resize_image(entity.detailPicture.getImagePath, 'proportional', [200, 200]) %}
+                        <img src="{{ file.src }}"/>
+                    </a>
                     <div>
                         <a href="#"><i class="fa fa-trash-o"></i>
-                            удалить детейл пикчу</a>
+                            удалить превью картинку</a>
                     </div>
                 {% else %}
                 {% endif %}
                 {{ form_row(edit_form.detailText, {'attr':{'class':'tinymce', 'style':'height: 800px;'}}) }}
             </div>
             <div id="tab_4" class="tab-pane">
-                {{ form_row(edit_form.properties) }}
+
+                {#{{ form_row(edit_form.properties) }}#}
+
             </div>
             <div id="tab_5" class="tab-pane">
                 {{ form_row(edit_form.section) }}

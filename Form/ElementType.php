@@ -2,6 +2,8 @@
 
 namespace Novuscom\Bundle\CMFBundle\Form;
 
+use Novuscom\Bundle\CMFBundle\Form\ElementPropertyType;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +21,10 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
+
 
 class ElementType extends AbstractType
 {
@@ -180,7 +185,7 @@ class ElementType extends AbstractType
             'query_builder' => function ($er) use ($options) {
                 return $er->createQueryBuilder('s')
                     ->where("s.block = :block")
-                    ->orderBy('s.lft', 'ASC')
+                    ->orderBy('s.root, s.lft', 'ASC')
                     ->setParameters(array('block' => $options['blockObject']));
             }
         ));
@@ -192,16 +197,24 @@ class ElementType extends AbstractType
          ));*/
 
         //$builder->add('category', new ElementPropertyType(), array('mapped'=>false));
-        /*$builder->add('properties', 'collection', array(
+        /*$builder->add('properties', CollectionType::class, array(
             'label' => 'Свойства',
-            'type' => new ElementPropertyType(),
+            'entry_type' => new ElementPropertyType(),
             //'mapped'=>false,
             //'prototype' => true,
             //'allow_add' => true,
             //'allow_delete' => true,
             //'by_reference' => false,
         ));*/
-
+	    /*$builder->add('properties', CollectionType::class, array(
+		    'label' => 'Совйства',
+		    'entry_type' => ElementPropertyType::class,
+		    'mapped' => false,
+		    'by_reference' => false,
+		    'entry_options' => array(
+			    'data' => 'dasdsa'
+		    )
+	    ));*/
         $builder->add('previewText', TextareaType::class, array(
                 'label' => 'Описание для анонса',
                 'required' => false, 'attr' => array())
@@ -210,6 +223,7 @@ class ElementType extends AbstractType
             'label' => 'Детальное описание',
             'required' => false, 'attr' => array()
         ));
+	    $builder->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-info')));
     }
 
 	public function configureOptions(OptionsResolver $resolver)

@@ -1405,7 +1405,7 @@ class ComponentController extends Controller
 			$ElementsList = $this->get('ElementsList');
 			$ElementsList->setBlockId($params['BLOCK_ID']);
 			$ElementsList->setSectionId($section->getId());
-			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture'));
+			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
 			// TODO Здесь сделать выборку всех доступных свойств ифноблока
 			$ElementsList->selectProperties(array('address', 'shirota', 'price', 'format_name'));
 			$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));

@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyFile;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Novuscom\Bundle\CMFBundle\Entity\FormElement;
 use Novuscom\Bundle\CMFBundle\Entity\FormProperty;
 use Novuscom\Bundle\CMFBundle\Entity\Element;
@@ -713,15 +713,15 @@ class ElementController extends Controller
 		//$propForm = $add->getForm();
 
 		if ($countProperties > 0) {
-			$propertyForm = new ElementPropertyType($properties, $em);
-			$form->add('properties', $propertyForm, array('mapped' => false, 'label' => 'Свойства'));
+			$propertyForm = new ElementPropertyType($properties, $em, false, $request);
+			//$form->add('properties', $propertyForm, array('mapped' => false, 'label' => 'Свойства'));
 		}
 
 		//$form->add('properties', new ElementPropertyType($properties, $em));
 
 		//$form->add('properties', 'collection', array('type' => new ElementPropertyType($properties, $em)));
 
-		$form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-success')));
+		//$form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-success')));
 
 		return $form;
 	}
@@ -930,7 +930,7 @@ class ElementController extends Controller
 		);
 
 
-		$propertyForm = new ElementPropertyType($block->getProperty(), $em, $data);
+		$propertyForm = new ElementPropertyType($block->getProperty(), $em, $data, $request);
 
 		//$formProperty = new FormProperty();
 		//$formProperty->setValue('value of form property');
@@ -956,15 +956,18 @@ class ElementController extends Controller
 		));
 
 
-		$form->add('properties', ElementPropertyType::class,
+		/*$form->add('properties', CollectionType::class,
 			array(
-				'mapped' => false,
+				'entry_type' => ElementPropertyType::class,
 				'label' => 'Свойства',
-
+				'mapped' => true,
+				'by_reference' => false,
+				'entry_options' => array(
+					//'data' => array()
+				)
 			));
 
-
-		$form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-info')));
+		$form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-info')));*/
 
 		return $form;
 	}

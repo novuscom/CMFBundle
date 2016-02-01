@@ -158,8 +158,8 @@ fm_elfinder:
               plugins:
                   AutoResize: # global resize options, applies to root which don't have his own resize configuraion
                       enable: true
-                      maxWidth: 750
-                      maxHeight: 750
+                      maxWidth: 1920
+                      maxHeight: 1080
                       quality: 95 # JPEG image save quality
               roots:       # at least one root must be defined
                   uploads:
@@ -168,8 +168,8 @@ fm_elfinder:
                       plugins:
                           AutoResize:
                               enable: true
-                              maxWidth: 500
-                              maxHeight: 500
+                              maxWidth: 1920
+                              maxHeight: 1080
                               quality: 95 # JPEG image save quality
                       upload_allow: ['image/png', 'image/jpg', 'image/jpeg']
                       upload_deny: ['all']
@@ -184,8 +184,10 @@ stfalcon_tinymce:
             relative_urls: false
             file_browser_callback : elFinderBrowser
             image_class_list:
+                - {title: 'без класса', value: ''}
                 - {title: 'Слева', value: 'left-image'}
                 - {title: 'Справа', value: 'right-image'}
+                - {title: 'По ширине', value: 'img-fluid img-responsive'}
             content_css: "/admin/dist/tinymce/content.css"
             plugins:
                 - "advlist autolink lists link image charmap print preview hr anchor pagebreak"
