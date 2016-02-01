@@ -168,7 +168,7 @@ class ElementType extends AbstractType
         $builder->add('section', EntityType::class, array(
             'label' => 'Раздел',
             'class' => 'NovuscomCMFBundle:Section',
-            'choice_label' => 'name',
+            'choice_label' => 'indentedTitle',
             'expanded' => false,
             'multiple' => true,
             'required' => false,
@@ -180,7 +180,7 @@ class ElementType extends AbstractType
             'query_builder' => function ($er) use ($options) {
                 return $er->createQueryBuilder('s')
                     ->where("s.block = :block")
-                    ->orderBy('s.name', 'ASC')
+                    ->orderBy('s.lft', 'ASC')
                     ->setParameters(array('block' => $options['blockObject']));
             }
         ));

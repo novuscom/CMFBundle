@@ -667,4 +667,8 @@ class Section
     {
         $this->children->removeElement($child);
     }
+	
+	public function getIndentedTitle() {
+		return str_repeat("—", $this->lvl).' '.$this->name;
+	}
 }
