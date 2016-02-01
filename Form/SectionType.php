@@ -3,8 +3,13 @@
 namespace Novuscom\Bundle\CMFBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SectionType extends AbstractType
 {
@@ -14,36 +19,36 @@ class SectionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text', array(
+        $builder->add('name', TextType::class, array(
             'label' => 'Название раздела'
         ));
-        $builder->add('code', 'text', array(
+        $builder->add('code', TextType::class, array(
             'label' => 'Код'
         ));
-        $builder->add('sort', 'text', array(
+        $builder->add('sort', TextType::class, array(
             'label' => 'Сортировка',
             'required'=>false,
         ));
-        $builder->add('title', 'text', array(
+        $builder->add('title', TextType::class, array(
             'label' => 'Title',
             'required'=>false,
         ));
-        $builder->add('keywords', 'text', array(
+        $builder->add('keywords', TextType::class, array(
             'label' => 'Ключевые слова',
             'required'=>false,
         ));
-        $builder->add('description', 'text', array(
+        $builder->add('description', TextType::class, array(
             'label' => 'Описание',
             'required'=>false,
         ));
-        $builder->add('preview_text', 'textarea', array(
+        $builder->add('preview_text', TextareaType::class, array(
             'label' => 'Краткое описание',
             'required'=>false,
             'attr'=>array(
                 'class'=>'editor',
             ),
         ));
-        $builder->add('detail_text', 'textarea', array(
+        $builder->add('detail_text', TextareaType::class, array(
             'label' => 'Детальное описание',
             'required'=>false,
             'attr'=>array(
@@ -51,7 +56,7 @@ class SectionType extends AbstractType
             ),
         ));
 
-		$builder->add('preview_picture', 'file', array(
+		$builder->add('preview_picture', FileType::class, array(
 			'label' => 'Картинка для анонса',
 			'mapped' => false,
 			'required' => false
@@ -79,7 +84,7 @@ class SectionType extends AbstractType
             'expanded' => false,
             'multiple' => false,
         ));*/
-        $builder->add('submit', 'submit', array(
+        $builder->add('submit', SubmitType::class, array(
             'label' => 'Сохранить',
             'attr' => array(
                 'class'=>'btn btn-success',
@@ -87,10 +92,7 @@ class SectionType extends AbstractType
         ));
     }
 
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Section'

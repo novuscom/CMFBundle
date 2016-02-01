@@ -574,7 +574,7 @@ class SectionController extends Controller
 	 */
 	private function createCreateForm(Section $entity)
 	{
-		$request = $this->container->get('request');
+		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$params = $request->get('_route_params');
 
 		$action = $this->generateUrl('admin_section__create', array('id' => $params['id']));
@@ -587,12 +587,10 @@ class SectionController extends Controller
 		}
 
 		//echo '<pre>' . print_r($params, true) . '</pre>'; exit;
-		$form = $this->createForm(new SectionType(), $entity, array(
+		$form = $this->createForm(SectionType::class, $entity, array(
 			'action' => $action,
 			'method' => 'POST',
 		));
-
-		$form->add('submit', 'submit', array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-info')));
 
 		return $form;
 	}

@@ -1,58 +1,61 @@
 {% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
 
 {% block body -%}
-	<h1 class="page-header">Изменение раздела</h1>
-	{{ form_start(form) }}
-	<div class="row">
-
-		<div class="col-xs-12">
-			<div class="nav-tabs-custom">
-				<ul class="nav nav-tabs">
-					<li class="active"><a data-toggle="tab" href="#tab_1" aria-expanded="true">Основная информация</a>
-					</li>
-					<li class=""><a data-toggle="tab" href="#tab_2" aria-expanded="false">Краткое описание</a></li>
-					<li class=""><a data-toggle="tab" href="#tab_3" aria-expanded="false">Подробное описание</a></li>
-				</ul>
-				<div class="tab-content">
-					<div id="tab_1" class="tab-pane active">
-						<div class="row">
-							<div class="col-md-4">
-								{{ form_row(form.name) }}
-								{{ form_row(form.code) }}
-								{{ form_row(form.title) }}
-								{{ form_row(form.keywords) }}
-								{{ form_row(form.description) }}
-							</div>
-							<div class="col-md-1">
-								{{ form_row(form.sort) }}
-							</div>
-						</div>
-
-					</div>
-					<div id="tab_2" class="tab-pane">
-						{{ form_row(form.preview_text) }}
-					</div>
-					<div id="tab_3" class="tab-pane">
-						{{ form_row(form.detail_text) }}
-					</div>
-				</div>
-				<div class="box-footer">
-					<div class="row">
-						<div class="col col-md-1">
-							{{ form_widget(form.submit, {'attr':{'class':'btn-block btn-success'}}) }}
-						</div>
-						<div class="col col-md-1">
-							{#<a class="btn btn-info btn-block" href="{{ path('admin_block_show_section', {'id':block.id, 'section_id':entity.id}) }}"><i class="glyphicon glyphicon-list"></i> К списку</a>#}
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-
-	</div>
-	{{ form_end(form) }}
+    {{ form_start(form) }}
+    <div class="box">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box-header">
+                    <h4 class="box-title">Создание раздела</h4>
+                </div>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tab_1" aria-expanded="true">Основная
+                                информация</a>
+                        </li>
+                        <li class=""><a data-toggle="tab" href="#tab_2" aria-expanded="false">Краткое описание</a>
+                        </li>
+                        <li class=""><a data-toggle="tab" href="#tab_3" aria-expanded="false">Подробное описание</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab_1" class="tab-pane active">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {{ form_row(form.name) }}
+                                    {{ form_row(form.code) }}
+                                    {{ form_row(form.title) }}
+                                    {{ form_row(form.keywords) }}
+                                    {{ form_row(form.description) }}
+                                </div>
+                                <div class="col-md-1">
+                                    {{ form_row(form.sort) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab_2" class="tab-pane">
+                            {{ form_row(form.preview_picture) }}
+                            {{ form_row(form.preview_text) }}
+                        </div>
+                        <div id="tab_3" class="tab-pane">
+                            {{ form_row(form.detail_text) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col col-md-6">
+                            {{ form_widget(form.submit, {'attr':{'class':'btn-success'}}) }}
+                        </div>
+                        <div class="col col-md-1">
+                            {#<a class="btn btn-info btn-block" href="{{ path('admin_block_show_section', {'id':block.id, 'section_id':entity.id}) }}"><i class="glyphicon glyphicon-list"></i> К списку</a>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
 {% endblock %}
 
 {#{% block body -%}
