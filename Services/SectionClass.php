@@ -14,6 +14,7 @@ class SectionClass
 		usort($sectionsArray, function($a, $b){
 			return $a['sort'] - $b['sort'];
 		});
+		//echo '<pre>' . print_r($sectionsArray, true) . '</pre>';
 		foreach ($sectionsArray as &$section) {
 			if ($parent_full_code)
 				$section['full_code'] = $parent_full_code . '/' . $section['code'];

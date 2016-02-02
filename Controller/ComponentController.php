@@ -688,8 +688,8 @@ class ComponentController extends Controller
 		$route_params = $request->attributes->get('_route_params');
 		$routeName = $request->attributes->get('_route');
 		$pageRoute = ($routeName == 'cmf_page_frontend' || $routeName == 'page');
-		if(false){
-		//if (!isset($route_params['params']) && !$pageRoute) {
+		if (false) {
+			//if (!isset($route_params['params']) && !$pageRoute) {
 			$logger->notice('параметры маршрута не известны и это не маршрут для статических страниц, возвращаем пустой результат (' . print_r($route_params, true) . ')');
 			return new Response();
 		}
@@ -1389,9 +1389,21 @@ class ComponentController extends Controller
 
 
 			/*
-			 * Подразделы
+			 * Параллельные разделы и подразделы
 			 */
-			$sections = $SectionClass->SectionsList(array(
+			//echo '<pre>' . print_r(($section->getRgt() - $section->getLft()), true) . '</pre>';
+
+			if ($section->getParent())
+				$sections = $SectionClass->SectionsList(array(
+					'block_id' => $params['BLOCK_ID'],
+					'section_id' => $section->getParent()->getId()
+				), $parentFullCode = trim($CODE, '/'));
+			else
+				$sections = $SectionClass->SectionsList(array(
+					'block_id' => $params['BLOCK_ID'],
+					'section_id' => $section->getId()
+				), $parentFullCode = trim($CODE, '/'));
+			$subSections = $SectionClass->SectionsList(array(
 				'block_id' => $params['BLOCK_ID'],
 				'section_id' => $section->getId()
 			), $parentFullCode = trim($CODE, '/'));
@@ -1438,9 +1450,9 @@ class ComponentController extends Controller
 			 * Пагинация
 			 */
 			$pagination = $this->getPagination($elements, $PAGE, $params, $site, $fullCode);
-			if ($this->paginationRedirect!==false)
+			if ($this->paginationRedirect !== false)
 				return new RedirectResponse($this->paginationRedirect);
-			
+
 			/*
 			 * Массив данных
 			 */
@@ -1449,6 +1461,7 @@ class ComponentController extends Controller
 				'section' => $section,
 				'elements' => $elements,
 				'sections' => $sections,
+				'subSections' => $subSections,
 				'title' => $section->getTitle(),
 				'description' => $section->getDescription(),
 				'keywords' => $section->getKeywords(),
@@ -1479,7 +1492,7 @@ class ComponentController extends Controller
 
 	public function ElementsListAction($params, Request $request, $PAGE = 1)
 	{
-		if (is_numeric($PAGE)==false|| $PAGE < 1) {
+		if (is_numeric($PAGE) == false || $PAGE < 1) {
 			throw $this->createNotFoundException('Не может быть страницы меньше нуля для постраничной навигации и должно быть числом');
 		}
 		if ($this->checkConstruction()) {
@@ -1557,7 +1570,7 @@ class ComponentController extends Controller
 			$pageEntity = $page_repository->find($params['page_id']);
 			if ($pageEntity) {
 				$pagination = $this->getPagination($elements, $PAGE, $params, $site);
-				if ($this->paginationRedirect!==false)
+				if ($this->paginationRedirect !== false)
 					return new RedirectResponse($this->paginationRedirect);
 				$response_data['pagination'] = $pagination;
 				$response_data['title'] = $pageEntity->getTitle();
@@ -1575,7 +1588,6 @@ class ComponentController extends Controller
 			$response_data['options'] = $params['OPTIONS'];
 
 			$response_data['params'] = $params;
-
 
 
 			$render = $this->render('@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
@@ -1606,7 +1618,7 @@ class ComponentController extends Controller
 		if (preg_match('/^(.+?)(_pagination)+$/', $routeParams['template_code'], $matches) && $PAGE == 1) {
 			//$this->msg($matches);
 			if ($sectionFullCode)
-				$url = $this->get('router')->generate($matches[1], array('CODE'=>$sectionFullCode));
+				$url = $this->get('router')->generate($matches[1], array('CODE' => $sectionFullCode));
 			else
 				$url = $this->get('router')->generate($matches[1]);
 			//$this->msg($url);
