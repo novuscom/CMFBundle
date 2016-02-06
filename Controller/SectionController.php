@@ -549,6 +549,7 @@ class SectionController extends Controller
 			$redirectUrl = $this->generateUrl('admin_block_show', array('id' => $params['id']));
 			if (array_key_exists('section_id', $params)) {
 				$parentSection = $em->getRepository('NovuscomCMFBundle:Section')->find($params['section_id']);
+				$entity->setParentId($params['section_id']);
 				$entity->setParent($parentSection);
 				$redirectUrl = $this->generateUrl('admin_block_show_section', array('id' => $params['id'], 'section_id' => $params['section_id']));
 			}
@@ -613,15 +614,14 @@ class SectionController extends Controller
 				throw $this->createNotFoundException('Unable to find Section entity.');
 			}
 			$this->setCrumbs($block, $entity, 'Создание раздела');
-		}
-		else {
+		} else {
 			$this->setCrumbs($block, false, 'Создание раздела');
 		}
 
 
 		$entity = new Section();
+		$entity->setParentId($section_id);
 		$form = $this->createCreateForm($entity);
-
 		return $this->render('NovuscomCMFBundle:Section:new.html.twig', array(
 			'entity' => $entity,
 			'form' => $form->createView(),

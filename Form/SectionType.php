@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class SectionType extends AbstractType
 {
@@ -33,6 +34,10 @@ class SectionType extends AbstractType
             'label' => 'Title',
             'required'=>false,
         ));
+	    $builder->add('parent_id', HiddenType::class, array(
+		    'label' => 'Title',
+		    'required'=>false,
+	    ));
         $builder->add('keywords', TextType::class, array(
             'label' => 'Ключевые слова',
             'required'=>false,
