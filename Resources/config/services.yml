@@ -7,10 +7,10 @@ parameters:
     page_class:      Novuscom\Bundle\CMFBundle\Controller\DefaultController
 
 services:
-    validator.unique.section_code:
-        class: Novuscom\Bundle\CMFBundle\Validator\Constraints\SectionCodeValidator
+    validator.section:
+        class: Novuscom\Bundle\CMFBundle\Validator\Constraints\SectionValidator
         tags:
-            - { name: validator.constraint_validator, alias: section_code_validator }
+            - { name: validator.constraint_validator, alias: section_validator }
         arguments: ["@doctrine.orm.entity_manager", "@request_stack"]
     cmf.twig.template_extension:
         class: Novuscom\Bundle\CMFBundle\Twig\TemplateExtension

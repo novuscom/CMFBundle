@@ -540,7 +540,6 @@ class SectionController extends Controller
 		$entity = new Section();
 		$form = $this->createCreateForm($entity);
 		$form->handleRequest($request);
-
 		if ($form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
 			$request = $this->container->get('request_stack')->getCurrentRequest();
@@ -549,24 +548,20 @@ class SectionController extends Controller
 			$redirectUrl = $this->generateUrl('admin_block_show', array('id' => $params['id']));
 			if (array_key_exists('section_id', $params)) {
 				$parentSection = $em->getRepository('NovuscomCMFBundle:Section')->find($params['section_id']);
-				$entity->setParentId($params['section_id']);
+				$entity->setBlockId($block->getId());
 				$entity->setParent($parentSection);
 				$redirectUrl = $this->generateUrl('admin_block_show_section', array('id' => $params['id'], 'section_id' => $params['section_id']));
 			}
 			$entity->setBlock($block);
 			$em->persist($entity);
 			$em->flush();
-
-
 			return $this->redirect($redirectUrl);
 		}
-
 		return $this->render('NovuscomCMFBundle:Section:new.html.twig', array(
 			'entity' => $entity,
 			'form' => $form->createView(),
 		));
 	}
-
 	/**
 	 * Creates a form to create a Section entity.
 	 *
@@ -621,6 +616,7 @@ class SectionController extends Controller
 
 		$entity = new Section();
 		$entity->setParentId($section_id);
+		$entity->setBlockId($id);
 		$form = $this->createCreateForm($entity);
 		return $this->render('NovuscomCMFBundle:Section:new.html.twig', array(
 			'entity' => $entity,

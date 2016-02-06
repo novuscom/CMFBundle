@@ -17,6 +17,9 @@ Novuscom\Bundle\CMFBundle\Entity\Block:
         group_id:
             type: integer
             nullable: true
+        params:
+            type: json_array
+            nullable: true
     oneToMany:
         property:
             targetEntity: Property

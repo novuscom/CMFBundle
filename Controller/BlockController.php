@@ -198,7 +198,7 @@ class BlockController extends Controller
 		$deleteForm = $this->createDeleteForm($id);
 
 		$data = array(
-			'entity' => $entity,
+			'block' => $entity,
 			'sections' => $sections,
 			'section' => $section,
 			'elements' => $elements,
@@ -215,15 +215,10 @@ class BlockController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 		$entity = $em->getRepository('NovuscomCMFBundle:Block')->find($id);
-
 		$crumbs = $this->get("apy_breadcrumb_trail");
 		$crumbs->add('nCMF', 'cmf_admin_homepage');
 		$crumbs->add('Инфоблоки', 'admin_block');
 		$crumbs->add($entity->getName(), 'admin_block_show', array('id' => $entity->getId()));
-
-
-		/*$json = $entity->getInfo();
-		$entity->setInfo(json_decode($json));*/
 
 		if (!$entity) {
 			throw $this->createNotFoundException('Unable to find Block entity.');

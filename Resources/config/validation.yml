@@ -1,6 +1,6 @@
 Novuscom\Bundle\CMFBundle\Entity\Section:
     constraints:
-        - Novuscom\Bundle\CMFBundle\Validator\Constraints\SectionCode: ~
+        - Novuscom\Bundle\CMFBundle\Validator\Constraints\Section: ~
     properties:
         code:
             - NotBlank: ~

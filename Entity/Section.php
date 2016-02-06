@@ -219,6 +219,10 @@ class Section
 		return $this->lvl;
 	}
 
+	public function getLevel(){
+		return ($this->lvl+1);
+	}
+
 	/**
 	 * Set root
 	 *
@@ -319,6 +323,23 @@ class Section
 	public function getBlock()
 	{
 		return $this->block;
+	}
+
+
+	private $blockId;
+
+	public function setBlockId($id)
+	{
+		$this->blockId = $id;
+	}
+
+	public function getBlockId()
+	{
+		if ($this->blockId)
+			return $this->blockId;
+		if ($this->getBlock())
+			return $this->getBlock()->getId();
+		return null;
 	}
 
 	/**

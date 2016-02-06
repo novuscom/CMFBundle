@@ -5,12 +5,12 @@ namespace Novuscom\Bundle\CMFBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 
 
-class SectionCode extends Constraint
+class Section extends Constraint
 {
 	public $message = 'Раздел с таким кодом уже существует в данной ветке';
 	public function validatedBy()
 	{
-		return 'section_code_validator';
+		return 'section_validator';
 	}
 
 	public function getTargets()

@@ -38,6 +38,10 @@ class SectionType extends AbstractType
 		    'label' => 'Title',
 		    'required'=>false,
 	    ));
+	    $builder->add('block_id', HiddenType::class, array(
+		    'label' => 'Block ID',
+		    'required'=>true,
+	    ));
         $builder->add('keywords', TextType::class, array(
             'label' => 'Ключевые слова',
             'required'=>false,
