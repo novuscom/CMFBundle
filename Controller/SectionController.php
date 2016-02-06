@@ -730,7 +730,7 @@ class SectionController extends Controller
 		}
 		$entity = $em->getRepository('NovuscomCMFBundle:Section')->find($section_id);
 
-
+		$this->setCrumbs($block, $entity, 'Изменение раздела');
 		if (!$entity) {
 			throw $this->createNotFoundException('Unable to find Section entity.');
 		}
