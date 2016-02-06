@@ -70,6 +70,14 @@ class SectionClass
 		return $result;
 	}
 
+	/**
+	 * Используется для компонента Section и Crumbs
+	 * необходимо кешировать
+	 * @param $section_code_path
+	 * @param $block_id
+	 * @param array $params
+	 * @return bool
+	 */
 	public function GetSectionByPath($section_code_path, $block_id, $params = array())
 	{
 		$result = false;
@@ -88,7 +96,6 @@ class SectionClass
 		$root = $er->findOneBy($filter_params);
 		if ($root) {
 			if ($maxLevel > 1) {
-				//echo '<pre>' . print_r($maxLevel, true) . '</pre>';
 				$entities_by_last_code = $er->createQueryBuilder('p')
 					->where("p.block=:block")
 					->andWhere("p.lft>:left")
@@ -103,19 +110,32 @@ class SectionClass
 					->orderBy('p.lft', 'ASC')
 					->getQuery()
 					->getResult();
-				$entities_count = count($entities_by_last_code);
-				if ($entities_count > 0) {
-					//echo '<pre>' . print_r($entities_count, true) . '</pre>';
-					$selectedCodes = array(
-						1 => $root->getCode()
-					);
-					foreach ($entities_by_last_code as $i => $p) {
-						$selectedCodes[] = $p->getCode();
+				$pages_by_id = array();
+				$paths = array();
+				$paths_array = array();
+				foreach ($entities_by_last_code as $p) {
+					$pages_by_id[$p->getId()] = $p;
+					$path = $er->getPath($p);
+					$path_id = array();
+					foreach ($path as $pa) {
+						$path_id[] = $pa->getCode();
+						$paths_array[$p->getId()][] = $pa;
 					}
-					//echo '<pre>' . print_r($selectedCodes, true) . '</pre>';
-					$n = $entities_count - 1;
-					$result = $entities_by_last_code[$n];
+					$paths[$p->getId()] = $path_id;
 				}
+				$page_id = false;
+				foreach ($paths as $id => $array) {
+					//array_shift($array);
+					if ($array == $codeArray) {
+						$page_id = $id;
+						break;
+					}
+				}
+				if (!$page_id) {
+					//throw $this->createNotFoundException('Страница не найдена (путь не найден)');
+					//$this->setExceptionText('Страница не найдена (путь не найден)');
+				} else
+					$result = $pages_by_id[$page_id];
 			} else {
 				$result = $root;
 			}
