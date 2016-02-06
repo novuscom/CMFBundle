@@ -18,18 +18,20 @@ class SectionClass
 		foreach ($sectionsArray as &$section) {
 			if ($parent_full_code)
 				$section['full_code'] = $parent_full_code . '/' . $section['code'];
-			else
-				$section['full_code'] = $section['code'];
+			//else
+			//	$section['full_code'] = $section['code'];
 			$section['fullCode'] = $section['full_code'];
 			if (!empty($section['__children'])) {
 				$this->SetSectionsCodeTree($section['__children'], $section['full_code']);
 			}
 		}
+		//echo '<pre>' . print_r($sectionsArray, true) . '</pre>';
 		return $sectionsArray;
 	}
 
 	public function SectionsList($filter, $parentFullCode = '')
 	{
+		//echo '<pre>' . print_r('SectionsList', true) . '</pre>';
 		$em = $this->em;
 		$repo = $em->getRepository('NovuscomCMFBundle:Section');
 		$builder = $em

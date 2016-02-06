@@ -1387,27 +1387,30 @@ class ComponentController extends Controller
 			}
 			$section->setFullCode($fullCode);
 
-
+			$parentFullCode = null;
+			$explode = explode('/', $fullCode);
+			array_pop($explode);
+			if ($explode)
+				$parentFullCode = trim(implode($explode, '/'), '/');
 			/*
 			 * Параллельные разделы и подразделы
 			 */
 			//echo '<pre>' . print_r(($section->getRgt() - $section->getLft()), true) . '</pre>';
-
-			if ($section->getParent())
+			if ($section->getParent()) {
 				$sections = $SectionClass->SectionsList(array(
 					'block_id' => $params['BLOCK_ID'],
 					'section_id' => $section->getParent()->getId()
-				), $parentFullCode = trim($CODE, '/'));
-			else
+				), $parentFullCode);
+			} else {
 				$sections = $SectionClass->SectionsList(array(
 					'block_id' => $params['BLOCK_ID'],
 					'section_id' => $section->getId()
-				), $parentFullCode = trim($CODE, '/'));
+				), $fullCode);
+			}
 			$subSections = $SectionClass->SectionsList(array(
 				'block_id' => $params['BLOCK_ID'],
 				'section_id' => $section->getId()
-			), $parentFullCode = trim($CODE, '/'));
-
+			), $fullCode);
 
 			//echo '<pre>'.print_r($section->getId(), true).'</pre>';
 
