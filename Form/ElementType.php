@@ -211,6 +211,9 @@ class ElementType extends AbstractType
 		    'entry_type' => ElementPropertyType::class,
 		    'mapped' => false,
 		    'by_reference' => false,
+		    'allow_add' => true,
+		    'allow_delete' => true,
+		    'prototype' => true,
 		    'entry_options' => array(
 			    'data' => 'dasdsa'
 		    )

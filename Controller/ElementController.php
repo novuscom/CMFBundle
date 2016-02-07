@@ -926,7 +926,7 @@ class ElementController extends Controller
 			'VALUES' => $epArray,
 			'PROPERTY_FILE_VALUES' => $ElementPropertyFileId,
 			'LIIP' => $this->get('liip_imagine.cache.manager'),
-
+			'BLOCK_PROPERTIES' => $block->getProperty()
 		);
 
 
@@ -956,18 +956,20 @@ class ElementController extends Controller
 		));
 
 
-		/*$form->add('properties', CollectionType::class,
+		$form->add('properties', ElementPropertyType::class,
 			array(
-				'entry_type' => ElementPropertyType::class,
+				//'entry_type' => ElementPropertyType::class,
 				'label' => 'Свойства',
-				'mapped' => true,
-				'by_reference' => false,
-				'entry_options' => array(
-					//'data' => array()
-				)
+				'mapped' => false,
+				//'by_reference' => false,
+				//'allow_add' => true,
+				//'allow_delete' => true,
+				//'prototype' => true,
+				'data' => $data
 			));
 
-		$form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-info')));*/
+		//$form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-info')));
+
 
 		return $form;
 	}

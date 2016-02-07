@@ -4,6 +4,8 @@ namespace Novuscom\Bundle\CMFBundle\Form;
 
 use Novuscom\Bundle\CMFBundle\Entity\Element;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
@@ -24,15 +26,17 @@ class ElementPropertyType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-		$request = $this->request;
-		$params = $request->get('_route_params');
-		$block = $this->em->getRepository('NovuscomCMFBundle:Block')->find($params['id']);
+		//echo '<pre>' . print_r('build ElementPropertyType', true) . '</pre>'; exit;
+		//$request = $this->request;
+		//$params = $request->get('_route_params');
+		//$block = $this->em->getRepository('NovuscomCMFBundle:Block')->find($params['id']);
 		//return true;
-		echo '<pre>' . print_r('build', true) . '</pre>';
+		//echo '<pre>' . print_r(array_keys($options['data']), true) . '</pre>';
+		//exit;
 		//$builder->add('value');
 
-
-		foreach ($this->options as $p) {
+		//echo '<pre>' . print_r(count($options['data']['BLOCK_PROPERTIES']), true) . '</pre>'; exit;
+		foreach ($options['data']['BLOCK_PROPERTIES'] as $p) {
 			//$value = $p->getValue();
 			//echo '<pre>' . print_r($p->getType(), true) . '</pre>';
 			//echo '<pre>' . print_r($p->getInfo(), true) . '</pre>';
@@ -40,6 +44,7 @@ class ElementPropertyType extends AbstractType
 			$info = json_decode($p->getInfo(), true);
 			$is_multiple = (is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true);
 			$required = (is_array($info) && array_key_exists('REQUIRED', $info) && $info['REQUIRED'] == true);
+			//echo '<pre>' . print_r($p->getType(), true) . '</pre>';
 			switch ($p->getType()) {
 				/**
 				 * Поле типа "Список"
@@ -237,12 +242,27 @@ class ElementPropertyType extends AbstractType
 					if (isset($this->data['VALUES'][$p->getId()])) {
 						$field_options['data'] = $this->data['VALUES'][$p->getId()][0];
 					}
-					$field_options['attr']=array(
-						'style'=>'height: 150px;'
+					$field_options['attr'] = array(
+						'style' => 'height: 150px;'
 					);
 					$builder->add(
 						$p->getId(),
 						'textarea',
+						$field_options
+					);
+					break;
+				case 'N':
+					$field_options = array(
+						'label' => $p->getName(),
+						'mapped' => false,
+						'required' => false,
+					);
+					if (isset($this->data['VALUES'][$p->getId()])) {
+						$field_options['data'] = $this->data['VALUES'][$p->getId()][0];
+					}
+					$builder->add(
+						$p->getId(),
+						TextType::class,
 						$field_options
 					);
 					break;
@@ -311,20 +331,20 @@ class ElementPropertyType extends AbstractType
 							'required' => $required,
 							'attr' => array(
 								'class' => 'form-control'
-							)
+							),
 						);
-						if (isset($this->data['VALUES']) && is_array($this->data['VALUES']) && array_key_exists($p->getId(), $this->data['VALUES'])) {
-							$optionsArray['data'] = $this->data['VALUES'][$p->getId()][0];
+						if (isset($options['data']['VALUES']) && is_array($options['data']['VALUES']) && array_key_exists($p->getId(), $options['data']['VALUES'])) {
+							$optionsArray['data'] = $options['data']['VALUES'][$p->getId()][0];
 						}
 						$builder->add(
 							$p->getId(),
-							'text',
+							TextType::class,
 							$optionsArray
 						);
 					}
 
 			}
-			$builder->add('replaced_files', 'collection',
+			/*$builder->add('replaced_files', CollectionType::class,
 				array(
 					'type' => new ElementPropertyFMultipleType(false, false, array('REPLACED' => true)),
 					'mapped' => false,
@@ -338,7 +358,7 @@ class ElementPropertyType extends AbstractType
 					)
 				)
 			);
-			$builder->add('deleted_files', 'collection',
+			$builder->add('deleted_files', CollectionType::class,
 				array(
 					'type' => new ElementPropertyFMultipleType(false, false, array('DELETED' => true)),
 					'mapped' => false,
@@ -351,7 +371,7 @@ class ElementPropertyType extends AbstractType
 						'data-type' => 'files',
 					)
 				)
-			);
+			);*/
 			//$builder->add('tags', 'collection', array('type' => new ElementPropertyStringType($this->options)));
 			//$propertyStringForm = new ElementPropertyStringType($this->options);
 			//$builder->add($p->getCode(), $propertyStringForm, array('mapped' => false, 'label' => 'Текстовые свойства'));
@@ -392,6 +412,7 @@ class ElementPropertyType extends AbstractType
 		$resolver->setDefaults(array(
 			//'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\FormProperty',
 			'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\ElementProperty',
+			'data' => null,
 		));
 		/*$resolver->setRequired(array(
 			'em',
@@ -408,8 +429,9 @@ class ElementPropertyType extends AbstractType
 	{
 		return 'cmf_blockbundle_elementproperty';
 	}
+
 	private $request;
-	
+
 
 }
 
