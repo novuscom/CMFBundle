@@ -55,7 +55,7 @@ class ItemType extends AbstractType
                 } else {
                     return $er->createQueryBuilder('s')
                         ->where("s.menu = :menuId")
-                        ->orderBy('s.lft', 'ASC')
+                        ->orderBy('s.root, s.lft', 'ASC')
                         ->setParameters(array('menuId' => $options['MENU_ID']));
                 }
 

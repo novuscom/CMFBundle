@@ -3,6 +3,7 @@
 namespace Novuscom\Bundle\CMFBundle\Controller;
 
 use Novuscom\Bundle\CMFBundle\Event\UserSubscriber;
+use Novuscom\Bundle\CMFBundle\Services\Utils;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request as Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -821,7 +822,13 @@ class ComponentController extends Controller
 		$section_repo = $em->getRepository('NovuscomCMFBundle:Section');
 		$logger = $this->get('logger');
 		$SectionClass = $this->get('SectionClass');
-		$section = $SectionClass->GetSectionByPath($SECTION_PATH, $route_params['params']['BLOCK_ID'], $route_params['params']['params']);
+		$params_params = array();
+		if (array_key_exists('params', $route_params['params']))
+			$params_params = $route_params['params']['params'];
+		$section = $SectionClass->GetSectionByPath(
+			$SECTION_PATH, $route_params['params']['BLOCK_ID'],
+			$params_params
+		);
 		$this->sectionByPath = $section;
 		if ($section) {
 			$logger->info('Нашли раздел');
@@ -1311,10 +1318,13 @@ class ComponentController extends Controller
 			);
 			$response_data['page'] = $page;
 			$response_data['params'] = $params;
+			$response_data['header'] = $page->getHeader();
 
 			//echo '<pre>' . print_r($sections, true) . '</pre>';
+			$Site = $this->get('Site');
+			$site = $Site->getCurrent();
 
-			$render = $this->render('@templates/' . $params['params']['template_directory'] . '/SectionsList/' . $template_code . '.html.twig', $response_data, $response);
+			$render = $this->render('@templates/' . $site['code'] . '/SectionsList/' . $template_code . '.html.twig', $response_data, $response);
 
 			//$cacheDriver->save($cacheId, serialize($render));
 		}

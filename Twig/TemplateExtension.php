@@ -6,13 +6,11 @@ use Knp\Menu\Loader\NodeLoader;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
-use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Monolog\Logger;
-
 use Novuscom\Bundle\CMFBundle\Services\File;
 use Novuscom\Bundle\CMFBundle\Services\Utils;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 class TemplateExtension extends \Twig_Extension
@@ -48,7 +46,17 @@ class TemplateExtension extends \Twig_Extension
 			'mainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
 			'isMainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
 			'ElementsSections' => new \Twig_Function_Method($this, 'ElementsSections'),
+			'format_number' => new \Twig_Function_Method($this, 'NumFormat'),
 		);
+	}
+
+	public static function NumFormat($number, $decimals = 0)
+	{
+		$thousands_sep = '&nbsp;';
+		if (phpversion() < '5.4') {
+			$thousands_sep = ' ';
+		}
+		return html_entity_decode(number_format($number, $decimals, '.', $thousands_sep));
 	}
 
 	public function ElementsSections($elementsArray)
@@ -275,6 +283,12 @@ class TemplateExtension extends \Twig_Extension
 				//echo '<pre>' . print_r($e['url'], true) . '</pre>';
 				$item->setCurrent(true);
 			}
+
+			/**
+			 * TODO Здесь делаем проверку параметров пункта меню, и если есть привязки - генерируем дерево по принципу getArray()
+			 */
+
+
 			if ($e['__children']) {
 				$currentItem = $e;
 				$this->getMenu($options, $e['__children'], $item, $currentItem);
