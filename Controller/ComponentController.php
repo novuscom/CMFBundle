@@ -1432,7 +1432,12 @@ class ComponentController extends Controller
 			$ElementsList->setSectionId($section->getId());
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
 			// TODO Здесь сделать выборку всех доступных свойств ифноблока
-			$ElementsList->selectProperties(array('address', 'shirota', 'price', 'format_name'));
+			$properties = $section->getBlock()->getProperty();
+			$propCodes = array();
+			foreach ($properties as $p) {
+				$propCodes[] = $p->getCode();
+			}
+			$ElementsList->selectProperties($propCodes);
 			$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
 			//echo '<pre>' . print_r($params, true) . '</pre>';
 			if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
