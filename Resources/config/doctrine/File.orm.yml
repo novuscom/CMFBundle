@@ -1,7 +1,7 @@
-Novuscom\Bundle\CMFBundle\Entity\File:
+Novuscom\CMFBundle\Entity\File:
     type: entity
     table: null
-    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\FileRepository
+    repositoryClass: Novuscom\CMFBundle\Entity\FileRepository
     fields:
         id:
             type: integer

@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Entity;
+namespace Novuscom\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,7 +21,7 @@ class Alias
     private $name;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\Site
+     * @var \Novuscom\CMFBundle\Entity\Site
      */
     private $site;
 
@@ -62,10 +62,10 @@ class Alias
     /**
      * Set site
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Site $site
+     * @param \Novuscom\CMFBundle\Entity\Site $site
      * @return Alias
      */
-    public function setSite(\Novuscom\Bundle\CMFBundle\Entity\Site $site = null)
+    public function setSite(\Novuscom\CMFBundle\Entity\Site $site = null)
     {
         $this->site = $site;
     
@@ -75,7 +75,7 @@ class Alias
     /**
      * Get site
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\Site
+     * @return \Novuscom\CMFBundle\Entity\Site
      */
     public function getSite()
     {

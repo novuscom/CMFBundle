@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Entity;
+namespace Novuscom\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -153,10 +153,10 @@ class File
 	/**
 	 * Add property
 	 *
-	 * @param \Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $property
+	 * @param \Novuscom\CMFBundle\Entity\ElementPropertyF $property
 	 * @return File
 	 */
-	public function addProperty(\Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $property)
+	public function addProperty(\Novuscom\CMFBundle\Entity\ElementPropertyF $property)
 	{
 		$this->property[] = $property;
 
@@ -166,9 +166,9 @@ class File
 	/**
 	 * Remove property
 	 *
-	 * @param \Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $property
+	 * @param \Novuscom\CMFBundle\Entity\ElementPropertyF $property
 	 */
-	public function removeProperty(\Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $property)
+	public function removeProperty(\Novuscom\CMFBundle\Entity\ElementPropertyF $property)
 	{
 		$this->property->removeElement($property);
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Entity;
+namespace Novuscom\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,12 +25,12 @@ class ElementSection
         return $this->id;
     }
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\Element
+     * @var \Novuscom\CMFBundle\Entity\Element
      */
     private $element;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\Section
+     * @var \Novuscom\CMFBundle\Entity\Section
      */
     private $section;
 
@@ -38,10 +38,10 @@ class ElementSection
     /**
      * Set element
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Element $element
+     * @param \Novuscom\CMFBundle\Entity\Element $element
      * @return ElementSection
      */
-    public function setElement(\Novuscom\Bundle\CMFBundle\Entity\Element $element = null)
+    public function setElement(\Novuscom\CMFBundle\Entity\Element $element = null)
     {
         $this->element = $element;
     
@@ -51,7 +51,7 @@ class ElementSection
     /**
      * Get element
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\Element
+     * @return \Novuscom\CMFBundle\Entity\Element
      */
     public function getElement()
     {
@@ -61,10 +61,10 @@ class ElementSection
     /**
      * Set section
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Section $section
+     * @param \Novuscom\CMFBundle\Entity\Section $section
      * @return ElementSection
      */
-    public function setSection(\Novuscom\Bundle\CMFBundle\Entity\Section $section = null)
+    public function setSection(\Novuscom\CMFBundle\Entity\Section $section = null)
     {
         $this->section = $section;
     
@@ -74,7 +74,7 @@ class ElementSection
     /**
      * Get section
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\Section
+     * @return \Novuscom\CMFBundle\Entity\Section
      */
     public function getSection()
     {

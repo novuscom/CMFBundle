@@ -1,12 +1,12 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Validator\Constraints;
+namespace Novuscom\CMFBundle\Validator\Constraints;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Novuscom\Bundle\CMFBundle\Services\Utils;
+use Novuscom\CMFBundle\Services\Utils;
 
 class SectionValidator extends ConstraintValidator
 {

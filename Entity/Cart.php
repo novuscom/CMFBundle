@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Entity;
+namespace Novuscom\CMFBundle\Entity;
 
 /**
  * Cart
@@ -127,11 +127,11 @@ class Cart
 	/**
 	 * Add product
 	 *
-	 * @param \Novuscom\Bundle\CMFBundle\Entity\Product $product
+	 * @param \Novuscom\CMFBundle\Entity\Product $product
 	 *
 	 * @return Cart
 	 */
-	public function addProduct(\Novuscom\Bundle\CMFBundle\Entity\Product $product)
+	public function addProduct(\Novuscom\CMFBundle\Entity\Product $product)
 	{
 		$this->product[] = $product;
 
@@ -141,9 +141,9 @@ class Cart
 	/**
 	 * Remove product
 	 *
-	 * @param \Novuscom\Bundle\CMFBundle\Entity\Product $product
+	 * @param \Novuscom\CMFBundle\Entity\Product $product
 	 */
-	public function removeProduct(\Novuscom\Bundle\CMFBundle\Entity\Product $product)
+	public function removeProduct(\Novuscom\CMFBundle\Entity\Product $product)
 	{
 		$this->product->removeElement($product);
 	}

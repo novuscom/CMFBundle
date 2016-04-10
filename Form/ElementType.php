@@ -1,8 +1,8 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Form;
+namespace Novuscom\CMFBundle\Form;
 
-use Novuscom\Bundle\CMFBundle\Form\ElementPropertyType;
+use Novuscom\CMFBundle\Form\ElementPropertyType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -232,7 +232,7 @@ class ElementType extends AbstractType
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
-			'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Element',
+			'data_class' => 'Novuscom\CMFBundle\Entity\Element',
 			'em' => false,
 			'blockObject' => false,
 			'params' => false,

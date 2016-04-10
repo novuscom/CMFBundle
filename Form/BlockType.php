@@ -1,9 +1,9 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Form;
+namespace Novuscom\CMFBundle\Form;
 
 
-use Novuscom\Bundle\CMFBundle\Form\PropertyType;
+use Novuscom\CMFBundle\Form\PropertyType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -103,7 +103,7 @@ class BlockType extends AbstractType
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
-			'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Block',
+			'data_class' => 'Novuscom\CMFBundle\Entity\Block',
 			'sites' => new ArrayCollection()
 		));
 	}

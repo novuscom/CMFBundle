@@ -1,4 +1,4 @@
-Novuscom\Bundle\CMFBundle\Entity\ElementPropertyDT:
+Novuscom\CMFBundle\Entity\ElementPropertyDT:
     type: entity
     table: null
     fields:

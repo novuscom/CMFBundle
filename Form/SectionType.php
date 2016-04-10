@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Form;
+namespace Novuscom\CMFBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -104,7 +104,7 @@ class SectionType extends AbstractType
     public function setDefaultOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Section'
+            'data_class' => 'Novuscom\CMFBundle\Entity\Section'
         ));
     }
 

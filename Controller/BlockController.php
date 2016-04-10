@@ -1,15 +1,15 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Controller;
+namespace Novuscom\CMFBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Novuscom\Bundle\CMFBundle\Entity\SiteBlock;
-use Novuscom\Bundle\CMFBundle\Entity\Site;
-use Novuscom\Bundle\CMFBundle\Entity\Block;
-use Novuscom\Bundle\CMFBundle\Form\BlockType;
+use Novuscom\CMFBundle\Entity\SiteBlock;
+use Novuscom\CMFBundle\Entity\Site;
+use Novuscom\CMFBundle\Entity\Block;
+use Novuscom\CMFBundle\Form\BlockType;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 

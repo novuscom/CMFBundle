@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Entity;
+namespace Novuscom\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -221,7 +221,7 @@ class Route
         return $this->controller;
     }
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\Page
+     * @var \Novuscom\CMFBundle\Entity\Page
      */
     private $page;
 
@@ -229,10 +229,10 @@ class Route
     /**
      * Set page
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Page $page
+     * @param \Novuscom\CMFBundle\Entity\Page $page
      * @return Route
      */
-    public function setPage(\Novuscom\Bundle\CMFBundle\Entity\Page $page = null)
+    public function setPage(\Novuscom\CMFBundle\Entity\Page $page = null)
     {
         $this->page = $page;
     
@@ -242,7 +242,7 @@ class Route
     /**
      * Get page
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\Page
+     * @return \Novuscom\CMFBundle\Entity\Page
      */
     public function getPage()
     {
@@ -250,7 +250,7 @@ class Route
     }
         
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\Site
+     * @var \Novuscom\CMFBundle\Entity\Site
      */
     private $site;
 
@@ -258,10 +258,10 @@ class Route
     /**
      * Set site
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Site $site
+     * @param \Novuscom\CMFBundle\Entity\Site $site
      * @return Route
      */
-    public function setSite(\Novuscom\Bundle\CMFBundle\Entity\Site $site = null)
+    public function setSite(\Novuscom\CMFBundle\Entity\Site $site = null)
     {
         $this->site = $site;
     
@@ -271,7 +271,7 @@ class Route
     /**
      * Get site
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\Site
+     * @return \Novuscom\CMFBundle\Entity\Site
      */
     public function getSite()
     {

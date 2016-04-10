@@ -1,4 +1,4 @@
-Novuscom\Bundle\CMFBundle\Entity\BlockGroup:
+Novuscom\CMFBundle\Entity\BlockGroup:
     type: entity
     table: null
     repositoryClass: Gedmo\Tree\Entity\Repository\NestedTreeRepository
@@ -36,7 +36,7 @@ Novuscom\Bundle\CMFBundle\Entity\BlockGroup:
               - treeRoot
     manyToOne:
       parent:
-        targetEntity: Novuscom\Bundle\CMFBundle\Entity\BlockGroup
+        targetEntity: Novuscom\CMFBundle\Entity\BlockGroup
         inversedBy: children
         joinColumn:
           name: parent_id
@@ -46,7 +46,7 @@ Novuscom\Bundle\CMFBundle\Entity\BlockGroup:
           - treeParent
     oneToMany:
       children:
-        targetEntity: Novuscom\Bundle\CMFBundle\Entity\BlockGroup
+        targetEntity: Novuscom\CMFBundle\Entity\BlockGroup
         mappedBy: parent
         orderBy:
           lft: ASC

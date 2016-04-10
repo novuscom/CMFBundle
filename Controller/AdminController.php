@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Controller;
+namespace Novuscom\CMFBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

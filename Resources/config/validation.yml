@@ -1,21 +1,21 @@
-Novuscom\Bundle\CMFBundle\Entity\Section:
+Novuscom\CMFBundle\Entity\Section:
     constraints:
-        - Novuscom\Bundle\CMFBundle\Validator\Constraints\Section: ~
+        - Novuscom\CMFBundle\Validator\Constraints\Section: ~
     properties:
         code:
             - NotBlank: ~
 
-#Novuscom\Bundle\CMFBundle\Entity\Site:
+#Novuscom\CMFBundle\Entity\Site:
 #    properties:
 #        name:
 #            - Ip: ~
 #        alias:
 #            - Email: ~
 
-#Novuscom\Bundle\CMFBundle\Entity\Alias:
+#Novuscom\CMFBundle\Entity\Alias:
 #    constraints:
 #        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
 #    properties:
 #        name:
 #           - Ip: ~
-#           - Novuscom\Bundle\CMFBundle\Validator\Constraints\Alias: ~
+#           - Novuscom\CMFBundle\Validator\Constraints\Alias: ~

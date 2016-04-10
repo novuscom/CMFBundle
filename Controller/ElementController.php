@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Novuscom\Bundle\CMFBundle\Controller;
+namespace Novuscom\CMFBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
@@ -11,18 +11,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyFile;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Novuscom\Bundle\CMFBundle\Entity\FormElement;
-use Novuscom\Bundle\CMFBundle\Entity\FormProperty;
-use Novuscom\Bundle\CMFBundle\Entity\Element;
-use Novuscom\Bundle\CMFBundle\Entity\ElementProperty;
-use Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF;
-use Novuscom\Bundle\CMFBundle\Entity\ElementPropertyDT;
-use Novuscom\Bundle\CMFBundle\Entity\FrontElement;
-use Novuscom\Bundle\CMFBundle\Entity\ElementSection;
-use Novuscom\Bundle\CMFBundle\Form\ElementType;
-use Novuscom\Bundle\CMFBundle\Form\ElementPropertyType;
-use Novuscom\Bundle\CMFBundle\Entity\Page;
-use Novuscom\Bundle\CMFBundle\Entity\File;
+use Novuscom\CMFBundle\Entity\FormElement;
+use Novuscom\CMFBundle\Entity\FormProperty;
+use Novuscom\CMFBundle\Entity\Element;
+use Novuscom\CMFBundle\Entity\ElementProperty;
+use Novuscom\CMFBundle\Entity\ElementPropertyF;
+use Novuscom\CMFBundle\Entity\ElementPropertyDT;
+use Novuscom\CMFBundle\Entity\FrontElement;
+use Novuscom\CMFBundle\Entity\ElementSection;
+use Novuscom\CMFBundle\Form\ElementType;
+use Novuscom\CMFBundle\Form\ElementPropertyType;
+use Novuscom\CMFBundle\Entity\Page;
+use Novuscom\CMFBundle\Entity\File;
 
 
 /**
@@ -204,7 +204,7 @@ class ElementController extends Controller
 	{
 
 		$host = $request->headers->get('host');
-		$cacheId = 'Novuscom\Bundle\CMFBundle\Controller\elementsListAction(BLOCK_ID=' . $BLOCK_ID . ')';
+		$cacheId = 'Novuscom\CMFBundle\Controller\elementsListAction(BLOCK_ID=' . $BLOCK_ID . ')';
 		$env = $this->get('kernel')->getEnvironment();
 		//$cache = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/' . $host . '/elements_list/');
 		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
@@ -398,7 +398,7 @@ class ElementController extends Controller
 							foreach ($property_value as $pv) {
 								//echo '<pre>' . print_r($pv, true) . '</pre>';
 								//exit;
-								$file = new \Novuscom\Bundle\CMFBundle\Entity\FormPropertyFile();
+								$file = new \Novuscom\CMFBundle\Entity\FormPropertyFile();
 
 								if ($pv instanceof $file) {
 
@@ -558,7 +558,7 @@ class ElementController extends Controller
 		foreach ($property_value as $pv) {
 
 			//exit;
-			$file = new \Novuscom\Bundle\CMFBundle\Entity\FormPropertyFile();
+			$file = new \Novuscom\CMFBundle\Entity\FormPropertyFile();
 
 			if ($pv instanceof $file) {
 
@@ -1363,7 +1363,7 @@ class ElementController extends Controller
 								foreach ($property_value as $pv) {
 									//echo '<pre>' . print_r($pv, true) . '</pre>';
 
-									$file = new \Novuscom\Bundle\CMFBundle\Entity\FormPropertyFile();
+									$file = new \Novuscom\CMFBundle\Entity\FormPropertyFile();
 
 									if ($pv instanceof $file) {
 
@@ -1664,7 +1664,7 @@ class ElementController extends Controller
 		return $File;
 	}
 
-	private function deleteDetailPicture(\Novuscom\Bundle\CMFBundle\Entity\Element $element)
+	private function deleteDetailPicture(\Novuscom\CMFBundle\Entity\Element $element)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$picture = $element->getDetailPicture();
@@ -1678,7 +1678,7 @@ class ElementController extends Controller
 		}
 	}
 
-	private function deletePreviewPicture(\Novuscom\Bundle\CMFBundle\Entity\Element $element)
+	private function deletePreviewPicture(\Novuscom\CMFBundle\Entity\Element $element)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$previewPicture = $element->getPreviewPicture();

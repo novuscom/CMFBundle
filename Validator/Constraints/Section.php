@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Validator\Constraints;
+namespace Novuscom\CMFBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 

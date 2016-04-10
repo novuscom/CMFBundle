@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Form;
+namespace Novuscom\CMFBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -46,7 +46,7 @@ class ElementPropertyFMultipleType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\FormPropertyFile',
+            'data_class' => 'Novuscom\CMFBundle\Entity\FormPropertyFile',
 
         ));
 

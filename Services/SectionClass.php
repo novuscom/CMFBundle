@@ -1,10 +1,10 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Services;
+namespace Novuscom\CMFBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Novuscom\Bundle\CMFBundle\Entity\ElementSection;
+use Novuscom\CMFBundle\Entity\ElementSection;
 
 class SectionClass
 {
@@ -82,7 +82,7 @@ class SectionClass
 	{
 		$result = false;
 		$er = $this->em->getRepository('NovuscomCMFBundle:Section');
-		$block_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Block', $block_id);
+		$block_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Block', $block_id);
 		$codeArray = $this->getPathArray($section_code_path);
 		$maxLevel = count($codeArray);
 		$filter_params = array(

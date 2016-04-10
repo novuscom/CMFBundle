@@ -1,13 +1,13 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Services;
+namespace Novuscom\CMFBundle\Services;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Util\SecureRandom;
 use Monolog\Logger;
-use Novuscom\Bundle\CMFBundle\Entity\Cart as CartEntity;
-use Novuscom\Bundle\CMFBundle\Services\User;
+use Novuscom\CMFBundle\Entity\Cart as CartEntity;
+use Novuscom\CMFBundle\Services\User;
 
 class Cart
 {

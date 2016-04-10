@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Entity;
+namespace Novuscom\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -88,22 +88,22 @@ class Page
     private $routes;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\Page
+     * @var \Novuscom\CMFBundle\Entity\Page
      */
     private $parent;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\Site
+     * @var \Novuscom\CMFBundle\Entity\Site
      */
     private $site;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\File
+     * @var \Novuscom\CMFBundle\Entity\File
      */
     private $PreviewPicture;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\File
+     * @var \Novuscom\CMFBundle\Entity\File
      */
     private $DetailPicture;
 
@@ -405,10 +405,10 @@ class Page
     /**
      * Add children
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Page $children
+     * @param \Novuscom\CMFBundle\Entity\Page $children
      * @return Page
      */
-    public function addChildren(\Novuscom\Bundle\CMFBundle\Entity\Page $children)
+    public function addChildren(\Novuscom\CMFBundle\Entity\Page $children)
     {
         $this->children[] = $children;
 
@@ -418,9 +418,9 @@ class Page
     /**
      * Remove children
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Page $children
+     * @param \Novuscom\CMFBundle\Entity\Page $children
      */
-    public function removeChildren(\Novuscom\Bundle\CMFBundle\Entity\Page $children)
+    public function removeChildren(\Novuscom\CMFBundle\Entity\Page $children)
     {
         $this->children->removeElement($children);
     }
@@ -438,10 +438,10 @@ class Page
     /**
      * Add routes
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Route $routes
+     * @param \Novuscom\CMFBundle\Entity\Route $routes
      * @return Page
      */
-    public function addRoute(\Novuscom\Bundle\CMFBundle\Entity\Route $routes)
+    public function addRoute(\Novuscom\CMFBundle\Entity\Route $routes)
     {
         $this->routes[] = $routes;
 
@@ -451,9 +451,9 @@ class Page
     /**
      * Remove routes
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Route $routes
+     * @param \Novuscom\CMFBundle\Entity\Route $routes
      */
-    public function removeRoute(\Novuscom\Bundle\CMFBundle\Entity\Route $routes)
+    public function removeRoute(\Novuscom\CMFBundle\Entity\Route $routes)
     {
         $this->routes->removeElement($routes);
     }
@@ -471,10 +471,10 @@ class Page
     /**
      * Set parent
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Page $parent
+     * @param \Novuscom\CMFBundle\Entity\Page $parent
      * @return Page
      */
-    public function setParent(\Novuscom\Bundle\CMFBundle\Entity\Page $parent = null)
+    public function setParent(\Novuscom\CMFBundle\Entity\Page $parent = null)
     {
         $this->parent = $parent;
 
@@ -484,7 +484,7 @@ class Page
     /**
      * Get parent
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\Page
+     * @return \Novuscom\CMFBundle\Entity\Page
      */
     public function getParent()
     {
@@ -494,10 +494,10 @@ class Page
     /**
      * Set site
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Site $site
+     * @param \Novuscom\CMFBundle\Entity\Site $site
      * @return Page
      */
-    public function setSite(\Novuscom\Bundle\CMFBundle\Entity\Site $site = null)
+    public function setSite(\Novuscom\CMFBundle\Entity\Site $site = null)
     {
         $this->site = $site;
 
@@ -507,7 +507,7 @@ class Page
     /**
      * Get site
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\Site
+     * @return \Novuscom\CMFBundle\Entity\Site
      */
     public function getSite()
     {
@@ -574,10 +574,10 @@ class Page
     /**
      * Set PreviewPicture
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\File $previewPicture
+     * @param \Novuscom\CMFBundle\Entity\File $previewPicture
      * @return Element
      */
-    public function setPreviewPicture(\Novuscom\Bundle\CMFBundle\Entity\File $previewPicture = null)
+    public function setPreviewPicture(\Novuscom\CMFBundle\Entity\File $previewPicture = null)
     {
         $this->PreviewPicture = $previewPicture;
 
@@ -587,7 +587,7 @@ class Page
     /**
      * Get PreviewPicture
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\File
+     * @return \Novuscom\CMFBundle\Entity\File
      */
     public function getPreviewPicture()
     {
@@ -597,10 +597,10 @@ class Page
     /**
      * Set DetailPicture
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\File $detailPicture
+     * @param \Novuscom\CMFBundle\Entity\File $detailPicture
      * @return Element
      */
-    public function setDetailPicture(\Novuscom\Bundle\CMFBundle\Entity\File $detailPicture = null)
+    public function setDetailPicture(\Novuscom\CMFBundle\Entity\File $detailPicture = null)
     {
         $this->DetailPicture = $detailPicture;
 
@@ -610,7 +610,7 @@ class Page
     /**
      * Get DetailPicture
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\File
+     * @return \Novuscom\CMFBundle\Entity\File
      */
     public function getDetailPicture()
     {

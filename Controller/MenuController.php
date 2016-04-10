@@ -1,12 +1,12 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Controller;
+namespace Novuscom\CMFBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Novuscom\Bundle\CMFBundle\Entity\Menu;
-use Novuscom\Bundle\CMFBundle\Form\MenuType;
+use Novuscom\CMFBundle\Entity\Menu;
+use Novuscom\CMFBundle\Form\MenuType;
 
 /**
  * Menu controller.
@@ -38,7 +38,7 @@ class MenuController extends Controller
     {
         $entity = new Menu();
         $em = $this->getDoctrine()->getManager();
-        $site_reference = $em->getReference('Novuscom\Bundle\CMFBundle\Entity\Site', $site_id);
+        $site_reference = $em->getReference('Novuscom\CMFBundle\Entity\Site', $site_id);
         $entity->setSite($site_reference);
         $form = $this->createCreateForm($entity, $site_id);
         $form->handleRequest($request);

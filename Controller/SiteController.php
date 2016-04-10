@@ -1,11 +1,11 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Controller;
+namespace Novuscom\CMFBundle\Controller;
 
 use APY\BreadcrumbTrailBundle\Annotation\Breadcrumb;
 use Doctrine\Common\Collections\ArrayCollection;
-use Novuscom\Bundle\CMFBundle\Entity\Site;
-use Novuscom\Bundle\CMFBundle\Form\SiteType;
+use Novuscom\CMFBundle\Entity\Site;
+use Novuscom\CMFBundle\Form\SiteType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

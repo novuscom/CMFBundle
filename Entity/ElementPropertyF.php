@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Entity;
+namespace Novuscom\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,17 +25,17 @@ class ElementPropertyF
     private $description;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\File
+     * @var \Novuscom\CMFBundle\Entity\File
      */
     private $file;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\Element
+     * @var \Novuscom\CMFBundle\Entity\Element
      */
     private $element;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\Property
+     * @var \Novuscom\CMFBundle\Entity\Property
      */
     private $property;
 
@@ -99,10 +99,10 @@ class ElementPropertyF
     /**
      * Set file
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\File $file
+     * @param \Novuscom\CMFBundle\Entity\File $file
      * @return ElementPropertyF
      */
-    public function setFile(\Novuscom\Bundle\CMFBundle\Entity\File $file = null)
+    public function setFile(\Novuscom\CMFBundle\Entity\File $file = null)
     {
         $this->file = $file;
     
@@ -112,7 +112,7 @@ class ElementPropertyF
     /**
      * Get file
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\File
+     * @return \Novuscom\CMFBundle\Entity\File
      */
     public function getFile()
     {
@@ -122,10 +122,10 @@ class ElementPropertyF
     /**
      * Set element
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Element $element
+     * @param \Novuscom\CMFBundle\Entity\Element $element
      * @return ElementPropertyF
      */
-    public function setElement(\Novuscom\Bundle\CMFBundle\Entity\Element $element = null)
+    public function setElement(\Novuscom\CMFBundle\Entity\Element $element = null)
     {
         $this->element = $element;
     
@@ -135,7 +135,7 @@ class ElementPropertyF
     /**
      * Get element
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\Element
+     * @return \Novuscom\CMFBundle\Entity\Element
      */
     public function getElement()
     {
@@ -145,10 +145,10 @@ class ElementPropertyF
     /**
      * Set property
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Property $property
+     * @param \Novuscom\CMFBundle\Entity\Property $property
      * @return ElementPropertyF
      */
-    public function setProperty(\Novuscom\Bundle\CMFBundle\Entity\Property $property = null)
+    public function setProperty(\Novuscom\CMFBundle\Entity\Property $property = null)
     {
         $this->property = $property;
     
@@ -158,7 +158,7 @@ class ElementPropertyF
     /**
      * Get property
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\Property
+     * @return \Novuscom\CMFBundle\Entity\Property
      */
     public function getProperty()
     {

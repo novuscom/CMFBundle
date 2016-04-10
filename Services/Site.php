@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Services;
+namespace Novuscom\CMFBundle\Services;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -130,7 +130,7 @@ class Site
 	{
 		$env = $this->container->get('kernel')->getEnvironment();
 		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/Sites/');
-		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		//$cacheDriver->setNamespace('Pages_' . $env);
 		return $cacheDriver;
 	}

@@ -1,5 +1,5 @@
-Novuscom\Bundle\CMFBundle\Entity\Block:
-    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\BlockRepository
+Novuscom\CMFBundle\Entity\Block:
+    repositoryClass: Novuscom\CMFBundle\Entity\BlockRepository
     type: entity
     table: Block
     id:
@@ -34,7 +34,7 @@ Novuscom\Bundle\CMFBundle\Entity\Block:
             mappedBy: block
             cascade: ["persist"]
         routes:
-            targetEntity: Novuscom\Bundle\CMFBundle\Entity\Route
+            targetEntity: Novuscom\CMFBundle\Entity\Route
             mappedBy: block
             cascade: ["persist"]
     manyToOne:
@@ -46,7 +46,7 @@ Novuscom\Bundle\CMFBundle\Entity\Block:
                 referencedColumnName: id
     manyToMany:
         sites:
-            targetEntity: Novuscom\Bundle\CMFBundle\Entity\Site
+            targetEntity: Novuscom\CMFBundle\Entity\Site
             inversedBy: blocks
             joinTable:
                 name: Block_Site

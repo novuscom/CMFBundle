@@ -1,8 +1,8 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Form;
+namespace Novuscom\CMFBundle\Form;
 
-use Novuscom\Bundle\CMFBundle\Entity\Alias;
+use Novuscom\CMFBundle\Entity\Alias;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -68,7 +68,7 @@ class SiteType extends AbstractType
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
-			'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\Site',
+			'data_class' => 'Novuscom\CMFBundle\Entity\Site',
 			//'cascade_validation' => true,
 		));
 	}

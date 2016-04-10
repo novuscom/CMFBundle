@@ -1,10 +1,10 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Controller;
+namespace Novuscom\CMFBundle\Controller;
 
-use Novuscom\Bundle\CMFBundle\Entity\File;
-use Novuscom\Bundle\CMFBundle\Entity\Page;
-use Novuscom\Bundle\CMFBundle\Form\PageType;
+use Novuscom\CMFBundle\Entity\File;
+use Novuscom\CMFBundle\Entity\Page;
+use Novuscom\CMFBundle\Form\PageType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -369,7 +369,7 @@ class PageController extends Controller
 		));
 	}
 
-	private function deletePreviewPicture(\Novuscom\Bundle\CMFBundle\Entity\Page $element)
+	private function deletePreviewPicture(\Novuscom\CMFBundle\Entity\Page $element)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$previewPicture = $element->getPreviewPicture();

@@ -1,12 +1,12 @@
 <?php
-namespace Novuscom\Bundle\CMFBundle\Menu;
+namespace Novuscom\CMFBundle\Menu;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\Request;
-use Novuscom\Bundle\CMFBundle\Event\ConfigureMenuEvent;
+use Novuscom\CMFBundle\Event\ConfigureMenuEvent;
 
 class Admin implements ContainerAwareInterface
 {

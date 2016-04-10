@@ -1,7 +1,7 @@
-Novuscom\Bundle\CMFBundle\Entity\Route:
+Novuscom\CMFBundle\Entity\Route:
     type: entity
     table: null
-    repositoryClass: Novuscom\Bundle\CMFBundle\Entity\RouteRepository
+    repositoryClass: Novuscom\CMFBundle\Entity\RouteRepository
     fields:
         id:
             type: integer
@@ -31,20 +31,20 @@ Novuscom\Bundle\CMFBundle\Entity\Route:
             nullable: true
     manyToOne:
         site:
-            targetEntity: Novuscom\Bundle\CMFBundle\Entity\Site
+            targetEntity: Novuscom\CMFBundle\Entity\Site
             inversedBy: routes
             joinColumn:
                 name: site_id
                 referencedColumnName: id
                 onDelete: CASCADE
         block:
-            targetEntity: Novuscom\Bundle\CMFBundle\Entity\Block
+            targetEntity: Novuscom\CMFBundle\Entity\Block
             inversedBy: routes
             joinColumn:
                 name: block_id
                 referencedColumnName: id
         page:
-            targetEntity: Novuscom\Bundle\CMFBundle\Entity\Page
+            targetEntity: Novuscom\CMFBundle\Entity\Page
             inversedBy: routes
             joinColumn:
                 name: page_id

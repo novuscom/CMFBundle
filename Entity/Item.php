@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Entity;
+namespace Novuscom\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -32,7 +32,7 @@ class Item
 	private $sort;
 
 	/**
-	 * @var \Novuscom\Bundle\CMFBundle\Entity\Menu
+	 * @var \Novuscom\CMFBundle\Entity\Menu
 	 */
 	private $menu;
 
@@ -42,7 +42,7 @@ class Item
 	private $children;
 
 	/**
-	 * @var \Novuscom\Bundle\CMFBundle\Entity\Item
+	 * @var \Novuscom\CMFBundle\Entity\Item
 	 */
 	private $parent;
 
@@ -157,10 +157,10 @@ class Item
 	/**
 	 * Set menu
 	 *
-	 * @param \Novuscom\Bundle\CMFBundle\Entity\Menu $menu
+	 * @param \Novuscom\CMFBundle\Entity\Menu $menu
 	 * @return Item
 	 */
-	public function setMenu(\Novuscom\Bundle\CMFBundle\Entity\Menu $menu = null)
+	public function setMenu(\Novuscom\CMFBundle\Entity\Menu $menu = null)
 	{
 		$this->menu = $menu;
 
@@ -170,7 +170,7 @@ class Item
 	/**
 	 * Get menu
 	 *
-	 * @return \Novuscom\Bundle\CMFBundle\Entity\Menu
+	 * @return \Novuscom\CMFBundle\Entity\Menu
 	 */
 	public function getMenu()
 	{
@@ -270,10 +270,10 @@ class Item
 	/**
 	 * Set parent
 	 *
-	 * @param \Novuscom\Bundle\CMFBundle\Entity\Item $parent
+	 * @param \Novuscom\CMFBundle\Entity\Item $parent
 	 * @return Page
 	 */
-	public function setParent(\Novuscom\Bundle\CMFBundle\Entity\Item $parent = null)
+	public function setParent(\Novuscom\CMFBundle\Entity\Item $parent = null)
 	{
 		$this->parent = $parent;
 
@@ -283,7 +283,7 @@ class Item
 	/**
 	 * Get parent
 	 *
-	 * @return \Novuscom\Bundle\CMFBundle\Entity\Item
+	 * @return \Novuscom\CMFBundle\Entity\Item
 	 */
 	public function getParent()
 	{

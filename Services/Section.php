@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Services;
+namespace Novuscom\CMFBundle\Services;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -15,7 +15,7 @@ class Section
         $repo = $this->em->getRepository('NovuscomCMFBundle:ElementSection');
 		$refs = array();
 		foreach ($elementsID as $e) {
-			$refs[] = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Block', $e);
+			$refs[] = $this->em->getReference('Novuscom\CMFBundle\Entity\Block', $e);
 		}
         $rows = $repo->findBy(array('element'=>$refs));
 		$result = array();

@@ -1,15 +1,15 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Controller;
+namespace Novuscom\CMFBundle\Controller;
 
-use Novuscom\Bundle\CMFBundle\Entity\FrontSection;
+use Novuscom\CMFBundle\Entity\FrontSection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
-use Novuscom\Bundle\CMFBundle\Entity\File;
-use Novuscom\Bundle\CMFBundle\Entity\Section;
-use Novuscom\Bundle\CMFBundle\Entity\Page;
-use Novuscom\Bundle\CMFBundle\Form\SectionType;
+use Novuscom\CMFBundle\Entity\File;
+use Novuscom\CMFBundle\Entity\Section;
+use Novuscom\CMFBundle\Entity\Page;
+use Novuscom\CMFBundle\Form\SectionType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -55,7 +55,7 @@ class SectionController extends Controller
 		if (!$rootSection) {
 			//echo '<pre>' . print_r('!$rootSection', true) . '</pre>';
 			//echo '<pre>' . print_r('макс. уровень: '.$maxLevel, true) . '</pre>';
-			//$elementController = new \Novuscom\Bundle\CMFBundle\Controller\ElementController();
+			//$elementController = new \Novuscom\CMFBundle\Controller\ElementController();
 			//$elementController = $this->get('cmf.block.element.controller');
 			//$elementController->elementPageAction($codeArray[0], $block, null);
 			if ($maxLevel == 0) {
@@ -764,7 +764,7 @@ class SectionController extends Controller
 		));
 	}
 
-	private function deletePreviewPicture(\Novuscom\Bundle\CMFBundle\Entity\Section $section)
+	private function deletePreviewPicture(\Novuscom\CMFBundle\Entity\Section $section)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$previewPicture = $section->getPreviewPicture();
@@ -779,7 +779,7 @@ class SectionController extends Controller
 	}
 
 
-	private function createPreviewPicture(\Novuscom\Bundle\CMFBundle\Entity\Section $entity, $file, $description = '')
+	private function createPreviewPicture(\Novuscom\CMFBundle\Entity\Section $entity, $file, $description = '')
 	{
 		if ($file) {
 			$em = $this->getDoctrine()->getManager();

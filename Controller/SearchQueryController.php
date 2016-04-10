@@ -1,12 +1,12 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Controller;
+namespace Novuscom\CMFBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Novuscom\Bundle\CMFBundle\Entity\Route;
-use Novuscom\Bundle\CMFBundle\Form\RouteType;
+use Novuscom\CMFBundle\Entity\Route;
+use Novuscom\CMFBundle\Form\RouteType;
 
 /**
  * Route controller.

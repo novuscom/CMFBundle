@@ -1,8 +1,8 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Form;
+namespace Novuscom\CMFBundle\Form;
 
-use Novuscom\Bundle\CMFBundle\Entity\Element;
+use Novuscom\CMFBundle\Entity\Element;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-use Novuscom\Bundle\CMFBundle\Entity\ElementProperty;
+use Novuscom\CMFBundle\Entity\ElementProperty;
 
 class ElementPropertyType extends AbstractType
 {
@@ -54,7 +54,7 @@ class ElementPropertyType extends AbstractType
 					/**
 					 * Получаем значения свойства
 					 */
-					$property_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Property', $p->getId());
+					$property_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $p->getId());
 					$PropertyList = $this->em->getRepository('NovuscomCMFBundle:PropertyList')->findBy(array(
 						'property' => $property_reference,
 					));
@@ -294,8 +294,8 @@ class ElementPropertyType extends AbstractType
 					if ($info && is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true) {
 						$data = array();
 						/*
-						$element_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Element', 251);
-						$property_reference = $this->em->getReference('Novuscom\Bundle\CMFBundle\Entity\Property', $p->getId());
+						$element_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Element', 251);
+						$property_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $p->getId());
 						$ElementProperty = $this->em->getRepository('NovuscomCMFBundle:ElementProperty')->findBy(array(
 							'element'=>$element_reference,
 							'property'=>$property_reference
@@ -410,8 +410,8 @@ class ElementPropertyType extends AbstractType
 	public function setDefaultOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
-			//'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\FormProperty',
-			'data_class' => 'Novuscom\Bundle\CMFBundle\Entity\ElementProperty',
+			//'data_class' => 'Novuscom\CMFBundle\Entity\FormProperty',
+			'data_class' => 'Novuscom\CMFBundle\Entity\ElementProperty',
 			'data' => null,
 		));
 		/*$resolver->setRequired(array(

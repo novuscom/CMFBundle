@@ -1,14 +1,14 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Twig;
+namespace Novuscom\CMFBundle\Twig;
 
 use Knp\Menu\Loader\NodeLoader;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
 use Monolog\Logger;
-use Novuscom\Bundle\CMFBundle\Services\File;
-use Novuscom\Bundle\CMFBundle\Services\Utils;
+use Novuscom\CMFBundle\Services\File;
+use Novuscom\CMFBundle\Services\Utils;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

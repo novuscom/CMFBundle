@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Entity;
+namespace Novuscom\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,7 +11,7 @@ class FrontElement
 {
     private $info;
 
-    public function setInfo(\Novuscom\Bundle\CMFBundle\Entity\Element $element)
+    public function setInfo(\Novuscom\CMFBundle\Entity\Element $element)
     {
         $this->info = $element;
         return $this;
@@ -24,7 +24,7 @@ class FrontElement
 
     private $propertyFiles;
 
-    public function addPropertyFile(\Novuscom\Bundle\CMFBundle\Entity\File $propertyF)
+    public function addPropertyFile(\Novuscom\CMFBundle\Entity\File $propertyF)
     {
         $this->propertyFiles[] = $propertyF;
         return $this;
@@ -37,7 +37,7 @@ class FrontElement
 
     private $elements;
 
-    public function addElement(\Novuscom\Bundle\CMFBundle\Entity\Element $element)
+    public function addElement(\Novuscom\CMFBundle\Entity\Element $element)
     {
         $this->elements[] = $element;
         return $this;

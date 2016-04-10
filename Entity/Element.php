@@ -1,6 +1,6 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Entity;
+namespace Novuscom\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -41,12 +41,12 @@ class Element
     private $last_modified;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\File
+     * @var \Novuscom\CMFBundle\Entity\File
      */
     private $PreviewPicture;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\File
+     * @var \Novuscom\CMFBundle\Entity\File
      */
     private $DetailPicture;
 
@@ -66,7 +66,7 @@ class Element
     private $section;
 
     /**
-     * @var \Novuscom\Bundle\CMFBundle\Entity\Block
+     * @var \Novuscom\CMFBundle\Entity\Block
      */
     private $block;
 
@@ -211,10 +211,10 @@ class Element
     /**
      * Set PreviewPicture
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\File $previewPicture
+     * @param \Novuscom\CMFBundle\Entity\File $previewPicture
      * @return Element
      */
-    public function setPreviewPicture(\Novuscom\Bundle\CMFBundle\Entity\File $previewPicture = null)
+    public function setPreviewPicture(\Novuscom\CMFBundle\Entity\File $previewPicture = null)
     {
         $this->PreviewPicture = $previewPicture;
 
@@ -224,7 +224,7 @@ class Element
     /**
      * Get PreviewPicture
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\File
+     * @return \Novuscom\CMFBundle\Entity\File
      */
     public function getPreviewPicture()
     {
@@ -234,10 +234,10 @@ class Element
     /**
      * Set DetailPicture
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\File $detailPicture
+     * @param \Novuscom\CMFBundle\Entity\File $detailPicture
      * @return Element
      */
-    public function setDetailPicture(\Novuscom\Bundle\CMFBundle\Entity\File $detailPicture = null)
+    public function setDetailPicture(\Novuscom\CMFBundle\Entity\File $detailPicture = null)
     {
         $this->DetailPicture = $detailPicture;
 
@@ -247,7 +247,7 @@ class Element
     /**
      * Get DetailPicture
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\File
+     * @return \Novuscom\CMFBundle\Entity\File
      */
     public function getDetailPicture()
     {
@@ -257,10 +257,10 @@ class Element
     /**
      * Add ElementProperty
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementProperty $elementProperty
+     * @param \Novuscom\CMFBundle\Entity\ElementProperty $elementProperty
      * @return Element
      */
-    public function addElementProperty(\Novuscom\Bundle\CMFBundle\Entity\ElementProperty $elementProperty)
+    public function addElementProperty(\Novuscom\CMFBundle\Entity\ElementProperty $elementProperty)
     {
         $this->ElementProperty[] = $elementProperty;
 
@@ -270,9 +270,9 @@ class Element
     /**
      * Remove ElementProperty
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementProperty $elementProperty
+     * @param \Novuscom\CMFBundle\Entity\ElementProperty $elementProperty
      */
-    public function removeElementProperty(\Novuscom\Bundle\CMFBundle\Entity\ElementProperty $elementProperty)
+    public function removeElementProperty(\Novuscom\CMFBundle\Entity\ElementProperty $elementProperty)
     {
         $this->ElementProperty->removeElement($elementProperty);
     }
@@ -290,10 +290,10 @@ class Element
     /**
      * Add ElementPropertyF
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $elementPropertyF
+     * @param \Novuscom\CMFBundle\Entity\ElementPropertyF $elementPropertyF
      * @return Element
      */
-    public function addElementPropertyF(\Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $elementPropertyF)
+    public function addElementPropertyF(\Novuscom\CMFBundle\Entity\ElementPropertyF $elementPropertyF)
     {
         $this->ElementPropertyF[] = $elementPropertyF;
 
@@ -303,9 +303,9 @@ class Element
     /**
      * Remove ElementPropertyF
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $elementPropertyF
+     * @param \Novuscom\CMFBundle\Entity\ElementPropertyF $elementPropertyF
      */
-    public function removeElementPropertyF(\Novuscom\Bundle\CMFBundle\Entity\ElementPropertyF $elementPropertyF)
+    public function removeElementPropertyF(\Novuscom\CMFBundle\Entity\ElementPropertyF $elementPropertyF)
     {
         $this->ElementPropertyF->removeElement($elementPropertyF);
     }
@@ -323,10 +323,10 @@ class Element
     /**
      * Add section
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementSection $section
+     * @param \Novuscom\CMFBundle\Entity\ElementSection $section
      * @return Element
      */
-    public function addSection(\Novuscom\Bundle\CMFBundle\Entity\ElementSection $section)
+    public function addSection(\Novuscom\CMFBundle\Entity\ElementSection $section)
     {
         $this->section[] = $section;
 
@@ -336,9 +336,9 @@ class Element
     /**
      * Remove section
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementSection $section
+     * @param \Novuscom\CMFBundle\Entity\ElementSection $section
      */
-    public function removeSection(\Novuscom\Bundle\CMFBundle\Entity\ElementSection $section)
+    public function removeSection(\Novuscom\CMFBundle\Entity\ElementSection $section)
     {
         $this->section->removeElement($section);
     }
@@ -356,10 +356,10 @@ class Element
     /**
      * Set block
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\Block $block
+     * @param \Novuscom\CMFBundle\Entity\Block $block
      * @return Element
      */
-    public function setBlock(\Novuscom\Bundle\CMFBundle\Entity\Block $block = null)
+    public function setBlock(\Novuscom\CMFBundle\Entity\Block $block = null)
     {
         $this->block = $block;
 
@@ -369,7 +369,7 @@ class Element
     /**
      * Get block
      *
-     * @return \Novuscom\Bundle\CMFBundle\Entity\Block
+     * @return \Novuscom\CMFBundle\Entity\Block
      */
     public function getBlock()
     {
@@ -414,10 +414,10 @@ class Element
     /**
      * Add ElementPropertyDT
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT
+     * @param \Novuscom\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT
      * @return Element
      */
-    public function addElementPropertyDT(\Novuscom\Bundle\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT)
+    public function addElementPropertyDT(\Novuscom\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT)
     {
         $this->ElementPropertyDT[] = $elementPropertyDT;
 
@@ -427,9 +427,9 @@ class Element
     /**
      * Remove ElementPropertyDT
      *
-     * @param \Novuscom\Bundle\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT
+     * @param \Novuscom\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT
      */
-    public function removeElementPropertyDT(\Novuscom\Bundle\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT)
+    public function removeElementPropertyDT(\Novuscom\CMFBundle\Entity\ElementPropertyDT $elementPropertyDT)
     {
         $this->ElementPropertyDT->removeElement($elementPropertyDT);
     }
