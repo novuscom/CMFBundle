@@ -1,12 +1,12 @@
 <?php
 
-namespace Novuscom\Bundle\CMFBundle\Controller;
+namespace Novuscom\CMFBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Novuscom\Bundle\CMFBundle\Entity\Item;
-use Novuscom\Bundle\CMFBundle\Form\ItemType;
+use Novuscom\CMFBundle\Entity\Item;
+use Novuscom\CMFBundle\Form\ItemType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
@@ -43,7 +43,7 @@ class ItemController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $menu_reference = $em->getReference('Novuscom\Bundle\CMFBundle\Entity\Menu', $menu_id);
+            $menu_reference = $em->getReference('Novuscom\CMFBundle\Entity\Menu', $menu_id);
             $entity->setMenu($menu_reference);
 
             $em->persist($entity);

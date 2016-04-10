@@ -696,7 +696,7 @@ class ComponentController extends Controller
 		}
 		$logger->info('параметры маршрута известны или это маршрут для статических страниц');
 		$env = $this->get('kernel')->getEnvironment();
-		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		$cacheDriver->setNamespace('CrumbsAction_' . $env);
 		$cacheId = json_encode(array($params, $route_params));
 		$existParams = (array_key_exists('params', $route_params));
@@ -870,7 +870,7 @@ class ComponentController extends Controller
 			$params['BLOCK_ID'] = false;
 		}
 		$env = $this->get('kernel')->getEnvironment();
-		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		/*
 		 * Кэш в зависиомсти от окружения нужен для того чтобы правильные ссылки кешировались
 		 */
@@ -1252,7 +1252,7 @@ class ComponentController extends Controller
 		 * Кэш
 		 */
 		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/' . $host . '/components/SectionsList/');
-		//$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		//$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		if (false) {
 			//if ($fooString = $cacheDriver->fetch($cacheId)) {
 			//echo '<pre>' . print_r('Кешированные данные', true) . '</pre>';
@@ -1364,7 +1364,7 @@ class ComponentController extends Controller
 		$cacheDir = $this->getCahceDir();
 		$logger->info('Директория кеша = ' . $cacheDir);
 		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($cacheDir);
-		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		$fullCode = trim($CODE, '/');
 		$cacheDriver->setNamespace('SectionAction_' . $env . '_' . $params['BLOCK_ID'] . '_' . $fullCode);
 		$cacheId = $fullCode . '[page=' . $PAGE . ']';
@@ -1553,7 +1553,7 @@ class ComponentController extends Controller
 		 * Кэш
 		 */
 		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/' . $host . '/components/ElementsList/');
-		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		$cacheDriver->setNamespace('ElementsListAction_' . $env . '_' . $params['BLOCK_ID']);
 		if (false) {
 			//if ($fooString = $cacheDriver->fetch($cacheId)) {
