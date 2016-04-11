@@ -1,0 +1,8 @@
+admin_system:
+    path:  /
+    defaults: { _controller: "NovuscomCMFBundle:System:update" }
+
+admin_system_upgrade:
+    path:  /upgrade
+    defaults: { _controller: "NovuscomCMFBundle:System:upgrade" }
+    methods:  [POST]

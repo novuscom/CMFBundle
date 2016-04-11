@@ -1,0 +1,49 @@
+Novuscom\CMFBundle\Entity\Site:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\SiteRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        robots_txt:
+            type: text
+            length: 65535
+            nullable: true
+        closed:
+            type: boolean
+        code:
+            type: string
+            length: 50
+            nullable: false
+        emails:
+            type: json_array
+            nullable: false
+    oneToMany:
+        aliases:
+            targetEntity: Alias
+            mappedBy: site
+            cascade: ["persist"]
+        routes:
+            targetEntity: Route
+            mappedBy: site
+            cascade: ["persist"]
+        menu:
+            targetEntity: Menu
+            mappedBy: site
+            cascade: ["persist"]
+        pages:
+            targetEntity: Page
+            mappedBy: site
+            cascade: ["persist"]
+    manyToMany:
+        blocks:
+            targetEntity: Block
+            mappedBy: sites
+    lifecycleCallbacks: {  }

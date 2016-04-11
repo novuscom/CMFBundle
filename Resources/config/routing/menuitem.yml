@@ -1,0 +1,41 @@
+
+admin_menuitem_new:
+    path:     /admin/site/{site_id}/menu/{menu_id}/new/
+    defaults: { _controller: "NovuscomCMFBundle:Item:new" }
+    requirements:
+        menu_id: \d+
+        site_id: \d+
+
+admin_menuitem_create:
+    path:     /admin/site/{site_id}/menu/{menu_id}/create/
+    defaults: { _controller: "NovuscomCMFBundle:Item:create" }
+    requirements:
+        _method: post
+        menu_id: \d+
+        site_id: \d+
+
+admin_menuitem_edit:
+    path:     /admin/site/{site_id}/menu/{menu_id}/item-{id}/
+    defaults: { _controller: "NovuscomCMFBundle:Item:edit" }
+    requirements:
+        menu_id: \d+
+        site_id: \d+
+        id: \d+
+
+admin_menuitem_update:
+    path:     /admin/site/{site_id}/menu/{menu_id}/item-{id}/update/
+    defaults: { _controller: "NovuscomCMFBundle:Item:update" }
+    requirements:
+        _method: post|put
+        menu_id: \d+
+        site_id: \d+
+        id: \d+
+
+admin_menuitem_delete:
+    path:     /admin/site/{site_id}/menu/{menu_id}/item-{id}/delete/
+    defaults: { _controller: "NovuscomCMFBundle:Item:delete" }
+    requirements:
+        _method: post|delete
+        menu_id: \d+
+        site_id: \d+
+        id: \d+

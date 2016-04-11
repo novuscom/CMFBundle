@@ -1,0 +1,63 @@
+Novuscom\CMFBundle\Entity\Item:
+    type: entity
+    table: MenuItem
+    repositoryClass: Gedmo\Tree\Entity\Repository\NestedTreeRepository
+    gedmo:
+        tree:
+            type: nested
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            length: 255
+        url:
+            type: string
+            length: 255
+        sort:
+            type: smallint
+            nullable: true
+        lft:
+            type: integer
+            gedmo:
+              - treeLeft
+        rgt:
+            type: integer
+            gedmo:
+              - treeRight
+        lvl:
+            type: integer
+            gedmo:
+              - treeLevel
+        root:
+            type: integer
+            nullable: true
+            gedmo:
+              - treeRoot
+    oneToMany:
+        children:
+            targetEntity: Item
+            mappedBy: parent
+            orderBy:
+                lft: ASC
+    manyToOne:
+        menu:
+            targetEntity: Novuscom\CMFBundle\Entity\Menu
+            inversedBy: item
+            joinColumn:
+                name: menu_id
+                referencedColumnName: id
+                onDelete: CASCADE
+        parent:
+            targetEntity: Item
+            inversedBy: children
+            joinColumn:
+                name: parent_id
+                referencedColumnName: id
+                onDelete: CASCADE
+            gedmo:
+                - treeParent
+    lifecycleCallbacks: {  }

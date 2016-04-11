@@ -1,0 +1,113 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+
+{% block body -%}
+    
+    
+    
+    {{ form_start(form) }}
+
+
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tab_1" aria-expanded="true">Основная информация</a></li>
+            <li class=""><a data-toggle="tab" href="#tab_2" aria-expanded="false">Краткое описание</a></li>
+            <li class=""><a data-toggle="tab" href="#tab_3" aria-expanded="false">Подробное описание</a></li>
+            <li class=""><a data-toggle="tab" href="#tab_4" aria-expanded="false">Свойства</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab_1" class="tab-pane active">
+                {{ form_row(form.active) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.code) }}
+                {{ form_row(form.sort) }}
+                {{ form_row(form.title) }}
+                {{ form_row(form.header) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.keywords) }}
+            </div>
+            <div id="tab_2" class="tab-pane">
+                <div class="form-group">
+                    {{ form_label(form.preview_picture) }}
+                    {{ form_widget(form.preview_picture) }}
+                    {{ form_errors(form.preview_picture) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.preview_picture_src) }}
+                    {{ form_widget(form.preview_picture_src) }}
+                    {{ form_errors(form.preview_picture_src) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.preview_picture_alt) }}
+                    {{ form_widget(form.preview_picture_alt) }}
+                    {{ form_errors(form.preview_picture_alt) }}
+                </div>
+                {% if entity.previewPicture is not empty %}
+                    <a class="fancybox"
+                       href="{{ asset('upload/images/'~entity.previewPicture.name) }}"><img
+                                src="{{ asset('upload/images/'~entity.previewPicture.name) | imagine_filter('my_thumb') }}"/></a>
+                    <div>
+                        <a href="#"><i class="fa fa-trash-o"></i>
+                            удалить превью пикчу</a>
+                    </div>
+                {% else %}
+                {% endif %}
+                {{ form_row(form.previewText, {'attr':{'class':'tinymce', 'style':'height: 800px;'}}) }}
+            </div>
+            <div id="tab_3" class="tab-pane">
+                <div class="form-group">
+                    {{ form_label(form.detail_picture) }}
+                    {{ form_widget(form.detail_picture) }}
+                    {{ form_errors(form.detail_picture) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.detail_picture_src) }}
+                    {{ form_widget(form.detail_picture_src) }}
+                    {{ form_errors(form.detail_picture_src) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.detail_picture_alt) }}
+                    {{ form_widget(form.detail_picture_alt) }}
+                    {{ form_errors(form.detail_picture_alt) }}
+                </div>
+                {% if entity.detailPicture is not empty %}
+                    <a class="fancybox"
+                       href="{{ asset('upload/images/'~entity.detailPicture.name) }}"><img
+                                src="{{ asset('upload/images/'~entity.detailPicture.name) | imagine_filter('my_thumb') }}"/></a>
+                    <div>
+                        <a href="#"><i class="fa fa-trash-o"></i>
+                            удалить детейл пикчу</a>
+                    </div>
+                {% else %}
+                {% endif %}
+                {{ form_row(form.detailText, {'attr':{'class':'tinymce', 'style':'height: 800px;'}}) }}
+            </div>
+            <div id="tab_4" class="tab-pane">
+                {#{% if form.properties is defined %}
+                    {{ form_row(form.properties) }}
+                {% endif %}#}
+            </div>
+            <div id="tab_5" class="tab-pane">
+                {{ form_row(form.section) }}
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col col-md-6">
+                    {{ form_widget(form.submit, {'attr':{'class':'btn-success'}}) }}
+                </div>
+                <div class="col col-md-1">
+                    {#<a class="btn btn-info btn-block" href="{{ path('admin_block_show_section', {'id':block.id, 'section_id':entity.id}) }}"><i class="glyphicon glyphicon-list"></i> К списку</a>#}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+{% block javascript %}
+	{{ elfinder_tinymce_init4('tinymce') }}
+	{{ tinymce_init() }}
+{% endblock %}

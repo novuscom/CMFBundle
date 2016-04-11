@@ -1,0 +1,101 @@
+Novuscom\CMFBundle\Entity\Section:
+    type: entity
+    table: null
+    repositoryClass: Gedmo\Tree\Entity\Repository\NestedTreeRepository
+    gedmo:
+      tree:
+        type: nested
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            length: 255
+        code:
+            type: string
+            length: 255
+        sort:
+            type: smallint
+            length: 4
+            nullable: true
+        title:
+            type: string
+            length: 255
+            nullable: true
+        keywords:
+            type: string
+            length: 255
+            nullable: true
+        description:
+            type: string
+            length: 255
+            nullable: true
+        preview_text:
+            type: text
+            length: 65535
+            nullable: true
+        detail_text:
+            type: text
+            length: 4294967295
+            nullable: true
+        lft:
+            type: integer
+            gedmo:
+              - treeLeft
+        rgt:
+            type: integer
+            gedmo:
+              - treeRight
+        lvl:
+            type: integer
+            gedmo:
+              - treeLevel
+        root:
+            type: integer
+            nullable: true
+            gedmo:
+              - treeRoot
+    oneToOne:
+        PreviewPicture:
+            targetEntity: File
+            joinColumn:
+                name: preview_picture
+                referencedColumnName: id
+                onDelete: "CASCADE"
+        DetailPicture:
+            targetEntity: File
+            joinColumn:
+                name: detail_picture
+                referencedColumnName: id
+                onDelete: "CASCADE"
+    manyToOne:
+      parent:
+        targetEntity: Section
+        inversedBy: children
+        joinColumn:
+          name: parent_id
+          referencedColumnName: id
+          onDelete: CASCADE
+        gedmo:
+          - treeParent
+      block:
+        targetEntity: Block
+        inversedBy: section
+        joinColumn:
+          name: block_id
+          referencedColumnName: id
+          onDelete: "SET NULL"
+    oneToMany:
+      children:
+        targetEntity: Section
+        mappedBy: parent
+        orderBy:
+          lft: ASC
+      element:
+        targetEntity: ElementSection
+        mappedBy: section
+        cascade: ["persist"]
+    lifecycleCallbacks: {  }

@@ -1,0 +1,28 @@
+Novuscom\CMFBundle\Entity\File:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\FileRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            length: 255
+        size:
+            type: smallint
+        description:
+            type: string
+            length: 255
+            nullable: true
+        type:
+            type: string
+            length: '50'
+    oneToMany:
+        property:
+            targetEntity: ElementPropertyF
+            mappedBy: file
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

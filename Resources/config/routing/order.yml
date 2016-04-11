@@ -1,0 +1,30 @@
+admin_order:
+    path:     /
+    defaults: { _controller: "NovuscomCMFBundle:Order:index" }
+
+admin_order_show:
+    path:     /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:Order:show" }
+
+admin_order_new:
+    path:     /new
+    defaults: { _controller: "NovuscomCMFBundle:Order:new" }
+
+admin_order_create:
+    path:     /create
+    defaults: { _controller: "NovuscomCMFBundle:Order:create" }
+    requirements: { _method: post }
+
+admin_order_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:Order:edit" }
+
+admin_order_update:
+    path:     /{id}/update
+    defaults: { _controller: "NovuscomCMFBundle:Order:update" }
+    requirements: { _method: post|put }
+
+admin_order_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "NovuscomCMFBundle:Order:delete" }
+    requirements: { _method: post|delete }

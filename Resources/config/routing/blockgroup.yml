@@ -1,0 +1,37 @@
+admin_blockgroup:
+    path:  /
+    defaults: { _controller: "NovuscomCMFBundle:BlockGroup:index" }
+
+admin_blockgroup_show:
+    path:  /blockgroup-{id}/
+    defaults: { _controller: "NovuscomCMFBundle:BlockGroup:show" }
+    requirements:
+        id: \d+
+
+admin_blockgroup_new:
+    path:  /blockgroup-new/
+    defaults: { _controller: "NovuscomCMFBundle:BlockGroup:new" }
+
+admin_blockgroup_create:
+    path:  /blockgroup-create/
+    defaults: { _controller: "NovuscomCMFBundle:BlockGroup:create" }
+    requirements: { _method: post }
+
+
+admin_blockgroup_edit:
+    path:  /blockgroup-edit-{id}/
+    defaults: { _controller: "NovuscomCMFBundle:BlockGroup:edit" }
+    requirements:
+        id: \d+
+
+admin_blockgroup_update:
+    path:  /blockgroup-update-{id}/
+    defaults: { _controller: "NovuscomCMFBundle:BlockGroup:update" }
+    requirements: { _method: post|put, id: \d+ }
+
+
+admin_blockgroup_delete:
+    path:  /blockgroup-delete-{id}/
+    defaults: { _controller: "NovuscomCMFBundle:BlockGroup:delete" }
+    requirements: { _method: post|delete, id: \d+ }
+

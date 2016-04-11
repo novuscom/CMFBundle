@@ -1,0 +1,39 @@
+Novuscom\CMFBundle\Entity\ElementPropertyF:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\ElementPropertyFRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        property_id:
+            type: integer
+        description:
+            type: string
+            length: 600
+            nullable: true
+    manyToOne:
+        file:
+            targetEntity: File
+            inversedBy: property
+            joinColumn:
+                name: file_id
+                referencedColumnName: id
+                onDelete: "CASCADE"
+        element:
+            targetEntity: Element
+            inversedBy: ElementPropertyF
+            joinColumn:
+                name: element_id
+                referencedColumnName: id
+                onDelete: "CASCADE"
+        property:
+            targetEntity: Property
+            inversedBy: ElementPropertyF
+            joinColumn:
+                name: property_id
+                referencedColumnName: id
+                onDelete: "CASCADE"
+    lifecycleCallbacks: {  }

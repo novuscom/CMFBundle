@@ -1,0 +1,23 @@
+Novuscom\CMFBundle\Entity\Alias:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Entity\AliasRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+    manyToOne:
+        site:
+            targetEntity: Site
+            inversedBy: aliases
+            joinColumn:
+                name: site_id
+                referencedColumnName: id
+                onDelete: CASCADE
+    lifecycleCallbacks: {  }
