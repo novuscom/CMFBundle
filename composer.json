@@ -31,7 +31,6 @@
 	  "Novuscom\\CMFBundle\\": ""
 	}
   },
-  "target-dir" : "Novuscom/CMFBundle",
   "extra": {
 	"branch-alias": {
 	  "dev-master": "0.0.7-dev"
