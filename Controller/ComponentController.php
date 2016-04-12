@@ -718,16 +718,17 @@ class ComponentController extends Controller
 			 * Хлебные крошки для страниц
 			 */
 			$repo = $em->getRepository('NovuscomCMFBundle:Page');
-
 			if ($existParams) {
 				$page = $repo->find($route_params['params']['page_id']);
 			} elseif ($pageRoute && $route_params['name']) {
 				$Page = $this->get('Page');
 				$page = $Page->findPage($route_params['name']);
 			}
-
+			else {
+				$Page = $this->get('Page');
+				$page = $Page->getRoot();
+			}
 			$path = $repo->getPath($page);
-			//echo '<pre>' . print_r('крошки', true) . '</pre>'; exit;
 			foreach ($path as $p) {
 				if ($p->getLvl() == 0) {
 					$crumbs[] = array(
@@ -742,8 +743,6 @@ class ComponentController extends Controller
 					);
 				}
 			}
-
-			//echo '<pre>'.print_r($route_params, true).'</pre>'; exit;
 
 			/*
 			 * Хлебные крошки для раздела
