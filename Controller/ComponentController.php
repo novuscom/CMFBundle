@@ -1168,7 +1168,12 @@ class ComponentController extends Controller
 			if ($page) {
 				$response_data['page'] = $page;
 			}
-			$template_code = $params['template_code'];
+			if ($params['params']['template_directory']) {
+				$template_code = $params['params']['template_directory'];
+			}
+			else {
+				$template_code = $params['template_code'];
+			}
 			$template_dir = $site->getCode();
 			$response = $this->render('@templates/' . $template_dir . '/Element/' . $template_code . '.html.twig', $response_data);
 			$cacheData = array(
