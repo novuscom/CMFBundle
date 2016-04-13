@@ -38,8 +38,7 @@
             {% endif %}
 
         </div>
-        {% if (section is empty) or (block.param('SECTIONS_LEVEL_LIMIT') and (section.lvl+1)<block.param('SECTIONS_LEVEL_LIMIT')) %}
-        {#{% if true %}#}
+		{% if (block.sectionLimit(section) == false) %}
             {% if (sections is not empty) %}
                 <div class="box-body">
                     {% if section is not empty %}

@@ -445,6 +445,8 @@ class Block
 	 */
 	public function getParams()
 	{
+		if (!$this->params)
+			return '';
 		return $this->params;
 	}
 
@@ -470,4 +472,14 @@ class Block
 			return $this->paramsArray[$key];
 		return null;
 	}
+
+	public function sectionLimit($section = false){
+		$result = false;
+		if ($this->getParam('SECTIONS_LEVEL_LIMIT') and $section) {
+			if (($section->getLvl()+1)<$this->getParam('SECTIONS_LEVEL_LIMIT'))
+				$result = true;
+		}
+		return $result;
+	}
+
 }
