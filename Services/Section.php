@@ -40,7 +40,7 @@ class Section
     public function clearCacheSection($block_id, $section_id)
     {
         $fullCode = $this->getFullCode($section_id);
-        $cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+        $cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
         $nameSpace = 'SectionAction_dev_'.$block_id;
         $cacheDriver->setNamespace($nameSpace);
         $cacheDriver->delete($fullCode);
