@@ -167,7 +167,7 @@ class ElementController extends Controller
 		$cacheId = 'id=[' . $id . ']';
 		$env = $this->get('kernel')->getEnvironment();
 		//$cache = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/'.$env.'/sys/'.$host.'/element/');
-		$cache = new \Doctrine\Common\Cache\ApcCache();
+		$cache = new \Doctrine\Common\Cache\ApcuCache();
 		if ($fooString = $cache->fetch($cacheId)) {
 			//echo '<pre>' . print_r('есть кэш '.$cacheId, true) . '</pre>';
 			$response = unserialize($fooString);
@@ -207,7 +207,7 @@ class ElementController extends Controller
 		$cacheId = 'Novuscom\CMFBundle\Controller\elementsListAction(BLOCK_ID=' . $BLOCK_ID . ')';
 		$env = $this->get('kernel')->getEnvironment();
 		//$cache = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/' . $host . '/elements_list/');
-		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		if ($cacheDriver->contains($cacheId)) {
 			//echo 'cache exists';
 		} else {
@@ -1614,7 +1614,7 @@ class ElementController extends Controller
 	private function clearElementCache($request, $block_id)
 	{
 		$env = $this->get('kernel')->getEnvironment();
-		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		$nameSpace = 'ElementAction_' . $env . '_' . $block_id;
 		$cacheDriver->setNamespace($nameSpace);
 		$cacheDriver->deleteAll();
@@ -1626,7 +1626,7 @@ class ElementController extends Controller
 	{
 
 		$env = $this->get('kernel')->getEnvironment();
-		$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		$cacheDriver->setNamespace('ElementsListAction_' . $env . '_' . $block_id);
 		$cacheDriver->deleteAll();
 	}

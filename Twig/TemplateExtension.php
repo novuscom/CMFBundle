@@ -270,6 +270,7 @@ class TemplateExtension extends \Twig_Extension
 		//echo '<pre>' . print_r($array, true) . '</pre>';
 		//exit;
 		foreach ($array as $e) {
+			$e['name'] = html_entity_decode($this->typograf($e['name']));
 			if (preg_match('/^(http|https|ftp):\/\//', $e['url']))
 				$url = $e->getUrl();
 			else
