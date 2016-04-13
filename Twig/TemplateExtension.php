@@ -216,7 +216,7 @@ class TemplateExtension extends \Twig_Extension
 			->createQueryBuilder()
 			->select('node')
 			->from('NovuscomCMFBundle:Item', 'node')
-			->orderBy('node.root, node.lft', 'ASC')
+			->orderBy('node.root, node.lft, node.sort', 'ASC')
 			->where('node.menu = :menu_id')
 			->setParameter('menu_id', $id)
 			->getQuery();

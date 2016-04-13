@@ -226,7 +226,7 @@ class ItemController extends Controller
     {
         //$env = $this->container->getParameter("kernel.environment");
         //echo '<pre>' . print_r('Удаление кеша '.$menu_id, true) . '</pre>'; exit;
-        $cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+        $cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
         $cacheDriver->setNamespace('menu_prod_' . $menu_id);
         $cacheDriver->deleteAll();
         $cacheDriver->setNamespace('menu_dev_' . $menu_id);
