@@ -177,7 +177,7 @@ class DefaultController extends Controller
                             return $response;
                         }
                         $page = $this->getPageArray($page);
-                        $pageTemplate = $page->getTemplate();
+                        $pageTemplate = $page->getTemplate(false, $page->getTemplate());
                         $response = $this->render($pageTemplate,
                             array(
                                 'page' => $page,
@@ -219,8 +219,8 @@ class DefaultController extends Controller
                 }
             }
 
-            //$page = $this->getPageArray($page);
-            $pageTemplate = $this->getTemplate();
+            $pageTemplate = $this->getTemplate(false, $page->getTemplate());
+
             $response = $this->render($pageTemplate,
                 array(
                     'page' => $page,
