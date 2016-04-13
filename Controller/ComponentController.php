@@ -1231,6 +1231,35 @@ class ComponentController extends Controller
 	}
 
 
+	private function setSectionsPictures($sections){
+		$em = $this->getDoctrine()->getManager();
+		$files_id = array();
+		foreach ($sections as $e) {
+			$files_id[] = $e['preview_picture'];
+		}
+		$files_id = array_filter(array_unique($files_id));
+		if ($files_id) {
+			$repo = $em->createQueryBuilder('n');
+			$repo = $repo->from('NovuscomCMFBundle:File', 'n', 'n.id');
+			$repo = $repo->select('n.id, n.name, n.size, n.description, n.type');
+			$repo = $repo->andWhere('n.id IN(:files_id)');
+			$repo = $repo->setParameter('files_id', $files_id);
+			$repo = $repo->getQuery();
+			$sql = $repo->getSql();
+			$preview_pictures = $repo->getResult();
+		}
+		foreach ($sections as $key => $e) {
+			if ($e['preview_picture'] && array_key_exists($e['preview_picture'], $preview_pictures)) {
+				$array = $preview_pictures[$e['preview_picture']];
+				$array['src'] = 'upload/images/' . $array['name'];
+				$array['path'] = $array['src'];
+				$sections[$key]['preview_picture'] = $array;
+			}
+		}
+		return $sections;
+	}
+
+
 	/**
 	 * Список разделов инфоблока
 	 * @param array $params Параметры компонента
@@ -1293,30 +1322,10 @@ class ComponentController extends Controller
 			));
 
 
-			
-			$files_id = array();
-			foreach ($sections as $e) {
-				$files_id[] = $e['preview_picture'];
-			}
-			$files_id = array_filter(array_unique($files_id));
-			if ($files_id) {
-				$repo = $em->createQueryBuilder('n');
-				$repo = $repo->from('NovuscomCMFBundle:File', 'n', 'n.id');
-				$repo = $repo->select('n.id, n.name, n.size, n.description, n.type');
-				$repo = $repo->andWhere('n.id IN(:files_id)');
-				$repo = $repo->setParameter('files_id', $files_id);
-				$repo = $repo->getQuery();
-				$sql = $repo->getSql();
-				$preview_pictures = $repo->getResult();
-			}
-			foreach ($sections as $key => $e) {
-				if ($e['preview_picture'] && array_key_exists($e['preview_picture'], $preview_pictures)) {
-					$array = $preview_pictures[$e['preview_picture']];
-					$array['src'] = 'upload/images/' . $array['name'];
-					$array['path'] = $array['src'];
-					$sections[$key]['preview_picture'] = $array;
-				}
-			}
+			/*
+			 * Картинки разделов
+			 */
+			$sections = $this->setSectionsPictures($sections);
 
 			/**
 			 * Данные попадающие в шаблон
@@ -1430,6 +1439,12 @@ class ComponentController extends Controller
 				'block_id' => $params['BLOCK_ID'],
 				'section_id' => $section->getId()
 			), $fullCode);
+
+			/*
+			 * Картинки разделов
+			 */
+			$sections = $this->setSectionsPictures($sections);
+			$subSections = $this->setSectionsPictures($subSections);
 
 			//echo '<pre>'.print_r($section->getId(), true).'</pre>';
 
