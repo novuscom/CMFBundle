@@ -241,8 +241,10 @@ class DefaultController extends Controller
         return $response;
     }
 
-    private function getTemplate($templateDir = false, $templateCode = 'default')
+    private function getTemplate($templateDir = false, $templateCode = false)
     {
+	    if (!trim($templateCode))
+		    $templateCode = 'default';
 	    $site = $this->getSite();
         return $template = '@templates/' . $site['code'] . '/Pages/' . $templateCode . '.html.twig';
     }
