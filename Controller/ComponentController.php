@@ -750,7 +750,7 @@ class ComponentController extends Controller
 			$section_codes_array = $codes_array;
 			if ($existParams && $route_params['params']['controller_code'] == 'section') {
 				$logger->info('Создаем хлебные крошки для раздела');
-				$crumbs = $this->getCrumbsForSection($route_params['CODE'], $route_params, $crumbs, $codes_array);
+				$crumbs = $this->getCrumbsForSection($route_params['SECTION_CODE'], $route_params, $crumbs, $codes_array);
 			}
 
 			/*
@@ -1346,7 +1346,7 @@ class ComponentController extends Controller
 		return $result;
 	}
 
-	public function SectionAction($params, $CODE, Request $request, $PAGE = 1)
+	public function SectionAction($params, $SECTION_CODE, Request $request, $PAGE = 1)
 	{
 		$logger = $this->get('logger');
 		$logger->info('SectionAction');
@@ -1364,7 +1364,7 @@ class ComponentController extends Controller
 		$logger->info('Директория кеша = ' . $cacheDir);
 		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($cacheDir);
 		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
-		$fullCode = trim($CODE, '/');
+		$fullCode = trim($SECTION_CODE, '/');
 		$cacheDriver->setNamespace('SectionAction_' . $env . '_' . $params['BLOCK_ID'] . '_' . $fullCode);
 		$cacheId = $fullCode . '[page=' . $PAGE . ']';
 		$logger->info('Cache id = ' . print_r($cacheId, true));
@@ -1389,10 +1389,10 @@ class ComponentController extends Controller
 			 * Раздел
 			 */
 			$SectionClass = $this->get('SectionClass');
-			$section = $SectionClass->GetSectionByPath($CODE, $params['BLOCK_ID'], $routeOptions);
+			$section = $SectionClass->GetSectionByPath($SECTION_CODE, $params['BLOCK_ID'], $routeOptions);
 			if (!$section) {
-				$logger->notice('Раздел не найден по пути ' . $CODE . '');
-				throw $this->createNotFoundException('Раздел не найден по пути ' . $CODE);
+				$logger->notice('Раздел не найден по пути ' . $SECTION_CODE . '');
+				throw $this->createNotFoundException('Раздел не найден по пути ' . $SECTION_CODE);
 			}
 			$section->setFullCode($fullCode);
 
