@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 $(document).ready(function () {
     $('[data-delete]').click(function (e) {
-        if (!confirm('Вы действительно хотите удалить этот материал?'))
+        if (!confirm('РЈРґР°Р»РёС‚СЊ?'))
             e.preventDefault();
         else
             return true
@@ -23,7 +23,7 @@ $(document).ready(function () {
     //imageDelete();
     /*$('[data-translit]').liTranslit({
      elAlias: $('[data-translit-alias]'),
-     reg: '"ё"="yo"," "="-","й"="i"'
+     reg: '"пїЅ"="yo"," "="-","пїЅ"="i"'
      //status:false
      });*/
 });
@@ -45,7 +45,6 @@ function propertyImages() {
         //console.log(attr);
         if (attr !== undefined) {
             var data = $.parseJSON(attr);
-            console.log(data);
             var parent = $(o).parents('.form-group:eq(0)');
             var cnt = parent.find('.cmf-form-collection');
 
@@ -56,8 +55,8 @@ function propertyImages() {
                     var img =
                         '<div class="image"><a href="' + o['original_path'] + '" target="_blank"><img alt="" src="' + o['path'] + '" /></a>' +
                         '<ul>' +
-                        '<li><a href="#" class="file-replace" data-file-id="' + o['file_id'] + '" data-property-id="' + o['property_id'] + '">заменить</a></li>' +
-                        '<li><a href="#" class="file-delete">удалить</a></li>' +
+                        '<li><a href="#" class="file-replace" data-file-id="' + o['file_id'] + '" data-property-id="' + o['property_id'] + '">Р·Р°РјРµРЅРёС‚СЊ</a></li>' +
+                        '<li><a href="#" class="file-delete">СѓРґР°Р»РёС‚СЊ</a></li>' +
                         '</ul>' +
                         '</div>';
                     //console.log(img);
@@ -80,7 +79,6 @@ function addFieldInCollection() {
         tpl.find('.cmf-form-collection__label').html('<label>' + num + '</label>');
         tpl.find('.cmf-form-collection__field').prepend(newField);
         tpl.removeClass('cmf-form-collection__template').show();
-        // Здесь обработка
         parent.find('.cmf-form-collection__list').append(tpl);
     });
     $('body').on('click', '.cmf-form-collection__button-remove', function (e) {
