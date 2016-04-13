@@ -246,6 +246,12 @@ cmf_page_frontend:
     requirements:
         name: .+
 
+cmf_page_frontend_clear:
+    path:     /{name}
+    defaults: { _controller: NovuscomCMFBundle:Default:index }
+    requirements:
+        name: .+
+
 page:
     path:     /{url}/
     defaults: { _controller: NovuscomCMFBundle:Default:index }

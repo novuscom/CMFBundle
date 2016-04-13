@@ -273,6 +273,8 @@ class TemplateExtension extends \Twig_Extension
 			$e['name'] = html_entity_decode($this->typograf($e['name']));
 			if (preg_match('/^(http|https|ftp):\/\//', $e['url']))
 				$url = $e->getUrl();
+			else if (preg_match('/\.(html|xml|php|htm)$/', $e['url']))
+				$url = $this->urlGenerator->generate('cmf_page_frontend_clear', array('name' => $e['url']));
 			else
 				$url = $this->urlGenerator->generate('cmf_page_frontend', array('name' => $e['url']));
 			$item = $menu->addChild($e['name'], array('uri' => $url, 'attributes' => array(

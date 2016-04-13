@@ -1292,12 +1292,8 @@ class ComponentController extends Controller
 				'block_id' => $BLOCK_ID,
 			));
 
-			//echo '<pre>' . print_r($sections, true) . '</pre>';
-			//exit;
 
-			/*
-			 *
-			 */
+			
 			$files_id = array();
 			foreach ($sections as $e) {
 				$files_id[] = $e['preview_picture'];
@@ -1322,9 +1318,6 @@ class ComponentController extends Controller
 				}
 			}
 
-			//echo '<pre>' . print_r($sections, true) . '</pre>';
-			//exit;
-
 			/**
 			 * Данные попадающие в шаблон
 			 */
@@ -1335,8 +1328,6 @@ class ComponentController extends Controller
 			$response_data['params'] = $params;
 			$response_data['header'] = $page->getHeader();
 			$response_data['elements'] = $this->getElementsList($BLOCK_ID, false, $params);
-
-			echo '<pre>' . print_r($response_data['elements'], true) . '</pre>';
 
 			//echo '<pre>' . print_r($sections, true) . '</pre>';
 			$Site = $this->get('Site');

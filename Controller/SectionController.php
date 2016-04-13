@@ -348,7 +348,7 @@ class SectionController extends Controller
 	public function sections_listAction($block_id = false, $section_id = null, $template_code = "default", $get_elements = null, $params)
 	{
 		//$cache = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/sys/components/sections_list/');
-		$cache = new \Doctrine\Common\Cache\ApcCache();
+		$cache = new \Doctrine\Common\Cache\ApcuCache();
 		$cacheId = md5(json_encode(array('block_id' => $block_id, 'section_id' => $section_id, 'template_code' => $template_code, 'get_elements' => $get_elements)));
 		//echo '<pre>' . print_r($cache->fetch($cacheId), true) . '</pre>';
 		if ($fooString = $cache->fetch($cacheId)) {
