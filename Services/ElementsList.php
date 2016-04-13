@@ -3,10 +3,10 @@
 namespace Novuscom\CMFBundle\Services;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Novuscom\CMFBundle\Entity\ElementSection;
 use Doctrine\DBAL\Types\BooleanType;
-use Novuscom\CMFBundle\Services\Section as SectionService;
 use Monolog\Logger;
+use Novuscom\CMFBundle\Entity\ElementSection;
+use Novuscom\CMFBundle\Services\Section as SectionService;
 
 class ElementsList
 {
@@ -68,7 +68,8 @@ class ElementsList
 
 	public function setSectionId($id)
 	{
-		$this->sections[] = $id;
+		if ($id)
+			$this->sections[] = $id;
 	}
 
 	public function getSectionsId()
@@ -100,6 +101,23 @@ class ElementsList
 		return $this->order;
 	}
 
+	private $block;
+
+	private function setBlock()
+	{
+		$repo = $this->em->getRepository('NovuscomCMFBundle:Block');
+		$block = $repo->findBy(array('id' => $this->getBlockId()));
+		$this->block = $block;
+		return $block;
+	}
+
+	public function getBlock()
+	{
+		if (empty($this->block))
+			$this->setBlock();
+		return $this->block;
+	}
+
 	/**
 	 * @var array
 	 */
@@ -122,8 +140,20 @@ class ElementsList
 		$this->selectProperties = $code_array;
 	}
 
+	private function setSelectProperties()
+	{
+		$properties = $this->getBlock()->getProperty();
+		$propCodes = array();
+		foreach ($properties as $p) {
+			$propCodes[] = $p->getCode();
+		}
+		$this->selectProperties($propCodes);
+	}
+
 	public function getSelectProperties()
 	{
+		if (empty($this->selectProperties))
+			$this->setSelectProperties();
 		return $this->selectProperties;
 	}
 
@@ -151,14 +181,25 @@ class ElementsList
 		return $this->random;
 	}
 
+
+	private $idArray = array();
+
+	private function getIdArray(){
+		return $this->idArray;
+	}
+
+	public function setIdArray($array = array()){
+		$this->idArray = $array;
+	}
+
 	public function getResult()
 	{
-
 		$get_preview_picture = in_array('preview_picture', $this->getSelect());
 
 		$em = $this->em;
 		$logger = $this->logger;
 		$section_elements_id = false;
+		//echo '<pre>' . print_r($this->getSectionsId(), true) . '</pre>';
 		if ($this->getSectionsId()) {
 			$sectionRepo = $em->getRepository('NovuscomCMFBundle:Section');
 			$Sections = $sectionRepo->findBy(array('id' => $this->getSectionsId()));
@@ -193,6 +234,18 @@ class ElementsList
 				return array();
 			}
 		}
+		else {
+			$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array('section' => null));
+			$elementsId = array();
+			foreach ($ElementSection as $es) {
+				$elementsId[] = $es->getElement()->getId();
+			}
+			$this->setIdArray($elementsId);
+			if (empty($elementsId)) {
+				$logger->info('Нет элементов без раздела ' . implode(', ', $this->getSectionsId()) . '. Возвращается пустой массив.');
+				return array();
+			}
+		}
 		$elements_repo = $em->createQueryBuilder('n');
 		$elements_repo->from('NovuscomCMFBundle:Element', 'n', 'n.id');
 		$elements_repo->select('n.name');
@@ -223,14 +276,17 @@ class ElementsList
 			$elements_repo->andWhere('n.id NOT IN(:not_id)');
 			$elements_repo->setParameter('not_id', $this->getNotId());
 		}
+		if ($this->getIdArray()) {
+			$elements_repo->andWhere('n.id IN(:id_array)');
+			$elements_repo->setParameter('id_array', $this->getIdArray());
+		}
 		$order = $this->getOrder();
 
 		if ($order) {
-			foreach($order as $key=>$val) {
+			foreach ($order as $key => $val) {
 				$elements_repo->addOrderBy('n.' . $key, $val);
 			}
-		}
-		else {
+		} else {
 			//echo '<pre>' . print_r('Стандартьная сортировка', true) . '</pre>';
 			$elements_repo->orderBy('n.id', 'desc');
 			$elements_repo->addOrderBy('n.sort', 'asc');
@@ -243,6 +299,7 @@ class ElementsList
 		$query = $elements_repo->getQuery();
 		$sql = $query->getSql();
 		$this->sql = $sql;
+		//echo '<pre>' . print_r($sql, true) . '</pre>';
 		$elements = $query->getResult();
 
 		/**

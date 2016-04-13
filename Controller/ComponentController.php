@@ -2,44 +2,43 @@
 
 namespace Novuscom\CMFBundle\Controller;
 
-use Novuscom\CMFBundle\Event\UserSubscriber;
-use Novuscom\CMFBundle\Services\Utils;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\HttpFoundation\Request as Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Novuscom\CMFBundle\Entity\SiteBlock;
-use Novuscom\CMFBundle\Entity\Site;
-use Novuscom\CMFBundle\Entity\Block;
-use Novuscom\CMFBundle\Form\BlockType;
-use Novuscom\CMFBundle\Form\RegisterType;
-use Novuscom\CMFBundle\Form\LoginType;
-use Novuscom\CMFBundle\Form\OrderType;
-use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
-use Novuscom\CMFBundle\UserEvents;
-use Novuscom\CMFBundle\Entity\Product;
-use Novuscom\CMFBundle\Entity\Order;
-use Novuscom\CMFBundle\Entity\SearchQuery;
-use Novuscom\CMFBundle\Services\Section as Section;
-use \Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\ArrayCollection;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\Event\UserEvent;
+use FOS\UserBundle\FOSUserEvents;
+use FOS\UserBundle\Util\TokenGenerator;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\Renderer\ListRenderer;
 use LSS\Array2XML;
-
-
-use FOS\UserBundle\Event\UserEvent;
-use FOS\UserBundle\FOSUserEvents;
-use FOS\UserBundle\Event\GetResponseUserEvent;
-use FOS\UserBundle\Event\FormEvent;
-use FOS\UserBundle\Util\TokenGenerator;
-use FOS\UserBundle\Event\FilterUserResponseEvent;
+use Novuscom\CMFBundle\Entity\Block;
+use Novuscom\CMFBundle\Entity\Order;
+use Novuscom\CMFBundle\Entity\Product;
+use Novuscom\CMFBundle\Entity\SearchQuery;
+use Novuscom\CMFBundle\Entity\Site;
+use Novuscom\CMFBundle\Entity\SiteBlock;
+use Novuscom\CMFBundle\Event\UserEvent as CMFUserEvent;
+use Novuscom\CMFBundle\Event\UserSubscriber;
+use Novuscom\CMFBundle\Form\BlockType;
+use Novuscom\CMFBundle\Form\LoginType;
+use Novuscom\CMFBundle\Form\OrderType;
+use Novuscom\CMFBundle\Form\RegisterType;
+use Novuscom\CMFBundle\Services\Section as Section;
+use Novuscom\CMFBundle\Services\Utils;
+use Novuscom\CMFBundle\UserEvents;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request as Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Validator\Constraints\DateTime;
+
 
 /**
  * Block controller.
@@ -723,8 +722,7 @@ class ComponentController extends Controller
 			} elseif ($pageRoute && $route_params['name']) {
 				$Page = $this->get('Page');
 				$page = $Page->findPage($route_params['name']);
-			}
-			else {
+			} else {
 				$Page = $this->get('Page');
 				$page = $Page->getRoot();
 			}
@@ -1170,8 +1168,7 @@ class ComponentController extends Controller
 			}
 			if (isset($params['params']['template_directory'])) {
 				$template_code = $params['params']['template_directory'];
-			}
-			else {
+			} else {
 				$template_code = $params['template_code'];
 			}
 			$template_dir = $site->getCode();
@@ -1197,7 +1194,6 @@ class ComponentController extends Controller
 	}
 
 
-
 	/*    private function getCrumbs($page_id, $section = false)
 		{
 			$em = $this->getDoctrine()->getManager();
@@ -1219,6 +1215,21 @@ class ComponentController extends Controller
 			}
 			return $crumbs;
 		}*/
+
+
+	private function getElementsList($blockId, $sectionId = false, $params)
+	{
+		$ElementsList = $this->get('ElementsList');
+		$ElementsList->setBlockId($blockId);
+		$ElementsList->setSectionId($sectionId);
+		$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
+		$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
+		if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
+			$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
+		$elements = $ElementsList->getResult();
+		return $elements;
+	}
+
 
 	/**
 	 * Список разделов инфоблока
@@ -1323,6 +1334,9 @@ class ComponentController extends Controller
 			$response_data['page'] = $page;
 			$response_data['params'] = $params;
 			$response_data['header'] = $page->getHeader();
+			$response_data['elements'] = $this->getElementsList($BLOCK_ID, false, $params);
+
+			echo '<pre>' . print_r($response_data['elements'], true) . '</pre>';
 
 			//echo '<pre>' . print_r($sections, true) . '</pre>';
 			$Site = $this->get('Site');
