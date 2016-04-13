@@ -25,7 +25,7 @@ class SectionValidator extends ConstraintValidator
 		$parentSection = $this->getRepo()->find($this->object->getParentId());
 		$block = $this->getBlockRepo()->find($this->object->getBlockId());
 		$limit = $block->getParam('SECTIONS_LEVEL_LIMIT');
-		if ($parentSection->getLevel() >= $limit) {
+		if ($limit and $parentSection->getLevel() >= $limit) {
 			$this->context->buildViolation('Нельзя добавить раздел по причине ограничения вложенности (' . $limit . ')')
 				->atPath('name')
 				->addViolation();
