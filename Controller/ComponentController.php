@@ -1168,7 +1168,7 @@ class ComponentController extends Controller
 			if ($page) {
 				$response_data['page'] = $page;
 			}
-			if ($params['params']['template_directory']) {
+			if (isset($params['params']['template_directory'])) {
 				$template_code = $params['params']['template_directory'];
 			}
 			else {
