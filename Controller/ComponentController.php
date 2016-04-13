@@ -1328,7 +1328,7 @@ class ComponentController extends Controller
 			$response_data['params'] = $params;
 			$response_data['header'] = $page->getHeader();
 			$response_data['elements'] = $this->getElementsList($BLOCK_ID, false, $params);
-
+			$response_data['title'] = $page->getTitle();
 			//echo '<pre>' . print_r($sections, true) . '</pre>';
 			$Site = $this->get('Site');
 			$site = $Site->getCurrent();
