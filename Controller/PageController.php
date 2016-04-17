@@ -215,17 +215,18 @@ class PageController extends Controller
 	}
 
 	/**
-	 * Displays a form to create a new Page entity.
-	 *
+	 * @param $site_id
+	 * @return mixed
 	 */
 	public function newAction($site_id)
 	{
-		//print_r($site_id); exit;
+		$em = $this->getDoctrine()->getManager();
 		$entity = new Page();
 		$form = $this->createCreateForm($entity, $site_id);
-
+		$site = $em->getRepository('NovuscomCMFBundle:Site')->find($site_id);
 		return $this->render('NovuscomCMFBundle:Page:new.html.twig', array(
 			'entity' => $entity,
+			'site' => $site,
 			'form' => $form->createView(),
 		));
 	}

@@ -15,12 +15,16 @@
             </a>
         </div>
     </div>
-
 {% endblock %}
 {% block javascript %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            TinyMCEStart('#cmf_pagebundle_page_content', 'extreme');
-        });
-    </script>
+    {{ elfinder_tinymce_init4('tinymce') }}
+    {{ tinymce_init({'theme': {
+        'simple': {
+            content_css: [
+            '/templates/'~site.code~'/css/template_styles.css',
+            '/admin/dist/css/tinymce.css'
+            ],
+            body_class: 'tinymce_body'
+        }
+    }}) }}
 {% endblock %}

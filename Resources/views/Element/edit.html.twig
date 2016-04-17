@@ -112,5 +112,13 @@
 
 {% block javascript %}
     {{ elfinder_tinymce_init4('tinymce') }}
-    {{ tinymce_init() }}
+    {{ tinymce_init({'theme': {
+        'simple': {
+            content_css: [
+                '/templates/'~entity.block.sites[0].code~'/css/template_styles.css',
+                '/admin/dist/css/tinymce.css'
+            ],
+            body_class: 'tinymce_body'
+        }
+    }}) }}
 {% endblock %}
