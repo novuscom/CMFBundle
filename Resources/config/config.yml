@@ -173,7 +173,7 @@ fm_elfinder:
                               maxWidth: 1920
                               maxHeight: 1080
                               quality: 95 # JPEG image save quality
-                      upload_allow: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif']
+                      upload_allow: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'application/pdf']
                       upload_deny: ['all']
                       upload_max_size: 2M
 
