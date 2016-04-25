@@ -454,7 +454,9 @@ class Block
 
 	public function setParamsArray()
 	{
-		$array = json_decode($this->params, true);
+		$array = json_decode($this->getParams(), true);
+		if (is_array($array)==false)
+			$array = array();
 		$this->paramsArray = $array;
 		return $array;
 	}
@@ -468,6 +470,9 @@ class Block
 	{
 		if (!$this->paramsArray)
 			$this->setParamsArray();
+		//echo '<pre>' . print_r($key, true) . '</pre>';
+		//echo '<pre>' . print_r($this->getParamsArray(), true) . '</pre>';
+		//exit;
 		if (array_key_exists($key, $this->paramsArray))
 			return $this->paramsArray[$key];
 		return null;
