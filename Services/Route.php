@@ -31,7 +31,7 @@ class Route
 		if (in_array('PAGE', $routeInfo['vars']))
 			return false;
 		$routeParams = array();
-		if (in_array('CODE', $routeInfo['vars'])) {
+		if (in_array('CODE', $routeInfo['vars']) && in_array('SECTION_CODE', $routeInfo['vars'])) {
 			if (get_class($object) == 'Novuscom\CMFBundle\Entity\Element') {
 				$routeParams['CODE'] = $object->getCode();
 			}
@@ -41,7 +41,6 @@ class Route
 			}
 		}
 		if (in_array('SECTION_CODE', $routeInfo['vars'])) {
-			//$this->Utils->msg(get_class($object));
 			if (get_class($object) == 'Novuscom\CMFBundle\Entity\Element') {
 				$sections = $object->getSection();
 				$section = $sections[0]->getSection();
@@ -52,10 +51,9 @@ class Route
 		if (in_array('ID', $routeInfo['vars']))
 			$routeParams['ID'] = $object->getId();
 		if ($routeParams) {
-			//$this->Utils->msg($object->getName());
-			//$this->Utils->msg($routeParams);
 			$url = $this->Router->generate($routeCode, $routeParams);
 		}
+		$url = str_replace('//', '/', $url);
 		return $url;
 	}
 

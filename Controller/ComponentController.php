@@ -157,44 +157,37 @@ class ComponentController extends Controller
 			$url = $prefix . $url;
 			$urlArray[] = $url;
 		}
-
-
 		foreach ($routes as $r) {
 			$params = json_decode($r->getParams(), true);
-			/*$this->msg($r->getName());
-			$this->msg($r->getCode());
-			$this->msg($r->getTemplate());
-			$this->msg($r->getController());*/
 			if ($r->getBlock() == false)
 				continue;
-			foreach ($r->getBlock()->getElement() as $element) {
-				if ($element->getActive() == false)
-					continue;
-				$url = false;
-				if ($r->getController() == 'NovuscomCMFBundle:Component:Element')
+			if ($r->getController() == 'NovuscomCMFBundle:Component:Element') {
+				foreach ($r->getBlock()->getElement() as $element) {
+					if ($element->getActive() == false)
+						continue;
 					$url = $Route->getUrl($r->getCode(), $element);
-				if ($url !== false) {
-					$url = $prefix . $url;
-					$urlArray[] = $url;
-				}
-			}
-			foreach ($r->getBlock()->getSection() as $section) {
-				$url = false;
-				if ($r->getController() == 'NovuscomCMFBundle:Component:Section')
-					$url = $Route->getUrl($r->getCode(), $section);
-				if ($url !== false) {
-					$url = $prefix . $url;
-					$urlArray[] = $url;
-				}
-			}
+					if ($url) {
+						$url = $prefix . $url;
+						$urlArray[] = $url;
+					}
 
+				}
+			}
+			if ($r->getController() == 'NovuscomCMFBundle:Component:Section') {
+				foreach ($r->getBlock()->getSection() as $section) {
+					$url = $Route->getUrl($r->getCode(), $section);
+					if ($url !== false) {
+						$url = $prefix . $url;
+						$urlArray[] = $url;
+					}
+				}
+			}
 		}
 		$urlArray = array_unique($urlArray);
 		sort($urlArray);
 		foreach ($urlArray as $u) {
 			$needRoutes['url'][]['loc'][] = $u;
 		}
-
 		$xml = Array2XML::createXML('urlset', $needRoutes)->saveXML();
 		$response = new Response();
 		$response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
@@ -939,8 +932,9 @@ class ComponentController extends Controller
 			$section = false;
 			$elementsId = array();
 
+			$SectionClass = $this->get('SectionClass');
+
 			if ($SECTION_CODE) {
-				$SectionClass = $this->get('SectionClass');
 				$section = $SectionClass->GetSectionByPath($SECTION_CODE, $block_id, $params['params']);
 				$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array('section' => $section));
 				foreach ($ElementSection as $es) {
@@ -949,6 +943,14 @@ class ComponentController extends Controller
 				if (!$elementsId) {
 					$logger->notice('Не найдены элементы в разделе [' . $SECTION_CODE . ']');
 					throw $this->createNotFoundException('Элемент не найден');
+				}
+			}
+			else {
+				$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array(
+					'section' => null,
+				));
+				foreach ($ElementSection as $es) {
+					$elementsId[] = $es->getElement()->getId();
 				}
 			}
 
@@ -1210,7 +1212,8 @@ class ComponentController extends Controller
 	}
 
 
-	private function setSectionsPictures($sections){
+	private function setSectionsPictures($sections)
+	{
 		$em = $this->getDoctrine()->getManager();
 		$files_id = array();
 		foreach ($sections as $e) {
