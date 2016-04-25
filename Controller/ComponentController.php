@@ -1194,29 +1194,6 @@ class ComponentController extends Controller
 	}
 
 
-	/*    private function getCrumbs($page_id, $section = false)
-		{
-			$em = $this->getDoctrine()->getManager();
-			$crumbs = $this->get("apy_breadcrumb_trail");
-			$repo = $em->getRepository('NovuscomCMFBundle:Page');
-			$page = $repo->find($page_id);
-			$path = $repo->getPath($page);
-			$codes_array = array();
-			foreach ($path as $p) {
-				if ($p->getLvl() == 0) {
-					$crumbs->add($p->getName(), 'cmf_page_main');
-				} else {
-					$codes_array[] = $p->getUrl();
-					$crumbs->add($p->getName(), 'cmf_page_frontend', array('name' => implode('/', $codes_array)));
-				}
-			}
-			if ($section) {
-				$crumbs->add($section->getName(), 'cmf_page_frontend', array('name' => $section->getCode()));
-			}
-			return $crumbs;
-		}*/
-
-
 	private function getElementsList($blockId, $sectionId = false, $params)
 	{
 		$ElementsList = $this->get('ElementsList');
@@ -1226,6 +1203,8 @@ class ComponentController extends Controller
 		$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
 		if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
 			$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
+		if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUBSECTIONS', $params['params']))
+			$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUBSECTIONS']);
 		$elements = $ElementsList->getResult();
 		return $elements;
 	}
@@ -1592,7 +1571,8 @@ class ComponentController extends Controller
 			/**
 			 * Элементы
 			 */
-			$ElementsList = $this->get('ElementsList');
+			$elements = $this->getElementsList($params['BLOCK_ID'], false, $params);
+			/*$ElementsList = $this->get('ElementsList');
 			$ElementsList->setBlockId($params['BLOCK_ID']);
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
 			if (array_key_exists('SECTION_ID', $params))
@@ -1602,11 +1582,11 @@ class ComponentController extends Controller
 			if (array_key_exists('RANDOM', $params))
 				$ElementsList->setRandom(true);
 			// TODO Здесь в сервисе ElementList - выбирать все свойства
-			$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
+			//$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
 			$ElementsList->setFilter(array('active' => true));
 			$ElementsList->setLimit($params['LIMIT']);
 			$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
-			$elements = $ElementsList->getResult();
+			$elements = $ElementsList->getResult();*/
 
 
 			$pageEntity = $page_repository->find($params['page_id']);

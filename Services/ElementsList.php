@@ -2,10 +2,7 @@
 
 namespace Novuscom\CMFBundle\Services;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\DBAL\Types\BooleanType;
 use Monolog\Logger;
-use Novuscom\CMFBundle\Entity\ElementSection;
 use Novuscom\CMFBundle\Services\Section as SectionService;
 
 class ElementsList
@@ -184,16 +181,21 @@ class ElementsList
 
 	private $idArray = array();
 
-	private function getIdArray(){
+	private function getIdArray()
+	{
 		return $this->idArray;
 	}
 
-	public function setIdArray($array = array()){
+	public function setIdArray($array = array())
+	{
 		$this->idArray = $array;
 	}
 
 	public function getResult()
 	{
+		$root = null;
+		$this->logger->info('Получаем список элементов');
+
 		$get_preview_picture = in_array('preview_picture', $this->getSelect());
 
 		$em = $this->em;
@@ -201,6 +203,7 @@ class ElementsList
 		$section_elements_id = false;
 		//echo '<pre>' . print_r($this->getSectionsId(), true) . '</pre>';
 		if ($this->getSectionsId()) {
+			$root = false;
 			$sectionRepo = $em->getRepository('NovuscomCMFBundle:Section');
 			$Sections = $sectionRepo->findBy(array('id' => $this->getSectionsId()));
 			$sections_id = array();
@@ -233,18 +236,25 @@ class ElementsList
 				$logger->info('Нет элементов в разделах ' . implode(', ', $this->getSectionsId()) . '. Возвращается пустой массив.');
 				return array();
 			}
-		}
-		else {
-			$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array('section' => null));
+		} else {
+			$root = true;
+			/*
+			 * Не указаны разделы из которых надо брать элементы
+			 */
+			$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array(
+				'section' => null,
+			));
 			$elementsId = array();
 			foreach ($ElementSection as $es) {
-				$elementsId[] = $es->getElement()->getId();
+				if ($this->getBlockId() == $es->getElement()->getBlock()->getId())
+					$elementsId[] = $es->getElement()->getId();
 			}
 			$this->setIdArray($elementsId);
-			if (empty($elementsId)) {
-				$logger->info('Нет элементов без раздела ' . implode(', ', $this->getSectionsId()) . '. Возвращается пустой массив.');
-				return array();
-			}
+			if ($this->getIncludeSubSections() == false)
+				if (empty($elementsId)) {
+					$logger->info('Нет элементов без раздела ' . implode(', ', $this->getSectionsId()) . '. Возвращается пустой массив.');
+					return array();
+				}
 		}
 		$elements_repo = $em->createQueryBuilder('n');
 		$elements_repo->from('NovuscomCMFBundle:Element', 'n', 'n.id');
@@ -287,7 +297,6 @@ class ElementsList
 				$elements_repo->addOrderBy('n.' . $key, $val);
 			}
 		} else {
-			//echo '<pre>' . print_r('Стандартьная сортировка', true) . '</pre>';
 			$elements_repo->orderBy('n.id', 'desc');
 			$elements_repo->addOrderBy('n.sort', 'asc');
 		}
@@ -299,7 +308,6 @@ class ElementsList
 		$query = $elements_repo->getQuery();
 		$sql = $query->getSql();
 		$this->sql = $sql;
-		//echo '<pre>' . print_r($sql, true) . '</pre>';
 		$elements = $query->getResult();
 
 		/**
