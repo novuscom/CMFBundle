@@ -132,6 +132,7 @@ class Page
 			$root = $this->getRoot();
 
 			if (!$root) {
+				return false;
 				//throw $this->createNotFoundException('Страница не найдена');
 				//$this->setExceptionText('Страница не найдена');
 			}
