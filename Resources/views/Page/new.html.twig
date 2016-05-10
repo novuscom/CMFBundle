@@ -19,12 +19,12 @@
                         {{ form_row(form.header) }}
                     </div>
                     <div class="col-md-4">
-
-                        {{ form_row(form.url) }}
-
-
-                        {{ form_row(form.parent) }}
-
+						{% if form_config.options['SHOW_URL'] %}
+							{{ form_row(form.url) }}
+						{% endif %}
+						{% if form_config.options['SHOW_PARENT'] %}
+							{{ form_row(form.parent) }}
+						{% endif %}
                         {{ form_row(form.template) }}
                     </div>
                 </div>

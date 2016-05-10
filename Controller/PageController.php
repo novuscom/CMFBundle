@@ -228,6 +228,7 @@ class PageController extends Controller
 			'entity' => $entity,
 			'site' => $site,
 			'form' => $form->createView(),
+			'form_config' => $form->getConfig(),
 		));
 	}
 
