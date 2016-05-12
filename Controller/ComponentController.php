@@ -934,6 +934,20 @@ class ComponentController extends Controller
 
 			$SectionClass = $this->get('SectionClass');
 
+			//Utils::msg($SECTION_CODE); exit;
+			//Utils::msg($CODE); exit;
+
+
+			/**
+			 * Получение информации о страницах
+			 */
+			$page = false;
+			if (array_key_exists('page_id', $params))
+				$page = $page_repository->find($params['page_id']);
+
+
+
+
 			if ($SECTION_CODE) {
 				$section = $SectionClass->GetSectionByPath($SECTION_CODE, $block_id, $params['params']);
 				$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array('section' => $section));
@@ -946,9 +960,13 @@ class ComponentController extends Controller
 				}
 			}
 			else {
-				$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array(
-					'section' => null,
-				));
+				//Utils::msg($params);
+				//exit;
+				$fb = array();
+				if ($page->getLvl()!=0) {
+					$fb['section'] = null;
+				}
+				$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy($fb);
 				foreach ($ElementSection as $es) {
 					$elementsId[] = $es->getElement()->getId();
 				}
@@ -985,12 +1003,7 @@ class ComponentController extends Controller
 				}
 			}
 
-			/**
-			 * Получение информации о страницах
-			 */
-			$page = false;
-			if (array_key_exists('page_id', $params))
-				$page = $page_repository->find($params['page_id']);
+
 
 
 			/**
