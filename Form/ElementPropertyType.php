@@ -2,7 +2,9 @@
 
 namespace Novuscom\CMFBundle\Form;
 
+use Monolog\Handler\Curl\Util;
 use Novuscom\CMFBundle\Entity\Element;
+use Novuscom\CMFBundle\Services\Utils;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -100,7 +102,7 @@ class ElementPropertyType extends AbstractType
 						$choices[$e->getName()] = $e->getId();
 					}
 					//echo '<pre>' . print_r($choices, true) . '</pre>';
-					if (array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true) {
+					if (is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true) {
 
 						//$FPECollection = new \Doctrine\Common\Collections\ArrayCollection();
 
@@ -169,8 +171,9 @@ class ElementPropertyType extends AbstractType
 							'label' => $p->getName(),
 							'mapped' => false,
 						);
-						if (isset($this->data['VALUES'][$p->getId()]) && is_numeric($this->data['VALUES'][$p->getId()])) {
-							$choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
+						//Utils::msg($options['data']['VALUES'][$p->getId()][0]);
+						if (isset($options['data']['VALUES'][$p->getId()]) && is_numeric($options['data']['VALUES'][$p->getId()][0])) {
+							$choiceOptions['data'] = $options['data']['VALUES'][$p->getId()][0];
 						}
 						$builder->add($p->getId(), ChoiceType::class, $choiceOptions);
 					}
@@ -275,8 +278,8 @@ class ElementPropertyType extends AbstractType
 						'mapped' => false,
 						'required' => false,
 					);
-					if (isset($this->data['VALUES'][$p->getId()])) {
-						$field_options['data'] = $this->data['VALUES'][$p->getId()][0];
+					if (isset($options['data']['VALUES'][$p->getId()])) {
+						$field_options['data'] = $options['data']['VALUES'][$p->getId()][0];
 					}
 					$builder->add(
 						$p->getId(),
@@ -351,6 +354,7 @@ class ElementPropertyType extends AbstractType
 								'class' => 'form-control'
 							),
 						);
+
 						if (isset($options['data']['VALUES']) && is_array($options['data']['VALUES']) && array_key_exists($p->getId(), $options['data']['VALUES'])) {
 							$optionsArray['data'] = $options['data']['VALUES'][$p->getId()][0];
 						}
