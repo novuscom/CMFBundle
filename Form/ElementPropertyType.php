@@ -6,6 +6,7 @@ use Novuscom\CMFBundle\Entity\Element;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
@@ -31,7 +32,7 @@ class ElementPropertyType extends AbstractType
 		//$params = $request->get('_route_params');
 		//$block = $this->em->getRepository('NovuscomCMFBundle:Block')->find($params['id']);
 		//return true;
-		//echo '<pre>' . print_r(array_keys($options['data']), true) . '</pre>';
+		//echo '<pre>' . print_r(array_keys($options['data']['VALUES']), true) . '</pre>';
 		//exit;
 		//$builder->add('value');
 
@@ -41,6 +42,7 @@ class ElementPropertyType extends AbstractType
 			//echo '<pre>' . print_r($p->getType(), true) . '</pre>';
 			//echo '<pre>' . print_r($p->getInfo(), true) . '</pre>';
 			//$info = $p->getInfo();
+
 			$info = json_decode($p->getInfo(), true);
 			$is_multiple = (is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true);
 			$required = (is_array($info) && array_key_exists('REQUIRED', $info) && $info['REQUIRED'] == true);
@@ -87,7 +89,7 @@ class ElementPropertyType extends AbstractType
 					if (isset($this->data['VALUES'][$p->getId()]) && is_numeric($this->data['VALUES'][$p->getId()])) {
 						$choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
 					}
-					$builder->add($p->getId(), 'choice', $choiceOptions);
+					$builder->add($p->getId(), ChoiceType::class, $choiceOptions);
 					break;
 				case 'E':
 					$elements = $this->em->getRepository('NovuscomCMFBundle:Element')->findBy(array(
@@ -95,38 +97,39 @@ class ElementPropertyType extends AbstractType
 					));
 					$choices = array();
 					foreach ($elements as $e) {
-						$choices[$e->getId()] = $e->getName();
+						$choices[$e->getName()] = $e->getId();
 					}
 					//echo '<pre>' . print_r($choices, true) . '</pre>';
 					if (array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true) {
 
-						$FPECollection = new \Doctrine\Common\Collections\ArrayCollection();
+						//$FPECollection = new \Doctrine\Common\Collections\ArrayCollection();
 
 
 						//echo '<pre>' . print_r($this->data['VALUES'][$p->getId()], true) . '</pre>';
-						if (isset($this->data['VALUES']) && is_array($this->data['VALUES']) && array_key_exists($p->getId(), $this->data['VALUES'])) {
+						/*if (isset($this->data['VALUES']) && is_array($this->data['VALUES']) && array_key_exists($p->getId(), $this->data['VALUES'])) {
 							foreach ($this->data['VALUES'][$p->getId()] as $v) {
 								$FPE = new ElementProperty();
 								$FPE->setValue($v);
 								$FPECollection->add($FPE);
 							}
-						}
+						}*/
 
 
-						$builder->add($p->getId(), 'collection',
+						/*$builder->add($p->getId(), ChoiceType::class,
 							array(
-								'type' => new ElementPropertyEMultipleType(
-									$choices, array('PROPERTY' => $p)
-								),
+								//'type' => new ElementPropertyEMultipleType(
+								//	$choices, array('PROPERTY' => $p)
+								//),
+								'entry_type' => Element::class,
 								'mapped' => false,
 								'allow_add' => true,
 								'label' => $p->getName(),
 								'allow_delete' => true,
-								'cascade_validation' => true,
+								//'cascade_validation' => true,
 								'by_reference' => false,
 								'data' => $FPECollection
 							)
-						);
+						);*/
 
 
 						/*$builder->addEventListener(
@@ -142,7 +145,22 @@ class ElementPropertyType extends AbstractType
 							}
 						);*/
 
+						$choiceOptions = array(
+							'choices' => $choices,
+							'required' => false,
+							'multiple' => true,
+							'label' => $p->getName(),
+							'mapped' => false,
+						);
 
+						//echo '<pre>'.print_r($this->data['VALUES'], true).'</pre>';
+
+						if (isset($options['data']['VALUES'][$p->getId()]) && $options['data']['VALUES'][$p->getId()]) {
+							//$choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
+							//echo '<pre>'.print_r($options['data']['VALUES'][$p->getId()], true).'</pre>';
+							$choiceOptions['data'] = $options['data']['VALUES'][$p->getId()];
+						}
+						$builder->add($p->getId(), ChoiceType::class, $choiceOptions);
 					} else {
 						$choiceOptions = array(
 							'choices' => $choices,
@@ -154,7 +172,7 @@ class ElementPropertyType extends AbstractType
 						if (isset($this->data['VALUES'][$p->getId()]) && is_numeric($this->data['VALUES'][$p->getId()])) {
 							$choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
 						}
-						$builder->add($p->getId(), 'choice', $choiceOptions);
+						$builder->add($p->getId(), ChoiceType::class, $choiceOptions);
 					}
 
 
@@ -413,6 +431,7 @@ class ElementPropertyType extends AbstractType
 			//'data_class' => 'Novuscom\CMFBundle\Entity\FormProperty',
 			'data_class' => 'Novuscom\CMFBundle\Entity\ElementProperty',
 			'data' => null,
+			'test_option_kakaha' => false,
 		));
 		/*$resolver->setRequired(array(
 			'em',
@@ -432,7 +451,10 @@ class ElementPropertyType extends AbstractType
 
 	private $request;
 
-
+	public function __construct($em)
+	{
+		$this->em = $em;
+	}
 }
 
 

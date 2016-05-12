@@ -12,7 +12,7 @@ Novuscom\CMFBundle\Entity\File:
             type: string
             length: 255
         size:
-            type: smallint
+            type: mediumint
         description:
             type: string
             length: 255

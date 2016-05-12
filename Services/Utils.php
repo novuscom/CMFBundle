@@ -8,7 +8,7 @@ class Utils
 {
 	CONST VERSION = '0.0.7.4';
 
-	public function msg($object){
+	public static function msg($object){
 		echo '<pre>'.print_r($object, true).'</pre>';
 	}
 

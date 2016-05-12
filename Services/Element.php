@@ -7,10 +7,74 @@ use Symfony\Component\Routing\Router;
 use Doctrine\Common\Collections\ArrayCollection;
 use Monolog\Logger;
 use Novuscom\CMFBundle\Entity\ElementSection;
+use Novuscom\CMFBundle\Entity\ElementProperty;
 use Novuscom\CMFBundle\Services\Utils;
+
 
 class Element
 {
+
+	public function SetPropertyValues($element, array $properties = array())
+	{
+		if (!$properties)
+			return null;
+		$currentValues = $this->getPropertiesValues($element, array_keys($properties));
+		$removed = array();
+		$currentById = array();
+		foreach ($currentValues as $prop) {
+			if (array_key_exists($prop['property_id'], $properties)) {
+				$newValue = $properties[$prop['property_id']];
+				if (is_array($newValue)) {
+					if (in_array($prop['value'], $newValue) == false) {
+						$removed[] = $prop;
+					}
+					$currentById[$prop['property_id']][] = $prop['value'];
+				} else {
+					$currentById[$prop['property_id']] = $prop['value'];
+				}
+			}
+		}
+		$added = array();
+		foreach ($properties as $key => $value) {
+			if (is_array($value)) {
+				if (isset($currentById[$key]))
+					$currentVal = $currentById[$key];
+				else $currentVal = array();
+				$diff = array_diff($value, $currentVal);
+				foreach ($diff as $d) {
+					$added[] = array(
+						'value' => $d,
+						'description' => null,
+						'element_id' => $element->getId(),
+						'property_id' => $key,
+					);
+				}
+			}
+		}
+		//Utils::msg('-------added--------');
+		//Utils::msg($added);
+		//Utils::msg('-------removed--------');
+		//Utils::msg($removed);
+
+		foreach ($added as $addArray) {
+			$propertyReference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $addArray['property_id']);
+			$ep = new ElementProperty();
+			$ep->setDescription($addArray['description']);
+			$ep->setElement($element);
+			$ep->setProperty($propertyReference);
+			$ep->setValue($addArray['value']);
+			$this->em->persist($ep);
+		}
+
+		foreach ($removed as $removeArray) {
+			$ref = $this->em->getReference('Novuscom\CMFBundle\Entity\ElementProperty', $removeArray['id']);
+			$this->em->remove($ref);
+		}
+
+		$this->em->flush();
+		//exit;
+	}
+
 	public function GetById($id)
 	{
 		if (is_numeric($id) == false)
