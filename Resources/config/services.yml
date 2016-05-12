@@ -7,6 +7,11 @@ parameters:
     page_class:      Novuscom\CMFBundle\Controller\DefaultController
 
 services:
+    cmf.form.type.element_property:
+        class: Novuscom\CMFBundle\Form\ElementPropertyType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
     validator.section:
         class: Novuscom\CMFBundle\Validator\Constraints\SectionValidator
         tags:
@@ -55,6 +60,9 @@ services:
     ElementsList:
         class:        "%ElementsList.class%"
         scope: prototype
+        arguments: [ "@doctrine.orm.entity_manager", "@Element", "@logger", "@Section" ]
+    cmf.forms:
+        class:        Novuscom\CMFBundle\Services\Form
         arguments: [ "@doctrine.orm.entity_manager", "@Element", "@logger", "@Section" ]
     Crumbs:
         class:        "%Crumbs.class%"

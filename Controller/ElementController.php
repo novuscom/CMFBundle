@@ -4,6 +4,8 @@
 namespace Novuscom\CMFBundle\Controller;
 
 
+use Monolog\Handler\Curl\Util;
+use Novuscom\CMFBundle\Services\Utils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,6 +25,7 @@ use Novuscom\CMFBundle\Form\ElementType;
 use Novuscom\CMFBundle\Form\ElementPropertyType;
 use Novuscom\CMFBundle\Entity\Page;
 use Novuscom\CMFBundle\Entity\File;
+
 
 
 /**
@@ -887,7 +890,7 @@ class ElementController extends Controller
 				'element' => $entity,
 			)
 		);
-		// TODO Здесь можно сделать попроще и попонятней, чтобы в форму сразу попадала коллекция
+		
 		foreach ($ElementProperty as $ep) {
 			$epArray[$ep->getProperty()->getId()][] = $ep->getValue();
 		}
@@ -965,7 +968,8 @@ class ElementController extends Controller
 				//'allow_add' => true,
 				//'allow_delete' => true,
 				//'prototype' => true,
-				'data' => $data
+				'data' => $data,
+				//'options' => array('asdasdasdasd'), // не работает
 			));
 
 		//$form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-info')));
@@ -1149,6 +1153,11 @@ class ElementController extends Controller
 	}
 
 
+	public function getPropertiesValuesFromForm(){
+
+	}
+
+
 	/**
 	 * Edits an existing Element entity.
 	 *
@@ -1197,8 +1206,14 @@ class ElementController extends Controller
 				echo '<pre>' . print_r($property->get('code')->getData(), true) . '</pre>';
 			}*/
 
+			$FormService = $this->get('cmf.forms');
+			$props = $FormService->getElementProperties($editForm->get('properties'));
+			$Element->SetPropertyValues($entity, $props);
+
 			if ($editForm->has('properties')) {
 				//echo '<pre>' . print_r('У формы есть свойства', true) . '</pre>'; exit;
+
+				//Utils::msg($editForm->get('properties'));
 
 				/**
 				 * Собираем массив свойств
@@ -1210,8 +1225,10 @@ class ElementController extends Controller
 						//echo '<pre>' . print_r($p->getData(), true) . '</pre>';
 					}
 				}
-				$keys = array_keys($propArray);
+				//$keys = array_keys($propArray);
 				//echo '<pre>' . print_r($keys, true) . '</pre>'; exit;
+
+				//Utils::msg($propArray); exit;
 
 				/**
 				 * Получаем свойства элемента
@@ -1238,7 +1255,7 @@ class ElementController extends Controller
 						if (array_key_exists($ep->getProperty()->getId(), $propArray)) {
 							//echo '<pre>' . print_r('propArray[' . $ep->getProperty()->getId() . '] существует', true) . '</pre>';
 							$val = $propArray[$ep->getProperty()->getId()];
-							//echo '<pre>' . print_r($val, true) . '</pre>';
+							//Utils::msg($val);
 							if (!is_object($val)) {
 								//echo '<pre>' . print_r('Не объект', true) . '</pre>';
 								//echo '<pre>' . print_r($val, true) . '</pre>';
@@ -1361,9 +1378,10 @@ class ElementController extends Controller
 							if (is_array($property_value)) {
 								//echo '<hr/>Это массив:<pre>' . print_r($property_value, true) . '</pre><hr/>';
 								foreach ($property_value as $pv) {
-									//echo '<pre>' . print_r($pv, true) . '</pre>';
+									echo '<pre>' . print_r($pv, true) . '</pre>';
 
 									$file = new \Novuscom\CMFBundle\Entity\FormPropertyFile();
+									$ElementProperty = new ElementProperty();
 
 									if ($pv instanceof $file) {
 
@@ -1436,13 +1454,15 @@ class ElementController extends Controller
 										}
 
 									}
-									$ElementProperty = new ElementProperty();
-									if ($pv instanceof $ElementProperty) {
+									else if ($pv instanceof $ElementProperty) {
 										//echo '<pre>' . print_r('это свойство', true) . '</pre>';
 										$ElementProperty->setValue($pv->getValue());
 										$ElementProperty->setElement($entity);
 										$ElementProperty->setProperty($property);
 										$em->persist($ElementProperty);
+									}
+									else {
+										Utils::msg('Просто какое-то свойство');
 									}
 								}
 							} else {
@@ -1492,9 +1512,6 @@ class ElementController extends Controller
 
 
 			}
-			//echo '<pre>' . print_r($propArray, true) . '</pre>';
-			//exit;
-			//echo '<hr/>';
 
 
 			/**
