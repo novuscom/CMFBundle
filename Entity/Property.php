@@ -287,6 +287,49 @@ class Property
     {
         return $this->ElementPropertyDT;
     }
+
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $ElementPropertySection;
+
+
+    /**
+     * Add ElementPropertySection
+     *
+     * @param \Novuscom\CMFBundle\Entity\ElementPropertySection $elementPropertySection
+     * @return Property
+     */
+    public function addElementPropertySection(\Novuscom\CMFBundle\Entity\ElementPropertySection $elementPropertySection)
+    {
+        $this->ElementPropertySection[] = $elementPropertySection;
+
+        return $this;
+    }
+
+    /**
+     * Remove ElementPropertySection
+     *
+     * @param \Novuscom\CMFBundle\Entity\ElementPropertySection $elementPropertySection
+     */
+    public function removeElementPropertySection(\Novuscom\CMFBundle\Entity\ElementPropertySection $elementPropertySection)
+    {
+        $this->ElementPropertySection->removeElement($elementPropertySection);
+    }
+
+    /**
+     * Get ElementPropertySection
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getElementPropertySection()
+    {
+        return $this->ElementPropertySection;
+    }
+
+
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */

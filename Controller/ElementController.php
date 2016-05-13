@@ -929,7 +929,8 @@ class ElementController extends Controller
 			'VALUES' => $epArray,
 			'PROPERTY_FILE_VALUES' => $ElementPropertyFileId,
 			'LIIP' => $this->get('liip_imagine.cache.manager'),
-			'BLOCK_PROPERTIES' => $block->getProperty()
+			'BLOCK_PROPERTIES' => $block->getProperty(),
+			'ELEMENT_ENTITY' => $entity,
 		);
 
 
@@ -1489,6 +1490,8 @@ class ElementController extends Controller
 								$em->persist($ElementProperty);
 							} else {
 								foreach ($propArray[$property_id] as $k => $v) {
+									if ((is_object($v) && method_exists($v, 'getValue'))==false)
+										continue;
 									//echo '<pre>' . print_r($v, true) . '</pre>';
 									$ElementProperty = new ElementProperty();
 									$ElementProperty->setValue($v->getValue());
@@ -1499,7 +1502,7 @@ class ElementController extends Controller
 									$propArray[$property_id]->remove($k);
 									//break;
 								}
-								if ($propArray[$property_id]->isEmpty()) {
+								if (method_exists($propArray[$property_id],'isEmpty') && $propArray[$property_id]->isEmpty()) {
 									//echo '<pre>' . print_r('Удаляем коллекецию, т.к. она уже пустая', true) . '</pre>';
 									unset($propArray[$property_id]);
 								}

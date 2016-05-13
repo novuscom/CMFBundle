@@ -1,0 +1,38 @@
+Novuscom\CMFBundle\Entity\ElementPropertySection:
+    type: entity
+    table: null
+    repositoryClass: Novuscom\CMFBundle\Repository\ElementPropertySectionRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        description:
+            type: string
+            length: 255
+            nullable: true
+        propertyId:
+            type: integer
+            column: property_id
+    manyToOne:
+        element:
+            targetEntity: Element
+            inversedBy: ElementPropertySection
+            joinColumn:
+                name: element_id
+                referencedColumnName: id
+        property:
+            targetEntity: Property
+            inversedBy: ElementPropertySection
+            joinColumn:
+                name: property_id
+                referencedColumnName: id
+        section:
+            targetEntity: Section
+            inversedBy: ElementPropertySection
+            joinColumn:
+                name: section_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

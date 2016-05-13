@@ -383,6 +383,46 @@ class Section
 
 
 	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $ElementPropertySection;
+
+
+	/**
+	 * Add ElementPropertySection
+	 *
+	 * @param \Novuscom\CMFBundle\Entity\ElementPropertySection $ElementPropertySection
+	 * @return Section
+	 */
+	public function addElementPropertySection(\Novuscom\CMFBundle\Entity\ElementPropertySection $ElementPropertySection)
+	{
+		$this->ElementPropertySection[] = $ElementPropertySection;
+
+		return $this;
+	}
+
+	/**
+	 * Remove ElementPropertySection
+	 *
+	 * @param \Novuscom\CMFBundle\Entity\ElementPropertySection $ElementPropertySection
+	 */
+	public function removeElementPropertySection(\Novuscom\CMFBundle\Entity\ElementPropertySection $ElementPropertySection)
+	{
+		$this->ElementPropertySection->removeElement($ElementPropertySection);
+	}
+
+	/**
+	 * Get ElementPropertySection
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getElementPropertySection()
+	{
+		return $this->ElementPropertySection;
+	}
+
+
+	/**
 	 * @var integer
 	 */
 	private $parentId;

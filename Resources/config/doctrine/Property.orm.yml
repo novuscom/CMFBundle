@@ -45,4 +45,8 @@ Novuscom\CMFBundle\Entity\Property:
             targetEntity: ElementPropertyDT
             mappedBy: property
             cascade: ["persist"]
+        ElementPropertySection:
+            targetEntity: ElementPropertySection
+            mappedBy: property
+            cascade: ["persist"]
     lifecycleCallbacks: {  }

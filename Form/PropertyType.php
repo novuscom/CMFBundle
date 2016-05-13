@@ -48,6 +48,7 @@ class PropertyType extends AbstractType
 			'choices' => array(
 				'Строка' => 'S',
 				'Элемент' => 'E',
+				'Раздел' => 'SECTION',
 				'Файл' => 'F',
 				'Число' => 'N',
 				'Дата и время' => 'DATE_TIME',

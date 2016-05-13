@@ -410,6 +410,11 @@ class Element
      */
     private $ElementPropertyDT;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $ElementPropertySection;
+
 
     /**
      * Add ElementPropertyDT
@@ -443,6 +448,43 @@ class Element
     {
         return $this->ElementPropertyDT;
     }
+
+
+	/**
+	 * Add ElementPropertySection
+	 *
+	 * @param \Novuscom\CMFBundle\Entity\ElementPropertySection $elementPropertySection
+	 * @return Element
+	 */
+	public function addElementPropertySection(\Novuscom\CMFBundle\Entity\ElementPropertySection $elementPropertySection)
+	{
+		$this->ElementPropertySection[] = $elementPropertySection;
+
+		return $this;
+	}
+
+	/**
+	 * Remove ElementPropertySection
+	 *
+	 * @param \Novuscom\CMFBundle\Entity\ElementPropertySection $elementPropertySection
+	 */
+	public function removeElementPropertySection(\Novuscom\CMFBundle\Entity\ElementPropertySection $elementPropertySection)
+	{
+		$this->ElementPropertySection->removeElement($elementPropertySection);
+	}
+
+	/**
+	 * Get ElementPropertySection
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getElementPropertySection()
+	{
+		return $this->ElementPropertySection;
+	}
+
+
+
     public function addProperty($property_code, $property){
         $this->properties[$property_code] = $property;
     }

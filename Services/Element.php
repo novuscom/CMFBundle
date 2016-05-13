@@ -2,12 +2,15 @@
 
 namespace Novuscom\CMFBundle\Services;
 
+use Monolog\Handler\Curl\Util;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Router;
 use Doctrine\Common\Collections\ArrayCollection;
 use Monolog\Logger;
 use Novuscom\CMFBundle\Entity\ElementSection;
+use Novuscom\CMFBundle\Entity\Section;
 use Novuscom\CMFBundle\Entity\ElementProperty;
+use Novuscom\CMFBundle\Entity\ElementPropertySection;
 use Novuscom\CMFBundle\Services\Utils;
 
 
@@ -19,6 +22,8 @@ class Element
 		if (!$properties)
 			return null;
 		$currentValues = $this->getPropertiesValues($element, array_keys($properties));
+		$currentSectionValues = $this->getPropertiesSectionValues($element, array_keys($properties));
+
 		$removed = array();
 		$currentById = array();
 		foreach ($currentValues as $prop) {
@@ -35,6 +40,30 @@ class Element
 			}
 		}
 		$added = array();
+
+		$Section = new Section();
+
+		$currentSectionV = array();
+		foreach ($currentSectionValues as $info) {
+
+			$ref = $this->em->getReference('Novuscom\CMFBundle\Entity\ElementPropertySection', $info['id']);
+			$prop = $properties[$info['property_id']];
+			if ($info['section_id']!=$prop->getId()) {
+				//Utils::msg('изменяем запись');
+				//Utils::msg($info);
+				$ref->setSection($prop);
+				$this->em->persist($prop);
+				$currentSectionV[] = $prop->getId();
+			}
+			else {
+				$currentSectionV[] = $info['section_id'];
+			}
+
+		}
+
+		//Utils::msg($currentSectionV);
+		//exit;
+
 		foreach ($properties as $key => $value) {
 			if (is_array($value)) {
 				if (isset($currentById[$key]))
@@ -50,11 +79,32 @@ class Element
 					);
 				}
 			}
+			if (is_object($value)) {
+				if ($value instanceof $Section) {
+					Utils::msg($value->getId());
+					Utils::msg($currentSectionV);
+					//exit;
+					if (in_array($value->getId(), $currentSectionV)==false) {
+						$propertyReference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $key);
+						$ElementPropertySection = new ElementPropertySection();
+						$ElementPropertySection->setProperty($propertyReference);
+						$ElementPropertySection->setElement($element);
+						$ElementPropertySection->setSection($value);
+						$this->em->persist($ElementPropertySection);
+					}
+				} else {
+					Utils::msg(get_class($value));
+				}
+			}
+
+
 		}
-		//Utils::msg('-------added--------');
-		//Utils::msg($added);
-		//Utils::msg('-------removed--------');
-		//Utils::msg($removed);
+		Utils::msg('-------added--------');
+		Utils::msg($added);
+		Utils::msg('-------removed--------');
+		Utils::msg($removed);
+
+		//exit;
 
 		foreach ($added as $addArray) {
 			$propertyReference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $addArray['property_id']);
@@ -514,6 +564,30 @@ class Element
 		$sql = $query->getSql();
 		$properties = $query->getResult();
 		return $properties;
+	}
+
+
+	/*
+	 * Получает значения свойств элемента типа "Раздел"
+	 */
+	public function getPropertiesSectionValues($element, $properties_id)
+	{
+		$em = $this->em;
+		$query = $em->createQueryBuilder('n')
+			->from('NovuscomCMFBundle:ElementPropertySection', 'n', 'n.id')
+			->select('n.id, n.description')
+			->addSelect('IDENTITY(n.element) as element_id, IDENTITY(n.property) as property_id, IDENTITY(n.section) as section_id');
+		if ($properties_id) {
+			$query->andWhere('n.property IN(:property_id)')->setParameter('property_id', $properties_id);
+		}
+		if ($element) {
+			$query = $query->andWhere('n.element IN(:element_id)');
+			$query = $query->setParameter('element_id', $element);
+		}
+		$query = $query->getQuery();
+		$sql = $query->getSql();
+		$result = $query->getResult();
+		return $result;
 	}
 
 	public function getPropertiesValues($elements_id, $properties_id)

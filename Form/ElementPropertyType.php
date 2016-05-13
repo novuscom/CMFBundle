@@ -2,9 +2,13 @@
 
 namespace Novuscom\CMFBundle\Form;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Tests\Common\Annotations\Ticket\Doctrine\ORM\Mapping\Entity;
 use Monolog\Handler\Curl\Util;
 use Novuscom\CMFBundle\Entity\Element;
+use Novuscom\CMFBundle\Entity\ElementPropertySection;
 use Novuscom\CMFBundle\Services\Utils;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -49,6 +53,7 @@ class ElementPropertyType extends AbstractType
 			$is_multiple = (is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true);
 			$required = (is_array($info) && array_key_exists('REQUIRED', $info) && $info['REQUIRED'] == true);
 			//echo '<pre>' . print_r($p->getType(), true) . '</pre>';
+			$property_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $p->getId());
 			switch ($p->getType()) {
 				/**
 				 * Поле типа "Список"
@@ -58,7 +63,7 @@ class ElementPropertyType extends AbstractType
 					/**
 					 * Получаем значения свойства
 					 */
-					$property_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $p->getId());
+
 					$PropertyList = $this->em->getRepository('NovuscomCMFBundle:PropertyList')->findBy(array(
 						'property' => $property_reference,
 					));
@@ -179,6 +184,46 @@ class ElementPropertyType extends AbstractType
 					}
 
 
+					break;
+				case "SECTION":
+					$sections = new ArrayCollection();
+					$builderData = $builder->getData();
+					$element = $builderData['ELEMENT_ENTITY'];
+					if ($element->getId()) {
+						$ElementPropertySection = $this->em->getRepository('NovuscomCMFBundle:ElementPropertySection')->findBy(array(
+							'element' => $element,
+							'property' => $property_reference
+						));
+						$sectionsId = array();
+						foreach ($ElementPropertySection as $es) {
+							$sectionsId[] = $es->getSection()->getId();
+						}
+						if ($sectionsId) {
+							$sectionsEntity = $this->em->getRepository('NovuscomCMFBundle:Section')->findBy(array('id' => $sectionsId));
+							foreach ($sectionsEntity as $s) {
+								$sections->add($s);
+							}
+						}
+					}
+
+					$builder->add($p->getId(), EntityType::class, array(
+						'label' => 'Раздел',
+						'class' => 'NovuscomCMFBundle:Section',
+						'choice_label' => 'indentedTitle',
+						//'expanded' => false,
+						'multiple' => false,
+						'required' => false,
+						//'empty_data' => null,
+						'mapped' => true,
+						'attr' => array('size' => '20'),
+						'data' => $sections[0],
+						'query_builder' => function ($er) use ($info) {
+							return $er->createQueryBuilder('s')
+								->where("s.block = :block")
+								->orderBy('s.root, s.lft', 'ASC')
+								->setParameters(array('block' => $info['BLOCK_ID']));
+						}
+					));
 					break;
 				case 'F':
 					if ($is_multiple) {

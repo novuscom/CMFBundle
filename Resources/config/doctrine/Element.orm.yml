@@ -84,6 +84,10 @@ Novuscom\CMFBundle\Entity\Element:
             targetEntity: ElementPropertyDT
             mappedBy: element
             cascade: ["persist"]
+        ElementPropertySection:
+            targetEntity: ElementPropertySection
+            mappedBy: element
+            cascade: ["persist"]
         section:
             targetEntity: ElementSection
             mappedBy: element
