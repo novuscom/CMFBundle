@@ -1,0 +1,24 @@
+admin_sectionproperty_index:
+    path:     /
+    defaults: { _controller: "NovuscomCMFBundle:SectionProperty:index" }
+    methods:  GET
+
+admin_sectionproperty_show:
+    path:     /{id}/show
+    defaults: { _controller: "NovuscomCMFBundle:SectionProperty:show" }
+    methods:  GET
+
+admin_sectionproperty_new:
+    path:     /new
+    defaults: { _controller: "NovuscomCMFBundle:SectionProperty:new" }
+    methods:  [GET, POST]
+
+admin_sectionproperty_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "NovuscomCMFBundle:SectionProperty:edit" }
+    methods:  [GET, POST]
+
+admin_sectionproperty_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "NovuscomCMFBundle:SectionProperty:delete" }
+    methods:  DELETE
