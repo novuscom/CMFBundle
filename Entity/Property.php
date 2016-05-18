@@ -330,6 +330,47 @@ class Property
 
 
 
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $SectionProperty;
+
+
+	/**
+	 * Add ElementPropertySection
+	 *
+	 * @param \Novuscom\CMFBundle\Entity\SectionProperty $SectionProperty
+	 * @return Property
+	 */
+	public function addSectionProperty(\Novuscom\CMFBundle\Entity\SectionProperty $SectionProperty)
+	{
+		$this->SectionProperty[] = $SectionProperty;
+
+		return $this;
+	}
+
+	/**
+	 * Remove SectionProperty
+	 *
+	 * @param \Novuscom\CMFBundle\Entity\SectionProperty $SectionProperty
+	 */
+	public function removeSectionProperty(\Novuscom\CMFBundle\Entity\SectionProperty $SectionProperty)
+	{
+		$this->SectionProperty->removeElement($SectionProperty);
+	}
+
+	/**
+	 * Get ElementPropertySection
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getSectionProperty()
+	{
+		return $this->SectionProperty;
+	}
+
+
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */

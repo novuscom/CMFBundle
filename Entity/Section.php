@@ -142,13 +142,56 @@ class Section
 	 */
 	private $block;
 
+
+
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
 		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->SectionProperty = new \Doctrine\Common\Collections\ArrayCollection();
 	}
+
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $SectionProperty;
+
+	/**
+	 * Add ElementProperty
+	 *
+	 * @param \Novuscom\CMFBundle\Entity\SectionProperty $SectionProperty
+	 * @return Element
+	 */
+	public function addElementProperty(\Novuscom\CMFBundle\Entity\SectionProperty $SectionProperty)
+	{
+		$this->SectionProperty[] = $SectionProperty;
+
+		return $this;
+	}
+
+	/**
+	 * Remove SectionProperty
+	 *
+	 * @param \Novuscom\CMFBundle\Entity\SectionProperty $SectionProperty
+	 */
+	public function removeSectionProperty(\Novuscom\CMFBundle\Entity\SectionProperty $SectionProperty)
+	{
+		$this->SectionProperty->removeElement($SectionProperty);
+	}
+
+	/**
+	 * Get ElementProperty
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getElementProperty()
+	{
+		return $this->ElementProperty;
+	}
+
+
 
 	/**
 	 * Set lft

@@ -410,10 +410,7 @@ class Element
      */
     private $ElementPropertyDT;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $ElementPropertySection;
+
 
 
     /**
@@ -449,6 +446,11 @@ class Element
         return $this->ElementPropertyDT;
     }
 
+
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $ElementPropertySection;
 
 	/**
 	 * Add ElementPropertySection
