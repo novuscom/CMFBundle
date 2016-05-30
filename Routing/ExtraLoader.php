@@ -89,7 +89,7 @@ class ExtraLoader implements LoaderInterface
 			$defaults = array(
 				'_controller' => $r->getController(),
 				'params' => $params,
-				'domains'=>$domains
+				'domains'=>$aliasesArray[0]
 			);
 			//echo '<pre>'.print_r($aliasesArray, true).'</pre>';
 			//exit;
