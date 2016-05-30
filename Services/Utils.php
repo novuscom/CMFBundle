@@ -6,7 +6,7 @@ use Monolog\Logger;
 
 class Utils
 {
-	CONST VERSION = '0.0.7.4';
+	CONST VERSION = '0.0.7.5';
 
 	public static function msg($object){
 		echo '<pre>'.print_r($object, true).'</pre>';
