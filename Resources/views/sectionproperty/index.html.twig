@@ -1,0 +1,41 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body %}
+    <h1>SectionProperty list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Value</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sectionProperty in sectionProperties %}
+            <tr>
+                <td><a href="{{ path('admin_sectionproperty_show', { 'id': sectionProperty.id }) }}">{{ sectionProperty.id }}</a></td>
+                <td>{{ sectionProperty.value }}</td>
+                <td>{{ sectionProperty.description }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_sectionproperty_show', { 'id': sectionProperty.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_sectionproperty_edit', { 'id': sectionProperty.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_sectionproperty_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

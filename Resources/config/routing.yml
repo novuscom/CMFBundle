@@ -109,6 +109,12 @@ NovuscomCMFBundle_admin_product:
     resource: "@NovuscomCMFBundle/Resources/config/routing/product.yml"
     prefix:   /admin/product
 
+
+novuscom_cmf_admin_sectionproperty:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/sectionproperty.yml"
+    prefix:   /admin/sectionproperty
+
+
 cmf_admin_homepage:
     path:  /admin/
     defaults: { _controller: NovuscomCMFBundle:Admin:index }

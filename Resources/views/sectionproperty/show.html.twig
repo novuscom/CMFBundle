@@ -1,0 +1,36 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body %}
+    <h1>SectionProperty</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sectionProperty.id }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ sectionProperty.value }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ sectionProperty.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_sectionproperty_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_sectionproperty_edit', { 'id': sectionProperty.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

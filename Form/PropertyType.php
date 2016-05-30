@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
 class PropertyType extends AbstractType
@@ -62,18 +63,31 @@ class PropertyType extends AbstractType
 				'class' => 'form-control'
 			)
 		));
-		/*$builder->add('block', 'entity', array(
-			'class' => 'NovuscomCMFBundle:Block',
-			'property' => 'name',
-			'expanded' => false,
-			'multiple' => false,
-		));*/
+		if (isset($options['STANDALONE'])) {
+			$builder->add('block', EntityType::class, array(
+				'class' => 'NovuscomCMFBundle:Block',
+				'choice_label' => 'name',
+				//'expanded' => false,
+				//'multiple' => false,
+			));
+			$builder->add('isForSection', ChoiceType::class, array(
+				'choices' => array(
+					'Для элемента' => 0,
+					'Для раздела' => true,
+				),
+				'required' => true,
+				'label' => 'Для',
+				'mapped' => true,
+			));
+		}
+
 	}
 
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
-			'data_class' => 'Novuscom\CMFBundle\Entity\Property'
+			'data_class' => 'Novuscom\CMFBundle\Entity\Property',
+			'STANDALONE' => false,
 		));
 	}
 

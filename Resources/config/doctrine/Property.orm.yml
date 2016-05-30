@@ -20,6 +20,9 @@ Novuscom\CMFBundle\Entity\Property:
         info:
             type: text
             nullable: true
+        isForSection:
+            type: boolean
+            nullable: true
     manyToOne:
         block:
             targetEntity: Block
@@ -47,6 +50,10 @@ Novuscom\CMFBundle\Entity\Property:
             cascade: ["persist"]
         ElementPropertySection:
             targetEntity: ElementPropertySection
+            mappedBy: property
+            cascade: ["persist"]
+        SectionProperty:
+            targetEntity: SectionProperty
             mappedBy: property
             cascade: ["persist"]
     lifecycleCallbacks: {  }

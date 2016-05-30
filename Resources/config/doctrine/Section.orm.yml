@@ -89,17 +89,21 @@ Novuscom\CMFBundle\Entity\Section:
           referencedColumnName: id
           onDelete: "SET NULL"
     oneToMany:
-      children:
-        targetEntity: Section
-        mappedBy: parent
-        orderBy:
-          lft: ASC
-      element:
-        targetEntity: ElementSection
-        mappedBy: section
-        cascade: ["persist"]
-      ElementPropertySection:
-        targetEntity: ElementPropertySection
-        mappedBy: section
-        cascade: ["persist"]
+        SectionProperty:
+            targetEntity: SectionProperty
+            mappedBy: section
+            cascade: ["persist"]
+        children:
+            targetEntity: Section
+            mappedBy: parent
+            orderBy:
+                lft: ASC
+        element:
+            targetEntity: ElementSection
+            mappedBy: section
+            cascade: ["persist"]
+        ElementPropertySection:
+            targetEntity: ElementPropertySection
+            mappedBy: section
+            cascade: ["persist"]
     lifecycleCallbacks: {  }

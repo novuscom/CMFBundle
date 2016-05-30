@@ -1,30 +1,24 @@
-admin_property:
-    path:  /
+admin_property_index:
+    path:     /
     defaults: { _controller: "NovuscomCMFBundle:Property:index" }
+    methods:  GET
 
 admin_property_show:
-    path:  /{id}/show
+    path:     /{id}/show
     defaults: { _controller: "NovuscomCMFBundle:Property:show" }
+    methods:  GET
 
 admin_property_new:
-    path:  /new
+    path:     /new
     defaults: { _controller: "NovuscomCMFBundle:Property:new" }
-
-admin_property_create:
-    path:  /create
-    defaults: { _controller: "NovuscomCMFBundle:Property:create" }
-    requirements: { _method: post }
+    methods:  [GET, POST]
 
 admin_property_edit:
-    path:  /{id}/edit
+    path:     /{id}/edit
     defaults: { _controller: "NovuscomCMFBundle:Property:edit" }
-
-admin_property_update:
-    path:  /{id}/update
-    defaults: { _controller: "NovuscomCMFBundle:Property:update" }
-    requirements: { _method: post|put }
+    methods:  [GET, POST]
 
 admin_property_delete:
-    path:  /{id}/delete
+    path:     /{id}/delete
     defaults: { _controller: "NovuscomCMFBundle:Property:delete" }
-    requirements: { _method: post|delete }
+    methods:  DELETE
