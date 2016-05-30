@@ -39,9 +39,9 @@ class ExtraLoader implements LoaderInterface
 		$logger = $this->logger;
 		foreach ($base_routes as $r) {
 			//echo '<pre>' . print_r($r->getParams(), true) . '</pre>';
-			$routeSite = $Site->getSiteEntityById($r->getSite()->getId());
+			//$routeSite = $Site->getSiteEntityById($r->getSite()->getId());
 			$aliasesArray = array();
-			foreach ($routeSite->getAliases() as $a) {
+			foreach ($r->getSite()->getAliases() as $a) {
 				$aliasesArray[] = $a->getName();
 			}
 
@@ -82,14 +82,18 @@ class ExtraLoader implements LoaderInterface
 				$route_params = array();
 			}
 
+			$domains = implode($aliasesArray, '|');
+
 			//$logger->info('<pre>'.print_r($r->getCode(), true).'</pre>');
 			$logger->info('Route params: ' . print_r($route_params, true) . '</pre>');
 			$defaults = array(
 				'_controller' => $r->getController(),
 				'params' => $params,
-				'domains'=>$aliasesArray[0]
+				'domains'=>$domains
 			);
-			//$logger->error('<pre>'.print_r($r->getParams(), true).'</pre>');
+			//echo '<pre>'.print_r($aliasesArray, true).'</pre>';
+			//exit;
+			//$logger->error('<pre>'.print_r($aliasesArray, true).'</pre>');
 			//$logger->error('<pre>'.print_r($route_params, true).'</pre>');
 			//$logger->error('An error occurred');
 			//$route_params['method'] = 'GET';
@@ -106,7 +110,8 @@ class ExtraLoader implements LoaderInterface
 			if (is_array($route_params) && array_key_exists('method', $route_params)) {
 				$method = $route_params['method'];
 			}
-			$requirements['domains'] = implode($aliasesArray, '|');
+			$requirements['domains'] = $domains;
+			$code = $r->getCode();
 			$route = new Route(
 				$r->getTemplate(),
 				$defaults,
@@ -116,7 +121,7 @@ class ExtraLoader implements LoaderInterface
 				array(),
 				$method
 			);
-			$routes->add($r->getCode(), $route);
+			$routes->add($code, $route);
 		}
 
 

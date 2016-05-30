@@ -24,7 +24,7 @@ class SectionPropertyController extends Controller
 
         $sectionProperties = $em->getRepository('NovuscomCMFBundle:SectionProperty')->findAll();
 
-        return $this->render('sectionproperty/index.html.twig', array(
+        return $this->render('NovuscomCMFBundle:sectionproperty:index.html.twig', array(
             'sectionProperties' => $sectionProperties,
         ));
     }
@@ -47,7 +47,7 @@ class SectionPropertyController extends Controller
             return $this->redirectToRoute('admin_sectionproperty_show', array('id' => $sectionProperty->getId()));
         }
 
-        return $this->render('sectionproperty/new.html.twig', array(
+        return $this->render('NovuscomCMFBundle:sectionproperty:new.html.twig', array(
             'sectionProperty' => $sectionProperty,
             'form' => $form->createView(),
         ));
@@ -85,7 +85,7 @@ class SectionPropertyController extends Controller
             return $this->redirectToRoute('admin_sectionproperty_edit', array('id' => $sectionProperty->getId()));
         }
 
-        return $this->render('sectionproperty/edit.html.twig', array(
+        return $this->render('NovuscomCMFBundle:sectionproperty:edit.html.twig', array(
             'sectionProperty' => $sectionProperty,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

@@ -20,6 +20,9 @@ Novuscom\CMFBundle\Entity\Property:
         info:
             type: text
             nullable: true
+        isForSection:
+            type: boolean
+            nullable: true
     manyToOne:
         block:
             targetEntity: Block
