@@ -9,9 +9,50 @@ use Novuscom\CMFBundle\Entity\ElementSection;
 class SectionClass
 {
 
+	public function getPropertyValues($propertyId, $sectionId = false)
+	{
+		$em = $this->em;
+		$builder = $em
+			->createQueryBuilder()
+			->select('n.id, n.value, n.description')
+			->addSelect('IDENTITY(n.section) as section_id')
+			->addSelect('IDENTITY(n.property) as property_id')
+			->from('NovuscomCMFBundle:SectionProperty', 'n', 'n.id')
+			->where('n.property=:property_id')
+			->setParameter('property_id', $propertyId);
+		$builder->orderBy('n.id', 'ASC');
+		$query = $builder->getQuery();
+		$result = $query->getArrayResult();
+		$res = array();
+		foreach ($result as $r) {
+			$res[$r['section_id']][$r['property_id']] = array(
+				'value' => $r['value'],
+				'id' => $r['id'],
+				'description' => $r['description'],
+			);
+		}
+		return $res;
+	}
+
+	public function getProperties($block_id)
+	{
+		$em = $this->em;
+		$builder = $em
+			->createQueryBuilder()
+			->select('n.id, n.name, n.code, n.type, n.info, n.isForSection')
+			->addSelect('IDENTITY(n.block) as block_id')
+			->from('NovuscomCMFBundle:Property', 'n', 'n.id')
+			->where('n.block=:block_id')
+			->setParameter('block_id', $block_id)
+			->orderBy('n.name', 'ASC');
+		$query = $builder->getQuery();
+		$result = $query->getArrayResult();
+		return $result;
+	}
+
 	private function SetSectionsCodeTree(&$sectionsArray, $parent_full_code = '')
 	{
-		usort($sectionsArray, function($a, $b){
+		usort($sectionsArray, function ($a, $b) {
 			return $a['sort'] - $b['sort'];
 		});
 		//echo '<pre>' . print_r($sectionsArray, true) . '</pre>';
@@ -41,19 +82,53 @@ class SectionClass
 			->from('NovuscomCMFBundle:Section', 'n')
 			->where('n.block=:block_id')
 			->setParameter('block_id', $filter['block_id'])
-			->orderBy('n.root, n.lft', 'ASC')
-		;
+			->orderBy('n.root, n.lft', 'ASC');
 		if (array_key_exists('section_id', $filter)) {
 			$builder->andWhere('n.parent=:section_id');
 			$builder->setParameter('section_id', $filter['section_id']);
 		}
 		$query = $builder->getQuery();
-        $result = $query->getArrayResult();
-        //echo '<pre>' . print_r(count($result), true) . '</pre>';
-        //echo '<pre>' . print_r($result, true) . '</pre>'; exit;
+		$result = $query->getArrayResult();
+		//echo '<pre>' . print_r(count($result), true) . '</pre>';
+		$properties = $this->getProperties($filter['block_id']);
+		$propertyValues = $this->getPropertyValues(array_keys($properties));
+
+		//echo '<pre>' . print_r($propertyValues, true) . '</pre>';
+
+		$propertiesByCode = array();
+		foreach ($properties as &$prop) {
+			//$prop['value'] = $propertyValues[$prop['id']];
+			$propertiesByCode[$prop['code']] = $prop;
+		}
+
+		foreach ($result as &$r) {
+			$pB = array();
+			foreach ($propertiesByCode as $key => $pc) {
+				$pc['value'] = null;
+				if (isset($propertyValues[$r['id']][$pc['id']])) {
+					//echo '<pre>' . print_r($r['id'].'-'.$pc['id'], true) . '</pre>';
+					$pc['value'] = $propertyValues[$r['id']][$pc['id']]['value'];
+				}
+				else {
+					$pc['value'] = null;
+				}
+				$pB[$key] = $pc;
+			}
+			//echo '<pre>' . print_r($pB, true) . '</pre>';
+			$r['properties'] = $pB;
+		}
+
+		//echo '<pre>' . print_r($result, true) . '</pre>';
+
+		//echo '<pre>' . print_r($properties, true) . '</pre>';
+		//echo '<pre>' . print_r($propertiesByCode, true) . '</pre>';
+
+		//exit;
+		//echo '<pre>' . print_r($result, true) . '</pre>';
+		//exit;
 		$options = array('decorate' => false);
 		$tree = $repo->buildTree($result, $options);
-        //echo '<pre>' . print_r(count($tree), true) . '</pre>';
+		//echo '<pre>' . print_r(count($tree), true) . '</pre>';
 		return $this->SetSectionsCodeTree($tree, $parentFullCode);
 	}
 

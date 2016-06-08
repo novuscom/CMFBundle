@@ -10,6 +10,7 @@ use Novuscom\CMFBundle\Entity\ElementPropertySection;
 use Novuscom\CMFBundle\Services\Utils;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -313,7 +314,7 @@ class ElementPropertyType extends AbstractType
 					);
 					$builder->add(
 						$p->getId(),
-						'textarea',
+						TextareaType::class,
 						$field_options
 					);
 					break;

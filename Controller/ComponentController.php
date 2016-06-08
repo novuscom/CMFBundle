@@ -986,15 +986,15 @@ class ComponentController extends Controller
 			}
 			if ($block_id)
 				$filter['block'] = $block_id;
-			if ($elementsId) {
+			/*if ($elementsId) {
 				$filter['id'] = $elementsId;
-			}
+			}*/
 			$element = $em->getRepository('NovuscomCMFBundle:Element')->findOneBy(
 				$filter
 			);
 			if (!$element) {
 				$logger->notice('Элемент не найден по фильтру: <pre>' . print_r($filter, true) . '</pre>');
-				throw $this->createNotFoundException('Элемент не найден');
+				throw $this->createNotFoundException('Элемент не найден по фильтру');
 			}
 			if ($section == false) {
 				$section = array();
@@ -1216,6 +1216,10 @@ class ComponentController extends Controller
 		$ElementsList->setSectionId($sectionId);
 		$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
 		$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
+		//echo '<pre>' . print_r($params, true) . '</pre>';
+		if (isset($params['LIMIT']) && is_numeric($params['LIMIT'])) {
+			$ElementsList->setLimit($params['LIMIT']);
+		}
 		if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
 			$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
 		if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUBSECTIONS', $params['params']))
@@ -1331,7 +1335,7 @@ class ComponentController extends Controller
 			$response_data['page'] = $page;
 			$response_data['params'] = $params;
 			$response_data['header'] = $page->getHeader();
-			$response_data['elements'] = $this->getElementsList($BLOCK_ID, false, $params);
+			//$response_data['elements'] = $this->getElementsList($BLOCK_ID, false, $params);
 			$response_data['title'] = $page->getTitle();
 			//echo '<pre>' . print_r($sections, true) . '</pre>';
 			$Site = $this->get('Site');
@@ -1647,8 +1651,11 @@ class ComponentController extends Controller
 		);
 		$pagination_route = preg_replace('/^(.+?)(_pagination)*$/', '\\1_pagination', $routeParams['template_code']);
 		$pagination->setUsedRoute($pagination_route);
-		if ($sectionFullCode)
-			$pagination->setParam('CODE', $sectionFullCode);
+		if (!empty($sectionFullCode)) {
+			//echo '<pre>' . print_r($sectionFullCode, true) . '</pre>';
+			$pagination->setParam('SECTION_CODE', $sectionFullCode);
+		}
+
 		$pagination->setTemplate('@templates/' . $site['code'] . '/Pagination/' . $routeParams['template_code'] . '.html.twig');
 		if ($PAGE > 1 && count($pagination) < 1) {
 			throw $this->createNotFoundException('Не найдено элементов на странице ' . $PAGE);
@@ -1656,7 +1663,7 @@ class ComponentController extends Controller
 		if (preg_match('/^(.+?)(_pagination)+$/', $routeParams['template_code'], $matches) && $PAGE == 1) {
 			//$this->msg($matches);
 			if ($sectionFullCode)
-				$url = $this->get('router')->generate($matches[1], array('CODE' => $sectionFullCode));
+				$url = $this->get('router')->generate($matches[1], array('SECTION_CODE' => $sectionFullCode));
 			else
 				$url = $this->get('router')->generate($matches[1]);
 			//$this->msg($url);

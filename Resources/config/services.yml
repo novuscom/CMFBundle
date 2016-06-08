@@ -37,6 +37,9 @@ services:
     Section:
         class:        Novuscom\CMFBundle\Services\Section
         arguments: [ "@logger", "@doctrine.orm.entity_manager" ]
+    novuscom.cmf.menu:
+        class:        Novuscom\CMFBundle\Services\Menu
+        arguments: [ "@logger", "@doctrine.orm.entity_manager", "@service_container" ]
     Element:
         class:        Novuscom\CMFBundle\Services\Element
         arguments: [ "@doctrine.orm.entity_manager", "@logger", "@service_container", "@Utils", "@router" ]
