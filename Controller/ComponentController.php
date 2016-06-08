@@ -1655,7 +1655,7 @@ class ComponentController extends Controller
 			//echo '<pre>' . print_r($sectionFullCode, true) . '</pre>';
 			$pagination->setParam('SECTION_CODE', $sectionFullCode);
 		}
-
+		$pagination->setParam('params', null); // очищаем params - непонятно откуда берется на первой странице для других страниц
 		$pagination->setTemplate('@templates/' . $site['code'] . '/Pagination/' . $routeParams['template_code'] . '.html.twig');
 		if ($PAGE > 1 && count($pagination) < 1) {
 			throw $this->createNotFoundException('Не найдено элементов на странице ' . $PAGE);
