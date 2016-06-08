@@ -23,6 +23,7 @@ Novuscom\CMFBundle\Entity\ElementPropertySection:
             joinColumn:
                 name: element_id
                 referencedColumnName: id
+                onDelete: "CASCADE"
         property:
             targetEntity: Property
             inversedBy: ElementPropertySection

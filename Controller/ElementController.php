@@ -346,6 +346,9 @@ class ElementController extends Controller
 	public function createAction(Request $request)
 	{
 
+		$Element = $this->get('Element');
+		$FormService = $this->get('cmf.forms');
+
 		$entity = new Element();
 		$form = $this->createCreateForm($entity);
 		$form->handleRequest($request);
@@ -363,6 +366,10 @@ class ElementController extends Controller
 				//$entity->setSection($section);
 			}
 			$entity->setBlock($block);
+
+
+
+
 
 
 			/**
@@ -524,11 +531,15 @@ class ElementController extends Controller
 
 			$em->persist($entity);
 
+
+
+
 			/**
 			 * Сохраниение информации в базу
 			 */
 			$em->flush();
-
+			$props = $FormService->getElementProperties($form->get('properties'));
+			$Element->SetPropertyValues($entity, $props);
 
 			/**
 			 * Очищаем кэш
@@ -716,13 +727,73 @@ class ElementController extends Controller
 		//$propForm = $add->getForm();
 
 		if ($countProperties > 0) {
-			$propertyForm = new ElementPropertyType($properties, $em, false, $request);
+			//$propertyForm = new ElementPropertyType($properties, $em, false, $request);
 			//$form->add('properties', $propertyForm, array('mapped' => false, 'label' => 'Свойства'));
 		}
 
 		//$form->add('properties', new ElementPropertyType($properties, $em));
 
 		//$form->add('properties', 'collection', array('type' => new ElementPropertyType($properties, $em)));
+
+		$epArray = array();
+
+		/**
+		 * Пролучаем значения свойств типа "строка"
+		 */
+		$ElementProperty = $em->getRepository('NovuscomCMFBundle:ElementProperty')->findBy(
+			array(
+				'element' => $entity,
+			)
+		);
+
+		foreach ($ElementProperty as $ep) {
+			$epArray[$ep->getProperty()->getId()][] = $ep->getValue();
+		}
+
+		/**
+		 * Получаем значения свойств типа "дата/время"
+		 */
+		$ElementPropertyDT = $em->getRepository('NovuscomCMFBundle:ElementPropertyDT')->findBy(
+			array(
+				'element' => $entity,
+			)
+		);
+		foreach ($ElementPropertyDT as $ep) {
+			$epArray[$ep->getProperty()->getId()][] = $ep->getValue();
+		}
+
+		/**
+		 * Получаем значения свойств типа "файл"
+		 */
+		$ElementPropertyFile = $em->getRepository('NovuscomCMFBundle:ElementPropertyF')->findBy(
+			array(
+				'element' => $entity,
+			)
+		);
+
+		$ElementPropertyFileId = array();
+		foreach ($ElementPropertyFile as $epf) {
+			$ElementPropertyFileId[$epf->getProperty()->getId()][] = $epf->getFile()->getId();
+		}
+		$data = array(
+			'VALUES' => $epArray,
+			'PROPERTY_FILE_VALUES' => $ElementPropertyFileId,
+			'LIIP' => $this->get('liip_imagine.cache.manager'),
+			'BLOCK_PROPERTIES' => $block->getProperty(),
+			'ELEMENT_ENTITY' => $entity,
+		);
+		$form->add('properties', ElementPropertyType::class,
+			array(
+				//'entry_type' => ElementPropertyType::class,
+				'label' => 'Свойства',
+				'mapped' => false,
+				//'by_reference' => false,
+				//'allow_add' => true,
+				//'allow_delete' => true,
+				//'prototype' => true,
+				'data' => $data,
+				//'options' => array('asdasdasdasd'), // не работает
+			));
 
 		//$form->add('submit', SubmitType::class, array('label' => 'Сохранить', 'attr' => array('class' => 'btn btn-success')));
 
@@ -934,7 +1005,7 @@ class ElementController extends Controller
 		);
 
 
-		$propertyForm = new ElementPropertyType($block->getProperty(), $em, $data, $request);
+		//$propertyForm = new ElementPropertyType($block->getProperty(), $em, $data, $request);
 
 		//$formProperty = new FormProperty();
 		//$formProperty->setValue('value of form property');
