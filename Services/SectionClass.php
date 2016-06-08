@@ -18,7 +18,7 @@ class SectionClass
 			->addSelect('IDENTITY(n.section) as section_id')
 			->addSelect('IDENTITY(n.property) as property_id')
 			->from('NovuscomCMFBundle:SectionProperty', 'n', 'n.id')
-			->where('n.property=:property_id')
+			->where('n.property IN (:property_id)')
 			->setParameter('property_id', $propertyId);
 		$builder->orderBy('n.id', 'ASC');
 		$query = $builder->getQuery();
