@@ -15,6 +15,7 @@ class Site
 	{
 		if ($host == false)
 			$host = $this->getHost();
+		$this->logger->info('Удаляем кеш сайта '.$host);
 		$this->getCacheDriver()->delete($host);
 	}
 

@@ -47,7 +47,15 @@ class TemplateExtension extends \Twig_Extension
 			'isMainPage' => new \Twig_Function_Method($this, 'IsMainPage'),
 			'ElementsSections' => new \Twig_Function_Method($this, 'ElementsSections'),
 			'format_number' => new \Twig_Function_Method($this, 'NumFormat'),
+			'crumbs' => new \Twig_Function_Method($this, 'Breadcrumbs'),
 		);
+	}
+
+	public function BreadCrumbs(array $options = array()){
+		$Crumbs = $this->container->get('Crumbs');
+		$res = $Crumbs->getForSite($options);
+		echo $res;
+		//return $res;
 	}
 
 	public static function NumFormat($number, $decimals = 0)

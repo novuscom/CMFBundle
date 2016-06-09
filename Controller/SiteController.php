@@ -211,32 +211,32 @@ class SiteController extends Controller
 		$Site = $this->get('Site');
 
 
-		$originalAliases = new ArrayCollection();
-		foreach ($entity->getAliases() as $tag) {
-			$originalAliases->add($tag);
-		}
+		$clearAliases = array();
 
+		$originalAliases = new ArrayCollection();
+		foreach ($entity->getAliases() as $alias) {
+			$clearAliases[] = $alias->getName();
+			$originalAliases->add($alias);
+		}
 		$deleteForm = $this->createDeleteForm($id);
 		$editForm = $this->createEditForm($entity);
-
 		$editForm->handleRequest($request);
-
 		if ($editForm->isSubmitted()) {
 			if ($editForm->isValid()) {
 				foreach ($originalAliases as $alias) {
+					$clearAliases[] = $alias->getName();
 					if ($entity->getAliases()->contains($alias) === false) {
 						$entity->getAliases()->removeElement($alias);
-
-						// if it was a many-to-one relationship, remove the relationship like this
-						// $tag->setTask(null);
-
 						$em->persist($entity);
 						$em->remove($alias);
 					}
 				}
-				$Site->clearCache();
+				$clearAliases = array_unique($clearAliases);
+				foreach ($clearAliases as $a) {
+					$Site->clearCache($a);
+				}
 				$em->flush();
-				return $this->redirect($this->generateUrl('cmf_admin_site_edit', array('id' => $id)));
+				//return $this->redirect($this->generateUrl('cmf_admin_site_edit', array('id' => $id)));
 			} else {
 			}
 		} else {

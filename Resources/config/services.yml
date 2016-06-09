@@ -69,7 +69,7 @@ services:
         arguments: [ "@doctrine.orm.entity_manager", "@Element", "@logger", "@Section" ]
     Crumbs:
         class:        "%Crumbs.class%"
-        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@apy_breadcrumb_trail" ]
+        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@apy_breadcrumb_trail", "@service_container" ]
     SectionClass:
         class:        "%SectionClass%"
         arguments: ["@doctrine.orm.entity_manager"]

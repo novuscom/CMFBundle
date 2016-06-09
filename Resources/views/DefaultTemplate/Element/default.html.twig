@@ -1,0 +1,15 @@
+{% extends 'NovuscomCMFBundle:DefaultTemplate/Pages:default.html.twig' %}
+{% block content %}
+	<div class="row">
+		<div class="col-md-4">
+			{% if element.previewPicture %}
+				{% set file = resize_image(element.previewPicture.path, 'proportional', [600, 800]) %}
+				<img src="{{ file.src }}" class="img-fluid"/>
+			{% endif %}
+		</div>
+		<div class="col-md-8">
+			{{ element.previewText|raw }}
+		</div>
+	</div>
+{% endblock %}
+

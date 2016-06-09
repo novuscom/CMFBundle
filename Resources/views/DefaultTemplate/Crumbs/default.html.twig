@@ -1,0 +1,17 @@
+{% block content %}
+	{% if items is not empty %}
+
+		<ul class="breadcrumb">
+			{% for item in items %}
+				<li class="breadcrumb-item">
+					{% if (loop.last) %}
+						{{ item.name }}
+					{% else %}
+						<a href="{{ item.url }}">{{ item.name }}</a>
+					{% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+
+	{% endif %}
+{% endblock %}

@@ -675,164 +675,15 @@ class ComponentController extends Controller
 
 	public function CrumbsAction($params = false, Request $request)
 	{
-		$time_start = microtime(1);
-		$logger = $this->get('logger');
-		$request = $this->get('request_stack')->getMasterRequest();
-		$route_params = $request->attributes->get('_route_params');
-		$routeName = $request->attributes->get('_route');
-		$pageRoute = ($routeName == 'cmf_page_frontend' || $routeName == 'page');
-		if (false) {
-			//if (!isset($route_params['params']) && !$pageRoute) {
-			$logger->notice('параметры маршрута не известны и это не маршрут для статических страниц, возвращаем пустой результат (' . print_r($route_params, true) . ')');
-			return new Response();
-		}
-		$logger->info('параметры маршрута известны или это маршрут для статических страниц');
-		$env = $this->get('kernel')->getEnvironment();
-		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
-		$cacheDriver->setNamespace('CrumbsAction_' . $env);
-		$cacheId = json_encode(array($params, $route_params));
-		$existParams = (array_key_exists('params', $route_params));
-		$Site = $this->get('Site');
-		$currentSite = $Site->getCurrentSite();
-		$crumbs = array();
-		//echo '<pre>' . print_r($crumbs, true) . '</pre>';
-		//echo '<pre>' . print_r('крошки', true) . '</pre>'; exit;
-		if (false) {
-			//if ($fooString = $cacheDriver->fetch($cacheId)) {
-			//echo '<pre>' . print_r('крошки закешированы', true) . '</pre>';
-			$logger->info('крошки есть в кеше');
-			$response = unserialize($fooString);
-		} else {
-			$logger->info('крошек нет в кеше');
-			$em = $this->getDoctrine()->getManager();
-			$codes_array = array();
-			/*
-			 * Хлебные крошки для страниц
-			 */
-			$repo = $em->getRepository('NovuscomCMFBundle:Page');
-			if ($existParams) {
-				$page = $repo->find($route_params['params']['page_id']);
-			} elseif ($pageRoute && $route_params['name']) {
-				$Page = $this->get('Page');
-				$page = $Page->findPage($route_params['name']);
-			} else {
-				$Page = $this->get('Page');
-				$page = $Page->getRoot();
-			}
-			$path = $repo->getPath($page);
-			foreach ($path as $p) {
-				if ($p->getLvl() == 0) {
-					$crumbs[] = array(
-						'url' => $this->generateUrl('cmf_page_main'),
-						'name' => $p->getName(),
-					);
-				} else {
-					$codes_array[] = $p->getUrl();
-					$crumbs[] = array(
-						'url' => $this->generateUrl('page', array('url' => implode('/', $codes_array))),
-						'name' => $p->getName(),
-					);
-				}
-			}
-
-			/*
-			 * Хлебные крошки для раздела
-			 */
-			$section_codes_array = $codes_array;
-			if ($existParams && $route_params['params']['controller_code'] == 'section') {
-				$logger->info('Создаем хлебные крошки для раздела');
-				$crumbs = $this->getCrumbsForSection($route_params['SECTION_CODE'], $route_params, $crumbs, $codes_array);
-			}
-
-			/*
-			 * Хлебные крошки для элемента
-			 */
-			if ($existParams && $route_params['params']['controller_code'] == 'element') {
-				if (array_key_exists('SECTION_CODE', $route_params))
-					$crumbs = $this->getCrumbsForSection($route_params['SECTION_CODE'], $route_params, $crumbs, $codes_array);
-
-				$filter = array();
-
-				if (array_key_exists('CODE', $route_params)) {
-					$filter['code'] = $route_params['CODE'];
-				}
-				if (array_key_exists('ID', $route_params)) {
-					$filter['id'] = $route_params['ID'];
-				}
-				$elementsId = array();
-				if ($this->sectionByPath) {
-					$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array('section' => $this->sectionByPath));
-					foreach ($ElementSection as $es) {
-						$elementsId[] = $es->getElement()->getId();
-					}
-				}
-				if ($elementsId) {
-					$filter['id'] = $elementsId;
-				}
-				$element = $em->getRepository('NovuscomCMFBundle:Element')->findOneBy($filter);
-				$codes_array[] = $element->getCode();
-				$crumbItem = array(
-					//'url' => $this->generateUrl($routeName, array('name' => implode('/', $codes_array))),
-					'name' => $element->getName(),
-				);
-				if (array_key_exists('ID', $route_params)) {
-					$crumbItem['url'] = $this->generateUrl($routeName, array('SECTION_CODE' => implode('/', $section_codes_array), 'ID' => $element->getId()));
-				} else if (array_key_exists('CODE', $route_params)) {
-					$crumbItem['url'] = $this->generateUrl($routeName, array('SECTION_CODE' => implode('/', $section_codes_array), 'CODE' => $element->getCode()));
-				}
-				$crumbs[] = $crumbItem;
-
-
-			}
-			//echo '<pre>' . print_r($crumbs, true) . '</pre>';
-			if (!$params['template_code'])
-				$params['template_code'] = 'default';
-
-			/*
-			 * Выдаем результат
-			 */
-			$response_data = array(
-				'items' => $crumbs
-			);
-			$response = $this->render('@templates/' . $currentSite['code'] . '/Crumbs/' . $params['template_code'] . '.html.twig', $response_data);
-
-			$cacheDriver->save($cacheId, serialize($response));
-		}
-		$time_end = microtime(1);
-		$time = number_format((($time_end - $time_start) * 1000), 2);
-		//echo $time.' мс';
-		return $response;
+		$response = new Response();
+		$Crumbs = $this->get('Crumbs');
+		$res = $Crumbs->getForSite($params);
+		return $response->setContent($res);
 	}
 
-	private $sectionByPath;
+	
 
-	private function getCrumbsForSection($SECTION_PATH, $route_params, $crumbs, $codes_array)
-	{
-		$em = $this->getDoctrine()->getManager();
-		$section_repo = $em->getRepository('NovuscomCMFBundle:Section');
-		$logger = $this->get('logger');
-		$SectionClass = $this->get('SectionClass');
-		$params_params = array();
-		if (array_key_exists('params', $route_params['params']))
-			$params_params = $route_params['params']['params'];
-		$section = $SectionClass->GetSectionByPath(
-			$SECTION_PATH, $route_params['params']['BLOCK_ID'],
-			$params_params
-		);
-		$this->sectionByPath = $section;
-		if ($section) {
-			$logger->info('Нашли раздел');
-			$path = $section_repo->getPath($section);
-			foreach ($path as $p) {
-				$codes_array[] = $p->getCode();
-				$crumbs[] = array(
-					'url' => $this->generateUrl('cmf_page_frontend', array('name' => implode('/', $codes_array))),
-					'name' => $p->getName(),
-				);
-			}
-		}
-		return $crumbs;
-	}
+
 
 	private function getEnv()
 	{
@@ -1168,7 +1019,8 @@ class ComponentController extends Controller
 				'header' => $entity_element->getHeader(),
 				'description' => $entity_element->getDescription(),
 				'keywords' => $entity_element->getKeywords(),
-				'section' => $section
+				'section' => $section,
+				'site' => $site,
 			);
 			if (!$response_data['title'])
 				$response_data['title'] = $entity_element->getName();
@@ -1187,7 +1039,11 @@ class ComponentController extends Controller
 				$template_code = $params['template_code'];
 			}
 			$template_dir = $site->getCode();
-			$response = $this->render('@templates/' . $template_dir . '/Element/' . $template_code . '.html.twig', $response_data);
+			$template = '@templates/' . $template_dir . '/Element/' . $template_code . '.html.twig';
+			if ($this->get('templating')->exists($template) == false) {
+				$template = 'NovuscomCMFBundle:DefaultTemplate/Element:default.html.twig';
+			}
+			$response = $this->render($template, $response_data);
 			$cacheData = array(
 				'response' => $response,
 				'lastModified' => $element['lastModified'],
