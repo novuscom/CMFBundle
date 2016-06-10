@@ -230,7 +230,7 @@ class ElementsList
 			$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array('section' => $sections_id));
 			$section_elements_id = array();
 			foreach ($ElementSection as $es) {
-				$section_elements_id[$es->getElement()->getId()] = $es->getSection()->getId();
+				//$section_elements_id[$es->getElement()->getId()] = $es->getSection()->getId();
 			}
 			if (empty($section_elements_id)) {
 				$logger->info('Нет элементов в разделах ' . implode(', ', $this->getSectionsId()) . '. Возвращается пустой массив.');
@@ -245,9 +245,11 @@ class ElementsList
 				'section' => null,
 			));
 			$elementsId = array();
-			foreach ($ElementSection as $es) {
-				if ($this->getBlockId() == $es->getElement()->getBlock()->getId())
-					$elementsId[] = $es->getElement()->getId();
+			if (count($ElementSection)) {
+				foreach ($ElementSection as $es) {
+					//if ($this->getBlockId() == $blockId)
+						$elementsId[] = $es->getElement()->getId();
+				}
 			}
 			$this->setIdArray($elementsId);
 			if ($this->getIncludeSubSections() == false)

@@ -51,7 +51,8 @@ class TemplateExtension extends \Twig_Extension
 		);
 	}
 
-	public function BreadCrumbs(array $options = array()){
+	public function BreadCrumbs(array $options = array())
+	{
 		$Crumbs = $this->container->get('Crumbs');
 		$res = $Crumbs->getForSite($options);
 		echo $res;
@@ -430,6 +431,7 @@ class TemplateExtension extends \Twig_Extension
 			'FILTER' => array(),
 			'LIMIT' => false,
 			'ORDER' => array(),
+			'ID' => array(),
 		);
 		$params = array_merge($defaultParams, $params);
 		$ElementsList = $this->container->get('ElementsList');
