@@ -1487,8 +1487,11 @@ class ComponentController extends Controller
 
 			$response_data['params'] = $params;
 
-
-			$render = $this->render('@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig', $response_data, $response);
+			$template = '@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig';
+			if ($this->get('templating')->exists($template) == false) {
+				$template = 'NovuscomCMFBundle:DefaultTemplate/ElementsList:default.html.twig';
+			}
+			$render = $this->render($template, $response_data, $response);
 
 			$cacheDriver->save($cacheId, serialize($render));
 		}

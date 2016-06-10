@@ -439,6 +439,7 @@ class TemplateExtension extends \Twig_Extension
 		$ElementsList->setFilter($params['FILTER']);
 		$ElementsList->setLimit($params['LIMIT']);
 		$ElementsList->setOrder($params['ORDER']);
+		$ElementsList->setIdArray($params['ID']);
 		$elements = $ElementsList->getResult();
 		return $elements;
 	}
