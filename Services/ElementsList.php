@@ -2,6 +2,7 @@
 
 namespace Novuscom\CMFBundle\Services;
 
+use Monolog\Handler\Curl\Util;
 use Monolog\Logger;
 use Novuscom\CMFBundle\Services\Section as SectionService;
 
@@ -191,6 +192,27 @@ class ElementsList
 		$this->idArray = $array;
 	}
 
+	private $filterProperties;
+
+	public function setFilterProperties($properties)
+	{
+		$this->filterProperties = $properties;
+	}
+
+	public function getFilterProperties()
+	{
+		return $this->filterProperties;
+	}
+
+	public function addToIdArray($id){
+		if (is_numeric($id)) {
+			$this->idArray[] = $id;
+		}
+		if (is_array($id)) {
+			$this->idArray = array_merge($id, $this->idArray);
+		}
+	}
+
 	public function getResult()
 	{
 		$root = null;
@@ -201,7 +223,6 @@ class ElementsList
 		$em = $this->em;
 		$logger = $this->logger;
 		$section_elements_id = false;
-		//echo '<pre>' . print_r($this->getSectionsId(), true) . '</pre>';
 		if ($this->getSectionsId()) {
 			$root = false;
 			$sectionRepo = $em->getRepository('NovuscomCMFBundle:Section');
@@ -227,11 +248,32 @@ class ElementsList
 				$sections_id = array_merge($sections_id, $subSectionsId);
 			}
 
+
 			$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array('section' => $sections_id));
 			$section_elements_id = array();
 			foreach ($ElementSection as $es) {
-				//$section_elements_id[$es->getElement()->getId()] = $es->getSection()->getId();
+				$sectionId = $es->getSection()->getId();
+				$elementId = $es->getElement()->getId();
+				$section_elements_id[$elementId] = $sectionId;
 			}
+
+			/*$builder = $em
+				->createQueryBuilder()
+				->select('n.id')
+				->addSelect('IDENTITY(n.section) as section_id')
+				->addSelect('IDENTITY(n.element) as element_id')
+				->from('NovuscomCMFBundle:ElementSection', 'n', 'n.id')
+				->where('n.section IN (:sections)')
+				->setParameter('sections', $sections_id);
+			$builder->orderBy('n.id', 'ASC');
+			$query = $builder->getQuery();
+			$result = $query->getArrayResult();
+			foreach ($result as $r) {
+				$section_elements_id[$r['element_id']] = $r['section_id'];
+			}*/
+
+
+
 			if (empty($section_elements_id)) {
 				$logger->info('Нет элементов в разделах ' . implode(', ', $this->getSectionsId()) . '. Возвращается пустой массив.');
 				return array();
@@ -248,10 +290,11 @@ class ElementsList
 			if (count($ElementSection)) {
 				foreach ($ElementSection as $es) {
 					//if ($this->getBlockId() == $blockId)
-						$elementsId[] = $es->getElement()->getId();
+					$elementsId[] = $es->getElement()->getId();
 				}
 			}
-			$this->setIdArray($elementsId);
+			//Utils::msg($elementsId);
+			//$this->setIdArray($elementsId);
 			if ($this->getIncludeSubSections() == false)
 				if (empty($elementsId)) {
 					$logger->info('Нет элементов без раздела ' . implode(', ', $this->getSectionsId()) . '. Возвращается пустой массив.');
@@ -261,6 +304,32 @@ class ElementsList
 		$elements_repo = $em->createQueryBuilder('n');
 		$elements_repo->from('NovuscomCMFBundle:Element', 'n', 'n.id');
 		$elements_repo->select('n.name');
+
+		/**
+		 * Фильтрация по значениям свойств
+		 */
+		if ($this->getFilterProperties()) {
+			// получаем типы свойств, чтобы знать в каких таблицах искать
+			$filterProperties = $this->getFilterProperties();
+			$properties = $this->getProperties($this->getBlockId());
+			//Utils::msg($properties);
+			$propTypes = array();
+			$idValues = array();
+			foreach ($properties as $p) {
+				if (isset($filterProperties[$p['code']]))
+					$idValues[$p['id']] = $filterProperties[$p['code']];
+				$propTypes[] = $p['type'];
+			}
+			if (in_array('S', $propTypes) || in_array('E', $propTypes)) {
+				//Utils::msg($idValues);
+				$propValues = $this->getPropertyValues(array_keys($properties), $idValues);
+				//Utils::msg($propValues);
+				$this->setIdArray(array_keys($propValues));
+			}
+
+		}
+
+
 		if ($get_preview_picture) {
 			$elements_repo->addSelect('IDENTITY(n.PreviewPicture) as preview_picture');
 		}
@@ -289,6 +358,7 @@ class ElementsList
 			$elements_repo->setParameter('not_id', $this->getNotId());
 		}
 		if ($this->getIdArray()) {
+			//Utils::msg($this->getIdArray()); exit;
 			$elements_repo->andWhere('n.id IN(:id_array)');
 			$elements_repo->setParameter('id_array', $this->getIdArray());
 		}
@@ -307,6 +377,8 @@ class ElementsList
 		}
 		if ($this->getRandom() !== false)
 			$elements_repo->addSelect('RAND() as HIDDEN rand')->orderBy('rand');
+
+
 		$query = $elements_repo->getQuery();
 		$sql = $query->getSql();
 		$this->sql = $sql;
@@ -409,5 +481,58 @@ class ElementsList
 		$this->fieldNames = $em->getClassMetadata('NovuscomCMFBundle:Element')->getFieldNames();
 		$this->Section = $Section;
 		//echo '<pre>' . print_r($em->getClassMetadata('NovuscomCMFBundle:Element')->getAssociationNames(), true) . '</pre>';
+	}
+
+	public function getProperties($block_id)
+	{
+		$em = $this->em;
+		$builder = $em
+			->createQueryBuilder()
+			->select('n.id, n.name, n.code, n.type, n.info, n.isForSection')
+			->addSelect('IDENTITY(n.block) as block_id')
+			->from('NovuscomCMFBundle:Property', 'n', 'n.id')
+			->where('n.block=:block_id')
+			->andWhere('n.isForSection=:isForSection')
+			->setParameter('block_id', $block_id)
+			->setParameter('isForSection', false)
+			->orderBy('n.name', 'ASC');
+		$query = $builder->getQuery();
+		$result = $query->getArrayResult();
+		return $result;
+	}
+
+	public function getPropertyValues($propertyId, array $values = array())
+	{
+		$em = $this->em;
+		$builder = $em
+			->createQueryBuilder()
+			->select('n.id, n.value, n.description')
+			->addSelect('IDENTITY(n.element) as element_id')
+			->addSelect('IDENTITY(n.property) as property_id')
+			->from('NovuscomCMFBundle:ElementProperty', 'n', 'n.id')
+			->where('n.property IN (:property_id)')
+			->setParameter('property_id', $propertyId);
+		foreach ($values as $propertyId => $propertyValue) {
+
+			$builder->add('having', $builder->expr()->orX(
+				$builder->expr()->eq('n.value', $propertyValue)
+			));
+			//$builder->setParameter('value', $propertyId);
+		}
+		$builder->orderBy('n.id', 'ASC');
+		$query = $builder->getQuery();
+		$SQL = $query->getSQL();
+		//Utils::msg($SQL);
+		//exit;
+		$result = $query->getArrayResult();
+		$res = array();
+		foreach ($result as $r) {
+			$res[$r['element_id']][$r['property_id']] = array(
+				'value' => $r['value'],
+				'id' => $r['id'],
+				'description' => $r['description'],
+			);
+		}
+		return $res;
 	}
 }

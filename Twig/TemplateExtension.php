@@ -432,6 +432,7 @@ class TemplateExtension extends \Twig_Extension
 			'LIMIT' => false,
 			'ORDER' => array(),
 			'ID' => array(),
+			'FILTER_PROPERTIES' => array(),
 		);
 		$params = array_merge($defaultParams, $params);
 		$ElementsList = $this->container->get('ElementsList');
@@ -442,6 +443,7 @@ class TemplateExtension extends \Twig_Extension
 		$ElementsList->setLimit($params['LIMIT']);
 		$ElementsList->setOrder($params['ORDER']);
 		$ElementsList->setIdArray($params['ID']);
+		$ElementsList->setFilterProperties($params['FILTER_PROPERTIES']);
 		$elements = $ElementsList->getResult();
 		return $elements;
 	}
