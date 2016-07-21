@@ -5,6 +5,7 @@ namespace Novuscom\CMFBundle\Controller;
 
 
 use Monolog\Handler\Curl\Util;
+use GuzzleHttp\Client;
 use Novuscom\CMFBundle\Services\Utils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -1676,11 +1677,11 @@ class ElementController extends Controller
 		$result = false;
 		if ($file_src) {
 			$em = $this->getDoctrine()->getManager();
-			$client = $this->get('Guzzle');
-			$response = $client->get($file_src);
+			//$client = $this->get('Guzzle');
+			$client = new Client();
+
 			$file_path = $this->getUploadDir() . $this->createRandCode() . '.jpg';
-			$response->setResponseBody($file_path);
-			$response->send();
+			$client->request('GET', $file_src, ['sink' => $file_path]);
 
 			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $file_path);
 
