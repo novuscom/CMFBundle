@@ -814,7 +814,7 @@ class ComponentController extends Controller
 				//Utils::msg($params);
 				//exit;
 				$fb = array();
-				if ($page->getLvl()!=0) {
+				if ($page && $page->getLvl()!=0) {
 					$fb['section'] = null;
 				}
 				$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy($fb);
