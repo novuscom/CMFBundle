@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
@@ -296,7 +297,7 @@ class ElementPropertyType extends AbstractType
 					}
 					$builder->add(
 						$p->getId(),
-						'datetime',
+						DateTimeType::class,
 						$field_options
 					);
 					break;
@@ -337,7 +338,7 @@ class ElementPropertyType extends AbstractType
 					$users = $this->em->getRepository('NovuscomCMFUserBundle:User')->findAll();
 					$users_array = array();
 					foreach ($users as $u) {
-						$users_array[$u->getId()] = $u->getUsername();
+						$users_array[$u->getUsername()] = $u->getId();
 					}
 					$field_options = array(
 						'choices' => $users_array,
@@ -352,7 +353,7 @@ class ElementPropertyType extends AbstractType
 						//echo '<pre>' . print_r($this->data['VALUES'][$p->getId()], true) . '</pre>';
 						$field_options['data'] = $this->data['VALUES'][$p->getId()][0];
 					}
-					$builder->add($p->getId(), 'choice', $field_options);
+					$builder->add($p->getId(), ChoiceType::class, $field_options);
 					break;
 				default:
 					//echo '<pre>' . print_r($p->getInfo(), true) . '</pre>';
