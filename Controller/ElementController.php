@@ -1363,23 +1363,30 @@ class ElementController extends Controller
 							} else {
 								//echo '<pre>' . print_r('Объект', true) . '</pre>';
 								//echo '<pre>' . print_r($val, true) . '</pre>';
-								foreach ($propArray[$ep->getProperty()->getId()] as $k => $v) {
-									//echo '<pre>' . print_r($v->getValue(), true) . '</pre><hr/>';
-									$ep->setValue($v->getValue());
-									$updatedId[] = $ep->getId();
-									//echo '<pre>' . print_r('Обновляем ' . $key, true) . '</pre>';
-									//$updatedId[] = $key;
-									$em->persist($ep);
-									//$val->remove($k);
-									$propArray[$ep->getProperty()->getId()]->remove($k);
 
-									break;
+								//exit;
+
+								if ($propArray[$ep->getProperty()->getId()] instanceof \DateTime) {
+
+								}
+								else {
+									foreach ($propArray[$ep->getProperty()->getId()] as $k => $v) {
+										$ep->setValue($v->getValue());
+										$updatedId[] = $ep->getId();
+										//echo '<pre>' . print_r('Обновляем ' . $key, true) . '</pre>';
+										//$updatedId[] = $key;
+										$em->persist($ep);
+										//$val->remove($k);
+										$propArray[$ep->getProperty()->getId()]->remove($k);
+										break;
+									}
+									if ($val->isEmpty()) {
+										//echo '<pre>' . print_r('Удаляем коллекецию, т.к. она уже пустая', true) . '</pre>';
+										unset($propArray[$ep->getProperty()->getId()]);
+									}
 								}
 								//echo '<pre>' . print_r($val, true) . '</pre>';
-								if ($val->isEmpty()) {
-									//echo '<pre>' . print_r('Удаляем коллекецию, т.к. она уже пустая', true) . '</pre>';
-									unset($propArray[$ep->getProperty()->getId()]);
-								}
+
 
 							}
 
