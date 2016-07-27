@@ -326,7 +326,10 @@ class ElementsList
 				//Utils::msg($propValues);
 				$this->setIdArray(array_keys($propValues));
 			}
-
+			if (!$this->getIdArray()) {
+				$logger->info('Не найдены элементы по указанному фильтру свойств <pre>' . print_r($this->getFilterProperties(), true) . '</pre>');
+				return array();
+			}
 		}
 
 
