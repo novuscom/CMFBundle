@@ -289,12 +289,20 @@ class ElementPropertyType extends AbstractType
 						'mapped' => false,
 						'required' => false,
 					);
-					if (isset($this->data['VALUES'][$p->getId()])) {
-						if (is_a($this->data['VALUES'][$p->getId()][0], 'DateTime')) {
-							$field_options['data'] = $this->data['VALUES'][$p->getId()][0];
-						}
+					if ($info && is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true) {
 
 					}
+					else {
+						if (isset($options['data']['VALUES'][$p->getId()][0])) {
+							//echo '<pre>'.print_r($options['data']['VALUES'][$p->getId()][0], true).'</pre>';
+							if ($options['data']['VALUES'][$p->getId()][0] instanceof \DateTime)
+								$field_options['data'] = $options['data']['VALUES'][$p->getId()][0];
+
+
+						}
+					}
+
+
 					$builder->add(
 						$p->getId(),
 						DateTimeType::class,

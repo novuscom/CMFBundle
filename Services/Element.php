@@ -11,6 +11,7 @@ use Novuscom\CMFBundle\Entity\ElementSection;
 use Novuscom\CMFBundle\Entity\Section;
 use Novuscom\CMFBundle\Entity\ElementProperty;
 use Novuscom\CMFBundle\Entity\ElementPropertySection;
+use Novuscom\CMFBundle\Entity\ElementPropertyDT;
 use Novuscom\CMFBundle\Services\Utils;
 
 
@@ -48,14 +49,13 @@ class Element
 
 			$ref = $this->em->getReference('Novuscom\CMFBundle\Entity\ElementPropertySection', $info['id']);
 			$prop = $properties[$info['property_id']];
-			if ($info['section_id']!=$prop->getId()) {
+			if ($info['section_id'] != $prop->getId()) {
 				//Utils::msg('изменяем запись');
 				//Utils::msg($info);
 				$ref->setSection($prop);
 				$this->em->persist($prop);
 				$currentSectionV[] = $prop->getId();
-			}
-			else {
+			} else {
 				$currentSectionV[] = $info['section_id'];
 			}
 
@@ -65,6 +65,7 @@ class Element
 		//exit;
 
 		foreach ($properties as $key => $value) {
+			$propertyReference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $key);
 			if (is_array($value)) {
 				if (isset($currentById[$key]))
 					$currentVal = $currentById[$key];
@@ -84,16 +85,22 @@ class Element
 					Utils::msg($value->getId());
 					Utils::msg($currentSectionV);
 					//exit;
-					if (in_array($value->getId(), $currentSectionV)==false) {
-						$propertyReference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $key);
+					if (in_array($value->getId(), $currentSectionV) == false) {
 						$ElementPropertySection = new ElementPropertySection();
 						$ElementPropertySection->setProperty($propertyReference);
 						$ElementPropertySection->setElement($element);
 						$ElementPropertySection->setSection($value);
 						$this->em->persist($ElementPropertySection);
 					}
+				} else if ($value instanceof \DateTime) {
+					//Utils::msg($value);
+					$ElementPropertyDT = new ElementPropertyDT();
+					$ElementPropertyDT->setElement($element);
+					$ElementPropertyDT->setProperty($propertyReference);
+					$ElementPropertyDT->setValue($value);
+					$this->em->persist($ElementPropertyDT);
 				} else {
-					Utils::msg(get_class($value));
+					Utils::msg('Class: ' . get_class($value));
 				}
 			}
 
