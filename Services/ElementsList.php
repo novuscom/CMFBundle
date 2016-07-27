@@ -365,6 +365,10 @@ class ElementsList
 			$elements_repo->andWhere('n.id IN(:id_array)');
 			$elements_repo->setParameter('id_array', $this->getIdArray());
 		}
+
+		$elements_repo->andWhere('n.active=true');
+
+
 		$order = $this->getOrder();
 
 		if ($order) {
@@ -385,6 +389,7 @@ class ElementsList
 		$query = $elements_repo->getQuery();
 		$sql = $query->getSql();
 		$this->sql = $sql;
+		//echo '<pre>' . print_r($sql, true) . '</pre>';
 		$elements = $query->getResult();
 
 		/**

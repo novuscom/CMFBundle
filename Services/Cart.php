@@ -4,7 +4,6 @@ namespace Novuscom\CMFBundle\Services;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Security\Core\Util\SecureRandom;
 use Monolog\Logger;
 use Novuscom\CMFBundle\Entity\Cart as CartEntity;
 use Novuscom\CMFBundle\Services\User;
@@ -35,8 +34,7 @@ class Cart
 
 	private function Create()
 	{
-		$generator = new SecureRandom();
-		$random = bin2hex($generator->nextBytes(10));
+		$random = bin2hex(random_bytes(10));
 		$this->logger->addInfo('Новая корзина с кодом ' . $random);
 		$cart = new CartEntity();
 		$this->setCreatedTime();
