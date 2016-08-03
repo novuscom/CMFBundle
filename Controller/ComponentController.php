@@ -418,9 +418,9 @@ class ComponentController extends Controller
 		}
 
 		$user_id = null;
-		$securityContext = $this->container->get('security.context');
+		$securityContext = $this->container->get('security.authorization_checker');
 		if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-			$user = $this->container->get('security.context')
+			$user = $this->container->get('security.token_storage')
 				->getToken()
 				->getUser();
 			$user_id = $user->getId();

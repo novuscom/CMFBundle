@@ -94,7 +94,8 @@ class TemplateExtension extends \Twig_Extension
 	{
 		foreach ($tree as $item) {
 			//echo '<pre>' . print_r($item, true) . '</pre>';
-			$url = $this->urlGenerator->generate($routeCode, array('CODE' => $item['full_code']));
+			$url = $this->urlGenerator->generate($routeCode, array('SECTION_CODE' => $item['full_code']));
+			//$url = $this->urlGenerator->generate($routeCode, array('CODE' => $item['full_code']));
 			$menuItem = $menu->addChild($item['name'], array('uri' => $url));
 			$menuItem->setAttribute('data-id', $item['id']);
 			if ($item['full_code'] == $currentCode) {
@@ -128,8 +129,9 @@ class TemplateExtension extends \Twig_Extension
 		$request = $this->container->get('request_stack')->getMasterRequest();
 		$routeParams = $request->attributes->get('_route_params');
 		$currentCode = false;
-		if (array_key_exists('CODE', $routeParams))
-			$currentCode = trim($routeParams['CODE'], '/');
+		if (array_key_exists('SECTION_CODE', $routeParams))
+			$currentCode = trim($routeParams['SECTION_CODE'], '/');
+			//$currentCode = trim($routeParams['CODE'], '/');
 		$options['@currentCode'] = $currentCode;
 
 		// id кеша
