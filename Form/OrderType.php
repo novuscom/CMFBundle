@@ -3,6 +3,8 @@
 namespace Novuscom\CMFBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -14,16 +16,16 @@ class OrderType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('address', 'text', array(
+        $builder->add('address', TextType::class, array(
             'label' => 'Адрес доставки',
         ));
-        $builder->add('phone', 'text', array(
+        $builder->add('phone', TextType::class, array(
             'label' => 'Телефон',
         ));
-        $builder->add('name', 'text', array(
+        $builder->add('name', TextType::class, array(
             'label' => 'ФИО',
         ));
-        $builder->add('submit', 'submit', array(
+        $builder->add('submit', SubmitType::class, array(
             'label' => 'Заказать',
         ));
     }

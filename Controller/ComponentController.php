@@ -239,7 +239,7 @@ class ComponentController extends Controller
 			throw $this->createNotFoundException('Не найдена корзина');
 		}
 
-		$user = $this->container->get('security.context')
+		$user = $this->container->get('security.token_storage')
 			->getToken()
 			->getUser();
 
@@ -249,7 +249,7 @@ class ComponentController extends Controller
 		$routeName = $request->get('_route');
 
 
-		$form = $this->createForm(new OrderType());
+		$form = $this->createForm(OrderType::class);
 		if ($request->getMethod() == 'POST') {
 			$order = new Order();
 			//$order->setUser($user);
@@ -372,7 +372,7 @@ class ComponentController extends Controller
 		$Cart = $this->get('Cart');
 		$cart = $Cart->GetCurrent();
 
-		$form = $this->createForm(new OrderType(), null, array(
+		$form = $this->createForm(OrderType::class, null, array(
 			'action' => $this->generateUrl('order'),
 			'method' => 'POST',
 			'attr' => array('class' => ''),
