@@ -217,7 +217,7 @@ class OrderController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_order_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            //->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
     }
