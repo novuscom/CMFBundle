@@ -162,7 +162,7 @@ class Crumbs
 			foreach ($path as $p) {
 				$codes_array[] = $p->getCode();
 				$crumbs[] = array(
-					'url' => $this->generateUrl('cmf_page_frontend', array('name' => implode('/', $codes_array))),
+					'url' => $this->container->get('router')->generate('cmf_page_frontend', array('name' => implode('/', $codes_array))),
 					'name' => $p->getName(),
 				);
 			}
