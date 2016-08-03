@@ -125,8 +125,8 @@ class TemplateExtension extends \Twig_Extension
 		/*
 		 * Добавляем текущую страницу в id кеша
 		 */
-		$request = $this->container->get('request_stack');
-		$routeParams = $request->get('_route_params');
+		$request = $this->container->get('request_stack')->getMasterRequest();
+		$routeParams = $request->attributes->get('_route_params');
 		$currentCode = false;
 		if (array_key_exists('CODE', $routeParams))
 			$currentCode = trim($routeParams['CODE'], '/');

@@ -705,6 +705,7 @@ class ComponentController extends Controller
 		Request $request
 	)
 	{
+
 		$logger = $this->get('logger');
 		$logger->notice('Начал работу контроллер ElementAction');
 		if (array_key_exists('BLOCK_ID', $params) == false) {
@@ -1033,8 +1034,8 @@ class ComponentController extends Controller
 			if ($page) {
 				$response_data['page'] = $page;
 			}
-			if (isset($params['params']['template_directory'])) {
-				$template_code = $params['params']['template_directory'];
+			if (isset($params['params']['template_code'])) {
+				$template_code = $params['params']['template_code'];
 			} else {
 				$template_code = $params['template_code'];
 			}
