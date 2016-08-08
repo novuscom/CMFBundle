@@ -286,6 +286,8 @@ class TemplateExtension extends \Twig_Extension
 				$url = $e->getUrl();
 			else if (preg_match('/\.(html|xml|php|htm)$/', $e['url']))
 				$url = $this->urlGenerator->generate('cmf_page_frontend_clear', array('name' => $e['url']));
+			else if ($e['url']=='/')
+				$url = $this->urlGenerator->generate('main');
 			else
 				$url = $this->urlGenerator->generate('cmf_page_frontend', array('name' => $e['url']));
 			$item = $menu->addChild($e['name'], array('uri' => $url, 'attributes' => array(
