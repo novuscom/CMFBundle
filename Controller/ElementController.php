@@ -620,7 +620,6 @@ class ElementController extends Controller
 			}
 
 		}
-		exit;
 	}
 
 	private function createDetailPicture($entity, $file, $alt)
@@ -1224,12 +1223,7 @@ class ElementController extends Controller
 
 		return $result;
 	}
-
-
-	public function getPropertiesValuesFromForm(){
-
-	}
-
+	
 
 	/**
 	 * Edits an existing Element entity.

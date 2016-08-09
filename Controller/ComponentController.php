@@ -524,7 +524,6 @@ class ComponentController extends Controller
 					$response = new RedirectResponse($url);
 					return $response;
 				} else {
-					print_r('Пароль указан не верно');
 					$form->addError(new FormError('Пароль указан не верно'));
 				}
 			}
@@ -627,7 +626,7 @@ class ComponentController extends Controller
 			if (count($by_username)) {
 				$form->get('username')->addError(new FormError('Пользователь с таким именем уже зарегистрирован на сайте'));
 			}
-			if (count($by_email) == 0 and count($by_username) == 0) {
+			if (count($by_email) == 0 && count($by_username) == 0) {
 
 				$em = $this->getDoctrine()->getManager();
 				//$group = $em->getRepository('NovuscomCMFUserBundle:Group')->find(1); // задаем группу

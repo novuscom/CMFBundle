@@ -237,7 +237,6 @@ class TemplateExtension extends \Twig_Extension
 		$tree = $repo->buildTree($query->getArrayResult(), $options);
 		return $tree;
 		echo '<pre>' . print_r($tree, true) . '</pre>';
-		exit;
 		$entities = $this->doctrine->getRepository('NovuscomCMFBundle:Item')->findBy(
 			array(
 				'menu' => $id

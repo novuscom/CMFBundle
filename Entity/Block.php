@@ -480,7 +480,7 @@ class Block
 
 	public function sectionLimit($section = false){
 		$result = false;
-		if ($this->getParam('SECTIONS_LEVEL_LIMIT') and $section) {
+		if ($this->getParam('SECTIONS_LEVEL_LIMIT') && $section) {
 			if (($section->getLvl()+1)<$this->getParam('SECTIONS_LEVEL_LIMIT'))
 				$result = true;
 		}

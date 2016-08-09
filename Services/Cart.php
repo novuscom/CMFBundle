@@ -44,7 +44,7 @@ class Cart
 		$cart->setCode($random);
 		$user = $this->user;
 		$stringClassName = $this->getUserClassName();
-		if ((is_object($user) and $user instanceof $stringClassName))
+		if ((is_object($user) && $user instanceof $stringClassName))
 			$cart->setUser($user);
 		return $cart;
 	}
