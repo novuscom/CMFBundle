@@ -2,6 +2,8 @@
 
 CMF на Symfony2
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/3b16c0b8-6055-4b38-a543-edfcc3ae1f65/big.png)](https://insight.sensiolabs.com/projects/3b16c0b8-6055-4b38-a543-edfcc3ae1f65)
+
 ## Установка ##
 
 ### Устанавливаем Symfony ###
@@ -77,12 +79,13 @@ CMF на Symfony2
  
 8. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
 
-9. `php app/console cache:clear --env=prod --no-debug`
+9. 
+	`php app/console cache:clear --env=prod --no-debug`
+	
+	`composer dump-autoload --optimize`
 
- `composer dump-autoload --optimize`
+	`php app/console cache:clear --env=prod --no-debug`
 
- `php app/console cache:clear --env=prod --no-debug`
-
- `php app/console cache:clear`
+	`php app/console cache:clear`
 
 10. *example.com/admin*
