@@ -294,9 +294,10 @@ class TemplateExtension extends \Twig_Extension
 				//'data-url' => $e['url'],
 				//'data-uri' => $_SERVER['REQUEST_URI'],
 			)));
-			if ($_SERVER['REQUEST_URI'] == '' . $e['url'] . '') {
-				//echo '<pre>' . print_r($_SERVER['REQUEST_URI'], true) . '</pre>';
-				//echo '<pre>' . print_r($e['url'], true) . '</pre>';
+			//echo '<pre>' . print_r($url, true) . '</pre>';
+			//echo '<pre>' . print_r($_SERVER['REQUEST_URI'], true) . '</pre>';
+			if ($_SERVER['REQUEST_URI'] == '' . $url . '') {
+
 				$item->setCurrent(true);
 			}
 
