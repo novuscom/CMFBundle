@@ -282,7 +282,7 @@ class TemplateExtension extends \Twig_Extension
 		foreach ($array as $e) {
 			$e['name'] = html_entity_decode($this->typograf($e['name']));
 			if (preg_match('/^(http|https|ftp):\/\//', $e['url']))
-				$url = $e->getUrl();
+				$url = $e['url'];
 			else if (preg_match('/\.(html|xml|php|htm)$/', $e['url']))
 				$url = $this->urlGenerator->generate('cmf_page_frontend_clear', array('name' => $e['url']));
 			else if ($e['url']=='/')
