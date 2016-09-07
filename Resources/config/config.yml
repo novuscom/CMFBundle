@@ -1,6 +1,7 @@
 parameters:
     locale: ru
     database_driver: pdo_mysql
+    cache_driver: apcu
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -20,9 +21,9 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
-        metadata_cache_driver: apcu
-        query_cache_driver: apcu
-        result_cache_driver: apcu
+        metadata_cache_driver: %cache_driver%
+        query_cache_driver: %cache_driver%
+        result_cache_driver: %cache_driver%
         #resolve_target_entities:
         #    CMF\PageBundle\Model\PageSubjectInterface: CMF\SiteBundle\Entity\Site
         dql:
