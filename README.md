@@ -34,8 +34,8 @@ php -r "unlink('composer-setup.php');"
 
 1. В блоке *require* файла composer.json добавляем следующие пакеты:
 	```json
-	"novuscom/cmfbundle": "0.0.7.8",
-	"novuscom/cmfuserbundle": "0.0.6.8",
+	"novuscom/cmfbundle": "^0.0.7",
+	"novuscom/cmfuserbundle": "^0.0.6",
 	"gedmo/doctrine-extensions": "^2.4",
 	"friendsofsymfony/user-bundle": "dev-master",
 	"knplabs/knp-paginator-bundle": "^2.5",
@@ -80,15 +80,15 @@ php -r "unlink('composer-setup.php');"
  ```
 
  
-8. Выполняем команды `php app/console doctrine:schema:update --dump-sql` и затем `php app/console doctrine:schema:update --force`
+8. Выполняем команды `php bin/console doctrine:schema:update --dump-sql` и затем `php bin/console doctrine:schema:update --force`
 
 9. 
-	`php app/console cache:clear --env=prod --no-debug`
+	`php bin/console cache:clear --env=prod --no-debug`
 	
 	`composer dump-autoload --optimize`
 
-	`php app/console cache:clear --env=prod --no-debug`
+	`php bin/console cache:clear --env=prod --no-debug`
 
-	`php app/console cache:clear`
+	`php bin/console cache:clear`
 
 10. *example.com/admin*
