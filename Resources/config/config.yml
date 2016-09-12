@@ -1,7 +1,7 @@
 parameters:
     locale: ru
     database_driver: pdo_mysql
-    cache_driver: apcu
+    cache_driver: array
 # Doctrine Configuration
 doctrine:
     dbal:

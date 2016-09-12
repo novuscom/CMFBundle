@@ -9,6 +9,20 @@ use Monolog\Logger;
 class Crumbs
 {
 
+	private function getCacheDriver()
+	{
+		$env = $this->container->get('kernel')->getEnvironment();
+		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/Sites/');
+		$cacheDriver = new \Doctrine\Common\Cache\ArrayCache();
+		$cacheDriverName = $this->container->getParameter('cache_driver');
+		if ($cacheDriverName=='apcu') {
+			$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
+		}
+		//echo '<pre>'.print_r($cacheDriverName, true).'</pre>';
+		//$cacheDriver->setNamespace('Pages_' . $env);
+		return $cacheDriver;
+	}
+
 	public function getForSite($params)
 	{
 		$time_start = microtime(1);
@@ -24,7 +38,7 @@ class Crumbs
 		}
 		$logger->info('параметры маршрута известны или это маршрут для статических страниц');
 		$env = $this->container->get('kernel')->getEnvironment();
-		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
+		$cacheDriver = $this->getCacheDriver();
 		$cacheDriver->setNamespace('CrumbsAction_' . $env);
 		$cacheId = json_encode(array($params, $route_params));
 		$existParams = (array_key_exists('params', $route_params));

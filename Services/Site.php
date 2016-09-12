@@ -131,7 +131,12 @@ class Site
 	{
 		$env = $this->container->get('kernel')->getEnvironment();
 		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/Sites/');
-		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
+		$cacheDriver = new \Doctrine\Common\Cache\ArrayCache();
+		$cacheDriverName = $this->container->getParameter('cache_driver');
+		if ($cacheDriverName=='apcu') {
+			$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
+		}
+		//echo '<pre>'.print_r($cacheDriverName, true).'</pre>';
 		//$cacheDriver->setNamespace('Pages_' . $env);
 		return $cacheDriver;
 	}
