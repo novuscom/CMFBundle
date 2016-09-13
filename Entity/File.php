@@ -3,6 +3,7 @@
 namespace Novuscom\CMFBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Novuscom\CMFBundle\Services\Utils;
 
 /**
  * File
@@ -40,11 +41,17 @@ class File
 	 */
 	private $property;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
+
+	public function __construct($file = false)
 	{
+		if ($file) {
+			$this->file = $file;
+			$this->getSize();
+			$this->getName();
+			$this->getType();
+			$this->getName();
+		}
+
 		$this->property = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
@@ -71,6 +78,11 @@ class File
 		return $this;
 	}
 
+	private function getRandCode()
+	{
+		return md5(time());
+	}
+
 	/**
 	 * Get name
 	 *
@@ -78,6 +90,13 @@ class File
 	 */
 	public function getName()
 	{
+		if (empty($this->name) && !empty($this->getFile())) {
+			$ext = $this->getFile()->guessExtension();
+			if (!$ext)
+				$ext = $this->getFile()->getClientOriginalExtension();
+			$fileName = $this->getRandCode().'.'.$ext;
+			$this->setName($fileName);
+		}
 		return $this->name;
 	}
 
@@ -101,6 +120,10 @@ class File
 	 */
 	public function getSize()
 	{
+		if (empty($this->size) && !empty($this->getFile())) {
+			$size = $this->getFile()->getClientSize();
+			$this->setSize($size);
+		}
 		return $this->size;
 	}
 
@@ -147,6 +170,9 @@ class File
 	 */
 	public function getType()
 	{
+		if (empty($this->type) && !empty($this->getFile())) {
+			$this->setType($this->getFile()->getClientMimeType());
+		}
 		return $this->type;
 	}
 
@@ -187,4 +213,11 @@ class File
 	{
 		return '/upload/images/' . $this->getName();
 	}
+
+	private $file;
+
+	public function getFile(){
+		return $this->file;
+	}
+
 }
