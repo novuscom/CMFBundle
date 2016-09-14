@@ -261,14 +261,13 @@ class ElementPropertyType extends AbstractType
 
 						}
 						$jsonData = json_encode($dataAtr);
-						$builder->add($p->getId(), 'collection',
+						$builder->add($p->getId(), CollectionType::class,
 							array(
-								'type' => new ElementPropertyFMultipleType(),
+								'entry_type' => ElementPropertyFMultipleType::class,
 								'mapped' => false,
 								'allow_add' => true,
 								'label' => $p->getName(),
 								'allow_delete' => true,
-								'cascade_validation' => true,
 								'by_reference' => false,
 								'label_attr' => array(
 									'class' => 'files-property',
