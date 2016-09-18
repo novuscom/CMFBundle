@@ -3,7 +3,10 @@
 namespace Novuscom\CMFBundle\Services;
 
 use Monolog\Handler\Curl\Util;
+use Novuscom\CMFBundle\Entity\ElementPropertyF;
+use Novuscom\CMFBundle\Entity\File;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Router;
 use Doctrine\Common\Collections\ArrayCollection;
 use Monolog\Logger;
@@ -80,6 +83,8 @@ class Element
 					);
 				}
 			}
+			//Utils::msg(gettype($value));
+			//TODO Надо пернести ниже?
 			if (is_object($value)) {
 				if ($value instanceof $Section) {
 					Utils::msg($value->getId());
@@ -103,24 +108,53 @@ class Element
 					Utils::msg('Class: ' . get_class($value));
 				}
 			}
+			/*if (is_array($value)) {
+				foreach ($value as $v) {
+					Utils::msg($v);
+				}
+			}*/
 
 
 		}
-		Utils::msg('-------added--------');
-		Utils::msg($added);
-		Utils::msg('-------removed--------');
-		Utils::msg($removed);
+		//Utils::msg('-------added--------');
+		//Utils::msg($added);
+		//Utils::msg('-------removed--------');
+		//Utils::msg($removed);
 
 		//exit;
 
 		foreach ($added as $addArray) {
 			$propertyReference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $addArray['property_id']);
-			$ep = new ElementProperty();
-			$ep->setDescription($addArray['description']);
-			$ep->setElement($element);
-			$ep->setProperty($propertyReference);
-			$ep->setValue($addArray['value']);
-			$this->em->persist($ep);
+			$value = $addArray['value'];
+			if (isset($value['file']) && $value['file'] instanceof UploadedFile) {
+
+				//$serviceFile =
+
+				$elementFile = new ElementPropertyF();
+				Utils::msg($value);
+				//exit;
+
+				$nFile = new File($value['file']);
+
+
+				$elementFile->setDescription($value['description']);
+				$elementFile->setElement($element);
+				$elementFile->setProperty($propertyReference);
+				$elementFile->setFile($nFile);
+				Utils::msg('аплоадим файл');
+				//exit;
+				$this->em->persist($nFile);
+				$this->em->persist($elementFile);
+				$this->file->uploadFile($nFile);
+			}
+			else {
+				$ep = new ElementProperty();
+				$ep->setDescription($addArray['description']);
+				$ep->setElement($element);
+				$ep->setProperty($propertyReference);
+				$ep->setValue($value);
+				$this->em->persist($ep);
+			}
 		}
 
 		foreach ($removed as $removeArray) {
@@ -624,14 +658,18 @@ class Element
 	private $container;
 	private $Utils;
 	private $Router;
+	private $file;
 
 	public function __construct(
 		\Doctrine\ORM\EntityManager $em,
 		Logger $logger,
 		ContainerInterface $container,
 		Utils $Utils,
-		Router $Router)
+		Router $Router,
+		\Novuscom\CMFBundle\Services\File $file
+	)
 	{
+		$this->file = $file;
 		$this->em = $em;
 		$this->container = $container;
 		$this->Utils = $Utils;

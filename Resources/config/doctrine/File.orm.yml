@@ -11,6 +11,9 @@ Novuscom\CMFBundle\Entity\File:
         name:
             type: string
             length: 255
+        original_name:
+            type: string
+            length: 255
         size:
             type: integer
         description:
@@ -20,6 +23,9 @@ Novuscom\CMFBundle\Entity\File:
         type:
             type: string
             length: '50'
+        time:
+            type: datetime
+            nullable: false
     oneToMany:
         property:
             targetEntity: ElementPropertyF

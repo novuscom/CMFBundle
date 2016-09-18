@@ -2,6 +2,7 @@ parameters:
     locale: ru
     database_driver: pdo_mysql
     cache_driver: array
+    upload_directory: 'upload/etc'
 # Doctrine Configuration
 doctrine:
     dbal:
