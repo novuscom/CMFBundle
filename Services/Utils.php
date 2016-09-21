@@ -12,6 +12,10 @@ class Utils
 		echo '<pre>'.print_r($object, true).'</pre>';
 	}
 
+	public static function getUniqueHash($object){
+		
+	}
+
 	public function getVersion(){
 		return self::VERSION;
 	}
