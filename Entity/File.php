@@ -50,8 +50,9 @@ class File
 			$this->getName();
 			$this->getType();
 			$this->getName();
+			$this->getOriginalName();
 		}
-
+		$this->setTime(new \DateTime());
 		$this->property = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
@@ -218,6 +219,46 @@ class File
 
 	public function getFile(){
 		return $this->file;
+	}
+
+	private $time;
+
+	/**
+	 * @return mixed
+	 */
+	public function getTime()
+	{
+		return $this->time;
+	}
+
+	/**
+	 * @param mixed $time
+	 */
+	public function setTime(\DateTime $time)
+	{
+		$this->time = $time;
+	}
+
+	private $original_name;
+
+	/**
+	 * @return mixed
+	 */
+	public function getOriginalName()
+	{
+		if (empty($this->original_name) && !empty($this->getFile())) {
+			$originalName = $this->getFile()->getClientOriginalName();
+			$this->setOriginalName($originalName);
+		}
+		return $this->original_name;
+	}
+
+	/**
+	 * @param mixed $originalName
+	 */
+	public function setOriginalName($originalName)
+	{
+		$this->original_name = $originalName;
 	}
 
 }
