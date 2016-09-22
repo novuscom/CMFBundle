@@ -12,8 +12,8 @@ class Utils
 		echo '<pre>'.print_r($object, true).'</pre>';
 	}
 
-	public static function getUniqueHash($object){
-		
+	public static function getUniqueHash($text=''){
+		return md5(microtime().$text);
 	}
 
 	public function getVersion(){
