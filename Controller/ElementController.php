@@ -28,7 +28,6 @@ use Novuscom\CMFBundle\Entity\Page;
 use Novuscom\CMFBundle\Entity\File;
 
 
-
 /**
  * Element controller.
  *
@@ -369,10 +368,6 @@ class ElementController extends Controller
 			$entity->setBlock($block);
 
 
-
-
-
-
 			/**
 			 * Свойства
 			 */
@@ -533,8 +528,6 @@ class ElementController extends Controller
 			$em->persist($entity);
 
 
-
-
 			/**
 			 * Сохраниение информации в базу
 			 */
@@ -627,23 +620,26 @@ class ElementController extends Controller
 
 		if ($file) {
 			$em = $this->getDoctrine()->getManager();
+			/*
 			$extension = $file->guessExtension();
 			$dir = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/';
 			if (!$extension) {
 				$extension = 'bin';
 			}
 			$newName = $this->createRandCode() . '.' . $extension;
-			$file->move($dir, $newName);
+			$file->move($dir, $newName);*/
 			/*
 			 * Создание и сохранение информации о файле
 			 */
-			$File = new File();
-			$File->setName($newName);
+			$File = new File($file);
+			/*$File->setName($newName);
 			$File->setType($file->getClientMimeType());
-			$File->setSize($file->getClientSize());
+			$File->setSize($file->getClientSize());*/
 			$File->setDescription($alt);
 			$em->persist($File);
 			$entity->setDetailPicture($File);
+			$fileService = $this->get('File');
+			$fileService->uploadFile($File);
 		}
 
 	}
@@ -651,7 +647,7 @@ class ElementController extends Controller
 
 	private function createPreviewPicture($entity, $file, $description)
 	{
-		if ($file) {
+		/*if ($file) {
 			$em = $this->getDoctrine()->getManager();
 			$extension = $file->guessExtension();
 			$dir = $this->get('kernel')->getRootDir() . '/../web/upload/images/';
@@ -660,9 +656,6 @@ class ElementController extends Controller
 			}
 			$newName = $this->createRandCode() . '.' . $extension;
 			$file->move($dir, $newName);
-			/*
-			 * Создание и сохранение информации о файле
-			 */
 			$File = new File();
 			$File->setName($newName);
 			$File->setType($file->getClientMimeType());
@@ -670,6 +663,19 @@ class ElementController extends Controller
 			$File->setDescription($description);
 			$em->persist($File);
 			$entity->setPreviewPicture($File);
+		}*/
+
+		if ($file) {
+			$em = $this->getDoctrine()->getManager();
+			$File = new File($file);
+			/*$File->setName($newName);
+			$File->setType($file->getClientMimeType());
+			$File->setSize($file->getClientSize());*/
+			//$File->setDescription($alt);
+			$em->persist($File);
+			$entity->setPreviewPicture($File);
+			$fileService = $this->get('File');
+			$fileService->uploadFile($File);
 		}
 
 	}
@@ -961,7 +967,7 @@ class ElementController extends Controller
 				'element' => $entity,
 			)
 		);
-		
+
 		foreach ($ElementProperty as $ep) {
 			$epArray[$ep->getProperty()->getId()][] = $ep->getValue();
 		}
@@ -1002,6 +1008,7 @@ class ElementController extends Controller
 			'LIIP' => $this->get('liip_imagine.cache.manager'),
 			'BLOCK_PROPERTIES' => $block->getProperty(),
 			'ELEMENT_ENTITY' => $entity,
+			'service.file' => $this->get('File'),
 		);
 
 
@@ -1223,7 +1230,7 @@ class ElementController extends Controller
 
 		return $result;
 	}
-	
+
 
 	/**
 	 * Edits an existing Element entity.
@@ -1362,8 +1369,7 @@ class ElementController extends Controller
 
 								if ($propArray[$ep->getProperty()->getId()] instanceof \DateTime) {
 
-								}
-								else {
+								} else {
 									foreach ($propArray[$ep->getProperty()->getId()] as $k => $v) {
 										$ep->setValue($v->getValue());
 										$updatedId[] = $ep->getId();
@@ -1527,15 +1533,13 @@ class ElementController extends Controller
 											}
 										}
 
-									}
-									else if ($pv instanceof $ElementProperty) {
+									} else if ($pv instanceof $ElementProperty) {
 										//echo '<pre>' . print_r('это свойство', true) . '</pre>';
 										$ElementProperty->setValue($pv->getValue());
 										$ElementProperty->setElement($entity);
 										$ElementProperty->setProperty($property);
 										$em->persist($ElementProperty);
-									}
-									else {
+									} else {
 										Utils::msg('Просто какое-то свойство');
 									}
 								}
@@ -1563,7 +1567,7 @@ class ElementController extends Controller
 								$em->persist($ElementProperty);
 							} else {
 								foreach ($propArray[$property_id] as $k => $v) {
-									if ((is_object($v) && method_exists($v, 'getValue'))==false)
+									if ((is_object($v) && method_exists($v, 'getValue')) == false)
 										continue;
 									//echo '<pre>' . print_r($v, true) . '</pre>';
 									$ElementProperty = new ElementProperty();
@@ -1575,7 +1579,7 @@ class ElementController extends Controller
 									$propArray[$property_id]->remove($k);
 									//break;
 								}
-								if (method_exists($propArray[$property_id],'isEmpty') && $propArray[$property_id]->isEmpty()) {
+								if (method_exists($propArray[$property_id], 'isEmpty') && $propArray[$property_id]->isEmpty()) {
 									//echo '<pre>' . print_r('Удаляем коллекецию, т.к. она уже пустая', true) . '</pre>';
 									unset($propArray[$property_id]);
 								}
@@ -1732,7 +1736,7 @@ class ElementController extends Controller
 	private function createRandCode()
 	{
 		//return rand(1, 9999999999);
-		return md5(time());
+		return md5(microtime());
 	}
 
 	private function createFile($file)
@@ -1767,7 +1771,8 @@ class ElementController extends Controller
 			$em->remove($picture);
 			$fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/' . $picture->getName();
 			$em->flush();
-			unlink($fileName);
+			if (file_exists($fileName))
+				unlink($fileName);
 		}
 	}
 

@@ -81,7 +81,7 @@ class File
 
 	private function getRandCode()
 	{
-		return md5(time());
+		return md5(microtime());
 	}
 
 	/**
@@ -95,7 +95,7 @@ class File
 			$ext = $this->getFile()->guessExtension();
 			if (!$ext)
 				$ext = $this->getFile()->getClientOriginalExtension();
-			$fileName = $this->getRandCode().'.'.$ext;
+			$fileName = $this->getRandCode() . '.' . $ext;
 			$this->setName($fileName);
 		}
 		return $this->name;
@@ -212,12 +212,16 @@ class File
 
 	public function getImagePath()
 	{
-		return '/upload/images/' . $this->getName();
+		$res = null;
+		if ($this->getName())
+			$res = '/upload/etc/' . $this->getName();
+		return $res;
 	}
 
 	private $file;
 
-	public function getFile(){
+	public function getFile()
+	{
 		return $this->file;
 	}
 

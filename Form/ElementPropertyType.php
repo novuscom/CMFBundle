@@ -230,25 +230,21 @@ class ElementPropertyType extends AbstractType
 				case 'F':
 					if ($is_multiple) {
 						$dataAtr = array();
-						//echo '<pre>' . print_r($this->data['VALUES'], true) . '</pre>';
 						if (
-							isset($this->data['PROPERTY_FILE_VALUES'][$p->getId()])
-							&& is_array($this->data['PROPERTY_FILE_VALUES'])
-							&& array_key_exists($p->getId(), $this->data['PROPERTY_FILE_VALUES'])
+							isset($options['data']['PROPERTY_FILE_VALUES'][$p->getId()])
+							&& is_array($options['data']['PROPERTY_FILE_VALUES'])
+							&& array_key_exists($p->getId(), $options['data']['PROPERTY_FILE_VALUES'])
 						) {
-							//$choiceOptions['data'] = $this->data['VALUES'][$p->getId()];
-							$filesId = $this->data['PROPERTY_FILE_VALUES'][$p->getId()];
-							//echo '<pre>' . print_r($filesId, true) . '</pre>';
+							$filesId = $options['data']['PROPERTY_FILE_VALUES'][$p->getId()];
 							$files = $this->em->getRepository('NovuscomCMFBundle:File')->findBy(array(
 								'id' => $filesId,
 							));
-
 							if (count($files) > 0) {
-								$liip = $this->data['LIIP'];
+								$liip = $options['data']['LIIP'];
 								$dataAtr['files'] = array();
 								foreach ($files as $file) {
 									$fileInfo = array();
-									$originalPath = '/upload/images/' . $file->getName();
+									$originalPath = '/upload/etc/' . $file->getName();
 									$path = $liip->getBrowserPath($originalPath, 'my_thumb');
 									$fileInfo['path'] = $path;
 									$fileInfo['original_path'] = $originalPath;
@@ -256,7 +252,7 @@ class ElementPropertyType extends AbstractType
 									$fileInfo['property_id'] = $p->getId();
 									$dataAtr['files'][] = $fileInfo;
 								}
-
+								//Utils::msg($dataAtr);
 							}
 
 						}

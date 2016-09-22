@@ -38,7 +38,7 @@
                     {{ form_widget(edit_form.preview_picture_alt) }}
                     {{ form_errors(edit_form.preview_picture_alt) }}
                 </div>
-                {% if entity.previewPicture is not empty %}
+                {% if entity.previewPicture is not empty and entity.previewPicture.getImagePath %}
                     <a class="fancybox" href="{{ entity.previewPicture.getImagePath }}">
 						{% set file = resize_image(entity.previewPicture.getImagePath, 'proportional', [200, 200]) %}
 						<img src="{{ file.src }}"/>
