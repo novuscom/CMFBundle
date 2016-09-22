@@ -1463,7 +1463,7 @@ class ComponentController extends Controller
 			$ElementsList->setLimit($params['LIMIT']);
 			$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
 			$elements = $ElementsList->getResult();*/
-
+			$response_data['title'] = '';
 
 			$pageEntity = $page_repository->find($params['page_id']);
 			if ($pageEntity) {
@@ -1484,7 +1484,6 @@ class ComponentController extends Controller
 
 			$response_data['elements'] = $elements;
 			$response_data['options'] = $params['OPTIONS'];
-			$response_data['title'] = $pageEntity->getTitle();
 			$response_data['params'] = $params;
 
 			$template = '@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig';
