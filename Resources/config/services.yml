@@ -42,10 +42,10 @@ services:
         arguments: [ "@logger", "@doctrine.orm.entity_manager", "@service_container" ]
     Element:
         class:        Novuscom\CMFBundle\Services\Element
-        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@service_container", "@Utils", "@router", "@File" ]
+        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@service_container", "@Utils", "@router", "@File", "@Section", "@Route" ]
     Route:
         class:        Novuscom\CMFBundle\Services\Route
-        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@service_container", "@Utils", "@router" ]
+        arguments: [ "@doctrine.orm.entity_manager", "@logger", "@service_container", "@Utils", "@router", "@Site" ]
     Cart:
         class:        Novuscom\CMFBundle\Services\Cart
         arguments: [ "@doctrine.orm.entity_manager", "@logger", "@request_stack", "@service_container", "@User" ]

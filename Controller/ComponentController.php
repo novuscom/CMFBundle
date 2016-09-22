@@ -1068,6 +1068,7 @@ class ComponentController extends Controller
 	private function getElementsList($blockId, $sectionId = false, $params)
 	{
 		$ElementsList = $this->get('ElementsList');
+		$Element = $this->get('Element');
 		$ElementsList->setBlockId($blockId);
 		$ElementsList->setSectionId($sectionId);
 		$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
@@ -1080,7 +1081,13 @@ class ComponentController extends Controller
 			$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
 		if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUBSECTIONS', $params['params']))
 			$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUBSECTIONS']);
+
 		$elements = $ElementsList->getResult();
+
+		foreach ($elements as $e) {
+			$Element->getFullCode($e['id']);
+		}
+
 		return $elements;
 	}
 

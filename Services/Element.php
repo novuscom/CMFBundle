@@ -146,8 +146,7 @@ class Element
 				$this->em->persist($nFile);
 				$this->em->persist($elementFile);
 				$this->file->uploadFile($nFile);
-			}
-			else {
+			} else {
 				$ep = new ElementProperty();
 				$ep->setDescription($addArray['description']);
 				$ep->setElement($element);
@@ -528,26 +527,25 @@ class Element
 	public function getSections($element = false)
 	{
 		$ElementsSections = $this->getElementsSections();
-		$sections = false;
-		if (is_int($element)) {
+		if (is_numeric($element)) {
 			//$element = array($element);
-			throw new \Exception('$element must be Element object');
-		}
-		if (is_array($element)) {
+			//throw new \Exception('$element must be Element object');
+			$elementId = $element;
+			$element = $this->em->getReference('NovuscomCMFBundle:Element', $elementId);
+		} else if (is_array($element)) {
 			//$entity = $this->em->getRepository('NovuscomCMFBundle:Element')->findBy(array('id' => $element));
 			//$this->setSections($entity);
 			throw new \Exception('$element must be Element object');
 		} else if (is_object($element)) {
 			$elementId = $element->getId();
-			if (array_key_exists($elementId, $ElementsSections)) {
-				$sections = $ElementsSections[$elementId];
-			} else {
-				$this->setSectionsByEntity($element);
-				$sections = $this->ElementsSections[$elementId];
-			}
-
 		} else {
 			throw new \Exception('$element must be Element object');
+		}
+		if (array_key_exists($elementId, $ElementsSections)) {
+			$sections = $ElementsSections[$elementId];
+		} else {
+			$this->setSectionsByEntity($element);
+			$sections = $this->ElementsSections[$elementId];
 		}
 
 		return $sections;
@@ -608,6 +606,21 @@ class Element
 	}
 
 
+	public function getFullCode($entity)
+	{
+		$sections = $this->getSections($entity);
+		$routes = $this->routeService->getCurrentSiteRoutes();
+
+		foreach ($routes as $r) {
+			Utils::msg($r->getCode());
+		}
+		foreach ($sections as $s) {
+
+			Utils::msg($this->sectionService->getFullCode($s->getId()));
+		}
+	}
+
+
 	/*
 	 * Получает значения свойств элемента типа "Раздел"
 	 */
@@ -659,6 +672,8 @@ class Element
 	private $Utils;
 	private $Router;
 	private $file;
+	private $sectionService;
+	private $routeService;
 
 	public function __construct(
 		\Doctrine\ORM\EntityManager $em,
@@ -666,7 +681,9 @@ class Element
 		ContainerInterface $container,
 		Utils $Utils,
 		Router $Router,
-		\Novuscom\CMFBundle\Services\File $file
+		\Novuscom\CMFBundle\Services\File $file,
+		\Novuscom\CMFBundle\Services\Section $sectionService,
+		Route $routeService
 	)
 	{
 		$this->file = $file;
@@ -674,5 +691,7 @@ class Element
 		$this->container = $container;
 		$this->Utils = $Utils;
 		$this->Router = $Router;
+		$this->sectionService = $sectionService;
+		$this->routeService = $routeService;
 	}
 }

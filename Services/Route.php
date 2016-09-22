@@ -12,6 +12,14 @@ use Novuscom\CMFBundle\Services\Utils;
 class Route
 {
 
+	public function getCurrentSiteRoutes(){
+		$site = $this->siteService->getCurrent();
+		$routes = $this->em->getRepository('NovuscomCMFBundle:Route')->findBy(array(
+			'site' => $site['id'],
+		));
+		return $routes;
+	}
+
 	public function getRoute($routeName)
 	{
 		$availableApiRoutes = [];
@@ -62,17 +70,21 @@ class Route
 	private $Router;
 	private $logger;
 	private $em;
+	private $siteService;
 
 	public function __construct(
 		\Doctrine\ORM\EntityManager $em,
 		Logger $logger,
 		ContainerInterface $container,
 		Utils $Utils,
-		Router $Router)
+		Router $Router,
+		Site $siteService
+	)
 	{
 		$this->em = $em;
 		$this->container = $container;
 		$this->Utils = $Utils;
 		$this->Router = $Router;
+		$this->siteService = $siteService;
 	}
 }

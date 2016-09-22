@@ -10,6 +10,11 @@ use Monolog\Logger;
 
 class Page
 {
+
+	public function getFullCode($page){
+		
+	}
+
 	private function getPageArray($page)
 	{
 		$site = $this->getSite();

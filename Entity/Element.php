@@ -637,4 +637,22 @@ class Element
     {
         return $this->header;
     }
+
+    private $fullCode;
+
+	/**
+	 * @return mixed
+	 */
+	public function getFullCode()
+	{
+		return $this->fullCode;
+	}
+
+	/**
+	 * @param mixed $fullCode
+	 */
+	public function setFullCode($fullCode)
+	{
+		$this->fullCode = $fullCode;
+	}
 }
