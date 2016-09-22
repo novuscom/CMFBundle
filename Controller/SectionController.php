@@ -562,6 +562,7 @@ class SectionController extends Controller
 			'form' => $form->createView(),
 		));
 	}
+
 	/**
 	 * Creates a form to create a Section entity.
 	 *
@@ -774,7 +775,8 @@ class SectionController extends Controller
 			$em->remove($previewPicture);
 			$fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/' . $previewPicture->getName();
 			$em->flush();
-			unlink($fileName);
+			if (file_exists($fileName))
+				unlink($fileName);
 		}
 	}
 
@@ -783,6 +785,7 @@ class SectionController extends Controller
 	{
 		if ($file) {
 			$em = $this->getDoctrine()->getManager();
+			/*
 			$extension = $file->guessExtension();
 			$dir = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/';
 			if (!$extension) {
@@ -790,14 +793,17 @@ class SectionController extends Controller
 			}
 			$newName = md5(time()) . '.' . $extension;
 			$file->move($dir, $newName);
+			*/
 			/*
 			 * Создание и сохранение информации о файле
 			 */
-			$File = new File();
-			$File->setName($newName);
-			$File->setType($file->getClientMimeType());
-			$File->setSize($file->getClientSize());
-			$File->setDescription($description);
+			$File = new File($file);
+			//$File->setName($newName);
+			//$File->setType($file->getClientMimeType());
+			//$File->setSize($file->getClientSize());
+			//$File->setDescription($description);
+			$fileService = $this->get('File');
+			$fileService->uploadFile($File);
 			$em->persist($File);
 			$entity->setPreviewPicture($File);
 		}

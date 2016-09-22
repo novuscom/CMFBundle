@@ -1106,7 +1106,7 @@ class ComponentController extends Controller
 		foreach ($sections as $key => $e) {
 			if ($e['preview_picture'] && array_key_exists($e['preview_picture'], $preview_pictures)) {
 				$array = $preview_pictures[$e['preview_picture']];
-				$array['src'] = 'upload/images/' . $array['name'];
+				$array['src'] = 'upload/etc/' . $array['name'];
 				$array['path'] = $array['src'];
 				$sections[$key]['preview_picture'] = $array;
 			}
@@ -1484,7 +1484,7 @@ class ComponentController extends Controller
 
 			$response_data['elements'] = $elements;
 			$response_data['options'] = $params['OPTIONS'];
-
+			$response_data['title'] = $pageEntity->getTitle();
 			$response_data['params'] = $params;
 
 			$template = '@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig';
