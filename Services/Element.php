@@ -131,7 +131,7 @@ class Element
 				//$serviceFile =
 
 				$elementFile = new ElementPropertyF();
-				Utils::msg($value);
+				//Utils::msg($value);
 				//exit;
 
 				$nFile = new File($value['file']);
@@ -141,7 +141,7 @@ class Element
 				$elementFile->setElement($element);
 				$elementFile->setProperty($propertyReference);
 				$elementFile->setFile($nFile);
-				Utils::msg('аплоадим файл');
+				//Utils::msg('аплоадим файл');
 				//exit;
 				$this->em->persist($nFile);
 				$this->em->persist($elementFile);
@@ -161,7 +161,7 @@ class Element
 			$ref = $this->em->getReference('Novuscom\CMFBundle\Entity\ElementProperty', $removeArray['id']);
 			$this->em->remove($ref);
 		}
-
+		//exit;
 		$this->em->flush();
 		//exit;
 	}

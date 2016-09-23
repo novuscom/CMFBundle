@@ -1,14 +1,17 @@
-{% if(elements) %}
-	<div class="row">
-		{% for element in elements %}
-			<div class="col-xs-3">
-				{% if (element.preview_picture) %}
-					{% set file = resize_image(element.preview_picture.path, 'proportional', [500, 200]) %}
-					<a href="#"><img alt="" class="img-fluid" src="{{ file.src }}"/></a>
-				{% endif %}
-				<div><a href="#">{{ element.name }}</a></div>
-			</div>
-			{% if loop.index%4==0 %}{{ '</div><div class="row">' }}{% endif %}
-		{% endfor %}
-	</div>
-{% endif %}
+{% extends 'NovuscomCMFBundle:DefaultTemplate/Pages:default.html.twig' %}
+{% block content %}
+    {% if(elements) %}
+        <div class="row">
+            {% for element in elements %}
+                <div class="col-xs-3">
+                    {% if (element.preview_picture) %}
+                        {% set file = resize_image(element.preview_picture.path, 'proportional', [500, 200]) %}
+                        <a href="#"><img alt="" class="img-fluid" src="{{ file.src }}"/></a>
+                    {% endif %}
+                    <div><a href="#">{{ element.name }}</a></div>
+                </div>
+                {% if loop.index%4==0 %}{{ '</div><div class="row">' }}{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
