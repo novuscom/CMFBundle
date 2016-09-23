@@ -81,7 +81,7 @@ class File
 
 	private function getRandCode()
 	{
-		return md5(time());
+		return md5(microtime());
 	}
 
 	/**
