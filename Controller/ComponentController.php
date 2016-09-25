@@ -1085,7 +1085,7 @@ class ComponentController extends Controller
 		$elements = $ElementsList->getResult();
 
 		foreach ($elements as $e) {
-			$Element->getFullCode($e['id']);
+			//$Element->getFullCode($e['id']);
 		}
 
 		return $elements;
