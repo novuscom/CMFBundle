@@ -76,7 +76,7 @@ function addFieldInCollection() {
         var prototype = button.attr('data-prototype');
         var newField = prototype.replace(/__name__/g, num);
         var tpl = parent.find('.cmf-form-collection__template').clone();
-        tpl.find('.cmf-form-collection__label').html('<label>' + num + '</label>');
+        tpl.find('.cmf-form-collection__label').html('<label>' + num+1 + '</label>');
         tpl.find('.cmf-form-collection__field').prepend(newField);
         tpl.removeClass('cmf-form-collection__template').show();
         parent.find('.cmf-form-collection__list').append(tpl);

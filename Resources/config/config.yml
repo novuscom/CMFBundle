@@ -1,3 +1,6 @@
+#imports:
+#  - { resource: "@NovuscomCMFBundle/Resources/config/config.php" }
+
 parameters:
     locale: ru
     database_driver: pdo_mysql

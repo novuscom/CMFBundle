@@ -8,11 +8,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class File
 {
 
-	public function uploadFile(\Novuscom\CMFBundle\Entity\File $entity)
+	public function uploadFile(\Novuscom\CMFBundle\Entity\File $entity, $path = false)
 	{
+		if (!$path)
+			$path = $this->container->getParameter('upload_directory');
 		$file = $entity->getFile();
 		$file->move(
-			$this->container->getParameter('upload_directory'),
+			$path,
 			$entity->getName()
 		);
 	}
