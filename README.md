@@ -33,22 +33,23 @@ php -r "unlink('composer-setup.php');"
 Страница пакета на сайте packagist.org [https://packagist.org/packages/novuscom/cmfbundle](https://packagist.org/packages/novuscom/cmfbundle)
 
 1. В блоке *require* файла composer.json добавляем следующие пакеты:
-	```json
-	"novuscom/cmfbundle": "^0.0.7",
-	"novuscom/cmfuserbundle": "^0.0.6",
-	"gedmo/doctrine-extensions": "^2.4",
-	"friendsofsymfony/user-bundle": "dev-master",
-	"knplabs/knp-paginator-bundle": "^2.5",
-	"helios-ag/fm-elfinder-bundle": "^6.0",
-	"stfalcon/tinymce-bundle": "^0.4.0",
-	"symfony/assetic-bundle": "^2.7",
-	"knplabs/knp-menu": "^2.1",
-	"knplabs/knp-menu-bundle": "^2.1",
-	"apy/breadcrumbtrail-bundle": "dev-master",
-	"liip/imagine-bundle": "^1.4",
-	"openlss/lib-array2xml": "^0.0.10",
-	"guzzlehttp/guzzle": "^6.2"
-	```
+
+ ```json
+ "novuscom/cmfbundle": "^0.0.7",
+ "novuscom/cmfuserbundle": "^0.0.6",
+ "gedmo/doctrine-extensions": "^2.4",
+ "friendsofsymfony/user-bundle": "dev-master",
+ "knplabs/knp-paginator-bundle": "^2.5",
+ "helios-ag/fm-elfinder-bundle": "^6.0",
+ "stfalcon/tinymce-bundle": "^0.4.0",
+ "symfony/assetic-bundle": "^2.7",
+ "knplabs/knp-menu": "^2.1",
+ "knplabs/knp-menu-bundle": "^2.1",
+ "apy/breadcrumbtrail-bundle": "dev-master",
+ "liip/imagine-bundle": "^1.4",
+ "openlss/lib-array2xml": "^0.0.10",
+ "guzzlehttp/guzzle": "^6.2"
+ ```
 2. Выполняем команду `composer update` (`php composer.phar update`)
 
     Composer поставит зависимости. 
