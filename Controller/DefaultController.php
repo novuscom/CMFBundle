@@ -214,9 +214,11 @@ class DefaultController extends Controller
 					}
 				}
 			} else {
+				$logger->debug('страница не найдена в кеше');
 				$Page = $this->get('Page');
 				$page = $Page->findPage($name);
 				if (!$page) {
+					$this->get('logger')->debug('главная странциа не найдена');
 					$template = $this->getTemplate($site['code'], '404');
 					$response = $this->render($template, array('message' => 'Страница не найдена'));
 					$response->setStatusCode(404);
@@ -225,18 +227,18 @@ class DefaultController extends Controller
 			}
 
 			$pageTemplate = $this->getTemplate(false, $page->getTemplate());
-
-			$response = $this->render($pageTemplate,
-				array(
-					'page' => $page,
-					'content' => $page->getContent(),
-					'title' => $page->getTitle(),
-					'header' => $page->getHeader(),
-					'keywords' => $page->getKeywords(),
-					'description' => $page->getDescription(),
-					'site' => $site,
-				)
+			$logger->debug('формирование ответа');
+			$options = array(
+				'page' => $page,
+				'content' => $page->getContent(),
+				'title' => $page->getTitle(),
+				'header' => $page->getHeader(),
+				'keywords' => $page->getKeywords(),
+				'description' => $page->getDescription(),
+				'site' => $site,
 			);
+			$logger->debug('создание ответа');
+			$response = $this->render($pageTemplate, $options);
 
 
 		}
@@ -244,6 +246,7 @@ class DefaultController extends Controller
 		$time = number_format((($time_end - $time_start) * 1000), 2);
 		//if ($site['id'] == 14)
 		//echo '<!--indexAction() ' . $time . ' мс-->';
+		$logger->debug('возвращение ответа');
 		return $response;
 	}
 
@@ -260,6 +263,7 @@ class DefaultController extends Controller
 	}
 
 	// TODO Удалить, т.к. перенесено в сервис
+	/*
 	private function getPageArray($page)
 	{
 		$site = $this->getSite();
@@ -283,9 +287,7 @@ class DefaultController extends Controller
 			$page->setTemplate($this->getTemplate($site['code'], $templateName));
 		}
 
-		/**
-		 * Рендерим контент страницы
-		 */
+
 		$twig = new \Twig_Environment(new \Twig_Loader_String());
 		$twig->addExtension(new \Symfony\Bridge\Twig\Extension\HttpKernelExtension($this->get('fragment.handler')));
 		$rendered = $twig->render(
@@ -311,7 +313,7 @@ class DefaultController extends Controller
 		$new_page->setRoot($page->getRoot());
 
 		return $new_page;
-	}
+	}*/
 
 	// TODO Удалить, т.к. перенесено в сервис
 	private function getCacheDriver()

@@ -9,12 +9,27 @@ cmf_add_to_cart_json:
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
 
+fos_user_registration_register:
+    path: /register/
+    defaults: { _controller: "FOSUserBundle:Registration:register" }
+    methods: [GET, POST]
+
+fos_user_registration_confirm:
+    path: /confirm-{token}/
+    defaults: { _controller: "FOSUserBundle:Registration:confirm" }
+    methods: [GET]
+
+fos_user_registration_check_email:
+    path: /register/check-email/
+    defaults: { _controller: "FOSUserBundle:Registration:checkEmail" }
+    methods: [GET]
+
 fos_user_security_login:
-    path:  /admin_login/
+    path:  /login/
     defaults: { _controller: "FOSUserBundle:Security:login" }
 
 fos_user_security_check:
-    path:  /login_check/
+    path:  /login/check/
     defaults: { _controller: "FOSUserBundle:Security:check" }
     requirements: { _method: post }
 
@@ -23,36 +38,38 @@ fos_user_security_logout:
     defaults: { _controller: "FOSUserBundle:Security:logout" }
 
 
+fos_user_registration_confirmed:
+    path: /register/confirmed/
+    defaults: { _controller: "FOSUserBundle:Registration:confirmed" }
+    methods: [GET]
+
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /profile
-
-fos_user_register:
-    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-    prefix: /register_user
+    prefix: /profile/
 
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /resetting
+    prefix: /resetting/
 
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /profile
+    prefix: /change-password/
+
 
 elfinder:
      resource: "@FMElfinderBundle/Resources/config/routing.yml"
 
 
-NovuscomCMFUserBundle_admin_user:
-    resource: "@NovuscomCMFUserBundle/Resources/config/routing/user.yml"
+NovuscomCMFBundle_admin_user:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/user.yml"
     prefix:   /admin/user
 
-NovuscomCMFUserBundle_admin_system:
+NovuscomCMFBundle_admin_system:
     resource: "@NovuscomCMFBundle/Resources/config/routing/system.yml"
     prefix:   /admin/system
 
-NovuscomCMFUserBundle_admin_group:
-    resource: "@NovuscomCMFUserBundle/Resources/config/routing/group.yml"
+NovuscomCMFBundle_admin_group:
+    resource: "@NovuscomCMFBundle/Resources/config/routing/group.yml"
     prefix:   /admin/group
 
 NovuscomCMFBundle_admin_menu:
@@ -108,6 +125,7 @@ NovuscomCMFBundle_admin_cart:
 NovuscomCMFBundle_admin_product:
     resource: "@NovuscomCMFBundle/Resources/config/routing/product.yml"
     prefix:   /admin/product
+
 
 
 novuscom_cmf_admin_sectionproperty:
@@ -212,8 +230,20 @@ cmf_robots_txt:
     defaults: { _controller: NovuscomCMFBundle:Default:robots }
 
 
+novuscom.cmf.registration:
+    path:     /register/
+    defaults: { _controller: NovuscomCMFBundle:Registration:register }
+    methods: [GET, POST]
 
+#novuscom.cmf.registration_confirm:
+#    path:     /register/confirm-{token}/
+#    defaults: { _controller: NovuscomCMFBundle:Registration:confirm }
+#    methods: [GET]
 
+#novuscom.cmf.registration_confirmed:
+#    path:     /register/confirmed/
+#    defaults: { _controller: NovuscomCMFBundle:Registration:confirmed }
+#    methods: [GET]
 
 recount_cart_json:
     path:     /recount-cart.json

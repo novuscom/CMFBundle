@@ -1,0 +1,10 @@
+{% extends "NovuscomCMFBundle:DefaultTemplate/Pages:default.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% set title = 'Письмо для сброса пароля' %}
+{% set header = title %}
+{% block content %}
+    <p>
+        {{ 'resetting.check_email'|trans({'%email%': email}) }}
+    </p>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "NovuscomCMFBundle:DefaultTemplate/Pages:default.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% set title ='Подтвердите адрес электронной почты' %}
+{% set header ='Подтвердите адрес электронной почты' %}
+{% block content %}
+	<p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+{% endblock %}

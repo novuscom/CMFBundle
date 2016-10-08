@@ -1,0 +1,8 @@
+Novuscom\CMFBundle\Entity\Group:
+    type:  entity
+    table: UserGroup
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO

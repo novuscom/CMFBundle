@@ -55,6 +55,9 @@ services:
     Utils:
         class:        Novuscom\CMFBundle\Services\Utils
         arguments: [ "@logger" ]
+    novuscom.cmf.templating:
+        class:        Novuscom\CMFBundle\Services\Templating
+        arguments: [ "@logger", "@Site", "@templating.engine.twig" ]
     cmf_routing.routing_loader:
         class: Novuscom\CMFBundle\Routing\ExtraLoader
         tags:

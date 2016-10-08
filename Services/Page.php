@@ -134,6 +134,7 @@ class Page
 				//throw $this->createNotFoundException('Слэш в начале');
 				$this->setExceptionText('Слэш в начале');
 			};*/
+			$this->logger->debug('Имя страницы определено - ищем корневую страницу');
 			$root = $this->getRoot();
 
 			if (!$root) {
@@ -188,6 +189,7 @@ class Page
 				$page = $root;
 			}
 		} else {
+			$this->logger->debug('Имя страницы НЕ определено - ищем корневую страницу');
 			$page = $em->getRepository('NovuscomCMFBundle:Page')->findOneBy(array(
 				'site' => $site['id'],
 				'lvl' => 0

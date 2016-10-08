@@ -1,0 +1,12 @@
+{% extends 'NovuscomCMFBundle:DefaultTemplate/Pages:default.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% set title = 'Email подтвержден' %}
+{% set header = 'Email подтвержден' %}
+
+{% block content %}
+    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+    {#{% if targetUrl %}
+        <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+    {% endif %}#}
+{% endblock %}

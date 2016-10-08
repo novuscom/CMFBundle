@@ -82,7 +82,7 @@ class Cart
 	}
 
 	/**
-	 * @var \Novuscom\CMFUserBundle\Entity\User
+	 * @var \Novuscom\CMFBundle\Entity\User
 	 */
 	private $user;
 
@@ -90,11 +90,11 @@ class Cart
 	/**
 	 * Set user
 	 *
-	 * @param \Novuscom\CMFUserBundle\Entity\User $user
+	 * @param \Novuscom\CMFBundle\Entity\User $user
 	 *
 	 * @return Cart
 	 */
-	public function setUser(\Novuscom\CMFUserBundle\Entity\User $user = null)
+	public function setUser(\Novuscom\CMFBundle\Entity\User $user = null)
 	{
 		$this->user = $user;
 
@@ -104,7 +104,7 @@ class Cart
 	/**
 	 * Get user
 	 *
-	 * @return \Novuscom\CMFUserBundle\Entity\User
+	 * @return \Novuscom\CMFBundle\Entity\User
 	 */
 	public function getUser()
 	{

@@ -1,0 +1,30 @@
+admin_group:
+    path:     /
+    defaults: { _controller: "NovuscomCMFUserBundle:Group:index" }
+
+admin_group_show:
+    path:     /{id}/show
+    defaults: { _controller: "NovuscomCMFUserBundle:Group:show" }
+
+admin_group_new:
+    path:     /new
+    defaults: { _controller: "NovuscomCMFUserBundle:Group:new" }
+
+admin_group_create:
+    path:     /create
+    defaults: { _controller: "NovuscomCMFUserBundle:Group:create" }
+    requirements: { _method: post }
+
+admin_group_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "NovuscomCMFUserBundle:Group:edit" }
+
+admin_group_update:
+    path:     /{id}/update
+    defaults: { _controller: "NovuscomCMFUserBundle:Group:update" }
+    requirements: { _method: post|put }
+
+admin_group_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "NovuscomCMFUserBundle:Group:delete" }
+    requirements: { _method: post|delete }

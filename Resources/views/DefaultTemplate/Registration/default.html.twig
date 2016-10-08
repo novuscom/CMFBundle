@@ -1,0 +1,12 @@
+{% extends 'NovuscomCMFBundle:DefaultTemplate/Pages:default.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+    {{ form_start(form, {'method': 'post', 'action': path('novuscom.cmf.registration')}) }}
+    {{ form_widget(form) }}
+    <div class="form-group text-center">
+        <input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-lg btn-success" />
+    </div>
+    {{ form_end(form) }}
+{% endblock content %}

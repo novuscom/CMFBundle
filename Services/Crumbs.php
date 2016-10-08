@@ -25,8 +25,10 @@ class Crumbs
 
 	public function getForSite($params)
 	{
+
 		$time_start = microtime(1);
 		$logger = $this->logger;
+		$logger->debug('Получение хлебных крощек');
 		$request = $this->container->get('request_stack')->getMasterRequest();
 		$route_params = $request->attributes->get('_route_params');
 		$routeName = $request->attributes->get('_route');
@@ -41,19 +43,20 @@ class Crumbs
 		$cacheDriver = $this->getCacheDriver();
 		$cacheDriver->setNamespace('CrumbsAction_' . $env);
 		$cacheId = json_encode(array($params, $route_params));
+		//Utils::msg($cacheId);
 		$existParams = (array_key_exists('params', $route_params));
 		$Site = $this->container->get('Site');
 		$currentSite = $Site->getCurrentSite();
 		$crumbs = array();
 		//echo '<pre>' . print_r($crumbs, true) . '</pre>';
 		//echo '<pre>' . print_r('крошки', true) . '</pre>'; exit;
-		if (false) {
-			//if ($fooString = $cacheDriver->fetch($cacheId)) {
+		//if (false) {
+		if ($fooString = $cacheDriver->fetch($cacheId)) {
 			//echo '<pre>' . print_r('крошки закешированы', true) . '</pre>';
-			$logger->info('крошки есть в кеше');
+			$logger->debug('крошки есть в кеше');
 			$response = unserialize($fooString);
 		} else {
-			$logger->info('крошек нет в кеше');
+			$logger->debug('крошек нет в кеше');
 			$em = $this->em;
 			$codes_array = array();
 			/*

@@ -3,6 +3,7 @@
 namespace Novuscom\CMFBundle\Services;
 
 use Monolog\Logger;
+use Novuscom\CMFBundle\Services\Site;
 
 class Utils
 {

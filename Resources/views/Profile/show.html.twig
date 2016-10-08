@@ -1,0 +1,6 @@
+{% extends 'NovuscomCMFBundle:DefaultTemplate/Pages:default.html.twig' %}
+{% set title = 'Профиль пользователя' %}
+{% set header = 'Профиль пользователя' %}
+{% block content %}
+{% include "FOSUserBundle:Profile:show_content.html.twig" %}
+{% endblock %}

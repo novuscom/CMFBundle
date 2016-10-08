@@ -71,8 +71,8 @@ security:
             #    provider: fos_userbundle
             #    csrf_provider: form.csrf_provider
             form_login:
-                login_path: /admin_login/
-                check_path: /login_check/
+                login_path: /login/
+                check_path: /login/check/
             logout:
                 path:   /logout/
             anonymous:    true
@@ -223,9 +223,9 @@ stfalcon_tinymce:
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: Novuscom\CMFUserBundle\Entity\User
+    user_class: Novuscom\CMFBundle\Entity\User
     group:
-        group_class: Novuscom\CMFUserBundle\Entity\Group
+        group_class: Novuscom\CMFBundle\Entity\Group
     registration:
         confirmation:
             enabled: true

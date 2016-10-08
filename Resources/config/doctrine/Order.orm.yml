@@ -26,7 +26,7 @@ Novuscom\CMFBundle\Entity\Order:
             cascade: ["persist"]
     manyToOne:
         user:
-            targetEntity: Novuscom\CMFUserBundle\Entity\User
+            targetEntity: Novuscom\CMFBundle\Entity\User
             joinColumn:
                 name: user_id
                 referencedColumnName: id

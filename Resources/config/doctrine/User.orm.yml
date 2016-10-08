@@ -1,0 +1,51 @@
+Novuscom\CMFBundle\Entity\User:
+    type:  entity
+    table: User
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        phone:
+            type: string
+            length: 30
+            nullable: true
+        name:
+            type: string
+            length: 100
+            nullable: true
+        surname:
+            type: string
+            length: 100
+            nullable: true
+        second_name:
+            type: string
+            length: 100
+            nullable: true
+        post:
+            type: string
+            length: 100
+            nullable: true
+    manyToMany:
+        groups:
+            targetEntity: Group
+            joinTable:
+                name: User_Group
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    group_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
+        sites:
+            targetEntity: Novuscom\CMFBundle\Entity\Site
+            joinTable:
+                name: User_Site
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    site_id:
+                        referencedColumnName: id
