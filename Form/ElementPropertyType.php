@@ -7,6 +7,7 @@ use Doctrine\Tests\Common\Annotations\Ticket\Doctrine\ORM\Mapping\Entity;
 use Monolog\Handler\Curl\Util;
 use Novuscom\CMFBundle\Entity\Element;
 use Novuscom\CMFBundle\Entity\ElementPropertySection;
+use Novuscom\CMFBundle\Form\ElementPropertySMultipleType;
 use Novuscom\CMFBundle\Services\Utils;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -383,16 +384,20 @@ class ElementPropertyType extends AbstractType
 						}
 
 
-						$builder->add($p->getId(), 'collection',
+						$builder->add($p->getId(), CollectionType::class,
 							array(
-								'type' => new ElementPropertySMultipleType($data),
+								'entry_type' => ElementPropertySMultipleType::class,
 								'mapped' => false,
 								'allow_add' => true,
 								'label' => $p->getName(),
 								'allow_delete' => true,
-								'cascade_validation' => true,
 								'by_reference' => false,
-								'data' => $collection
+								'label_attr' => array(
+									//'class' => 'files-property',
+									//'data-type' => 'files',
+									//'data-data' => $jsonData,
+									//'data-id' => $p->getId()
+								)
 							)
 						);
 					} else {
