@@ -4,6 +4,8 @@ namespace Novuscom\CMFBundle\Entity;
 
 use Novuscom\CMFBundle\Entity\SiteBlock;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Config\Definition\IntegerNode;
+use Symfony\Component\Config\Definition\NumericNode;
 
 /**
  * Block
@@ -192,7 +194,7 @@ class Block
 	 * @param $property
 	 * @return Block
 	 */
-	public function addProperty($property)
+	public function addProperty(\Novuscom\CMFBundle\Entity\Property $property)
 	{
 		$property->setBlock($this);
 		$this->property->add($property);
@@ -478,7 +480,7 @@ class Block
 		return null;
 	}
 
-	public function sectionLimit($section = false){
+	public function sectionLimit(NumericNode $section = 10){
 		$result = false;
 		if ($this->getParam('SECTIONS_LEVEL_LIMIT') && $section) {
 			if (($section->getLvl()+1)<$this->getParam('SECTIONS_LEVEL_LIMIT'))

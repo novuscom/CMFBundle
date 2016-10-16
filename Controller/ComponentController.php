@@ -160,11 +160,11 @@ class ComponentController extends Controller
 		}
 		foreach ($routes as $r) {
 			$params = json_decode($r->getParams(), true);
-			if ($r->getBlock() == false)
+			if ($r->getBlock() === false)
 				continue;
 			if ($r->getController() == 'NovuscomCMFBundle:Component:Element') {
 				foreach ($r->getBlock()->getElement() as $element) {
-					if ($element->getActive() == false)
+					if ($element->getActive() === false)
 						continue;
 					$url = $Route->getUrl($r->getCode(), $element);
 					if ($url) {
@@ -407,16 +407,15 @@ class ComponentController extends Controller
 		);
 		$response = new Response();
 		$response->headers->set('Content-Type', 'application/json; charset=UTF-8');
-		if ($request->isXmlHttpRequest() != true) {
+		if ($request->isXmlHttpRequest() !== true) {
 			$result['MESSAGE'] = 'Not ajax';
 			return $this->JsonResponse($result);
 		}
 		$Element = $this->get('Element');
 		$element = $Element->getById($productRequest['element_id']);
-		if ($element == false) {
+		if ($element === false) {
 			$result['MESSAGE'] = 'The element to add to the cart was not found (' . $productRequest['element_id'] . ')';
 			return $this->JsonResponse($result);
-			return $response;
 		}
 
 		$user_id = null;
@@ -441,7 +440,7 @@ class ComponentController extends Controller
 			$element->getId(),
 			$cart->getId()
 		);
-		if (array_key_exists('quantity', $productRequest) == false || $productRequest['quantity'] < 1 || is_numeric($productRequest['quantity']) == false)
+		if (array_key_exists('quantity', $productRequest) === false || $productRequest['quantity'] < 1 || is_numeric($productRequest['quantity']) === false)
 			$productRequest['quantity'] = 1;
 		if ($product == false) {
 			$product = new Product();
@@ -699,7 +698,7 @@ class ComponentController extends Controller
 	}
 
 	public function ElementAction(
-		$params = false,
+		$params = array(),
 		$CODE = false,
 		$ID = false,
 		$SECTION_CODE = false,
@@ -709,7 +708,7 @@ class ComponentController extends Controller
 
 		$logger = $this->get('logger');
 		$logger->notice('Начал работу контроллер ElementAction');
-		if (array_key_exists('BLOCK_ID', $params) == false) {
+		if (array_key_exists('BLOCK_ID', $params) === false) {
 			$params['BLOCK_ID'] = false;
 		}
 		$env = $this->get('kernel')->getEnvironment();
@@ -753,7 +752,7 @@ class ComponentController extends Controller
 			 * Получаем информацию об инфоблоке
 			 */
 			$block = false;
-			if ($block_id != false)
+			if ($block_id !== false)
 				$block = $em->getRepository('NovuscomCMFBundle:Block')->findOneBy(
 					array(
 						'id' => $block_id,
@@ -849,7 +848,7 @@ class ComponentController extends Controller
 				$logger->notice('Элемент не найден по фильтру: <pre>' . print_r($filter, true) . '</pre>');
 				throw $this->createNotFoundException('Элемент не найден по фильтру');
 			}
-			if ($section == false) {
+			if ($section === false) {
 				$section = array();
 				foreach ($element->getSection() as $s) {
 					$section[] = $s;
@@ -1042,7 +1041,7 @@ class ComponentController extends Controller
 			}
 			$template_dir = $site->getCode();
 			$template = '@templates/' . $template_dir . '/Element/' . $template_code . '.html.twig';
-			if ($this->get('templating')->exists($template) == false) {
+			if ($this->get('templating')->exists($template) === false) {
 				$template = 'NovuscomCMFBundle:DefaultTemplate/Element:default.html.twig';
 			}
 			$response = $this->render($template, $response_data);
@@ -1240,7 +1239,7 @@ class ComponentController extends Controller
 		$Site = $this->get('Site');
 		$site = $Site->getCurrent();
 		$routeOptions = array();
-		if (array_key_exists('params', $params) == true)
+		if (array_key_exists('params', $params) === true)
 			$routeOptions = $params['params'];
 
 		$cacheDir = $this->getCahceDir();
@@ -1398,7 +1397,7 @@ class ComponentController extends Controller
 
 	public function ElementsListAction($params, Request $request, $PAGE = 1)
 	{
-		if (is_numeric($PAGE) == false || $PAGE < 1) {
+		if (is_numeric($PAGE) === false || $PAGE < 1) {
 			throw $this->createNotFoundException('Не может быть страницы меньше нуля для постраничной навигации и должно быть числом');
 		}
 		if ($this->checkConstruction()) {
@@ -1496,7 +1495,7 @@ class ComponentController extends Controller
 			$response_data['params'] = $params;
 
 			$template = '@templates/' . $site['code'] . '/ElementsList/' . $template_code . '.html.twig';
-			if ($this->get('templating')->exists($template) == false) {
+			if ($this->get('templating')->exists($template) === false) {
 				$template = 'NovuscomCMFBundle:DefaultTemplate/ElementsList:default.html.twig';
 			}
 			$render = $this->render($template, $response_data, $response);
