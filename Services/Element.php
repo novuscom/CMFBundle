@@ -84,7 +84,7 @@ class Element
 				}
 			}
 			//Utils::msg(gettype($value));
-			//TODO Надо пернести ниже?
+			// Надо пернести ниже?
 			if (is_object($value)) {
 				if ($value instanceof $Section) {
 					Utils::msg($value->getId());

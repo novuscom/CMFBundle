@@ -96,7 +96,7 @@ class ElementController extends Controller
 		if (!$element) {
 			throw $this->createNotFoundException('Элемент не найден');
 		}
-		// TODO Здесь исправить хлебные крошки
+		// Здесь исправить хлебные крошки
 		$crumbs = $this->get("apy_breadcrumb_trail");
 		$parents = $this->getParents($page, $siteId);
 		$routing_name = 'cmf_page_frontend';

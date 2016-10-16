@@ -31,6 +31,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request as Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -388,7 +389,15 @@ class ComponentController extends Controller
 		return $response;
 	}
 
-	public function AddToCartJSONAction(Request $request)
+
+	private function JsonResponse($array){
+		$response = new JsonResponse();
+		$response->setData($array);
+		$response->setStatusCode(404);
+		return $response;
+	}
+
+	public function AddToCartJSONAction(Request $request, Response $response)
 	{
 		$productRequest = $request->get('product');
 		$result = array(
@@ -399,21 +408,14 @@ class ComponentController extends Controller
 		$response = new Response();
 		$response->headers->set('Content-Type', 'application/json; charset=UTF-8');
 		if ($request->isXmlHttpRequest() != true) {
-			// TODO Объединить в одну функцию
 			$result['MESSAGE'] = 'Not ajax';
-			$response->setStatusCode(404);
-			$resultJSON = json_encode($result);
-			$response->setContent($resultJSON);
-			return $response;
+			return $this->JsonResponse($result);
 		}
 		$Element = $this->get('Element');
 		$element = $Element->getById($productRequest['element_id']);
 		if ($element == false) {
-			// TODO Объединить в одну функцию
 			$result['MESSAGE'] = 'The element to add to the cart was not found (' . $productRequest['element_id'] . ')';
-			$resultJSON = json_encode($result);
-			$response->setContent($resultJSON);
-			$response->setStatusCode(404);
+			return $this->JsonResponse($result);
 			return $response;
 		}
 
@@ -1317,7 +1319,7 @@ class ComponentController extends Controller
 			$ElementsList->setBlockId($params['BLOCK_ID']);
 			$ElementsList->setSectionId($section->getId());
 			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
-			// TODO Здесь сделать выборку всех доступных свойств ифноблока
+			// Здесь сделать выборку всех доступных свойств ифноблока
 			$properties = $section->getBlock()->getProperty();
 			$propCodes = array();
 			foreach ($properties as $p) {
@@ -1344,7 +1346,7 @@ class ComponentController extends Controller
 					));
 			}
 
-			// TODO Здесь надо сделать редирект с первой страницы на раздел
+			// Здесь надо сделать редирект с первой страницы на раздел
 			/*$url = $this->generateUrl('cmf_page_frontend', array(
 				'name' => $parentFullCode,
 			));*/
@@ -1464,7 +1466,7 @@ class ComponentController extends Controller
 				$ElementsList->setNotId($params['NOT_ID']);
 			if (array_key_exists('RANDOM', $params))
 				$ElementsList->setRandom(true);
-			// TODO Здесь в сервисе ElementList - выбирать все свойства
+			// Здесь в сервисе ElementList - выбирать все свойства
 			//$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
 			$ElementsList->setFilter(array('active' => true));
 			$ElementsList->setLimit($params['LIMIT']);
