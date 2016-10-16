@@ -5,6 +5,7 @@ namespace Novuscom\CMFBundle\Services;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
+use Symfony\Component\HttpFoundation\Response;
 
 class Crumbs
 {

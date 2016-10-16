@@ -593,7 +593,8 @@ class ElementController extends Controller
 						$oldFile = $em->getRepository('NovuscomCMFBundle:File')->find($pv->getReplaceFileId());
 						$em->remove($oldFile);
 						// удаляем зменяемый файл из файловой системы
-						$fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/' . $oldFile->getName();
+						//$fileName = $_SERVER['DOCUMENT_ROOT'] . '/upload/images/' . $oldFile->getName();
+						$fileName = $this->get('request')->getBasePath() . '/upload/images/' . $oldFile->getName();
 						unlink($fileName);
 					}
 				} else {

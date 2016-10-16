@@ -131,7 +131,7 @@ class TemplateExtension extends \Twig_Extension
 		$currentCode = false;
 		if (array_key_exists('SECTION_CODE', $routeParams))
 			$currentCode = trim($routeParams['SECTION_CODE'], '/');
-			//$currentCode = trim($routeParams['CODE'], '/');
+		//$currentCode = trim($routeParams['CODE'], '/');
 		$options['@currentCode'] = $currentCode;
 
 		// id кеша
@@ -199,7 +199,8 @@ class TemplateExtension extends \Twig_Extension
 		//echo '<pre>' . print_r($request, true) . '</pre>';
 		$env = $this->container->getParameter("kernel.environment");
 		$routeParams = $request->get('_route_params');
-		$options['@request_uri'] = $_SERVER['REQUEST_URI'];
+		//$options['@request_uri'] = $_SERVER['REQUEST_URI'];
+		$options['@request_uri'] = $this->container->get('request_stack')->getParentRequest()->getPathInfo();
 		$cacheId = json_encode($options);
 		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/menu/');
 		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
@@ -285,7 +286,7 @@ class TemplateExtension extends \Twig_Extension
 				$url = $e['url'];
 			else if (preg_match('/\.(html|xml|php|htm)$/', $e['url']))
 				$url = $this->urlGenerator->generate('cmf_page_frontend_clear', array('name' => $e['url']));
-			else if ($e['url']=='/')
+			else if ($e['url'] == '/')
 				$url = $this->urlGenerator->generate('main');
 			else
 				$url = $this->urlGenerator->generate('cmf_page_frontend', array('name' => $e['url']));
@@ -295,7 +296,8 @@ class TemplateExtension extends \Twig_Extension
 			)));
 			//echo '<pre>' . print_r($url, true) . '</pre>';
 			//echo '<pre>' . print_r($_SERVER['REQUEST_URI'], true) . '</pre>';
-			if ($_SERVER['REQUEST_URI'] == '' . $url . '') {
+			$pathInfo = $this->container->get('request_stack')->getParentRequest();
+			if ($pathInfo == '' . $url . '') {
 
 				$item->setCurrent(true);
 			}
@@ -327,8 +329,10 @@ class TemplateExtension extends \Twig_Extension
 		$routeName = $request->get('_route');
 		$routeParams = $request->get('_route_params');
 		$twigLoader = new \Twig_Loader_Filesystem(array(
-			__DIR__ . '/../../../../vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views',
-			__DIR__ . '/../../../../templates/' . $currentSite['code'] . '/Menu',
+			//__DIR__ . '/../../../../vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views',
+			//__DIR__ . '/../../../../templates/' . $currentSite['code'] . '/Menu',
+			$this->container->get('kernel')->getRootDir() . '/../vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views',
+			$this->container->get('kernel')->getRootDir() . '/templates/' . $currentSite['code'] . '/Menu',
 		));
 		$twig = new \Twig_Environment($twigLoader);
 		$itemMatcher = new Matcher();
