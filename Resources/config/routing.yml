@@ -43,9 +43,16 @@ fos_user_registration_confirmed:
     defaults: { _controller: "FOSUserBundle:Registration:confirmed" }
     methods: [GET]
 
-fos_user_profile:
-    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /profile/
+#fos_user_profile:
+#    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+#    prefix: /profile/
+
+fos_user_profile_show:
+    path: /profile/
+    methods: [GET]
+    defaults: { _controller: "NovuscomCMFBundle:Profile:show" }
+
+
 
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
