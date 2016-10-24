@@ -218,6 +218,14 @@ class File
 		return $res;
 	}
 
+	public function getPath()
+	{
+		$res = null;
+		if ($this->getName())
+			$res = '/upload/etc/' . $this->getName();
+		return $res;
+	}
+
 	private $file;
 
 	public function getFile()

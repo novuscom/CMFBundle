@@ -261,4 +261,24 @@ class DefaultController extends Controller
 		}
 		return $template;
 	}
+
+
+	private function getCacheDriver()
+	{
+		//$redis = new Redis();
+		//$redis->connect('127.0.0.1', 6379);
+		$site = $this->getSite();
+		$env = $this->get('kernel')->getEnvironment();
+		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/' . $site['id'] . '/pages/');
+		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
+		//$cacheDriver = new \Doctrine\Common\Cache\RedisCache();
+		$cacheDriver->setNamespace('Pages_' . $env);
+		return $cacheDriver;
+	}
+
+	private function getCacheId($page_id)
+	{
+		$cacheId = 'page_' . $page_id;
+		return $cacheId;
+	}
 }

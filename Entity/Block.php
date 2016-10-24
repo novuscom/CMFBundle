@@ -480,7 +480,7 @@ class Block
 		return null;
 	}
 
-	public function sectionLimit(NumericNode $section = 10){
+	public function sectionLimit($section = 10){
 		$result = false;
 		if ($this->getParam('SECTIONS_LEVEL_LIMIT') && $section) {
 			if (($section->getLvl()+1)<$this->getParam('SECTIONS_LEVEL_LIMIT'))
