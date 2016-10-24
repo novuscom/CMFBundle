@@ -36,7 +36,6 @@ php -r "unlink('composer-setup.php');"
 
  ```json
  "novuscom/cmfbundle": "^0.0.7",
- "novuscom/cmfuserbundle": "^0.0.6",
  "gedmo/doctrine-extensions": "^2.4",
  "friendsofsymfony/user-bundle": "dev-master",
  "knplabs/knp-paginator-bundle": "^2.5",

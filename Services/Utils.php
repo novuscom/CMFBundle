@@ -7,7 +7,7 @@ use Novuscom\CMFBundle\Services\Site;
 
 class Utils
 {
-	CONST VERSION = '0.0.7.9';
+	CONST VERSION = '0.0.7.10';
 
 	public static function msg($object){
 		echo '<pre>'.print_r($object, true).'</pre>';
