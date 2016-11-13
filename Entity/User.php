@@ -223,4 +223,8 @@ class User extends BaseUser
         }
         return $result;
     }
+
+    public function getFullName(){
+	    return trim($this->getName().' '.$this->getSurname());
+    }
 }
