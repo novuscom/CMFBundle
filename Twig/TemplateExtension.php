@@ -38,6 +38,7 @@ class TemplateExtension extends \Twig_Extension
 			'ElementsList' => new \Twig_Function_Method($this, 'getElementsList'),
 			'resize_image' => new \Twig_Function_Method($this, 'ResizeImage'),
 			'cmf_menu' => new \Twig_Function_Method($this, 'render'),
+			'menu' => new \Twig_Function_Method($this, 'render'),
 			'sections_menu' => new \Twig_Function_Method($this, 'SectionsMenu'),
 			'str_repeat' => new \Twig_Function_Method($this, 'StrRepeat'),
 			'msg' => new \Twig_Function_Method($this, 'msg'),
@@ -197,23 +198,24 @@ class TemplateExtension extends \Twig_Extension
 		$time_start = microtime(1);
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		//echo '<pre>' . print_r($request, true) . '</pre>';
+		//exit;
 		$env = $this->container->getParameter("kernel.environment");
 		$routeParams = $request->get('_route_params');
 		//$options['@request_uri'] = $_SERVER['REQUEST_URI'];
-		$options['@request_uri'] = $this->container->get('request_stack')->getParentRequest()->getPathInfo();
+		$options['@request_uri'] = $request->getPathInfo();
 		$cacheId = json_encode($options);
 		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/menu/');
-		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
+		//$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		$namespace = 'menu_' . $currentSite['code'] . '_' . $env . '_' . $options['id'];
 		$this->logger->info('Menu ' . $options['id'] . ' NameSpace: ' . $namespace);
-		$cacheDriver->setNamespace($namespace);
+		//$cacheDriver->setNamespace($namespace);
 		//if ($fooString = $cacheDriver->fetch($cacheId) /*and $env=='prod'*/) {
 		if (false) {
 			$result = unserialize($fooString);
 		} else {
 			$array = $this->getArray($options['id']);
 			$result = $this->getMenu($options, $array);
-			$cacheDriver->save($cacheId, serialize($result));
+			//$cacheDriver->save($cacheId, serialize($result));
 		}
 		echo $result;
 		$time_end = microtime(1);
@@ -312,6 +314,7 @@ class TemplateExtension extends \Twig_Extension
 				$this->getMenu($options, $e['__children'], $item, $currentItem);
 			}
 		}
+
 		if (!array_key_exists('template', $options)) {
 			$options['template'] = 'default.html.twig';
 		}
@@ -332,7 +335,7 @@ class TemplateExtension extends \Twig_Extension
 			//__DIR__ . '/../../../../vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views',
 			//__DIR__ . '/../../../../templates/' . $currentSite['code'] . '/Menu',
 			$this->container->get('kernel')->getRootDir() . '/../vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views',
-			$this->container->get('kernel')->getRootDir() . '/templates/' . $currentSite['code'] . '/Menu',
+			$this->container->get('kernel')->getRootDir() . '/../templates/' . $currentSite['code'] . '/Menu',
 		));
 		$twig = new \Twig_Environment($twigLoader);
 		$itemMatcher = new Matcher();

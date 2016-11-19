@@ -16,7 +16,7 @@
 	}
   ],
   "require": {
-	"helios-ag/fm-elfinder-bundle": "6.1.2"
+	
   },
   "require-dev": {
   },

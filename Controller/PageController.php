@@ -319,8 +319,8 @@ class PageController extends Controller
 
 	private function clearCache($page_id)
 	{
-		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
-		$cacheDriver->delete('page_' . $page_id);
+		//$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
+		//$cacheDriver->delete('page_' . $page_id);
 	}
 
 	/**

@@ -3,11 +3,11 @@
 
 		<ul class="breadcrumb">
 			{% for item in items %}
-				<li class="breadcrumb-item">
+				<li class="breadcrumb__item">
 					{% if (loop.last) %}
-						{{ item.name }}
+						{#{{ item.name }}#}
 					{% else %}
-						<a href="{{ item.url }}">{{ item.name }}</a>
+						<a class="breadcrumb__link" href="{{ item.url }}">{{ item.name }}</a>
 					{% endif %}
 				</li>
 			{% endfor %}
