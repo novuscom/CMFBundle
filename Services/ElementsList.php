@@ -421,10 +421,13 @@ class ElementsList
 			}
 		}
 
-		if ($this->selectProperties) {
-			$properties = $this->Element->getProperties($this->getSelectProperties(), $this->getBlockId());
+		if ($this->getSelectProperties()) {
+			//$properties = $this->Element->getProperties($this->getBlockId());
+			$properties = $this->Element->getProperties(false, $this->getBlockId());
+			//$properties = array();
 			//echo '<pre>' . print_r($properties, true) . '</pre>';
 			$values = $this->Element->getPropertiesValues(array_keys($elements), array_keys($properties));
+			//$values = array();
 			//echo '<pre>' . print_r($values, true) . '</pre>';
 			$values_by_element = array();
 			foreach ($values as $v) {

@@ -11,10 +11,11 @@ use Symfony\Component\Routing\Router;
 use Doctrine\Common\Collections\ArrayCollection;
 use Monolog\Logger;
 use Novuscom\CMFBundle\Entity\ElementSection;
-use Novuscom\CMFBundle\Entity\Section;
+use Novuscom\CMFBundle\Entity\Section as SectionEntity;
 use Novuscom\CMFBundle\Entity\ElementProperty;
 use Novuscom\CMFBundle\Entity\ElementPropertySection;
 use Novuscom\CMFBundle\Entity\ElementPropertyDT;
+use Novuscom\CMFBundle\Services\Section as SectionService;
 use Novuscom\CMFBundle\Services\Utils;
 
 
@@ -45,7 +46,7 @@ class Element
 		}
 		$added = array();
 
-		$Section = new Section();
+		$Section = new SectionEntity();
 
 		$currentSectionV = array();
 		foreach ($currentSectionValues as $info) {
@@ -588,18 +589,20 @@ class Element
 
 	}
 
-	public function getProperties($code_array, $block_id)
+	public function getProperties($code_array = false, $block_id)
 	{
 		$em = $this->em;
-		$query = $em->createQueryBuilder('n')
+		$builder = $em->createQueryBuilder('n');
+		$builder
 			->from('NovuscomCMFBundle:Property', 'n', 'n.id')
 			->select('n.code, n.type, n.name')
 			->addSelect('n.info, n.id')
 			->where('n.block = :block_id')
-			->andWhere('n.code IN(:code)')
-			->setParameter('block_id', $block_id)
-			->setParameter('code', $code_array)
-			->getQuery();
+			->setParameter('block_id', $block_id);
+		if (is_array($code_array)) {
+			$builder->andWhere('n.code IN(:code)')->setParameter('code', $code_array);
+		}
+		$query = $builder->getQuery();
 		$sql = $query->getSql();
 		$properties = $query->getResult();
 		return $properties;
@@ -682,7 +685,7 @@ class Element
 		Utils $Utils,
 		Router $Router,
 		\Novuscom\CMFBundle\Services\File $file,
-		\Novuscom\CMFBundle\Services\Section $sectionService,
+		SectionService $sectionService,
 		Route $routeService
 	)
 	{

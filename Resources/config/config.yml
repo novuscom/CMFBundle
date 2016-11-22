@@ -152,6 +152,7 @@ fm_elfinder:
 
 stfalcon_tinymce:
     #base_url: /
+    tinymce_jquery: true
     theme:
         simple:
             relative_urls: false

@@ -9,8 +9,7 @@ Novuscom\CMFBundle\Entity\ElementProperty:
             generator:
                 strategy: AUTO
         value:
-            type: string
-            length: 255
+            type: text
             nullable: true
         description:
             type: string

@@ -11,6 +11,14 @@ use Monolog\Logger;
 class Site
 {
 
+	public function checkConstruction()
+	{
+		$site = $this->getCurrentSite();
+		$securityContext = $this->container->get('security.authorization_checker');
+		$result = ($site['closed'] && !$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
+		return $result;
+	}
+
 	public function clearCache($host = false)
 	{
 		if ($host == false)

@@ -197,30 +197,15 @@ class TemplateExtension extends \Twig_Extension
 		$currentSite = $Site->getCurrentSite();
 		$time_start = microtime(1);
 		$request = $this->container->get('request_stack')->getCurrentRequest();
-		//echo '<pre>' . print_r($request, true) . '</pre>';
-		//exit;
 		$env = $this->container->getParameter("kernel.environment");
-		$routeParams = $request->get('_route_params');
-		//$options['@request_uri'] = $_SERVER['REQUEST_URI'];
 		$options['@request_uri'] = $request->getPathInfo();
-		$cacheId = json_encode($options);
-		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($_SERVER['DOCUMENT_ROOT'] . '/../app/cache/' . $env . '/sys/menu/');
-		//$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		$namespace = 'menu_' . $currentSite['code'] . '_' . $env . '_' . $options['id'];
 		$this->logger->info('Menu ' . $options['id'] . ' NameSpace: ' . $namespace);
-		//$cacheDriver->setNamespace($namespace);
-		//if ($fooString = $cacheDriver->fetch($cacheId) /*and $env=='prod'*/) {
-		if (false) {
-			$result = unserialize($fooString);
-		} else {
-			$array = $this->getArray($options['id']);
-			$result = $this->getMenu($options, $array);
-			//$cacheDriver->save($cacheId, serialize($result));
-		}
+		$array = $this->getArray($options['id']);
+		$result = $this->getMenu($options, $array);
 		echo $result;
 		$time_end = microtime(1);
 		$time = number_format((($time_end - $time_start) * 1000), 2);
-		//echo $time.' мс';
 	}
 
 	private function getArray($id)
@@ -239,39 +224,6 @@ class TemplateExtension extends \Twig_Extension
 		);
 		$tree = $repo->buildTree($query->getArrayResult(), $options);
 		return $tree;
-		echo '<pre>' . print_r($tree, true) . '</pre>';
-		$entities = $this->doctrine->getRepository('NovuscomCMFBundle:Item')->findBy(
-			array(
-				'menu' => $id
-			),
-			array(
-				'lft' => 'asc',
-				'sort' => 'asc'
-			)
-		);
-		$items_array = array();
-		foreach ($entities as $e) {
-			if (preg_match('/^(http|https|ftp):\/\//', $e->getUrl()))
-				$url = $e->getUrl();
-			else
-				$url = $this->urlGenerator->generate('cmf_page_frontend', array('name' => $e->getUrl()));
-			$itemArray = array(
-				'name' => $e->getName(),
-				'url' => $url,
-				'lvl' => $e->getLvl(),
-				'lft' => $e->getLft(),
-				'rgt' => $e->getRgt(),
-				'root' => $e->getRoot(),
-				'id' => $e->getId(),
-				'parent' => null,
-			);
-			if ($e->getParent()) {
-				$itemArray['parent'] = $e->getParent()->getId();
-			}
-			$items_array[$e->getId()] = $itemArray;
-		}
-		$this->setMenuByParents($items_array);
-		return $items_array;
 	}
 
 	private function getMenu($options, $array, $menu = false, $currentItem = false)
@@ -296,9 +248,9 @@ class TemplateExtension extends \Twig_Extension
 				//'data-url' => $e['url'],
 				//'data-uri' => $_SERVER['REQUEST_URI'],
 			)));
+			$pathInfo = $this->container->get('request_stack')->getCurrentRequest()->getRequestUri();
+			//echo '<pre>' . print_r($pathInfo->getRequestUri(), true) . '</pre>';
 			//echo '<pre>' . print_r($url, true) . '</pre>';
-			//echo '<pre>' . print_r($_SERVER['REQUEST_URI'], true) . '</pre>';
-			$pathInfo = $this->container->get('request_stack')->getParentRequest();
 			if ($pathInfo == '' . $url . '') {
 
 				$item->setCurrent(true);
@@ -332,8 +284,6 @@ class TemplateExtension extends \Twig_Extension
 		$routeName = $request->get('_route');
 		$routeParams = $request->get('_route_params');
 		$twigLoader = new \Twig_Loader_Filesystem(array(
-			//__DIR__ . '/../../../../vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views',
-			//__DIR__ . '/../../../../templates/' . $currentSite['code'] . '/Menu',
 			$this->container->get('kernel')->getRootDir() . '/../vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views',
 			$this->container->get('kernel')->getRootDir() . '/../templates/' . $currentSite['code'] . '/Menu',
 		));

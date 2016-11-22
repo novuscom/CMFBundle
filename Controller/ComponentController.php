@@ -712,11 +712,11 @@ class ComponentController extends Controller
 			$params['BLOCK_ID'] = false;
 		}
 		$env = $this->get('kernel')->getEnvironment();
-		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
+
 		/*
 		 * Кэш в зависиомсти от окружения нужен для того чтобы правильные ссылки кешировались
 		 */
-		$cacheDriver->setNamespace('ElementAction_' . $env . '_' . intval($params['BLOCK_ID']));
+
 		$cacheId = json_encode(array($params, $CODE, $ID));
 		if (false) {
 			//if ($fooString = $cacheDriver->fetch($cacheId)) {
@@ -1049,7 +1049,6 @@ class ComponentController extends Controller
 				'response' => $response,
 				'lastModified' => $element['lastModified'],
 			);
-			$cacheDriver->save($cacheId, serialize($cacheData));
 			//echo '<pre>' . print_r('НЕ кешированные данные', true) . '</pre>';
 		}
 		//$cacheData['response']->setLastModified($cacheData['lastModified']);
@@ -1074,6 +1073,7 @@ class ComponentController extends Controller
 		$ElementsList->setSectionId($sectionId);
 		$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
 		$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
+		$ElementsList->selectProperties(array('price'));
 		//echo '<pre>' . print_r($params, true) . '</pre>';
 		if (isset($params['LIMIT']) && is_numeric($params['LIMIT'])) {
 			$ElementsList->setLimit($params['LIMIT']);
@@ -1244,10 +1244,7 @@ class ComponentController extends Controller
 
 		$cacheDir = $this->getCahceDir();
 		$logger->info('Директория кеша = ' . $cacheDir);
-		//$cacheDriver = new \Doctrine\Common\Cache\FilesystemCache($cacheDir);
-		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
 		$fullCode = trim($SECTION_CODE, '/');
-		$cacheDriver->setNamespace('SectionAction_' . $env . '_' . $params['BLOCK_ID'] . '_' . $fullCode);
 		$cacheId = $fullCode . '[page=' . $PAGE . ']';
 		$logger->info('Cache id = ' . print_r($cacheId, true));
 		if (false) {
@@ -1288,6 +1285,7 @@ class ComponentController extends Controller
 			 */
 			//echo '<pre>' . print_r(($section->getRgt() - $section->getLft()), true) . '</pre>';
 			if ($section->getParent()) {
+				//echo '<pre>' . print_r('parent', true) . '</pre>';
 				$sections = $SectionClass->SectionsList(array(
 					'block_id' => $params['BLOCK_ID'],
 					'section_id' => $section->getParent()->getId()
@@ -1295,7 +1293,7 @@ class ComponentController extends Controller
 			} else {
 				$sections = $SectionClass->SectionsList(array(
 					'block_id' => $params['BLOCK_ID'],
-					'section_id' => $section->getId()
+					//'section_id' => $section->getId(), // не нужен, т.к. берем все корневые
 				), $fullCode);
 			}
 			$subSections = $SectionClass->SectionsList(array(
@@ -1331,7 +1329,7 @@ class ComponentController extends Controller
 				$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
 			$elements = $ElementsList->getResult();
 
-
+			//echo '<pre>' . print_r($elements, true) . '</pre>';
 			/*
 			 * Обработка элементов перед выдачей
 			 */
@@ -1358,6 +1356,13 @@ class ComponentController extends Controller
 			if ($this->paginationRedirect !== false)
 				return new RedirectResponse($this->paginationRedirect);
 
+			function sectionsElements(&$sections, $elements){
+				foreach ($elements as $e) {
+					$sections[$e['parent_section']]['elements'][$e['id']] = $e;
+				}
+				return $sections;
+			};
+
 			/*
 			 * Массив данных
 			 */
@@ -1372,6 +1377,7 @@ class ComponentController extends Controller
 				'keywords' => $section->getKeywords(),
 				'header' => $section->getName(),
 				'pagination' => $pagination,
+				'sectionsElements' => sectionsElements($sections, $elements),
 			);
 
 			if (!$response_data['title'])
@@ -1386,8 +1392,6 @@ class ComponentController extends Controller
 			 * Ответ
 			 */
 			$response = $this->render('@templates/' . $site['code'] . '/Section/' . $params['template_code'] . '.html.twig', $response_data);
-
-			$cacheDriver->save($cacheId, serialize($response));
 		}
 
 
@@ -1456,21 +1460,6 @@ class ComponentController extends Controller
 			 * Элементы
 			 */
 			$elements = $this->getElementsList($params['BLOCK_ID'], false, $params);
-			/*$ElementsList = $this->get('ElementsList');
-			$ElementsList->setBlockId($params['BLOCK_ID']);
-			$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
-			if (array_key_exists('SECTION_ID', $params))
-				$ElementsList->setSectionsId($params['SECTION_ID']);
-			if (array_key_exists('NOT_ID', $params))
-				$ElementsList->setNotId($params['NOT_ID']);
-			if (array_key_exists('RANDOM', $params))
-				$ElementsList->setRandom(true);
-			// Здесь в сервисе ElementList - выбирать все свойства
-			//$ElementsList->selectProperties(array('address', 'shirota', 'anounce', 'long_name', 'date', 'format_name'));
-			$ElementsList->setFilter(array('active' => true));
-			$ElementsList->setLimit($params['LIMIT']);
-			$ElementsList->setOrder(array('sort' => 'asc', 'name' => 'asc', 'id' => 'desc'));
-			$elements = $ElementsList->getResult();*/
 			$response_data['title'] = '';
 
 			$pageEntity = $page_repository->find($params['page_id']);
@@ -1500,7 +1489,7 @@ class ComponentController extends Controller
 			}
 			$render = $this->render($template, $response_data, $response);
 
-			$cacheDriver->save($cacheId, serialize($render));
+
 		}
 		return $render;
 	}

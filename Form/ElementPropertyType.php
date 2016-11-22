@@ -323,6 +323,26 @@ class ElementPropertyType extends AbstractType
 						$field_options
 					);
 					break;
+				case 'HTML':
+					$field_options = array(
+						'label' => $p->getName(),
+						'mapped' => false,
+						'required' => false,
+					);
+					//echo '<pre>' . print_r($options['data']['VALUES'], true) . '</pre>';
+					if (isset($options['data']['VALUES']) && is_array($options['data']['VALUES']) && array_key_exists($p->getId(), $options['data']['VALUES'])) {
+						$field_options['data'] = $options['data']['VALUES'][$p->getId()][0];
+					}
+					$field_options['attr'] = array(
+						'style' => 'height: 300px;',
+						'class' => 'tinymce'
+					);
+					$builder->add(
+						$p->getId(),
+						TextareaType::class,
+						$field_options
+					);
+					break;
 				case 'N':
 					$field_options = array(
 						'label' => $p->getName(),

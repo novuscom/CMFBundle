@@ -319,8 +319,8 @@ class PageController extends Controller
 
 	private function clearCache($page_id)
 	{
-		//$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
-		//$cacheDriver->delete('page_' . $page_id);
+		$cacheDriver = new \Doctrine\Common\Cache\ApcuCache();
+		$cacheDriver->delete('page_' . $page_id);
 	}
 
 	/**
@@ -343,12 +343,6 @@ class PageController extends Controller
 		$editForm->handleRequest($request);
 
 		if ($editForm->isValid()) {
-
-			/*if ($entity->getUrl()) {
-				$url = $this->prepareUrl($entity->getUrl(), $entity->getParent());
-				$entity->setUrl($url);
-			}*/
-			$this->clearCache($id);
 
 			$this->deletePreviewPicture($entity);
 			$this->createPreviewPicture($entity, $editForm['preview_picture']->getData());
@@ -391,7 +385,7 @@ class PageController extends Controller
 	 */
 	public function deleteAction(Request $request, $id)
 	{
-		$form = $this->createDeleteForm($id);
+		$form = $this->createDeleteForm($id, $request);
 		$form->handleRequest($request);
 
 		if ($form->isValid()) {

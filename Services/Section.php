@@ -11,6 +11,35 @@ use Monolog\Logger;
 class Section
 {
 
+	public function setSectionsPictures($sections)
+	{
+		$em = $this->em;
+		$files_id = array();
+		foreach ($sections as $e) {
+			$files_id[] = $e['preview_picture'];
+		}
+		$files_id = array_filter(array_unique($files_id));
+		if ($files_id) {
+			$repo = $em->createQueryBuilder('n');
+			$repo = $repo->from('NovuscomCMFBundle:File', 'n', 'n.id');
+			$repo = $repo->select('n.id, n.name, n.size, n.description, n.type');
+			$repo = $repo->andWhere('n.id IN(:files_id)');
+			$repo = $repo->setParameter('files_id', $files_id);
+			$repo = $repo->getQuery();
+			$sql = $repo->getSql();
+			$preview_pictures = $repo->getResult();
+		}
+		foreach ($sections as $key => $e) {
+			if ($e['preview_picture'] && array_key_exists($e['preview_picture'], $preview_pictures)) {
+				$array = $preview_pictures[$e['preview_picture']];
+				$array['src'] = 'upload/etc/' . $array['name'];
+				$array['path'] = $array['src'];
+				$sections[$key]['preview_picture'] = $array;
+			}
+		}
+		return $sections;
+	}
+
     public function ElementsSections($elementsID){
         $repo = $this->em->getRepository('NovuscomCMFBundle:ElementSection');
 		$refs = array();
@@ -71,7 +100,8 @@ class Section
             $fullCode = array();
             $sections = $repo->findBy(array('id'=>$id));
             foreach ($sections as $s) {
-                $path = $this->getPath($s);
+                //$path = $this->getPath($s);
+	            $path = array();
                 $codes = array();
                 foreach ($path as $p) {
                     $codes[] = $p->getCode();

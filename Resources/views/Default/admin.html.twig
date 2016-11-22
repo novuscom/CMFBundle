@@ -41,7 +41,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="{#{{ path('Novuscom_admin_homepage') }}#}" class="logo"><b>Novuscom</b>CMS</a>
+        <a href="{#{{ path('Novuscom_admin_homepage') }}#}" class="logo"></a>
 
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -275,7 +275,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <footer class="main-footer">
         <!-- To the right -->
 
-            <strong>&copy; 2015 <a href="http://novuscom.ru/cms/">Новуском.CMS</a></strong>, версия {{ utils.VERSION }}
+            <strong>&copy; 2015&mdash;{{ "now"|date("Y") }}, {#<a href="http://novuscom.ru/cms/">Новуском.CMS</a></strong>,#} версия {{ utils.VERSION }}
 
         <!-- Default to the left -->
         {#<strong>&copy; 2015 <a target="_blank" href="/">Название сайта</a></strong>#}

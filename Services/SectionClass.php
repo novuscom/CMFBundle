@@ -55,31 +55,31 @@ class SectionClass
 		usort($sectionsArray, function ($a, $b) {
 			return $a['sort'] - $b['sort'];
 		});
-		//echo '<pre>' . print_r($sectionsArray, true) . '</pre>';
-		foreach ($sectionsArray as &$section) {
+		$nsa = array();
+		foreach ($sectionsArray as $key=>$section) {
 			if ($parent_full_code)
 				$section['full_code'] = $parent_full_code . '/' . $section['code'];
 			else
 				$section['full_code'] = $section['code'];
 			$section['fullCode'] = $section['full_code'];
-			if (!empty($section['__children'])) {
-				$this->SetSectionsCodeTree($section['__children'], $section['full_code']);
+			$ns = $section;
+			if (!empty($ns['__children'])) {
+				$this->SetSectionsCodeTree($ns['__children'], $ns['full_code']);
 			}
+			$nsa[$ns['id']] = $ns;
 		}
-		//echo '<pre>' . print_r($sectionsArray, true) . '</pre>';
-		return $sectionsArray;
+		return $nsa;
 	}
 
 	public function SectionsList($filter, $parentFullCode = '')
 	{
-		//echo '<pre>' . print_r('SectionsList', true) . '</pre>';
 		$em = $this->em;
 		$repo = $em->getRepository('NovuscomCMFBundle:Section');
 		$builder = $em
 			->createQueryBuilder()
 			->select('n.name, n.code, n.preview_text, n.lvl, n.lft, n.rgt, n.id, n.sort')
 			->addSelect('IDENTITY(n.PreviewPicture) as preview_picture')
-			->from('NovuscomCMFBundle:Section', 'n')
+			->from('NovuscomCMFBundle:Section', 'n', 'n.id')
 			->where('n.block=:block_id')
 			->setParameter('block_id', $filter['block_id'])
 			->orderBy('n.root, n.lft', 'ASC');
@@ -88,25 +88,19 @@ class SectionClass
 			$builder->setParameter('section_id', $filter['section_id']);
 		}
 		$query = $builder->getQuery();
+		$sql = $query->getSql();
 		$result = $query->getArrayResult();
-		//echo '<pre>' . print_r(count($result), true) . '</pre>';
 		$properties = $this->getProperties($filter['block_id']);
 		$propertyValues = $this->getPropertyValues(array_keys($properties));
-
-		//echo '<pre>' . print_r($propertyValues, true) . '</pre>';
-
 		$propertiesByCode = array();
 		foreach ($properties as &$prop) {
-			//$prop['value'] = $propertyValues[$prop['id']];
 			$propertiesByCode[$prop['code']] = $prop;
 		}
-
 		foreach ($result as &$r) {
 			$pB = array();
 			foreach ($propertiesByCode as $key => $pc) {
 				$pc['value'] = null;
 				if (isset($propertyValues[$r['id']][$pc['id']])) {
-					//echo '<pre>' . print_r($r['id'].'-'.$pc['id'], true) . '</pre>';
 					$pc['value'] = $propertyValues[$r['id']][$pc['id']]['value'];
 				}
 				else {
@@ -114,22 +108,12 @@ class SectionClass
 				}
 				$pB[$key] = $pc;
 			}
-			//echo '<pre>' . print_r($pB, true) . '</pre>';
 			$r['properties'] = $pB;
 		}
-
-		//echo '<pre>' . print_r($result, true) . '</pre>';
-
-		//echo '<pre>' . print_r($properties, true) . '</pre>';
-		//echo '<pre>' . print_r($propertiesByCode, true) . '</pre>';
-
-		//exit;
-		//echo '<pre>' . print_r($result, true) . '</pre>';
-		//exit;
 		$options = array('decorate' => false);
 		$tree = $repo->buildTree($result, $options);
-		//echo '<pre>' . print_r(count($tree), true) . '</pre>';
-		return $this->SetSectionsCodeTree($tree, $parentFullCode);
+		$res = $this->SetSectionsCodeTree($tree, $parentFullCode);
+		return $res;
 	}
 
 	public function GetTreeArray($sections)
@@ -162,9 +146,11 @@ class SectionClass
 		$maxLevel = count($codeArray);
 		$filter_params = array(
 			'block' => $block_reference,
-			'code' => $codeArray[0],
 			'lvl' => 0
 		);
+		if ($codeArray) {
+			$filter_params['code'] = $codeArray[0];
+		}
 		if (is_array($params) && array_key_exists('root_level', $params) && is_numeric($params['root_level'])) {
 			$filter_params['lvl'] = $params['root_level'];
 		}

@@ -536,11 +536,6 @@ class ElementController extends Controller
 			$Element->SetPropertyValues($entity, $props);
 
 			/**
-			 * Очищаем кэш
-			 */
-			$this->clearElementsListCache($request, $block->getId());
-
-			/**
 			 * Редирект
 			 */
 			$redirect_url = $this->generateUrl('admin_block_show', array('id' => $params['id']));
@@ -1631,13 +1626,11 @@ class ElementController extends Controller
 				$this->deleteDetailPicture($entity);
 				$this->createDetailPicture($entity, $file, $editForm['detail_picture_alt']->getData());
 			} else {
-				//echo '<pre>' . print_r('Нет детейл пикчи', true) . '</pre>';
+				
 			}
 			$this->downloadFile($editForm['detail_picture_src']->getData(), $entity, 'detail');
 
 			if ($detail_picture = $entity->getDetailPicture()) {
-				//echo '<pre>' . print_r('есть detailPicture', true) . '</pre>';
-				//exit;
 				$detail_picture->setDescription($editForm['detail_picture_alt']->getData());
 				$em->persist($detail_picture);;
 			}
@@ -1646,15 +1639,10 @@ class ElementController extends Controller
 			$entity->setLastModified(new \DateTime('now'));
 
 
-			//exit;
+
 			$em->flush();
 
 
-			/**
-			 * Очищаем кэш
-			 */
-			$this->clearElementsListCache($request, $block_id);
-			$this->clearElementCache($request, $block_id);
 
 			/**
 			 * Редирект
@@ -1665,8 +1653,6 @@ class ElementController extends Controller
 			}
 			return $this->redirect($redirect_url);
 		} else {
-			//echo '<pre>' . print_r('форма не валидна', true) . '</pre>';
-			//echo $editForm->getErrorsAsString();
 
 		}
 
