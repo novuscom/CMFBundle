@@ -4,59 +4,66 @@
 {% set title = 'Авторизация' %}
 {% set header = 'Авторизация' %}
 {% block content %}
-	<div class="row">
 
-		<div class="col-lg-4 col-lg-push-4">
-			<h1>Авторизация</h1>
-			{% if error %}
-				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-			{% endif %}
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<form action="{{ path('fos_user_security_check') }}" method="post">
-						<input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
-						<div class="form-group has-feedback">
-							<label for="username">{{ 'security.login.username'|trans }}</label>
-							<input type="text" id="username" class="form-control" name="_username"
-								   value="{{ last_username }}"
-								   placeholder="Email"/>
-							<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-						</div>
-						<div class="form-group has-feedback">
-							<label for="password">{{ 'security.login.password'|trans }}</label>
-							<input type="password" id="password" class="form-control" placeholder="Пароль"
-								   name="_password"/>
-							<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-						</div>
+    {% if app.user %}
+        {{ app.user.username }}, вы зарегистрипованы и авторизованы на сайте
+    {% else %}
+        <div class="row">
+            <div class="col-lg-4 col-lg-push-4">
+                <h1>Авторизация</h1>
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form action="{{ path('fos_user_security_check') }}" method="post">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                            <div class="form-group has-feedback">
+                                <label for="username">{{ 'security.login.username'|trans }}</label>
+                                <input type="text" id="username" class="form-control" name="_username"
+                                       value="{{ last_username }}"
+                                       placeholder="Email"/>
+                                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label for="password">{{ 'security.login.password'|trans }}</label>
+                                <input type="password" id="password" class="form-control" placeholder="Пароль"
+                                       name="_password"/>
+                                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                            </div>
 
-						<div>
-							<div class="checkbox icheck">
-								<label>
-									<input type="checkbox" checked id="remember_me" name="_remember_me"
-										   value="on"> {{ 'security.login.remember_me'|trans }}
-								</label>
-							</div>
-						</div>
-						<!-- /.col -->
-						<div class="text-center">
-							<input type="submit" id="_submit" name="_submit"
-								   class="btn btn-success"
-								   value="{{ 'security.login.submit'|trans }}"/>
-						</div>
-						<!-- /.col -->
+                            <div>
+                                <div class="checkbox icheck">
+                                    <label>
+                                        <input type="checkbox" checked id="remember_me" name="_remember_me"
+                                               value="on"> {{ 'security.login.remember_me'|trans }}
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                            <div class="text-center">
+                                <input type="submit" id="_submit" name="_submit"
+                                       class="btn btn-success"
+                                       value="{{ 'security.login.submit'|trans }}"/>
+                            </div>
+                            <!-- /.col -->
 
-					</form>
-				</div>
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-body">
-					Новенький? <a href="{{ path('fos_user_registration_register') }}" class="text-center">Зарегистрируйтесь
-						здесь</a> <br> Забыли
-                    пароль? <a href="{{ path('fos_user_resetting_request') }}">Восстановление пароля</a>
-				</div>
-			</div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        Новенький? <a href="{{ path('fos_user_registration_register') }}" class="text-center">Зарегистрируйтесь
+                            здесь</a> <br> Забыли
+                        пароль? <a href="{{ path('fos_user_resetting_request') }}">Восстановление пароля</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
-		</div>
-	</div>
+
+
+
 
 {% endblock %}

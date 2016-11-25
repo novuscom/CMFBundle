@@ -801,7 +801,11 @@ class ComponentController extends Controller
 
 
 			if ($SECTION_CODE) {
-				$section = $SectionClass->GetSectionByPath($SECTION_CODE, $block_id, $params['params']);
+				$pp = array();
+				if (isset($params['params'])===true) {
+					$pp = $params['params'];
+				}
+				$section = $SectionClass->GetSectionByPath($SECTION_CODE, $block_id, $pp);
 				$ElementSection = $em->getRepository('NovuscomCMFBundle:ElementSection')->findBy(array('section' => $section));
 				foreach ($ElementSection as $es) {
 					$elementsId[] = $es->getElement()->getId();

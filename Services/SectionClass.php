@@ -140,6 +140,9 @@ class SectionClass
 	public function GetSectionByPath($section_code_path, $block_id, $params = array())
 	{
 		$result = false;
+		if (!$section_code_path) {
+			return false;
+		}
 		$er = $this->em->getRepository('NovuscomCMFBundle:Section');
 		$block_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Block', $block_id);
 		$codeArray = $this->getPathArray($section_code_path);

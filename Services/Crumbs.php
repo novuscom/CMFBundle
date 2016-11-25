@@ -92,7 +92,7 @@ class Crumbs
 			 * Хлебные крошки для раздела
 			 */
 			$section_codes_array = $codes_array;
-			if ($existParams && $route_params['params']['controller_code'] == 'section') {
+			if ($existParams && $route_params['params']['controller_code'] == 'section' && isset($route_params['SECTION_CODE'])) {
 				$logger->info('Создаем хлебные крошки для раздела');
 				$crumbs = $this->getCrumbsForSection($route_params['SECTION_CODE'], $route_params, $crumbs, $codes_array);
 			}

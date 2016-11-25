@@ -143,6 +143,18 @@ class DefaultController extends Controller
 		 * Проверяем закрыт сайт или нет
 		 */
 
+		//echo '<pre>' . print_r($name, true) . '</pre>';
+		$sCount = substr_count($name, '/');
+		//echo '<pre>' . print_r($sCount, true) . '</pre>';
+		//echo '<pre>' . print_r(trim($name, '/'), true) . '</pre>';
+
+		if ($sCount>1) {
+			$template = $this->getTemplate(false, '404');
+			$response = $this->render($template, array('message' => 'Неверные данные'));
+			$response->setStatusCode(404);
+			return $response;
+		}
+
 		$site = $this->getSite();
 		if (!$site) {
 			$msg = 'Сайт не найден';

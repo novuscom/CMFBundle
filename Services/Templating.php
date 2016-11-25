@@ -15,6 +15,7 @@ class Templating
 		$site = $this->siteService->getCurrentSite();
 		$template = '@templates/' . $site['code'] . '/'.$type.'/' . $templateCode . '.html.twig';
 		if ($this->engine->exists($template) == false) {
+			$this->logger->debug('Не найден шаблон '.$template);
 			$template = 'NovuscomCMFBundle:DefaultTemplate/'.$type.':' . $templateCode . '.html.twig';
 		}
 		return $template;

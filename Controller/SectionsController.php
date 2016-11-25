@@ -75,13 +75,16 @@ class SectionsController extends Controller
 		return $this->parentFullCode;
 	}
 
-	private function setSections($blockId, $sectionId = false)
+	private function setSections($blockId)
 	{
 		$SectionClass = $this->get('SectionClass');
-		$sections = $SectionClass->SectionsList(array(
+		$filter = array(
 			'block_id' => $blockId,
-			//'section_id' => $section->getParent()->getId()
-		), $this->getParentFullCode());
+		);
+		if ($this->getCurrentSection()) {
+			$filter['section_id'] = $this->getCurrentSection()->getId();
+		}
+		$sections = $SectionClass->SectionsList($filter, $this->getParentFullCode());
 		$this->sections = $sections;
 		return $sections;
 	}
@@ -117,9 +120,15 @@ class SectionsController extends Controller
 
 		$ElementsList = $this->get('ElementsList');
 		$ElementsList->setBlockId($blockId);
-		foreach (array_keys($this->getSections()) as $sectionId) {
-			$ElementsList->setSectionId($sectionId);
+		if ($this->getSections()) {
+			foreach (array_keys($this->getSections()) as $sectionId) {
+				$ElementsList->setSectionId($sectionId);
+			}
 		}
+		if ($this->getCurrentSection()) {
+			$ElementsList->setSectionId($this->getCurrentSection()->getId());
+		}
+
 		$propCodes = $this->getPropertyCodes();
 		$ElementsList->selectProperties($propCodes);
 		$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
@@ -146,6 +155,23 @@ class SectionsController extends Controller
 			return $this->params[$code];
 	}
 
+	private $currentSecton;
+
+	private function getCurrentSection()
+	{
+		return $this->currentSecton;
+	}
+
+	private function setCurrentSection()
+	{
+		$routeOptions = array();
+		if (array_key_exists('params', $this->getParams()) === true)
+			$routeOptions = $this->getParams('params');
+		$SectionClass = $this->get('SectionClass');
+		$section = $SectionClass->GetSectionByPath($this->getFullCode(), $this->getParams('BLOCK_ID'), $routeOptions);
+		$this->currentSecton = $section;
+		return $section;
+	}
 
 	private function setSectionsElements(&$sections, $elements)
 	{
@@ -162,13 +188,10 @@ class SectionsController extends Controller
 		$this->setParams($params);
 		$this->setFullCode($SECTION_CODE);
 		$this->setParentFullCode();
-
-
-
+		$this->setCurrentSection();
 
 
 		$templateService = $this->get('novuscom.cmf.templating');
-		$path = $templateService->getPath('Section', $params['template_code']);
 		$page = $this->getPageById($params['page_id']);
 		$response_data = array(
 			'title' => $page->getTitle(),
@@ -176,15 +199,22 @@ class SectionsController extends Controller
 			'page' => $page,
 		);
 
+		if ($this->getCurrentSection()) {
+			$response_data['header'] = $this->getCurrentSection()->getName();
+		}
 
 		$sections = $this->setSections($params['BLOCK_ID']);
 		//$sections = array();
-		//$elements = $this->setElements($params['BLOCK_ID']);
-		$elements = array();
-		//$sectionsElements = $this->setSectionsElements($sections, $elements);
-		//$response_data['sectionsElements'] = $sectionsElements;
+		$elements = $this->setElements($params['BLOCK_ID']);
+		//$elements = array();
+		$sectionsElements = $this->setSectionsElements($sections, $elements);
+		$response_data['sectionsElements'] = $sectionsElements;
+		$response_data['elements'] = $elements;
+		$response_data['section'] = $this->getCurrentSection();
 
+		$path = $templateService->getPath('Section', $params['template_code']);
 		$response = $this->render($path, $response_data);
+
 		return $response;
 	}
 

@@ -49,6 +49,7 @@ class ExtraLoader implements LoaderInterface
 
 			switch ($r->getController()) {
 				case 'NovuscomCMFBundle:Component:Section':
+				case 'NovuscomCMFBundle:Sections:Item':
 					$controller_code = 'section';
 					break;
 				case 'NovuscomCMFBundle:Component:SectionsList':

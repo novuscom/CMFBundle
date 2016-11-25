@@ -1,30 +1,30 @@
 admin_user:
     path:     /
-    defaults: { _controller: "NovuscomCMFUserBundle:User:index" }
+    defaults: { _controller: "NovuscomCMFBundle:User:index" }
 
 admin_user_show:
     path:     /{id}/show
-    defaults: { _controller: "NovuscomCMFUserBundle:User:show" }
+    defaults: { _controller: "NovuscomCMFBundle:User:show" }
 
 admin_user_new:
     path:     /new
-    defaults: { _controller: "NovuscomCMFUserBundle:User:new" }
+    defaults: { _controller: "NovuscomCMFBundle:User:new" }
 
 admin_user_create:
     path:     /create
-    defaults: { _controller: "NovuscomCMFUserBundle:User:create" }
+    defaults: { _controller: "NovuscomCMFBundle:User:create" }
     requirements: { _method: post }
 
 admin_user_edit:
     path:     /{id}/edit
-    defaults: { _controller: "NovuscomCMFUserBundle:User:edit" }
+    defaults: { _controller: "NovuscomCMFBundle:User:edit" }
 
 admin_user_update:
     path:     /{id}/update
-    defaults: { _controller: "NovuscomCMFUserBundle:User:update" }
+    defaults: { _controller: "NovuscomCMFBundle:User:update" }
     requirements: { _method: post|put }
 
 admin_user_delete:
     path:     /{id}/delete
-    defaults: { _controller: "NovuscomCMFUserBundle:User:delete" }
+    defaults: { _controller: "NovuscomCMFBundle:User:delete" }
     requirements: { _method: post|delete }
