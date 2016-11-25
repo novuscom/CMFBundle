@@ -1,0 +1,38 @@
+{% extends 'NovuscomCMFBundle:Default:admin.html.twig' %}
+
+{% block body -%}
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Меню</h3>
+        </div>
+        <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Логин</th>
+                    <th>Электронная почта</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td>{{ entity.id }}</td>
+                        <td><a href="{{ path('admin_user_edit', { 'id': entity.id }) }}"><b>{{ entity.username }}</b></a></td>
+                        <td>{{ entity.email }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer">
+            {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-success" href="{{ path('admin_user_new') }}">
+                <i class="glyphicon glyphicon-plus"></i>
+                Добавить пользователя
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
