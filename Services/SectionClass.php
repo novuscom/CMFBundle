@@ -50,6 +50,13 @@ class SectionClass
 		return $result;
 	}
 
+	private $sectionsFlat = array();
+
+
+	public function getSectionsFlat(){
+		return $this->sectionsFlat;
+	}
+
 	private function SetSectionsCodeTree(&$sectionsArray, $parent_full_code = '')
 	{
 		usort($sectionsArray, function ($a, $b) {
@@ -63,6 +70,7 @@ class SectionClass
 				$section['full_code'] = $section['code'];
 			$section['fullCode'] = $section['full_code'];
 			$ns = $section;
+			$this->sectionsFlat[$ns['id']] = $ns;
 			if (!empty($ns['__children'])) {
 				$this->SetSectionsCodeTree($ns['__children'], $ns['full_code']);
 			}
@@ -71,7 +79,12 @@ class SectionClass
 		return $nsa;
 	}
 
-	public function SectionsList($filter, $parentFullCode = '')
+	/**
+	 * @param array $filter
+	 * @param string $parentFullCode
+	 * @return array
+	 */
+	public function SectionsList(array $filter, $parentFullCode = '')
 	{
 		$em = $this->em;
 		$repo = $em->getRepository('NovuscomCMFBundle:Section');

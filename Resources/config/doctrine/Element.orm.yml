@@ -50,6 +50,9 @@ Novuscom\CMFBundle\Entity\Element:
             type: string
             length: 255
             nullable: true
+    discriminatorMap:
+        element: Element
+        extElement: ExtElement
     oneToOne:
         PreviewPicture:
             targetEntity: Novuscom\CMFBundle\Entity\File

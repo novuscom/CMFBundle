@@ -812,7 +812,7 @@ class ComponentController extends Controller
 				}
 				if (!$elementsId) {
 					$logger->notice('Не найдены элементы в разделе [' . $SECTION_CODE . ']');
-					throw $this->createNotFoundException('Элемент не найден');
+					throw $this->createNotFoundException('Не найдены элементы в разделе');
 				}
 			}
 			else {
@@ -845,17 +845,25 @@ class ComponentController extends Controller
 			/*if ($elementsId) {
 				$filter['id'] = $elementsId;
 			}*/
+
 			$element = $em->getRepository('NovuscomCMFBundle:Element')->findOneBy(
 				$filter
 			);
+
 			if (!$element) {
 				$logger->notice('Элемент не найден по фильтру: <pre>' . print_r($filter, true) . '</pre>');
 				throw $this->createNotFoundException('Элемент не найден по фильтру');
 			}
+
 			if ($section === false) {
 				$section = array();
 				foreach ($element->getSection() as $s) {
 					$section[] = $s;
+				}
+			}
+			else {
+				if (!in_array($section->getId(), $element->getSectionsId())) {
+					throw $this->createNotFoundException('Найденный элемент не соответствует указаному в URL разделу');
 				}
 			}
 
@@ -1455,7 +1463,9 @@ class ComponentController extends Controller
 			//echo '<pre>' . print_r('есть такое в кеше', true) . '</pre>';
 			$render = unserialize($fooString);
 		} else {
-			$response_data = array();
+			$response_data = array(
+				'header' => null
+			);
 
 			$logger->info('Выбор списка элементов из инфоблока ' . $params['BLOCK_ID']);
 

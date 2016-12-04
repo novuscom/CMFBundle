@@ -44,6 +44,44 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class SectionsController extends Controller
 {
 
+	public function ItemAction($params, $SECTION_CODE = false, Request $request, $PAGE = 1)
+	{
+		$logger = $this->get('logger');
+		$logger->debug('ItemAction');
+		$this->setParams($params);
+		$this->setFullCode($SECTION_CODE);
+		$this->setParentFullCode();
+		$this->setCurrentSection();
+
+
+		$templateService = $this->get('novuscom.cmf.templating');
+		$page = $this->getPage();
+		$response_data = array(
+			'title' => $page->getTitle(),
+			'header' => $page->getHeader(),
+			'page' => $page,
+		);
+
+		if ($this->getCurrentSection()) {
+			$response_data['header'] = $this->getCurrentSection()->getName();
+		}
+
+		$sections = $this->setSections($params['BLOCK_ID']);
+		//$sections = array();
+		$elements = $this->setElements($params['BLOCK_ID']);
+		//$elements = array();
+		$sectionsElements = $this->setSectionsElements($sections, $elements);
+		$response_data['sectionsElements'] = $sectionsElements;
+		$response_data['elements'] = $elements;
+		$response_data['section'] = $this->getCurrentSection();
+		$response_data['params'] = $params;
+
+		$path = $templateService->getPath('Section', $params['template_code']);
+		$response = $this->render($path, $response_data);
+
+		return $response;
+	}
+
 	private $fullCode;
 
 	private function getFullCode()
@@ -96,10 +134,16 @@ class SectionsController extends Controller
 		return $this->sections;
 	}
 
-	private function getPageById($id)
+	private function getPage()
 	{
 		$page_repository = $this->getDoctrine()->getManager()->getRepository('NovuscomCMFBundle:Page');
-		$pageEntity = $page_repository->find($id);
+		if ($this->getParams('page_id')) {
+			$pageEntity = $page_repository->find($this->getParams('page_id'));
+		}
+		else {
+			$pageService = $this->get('Page');
+			$pageEntity = $pageService->getRoot();
+		}
 		return $pageEntity;
 	}
 
@@ -128,7 +172,6 @@ class SectionsController extends Controller
 		if ($this->getCurrentSection()) {
 			$ElementsList->setSectionId($this->getCurrentSection()->getId());
 		}
-
 		$propCodes = $this->getPropertyCodes();
 		$ElementsList->selectProperties($propCodes);
 		$ElementsList->setSelect(array('code', 'last_modified', 'preview_picture', 'preview_text'));
@@ -136,6 +179,9 @@ class SectionsController extends Controller
 		$params = $this->getParams();
 		if ($params && array_key_exists('params', $params) && array_key_exists('INCLUDE_SUB_SECTIONS', $params['params']))
 			$ElementsList->setIncludeSubSections($params['params']['INCLUDE_SUB_SECTIONS']);
+		if ($this->getParams('FILTER')) {
+			$ElementsList->setFilterProperties($this->getParams('FILTER'));
+		}
 		$elements = $ElementsList->getResult();
 		return $elements;
 	}
@@ -151,8 +197,10 @@ class SectionsController extends Controller
 	{
 		if (!$code)
 			return $this->params;
-		else
+		else if (isset($this->params[$code]))
 			return $this->params[$code];
+		else
+			return false;
 	}
 
 	private $currentSecton;
@@ -181,42 +229,7 @@ class SectionsController extends Controller
 		return $sections;
 	}
 
-	public function ItemAction($params, $SECTION_CODE = false, Request $request, $PAGE = 1)
-	{
-		$logger = $this->get('logger');
-		$logger->debug('ItemAction');
-		$this->setParams($params);
-		$this->setFullCode($SECTION_CODE);
-		$this->setParentFullCode();
-		$this->setCurrentSection();
 
-
-		$templateService = $this->get('novuscom.cmf.templating');
-		$page = $this->getPageById($params['page_id']);
-		$response_data = array(
-			'title' => $page->getTitle(),
-			'header' => $page->getHeader(),
-			'page' => $page,
-		);
-
-		if ($this->getCurrentSection()) {
-			$response_data['header'] = $this->getCurrentSection()->getName();
-		}
-
-		$sections = $this->setSections($params['BLOCK_ID']);
-		//$sections = array();
-		$elements = $this->setElements($params['BLOCK_ID']);
-		//$elements = array();
-		$sectionsElements = $this->setSectionsElements($sections, $elements);
-		$response_data['sectionsElements'] = $sectionsElements;
-		$response_data['elements'] = $elements;
-		$response_data['section'] = $this->getCurrentSection();
-
-		$path = $templateService->getPath('Section', $params['template_code']);
-		$response = $this->render($path, $response_data);
-
-		return $response;
-	}
 
 	private $paginationRedirect = false;
 

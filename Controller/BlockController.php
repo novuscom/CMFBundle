@@ -388,22 +388,11 @@ class BlockController extends Controller
 				throw $this->createNotFoundException('Unable to find Block entity.');
 			}
 
-			//$siteBlock = $em->getRepository('NovuscomCMFBundle:SiteBlock')->findByBlock($entity);
-			$site = $entity->getSites();
-			foreach ($site as $s) {
-				//$s->removeBlock($entity);
-				//$em->persist($s);
-			}
-
 			$em->remove($entity);
 			$em->flush();
 		}
 
-		//return $this->redirect($this->generateUrl('admin_block'));
-
-		return $this->render('NovuscomCMFBundle:Block:index.html.twig', array(
-			'entities' => array(),
-		));
+		return $this->redirect($this->generateUrl('admin_block'));
 	}
 
 	/**

@@ -66,7 +66,7 @@ services:
     ElementsList:
         class:        "%ElementsList.class%"
         scope: prototype
-        arguments: [ "@doctrine.orm.entity_manager", "@Element", "@logger", "@Section" ]
+        arguments: [ "@doctrine.orm.entity_manager", "@Element", "@logger", "@Section", "@SectionClass" ]
     cmf.forms:
         class:        Novuscom\CMFBundle\Services\Form
         arguments: [ "@doctrine.orm.entity_manager", "@Element", "@logger", "@Section" ]

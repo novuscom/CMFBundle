@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -349,12 +350,29 @@ class ElementPropertyType extends AbstractType
 						'mapped' => false,
 						'required' => false,
 					);
-					if (isset($options['data']['VALUES'][$p->getId()])) {
+					if (isset($field_options['data']['VALUES'][$p->getId()])) {
 						$field_options['data'] = $options['data']['VALUES'][$p->getId()][0];
 					}
 					$builder->add(
 						$p->getId(),
 						TextType::class,
+						$field_options
+					);
+					break;
+				case 'BOOLEAN':
+					$field_options = array(
+						'label' => $p->getName(),
+						'mapped' => false,
+						'required' => false,
+						'value' => 1
+					);
+					if (isset($options['data']['VALUES'][$p->getId()])) {
+						$field_options['data'] = true;
+					}
+					//echo '<pre>' . print_r($field_options, true) . '</pre>';
+					$builder->add(
+						$p->getId(),
+						CheckboxType::class,
 						$field_options
 					);
 					break;

@@ -88,6 +88,8 @@ class Section
 		return $fullCode;
 	}
 
+	
+
     public function getFullCode($id){
         $repo = $this->em->getRepository('NovuscomCMFBundle:Section');
         $fullCode = false;
@@ -95,12 +97,12 @@ class Section
             $section = $repo->find($id);
             $fullCode = $this->getCodeString($section);
         }
-        if (is_array($id)) {
+        /*if (is_array($id)) {
             $id = array_unique($id);
             $fullCode = array();
             $sections = $repo->findBy(array('id'=>$id));
             foreach ($sections as $s) {
-                //$path = $this->getPath($s);
+                $path = $this->getPath($s);
 	            $path = array();
                 $codes = array();
                 foreach ($path as $p) {
@@ -109,7 +111,7 @@ class Section
                 $full = implode('/', $codes);
                 $fullCode[$s->getId()] = $full;
             }
-        }
+        }*/
         if (is_object($id)) {
 	        //echo '<pre>'.print_r('is_object', true).'</pre>';
 	        $fullCode = $this->getCodeString($id);

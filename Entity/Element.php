@@ -13,7 +13,7 @@ class Element
     /**
      * @var integer
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -655,4 +655,13 @@ class Element
 	{
 		$this->fullCode = $fullCode;
 	}
+
+	public function getSectionsId(){
+		$result = array();
+		foreach ($this->getSection() as $section) {
+			$result[] = $section->getSection()->getId();
+		}
+		return $result;
+	}
+
 }

@@ -5,6 +5,8 @@ namespace Novuscom\CMFBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Novuscom\CMFBundle\Entity\Route;
 use Novuscom\CMFBundle\Form\RouteType;
 
@@ -179,23 +181,12 @@ class RouteController extends Controller
     }
 
     private function clearCache(){
-	    $files = array(
-		    $_SERVER['DOCUMENT_ROOT'].'/../app/cache/dev/appDevUrlGenerator.php',
-		    $_SERVER['DOCUMENT_ROOT'].'/../app/cache/dev/appDevUrlMatcher.php',
-		    $_SERVER['DOCUMENT_ROOT'].'/../app/cache/prod/appProdUrlGenerator.php',
-		    $_SERVER['DOCUMENT_ROOT'].'/../app/cache/prod/appProdUrlMatcher.php',
-		    $_SERVER['DOCUMENT_ROOT'].'/../var/cache/dev/appDevUrlGenerator.php',
-		    $_SERVER['DOCUMENT_ROOT'].'/../var/cache/dev/appDevUrlMatcher.php',
-		    $_SERVER['DOCUMENT_ROOT'].'/../var/cache/prod/appProdUrlGenerator.php',
-		    $_SERVER['DOCUMENT_ROOT'].'/../var/cache/prod/appProdUrlMatcher.php',
-	    );
-	    foreach ($files as $filenameForRemove) {
-		    if (file_exists($filenameForRemove) &&
-			    is_writable($filenameForRemove))
-		    {
-			    unlink ( $filenameForRemove );
-		    }
-	    }
+	    $fs = new Filesystem();
+	    $rootDir = $this->container->get('kernel')->getRootDir();
+	    $fs->remove(array(
+		    $rootDir.'/../var/cache/dev/',
+		    $rootDir.'/../var/cache/prod/',
+	    ));
     }
 
     /**

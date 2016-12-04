@@ -53,6 +53,7 @@ Novuscom\CMFBundle\Entity\Block:
                 joinColumns:
                     block_id:
                         referencedColumnName: id
+                        onDelete: CASCADE
                 inverseJoinColumns:
                     site_id:
                         referencedColumnName: id

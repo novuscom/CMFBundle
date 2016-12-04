@@ -57,6 +57,7 @@ class PropertyType extends AbstractType
 				'Список' => 'LIST',
 				'Простой текст' => 'TEXT',
 				'HTML' => 'HTML',
+				'Да/Нет' => 'BOOLEAN',
 			),
 			'required' => true,
 			'attr' => array(

@@ -5,6 +5,7 @@ namespace Novuscom\CMFBundle\Services;
 use Monolog\Handler\Curl\Util;
 use Monolog\Logger;
 use Novuscom\CMFBundle\Services\Section as SectionService;
+use Novuscom\CMFBundle\Services\SectionClass as SectionClass;
 
 class ElementsList
 {
@@ -204,7 +205,8 @@ class ElementsList
 		return $this->filterProperties;
 	}
 
-	public function addToIdArray($id){
+	public function addToIdArray($id)
+	{
 		if (is_numeric($id)) {
 			$this->idArray[] = $id;
 		}
@@ -273,7 +275,6 @@ class ElementsList
 			}*/
 
 
-
 			if (empty($section_elements_id)) {
 				$logger->info('Нет элементов в разделах ' . implode(', ', $this->getSectionsId()) . '. Возвращается пустой массив.');
 				return array();
@@ -320,7 +321,8 @@ class ElementsList
 					$idValues[$p['id']] = $filterProperties[$p['code']];
 				$propTypes[] = $p['type'];
 			}
-			if (in_array('S', $propTypes) || in_array('E', $propTypes)) {
+			//echo '<pre>' . print_r($propTypes, true) . '</pre>';
+			if (in_array('S', $propTypes) || in_array('E', $propTypes) || in_array('BOOLEAN', $propTypes)) {
 				//Utils::msg($idValues);
 				$propValues = $this->getPropertyValues(array_keys($properties), $idValues);
 				//Utils::msg($propValues);
@@ -455,11 +457,13 @@ class ElementsList
 		}
 
 		if ($section_elements_id) {
-			$sectionsFullCode = $this->Section->getFullCode($section_elements_id);
-			//echo '<pre>' . print_r($sectionsFullCode, true) . '</pre>';
+			$this->sectionClass->SectionsList(array(
+				'block_id' => $this->getBlockId()
+			));
+			$flatSections = $this->sectionClass->getSectionsFlat();
 			foreach ($elements as &$elementInfo) {
 				$elementInfo['parent_section'] = $section_elements_id[$elementInfo['id']];
-				$elementInfo['parent_section_full_code'] = $sectionsFullCode[$elementInfo['parent_section']];
+				$elementInfo['parent_section_full_code'] = $flatSections[$elementInfo['parent_section']]['fullCode'];
 			}
 		}
 		return $elements;
@@ -483,14 +487,16 @@ class ElementsList
 	private $Element;
 	private $logger;
 	private $Section;
+	private $sectionClass;
 
-	public function __construct(\Doctrine\ORM\EntityManager $em, $Element, Logger $logger, SectionService $Section)
+	public function __construct(\Doctrine\ORM\EntityManager $em, $Element, Logger $logger, SectionService $Section, SectionClass $sectionClass)
 	{
 		$this->em = $em;
 		$this->Element = $Element;
 		$this->logger = $logger;
 		$this->fieldNames = $em->getClassMetadata('NovuscomCMFBundle:Element')->getFieldNames();
 		$this->Section = $Section;
+		$this->sectionClass = $sectionClass;
 		//echo '<pre>' . print_r($em->getClassMetadata('NovuscomCMFBundle:Element')->getAssociationNames(), true) . '</pre>';
 	}
 
