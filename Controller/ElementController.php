@@ -954,6 +954,7 @@ class ElementController extends Controller
 		$block = $em->getRepository('NovuscomCMFBundle:Block')->find($params['block_id']);
 
 		$epArray = array();
+		$epDescription = array();
 
 		/**
 		 * Пролучаем значения свойств типа "строка"
@@ -966,6 +967,7 @@ class ElementController extends Controller
 
 		foreach ($ElementProperty as $ep) {
 			$epArray[$ep->getProperty()->getId()][] = $ep->getValue();
+			$epDescription[$ep->getProperty()->getId()][] = $ep->getDescription();
 		}
 
 		/**
@@ -1000,6 +1002,7 @@ class ElementController extends Controller
 		 */
 		$data = array(
 			'VALUES' => $epArray,
+			'DESCRIPTION' => $epDescription,
 			'PROPERTY_FILE_VALUES' => $ElementPropertyFileId,
 			'LIIP' => $this->get('liip_imagine.cache.manager'),
 			'BLOCK_PROPERTIES' => $block->getProperty(),
@@ -1366,10 +1369,16 @@ class ElementController extends Controller
 								if ($propArray[$ep->getProperty()->getId()] instanceof \DateTime) {
 
 								} else {
+									/*
+									 * Обновление свойства
+									 */
 									foreach ($propArray[$ep->getProperty()->getId()] as $k => $v) {
 										$ep->setValue($v->getValue());
+										$ep->setDescription($v->getDescription());
 										$updatedId[] = $ep->getId();
+										//echo '<pre>' . print_r($ep->getDescription(), true) . '</pre>';
 										//echo '<pre>' . print_r('Обновляем ' . $key, true) . '</pre>';
+										//exit;
 										//$updatedId[] = $key;
 										$em->persist($ep);
 										//$val->remove($k);
@@ -1530,7 +1539,8 @@ class ElementController extends Controller
 										}
 
 									} else if ($pv instanceof $ElementProperty) {
-										//echo '<pre>' . print_r('это свойство', true) . '</pre>';
+										echo '<pre>' . print_r('это свойство', true) . '</pre>';
+										exit;
 										$ElementProperty->setValue($pv->getValue());
 										$ElementProperty->setElement($entity);
 										$ElementProperty->setProperty($property);

@@ -46,6 +46,8 @@ class ElementPropertyType extends AbstractType
 		//exit;
 		//$builder->add('value');
 
+		$this->data = $options;
+
 		//echo '<pre>' . print_r(count($options['data']['BLOCK_PROPERTIES']), true) . '</pre>'; exit;
 		foreach ($options['data']['BLOCK_PROPERTIES'] as $p) {
 			//$value = $p->getValue();
@@ -288,8 +290,7 @@ class ElementPropertyType extends AbstractType
 					);
 					if ($info && is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true) {
 
-					}
-					else {
+					} else {
 						if (isset($options['data']['VALUES'][$p->getId()][0])) {
 							//echo '<pre>'.print_r($options['data']['VALUES'][$p->getId()][0], true).'</pre>';
 							if ($options['data']['VALUES'][$p->getId()][0] instanceof \DateTime)
@@ -401,8 +402,17 @@ class ElementPropertyType extends AbstractType
 					//echo '<pre>' . print_r($p->getInfo(), true) . '</pre>';
 					//$info = json_decode($p->getInfo(), true);
 					//echo '<pre>' . print_r($info, true) . '</pre>';
+					//echo '<pre>' . print_r($options['data'], true) . '</pre>';
+
+					//Utils::msg($options['data']['VALUES']);
+
 					if ($info && is_array($info) && array_key_exists('MULTIPLE', $info) && $info['MULTIPLE'] == true) {
-						$data = array();
+						//Utils::msg($info);
+						//Utils::msg($this->getPropertyValues($p->getId()));
+
+
+						//$data = array();
+
 						/*
 						$element_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Element', 251);
 						$property_reference = $this->em->getReference('Novuscom\CMFBundle\Entity\Property', $p->getId());
@@ -410,34 +420,46 @@ class ElementPropertyType extends AbstractType
 							'element'=>$element_reference,
 							'property'=>$property_reference
 						));*/
+
 						//echo '<pre>' . print_r($this->data['VALUES'][$p->getId()], true) . '</pre>';
 
-
+						//echo '<pre>' . print_r($this->getPropertyValues($p->getId()), true) . '</pre>';
 						$collection = new \Doctrine\Common\Collections\ArrayCollection();
-
-						foreach ($this->getPropertyValues($p->getId()) as $v) {
+						foreach ($this->getPropertyValues($p->getId()) as $k=>$v) {
 							$ep = new ElementProperty();
 							$ep->setValue($v);
+							$ep->setDescription($this->getPropertyDescriptions($p->getId())[$k]);
 							$collection->add($ep);
+							//echo '<pre>' . print_r($v, true) . '</pre>';
 						}
-
-
-						$builder->add($p->getId(), CollectionType::class,
-							array(
-								'entry_type' => ElementPropertySMultipleType::class,
-								'mapped' => false,
-								'allow_add' => true,
-								'label' => $p->getName(),
-								'allow_delete' => true,
-								'by_reference' => false,
-								'label_attr' => array(
-									//'class' => 'files-property',
-									//'data-type' => 'files',
-									//'data-data' => $jsonData,
-									//'data-id' => $p->getId()
-								)
-							)
+						$field_options = array(
+							'entry_type' => ElementPropertySMultipleType::class,
+							'mapped' => true,
+							//'data_class' => null,
+							'allow_add' => true,
+							'label' => $p->getName(),
+							'allow_delete' => true,
+							//'by_reference' => false,
+							'label_attr' => array(
+								//'class' => 'files-property',
+								//'data-type' => 'files',
+								//'data-data' => $jsonData,
+								//'data-id' => $p->getId()
+							),
+							/*'entry_options' => array(
+								'data' => $collection
+							),*/
+							/*'data' => array(
+								new ElementProperty()
+							),*/
+							'data' => $collection,
+							//'data' => $ep,
 						);
+						//Utils::msg($this->getPropertyValues($p->getId()));
+						//$field_options['entry_options']['data'] = $this->getPropertyValues($p->getId());
+						//$field_options['entry_options']['data'] = $collection;
+						//$field_options['data'] = $collection;
+						$builder->add($p->getId(), CollectionType::class, $field_options);
 					} else {
 						$optionsArray = array(
 							'mapped' => false,
@@ -510,32 +532,32 @@ class ElementPropertyType extends AbstractType
 
 
 	}
-
+	private function getPropertyDescriptions($property_id)
+	{
+		$result = array();
+		if (isset($this->data['data']['DESCRIPTION']) && is_array($this->data['data']['DESCRIPTION']) && array_key_exists($property_id, $this->data['data']['DESCRIPTION'])) {
+			$result = $this->data['data']['DESCRIPTION'][$property_id];
+		};
+		return $result;
+	}
 
 	private function getPropertyValues($property_id)
 	{
 		$result = array();
-		if (isset($this->data['VALUES']) && is_array($this->data['VALUES']) && array_key_exists($property_id, $this->data['VALUES'])) {
-			$result = $this->data['VALUES'][$property_id];
+		if (isset($this->data['data']['VALUES']) && is_array($this->data['data']['VALUES']) && array_key_exists($property_id, $this->data['data']['VALUES'])) {
+			$result = $this->data['data']['VALUES'][$property_id];
 		};
 		return $result;
 	}
 
 
-	public function setDefaultOptions(OptionsResolver $resolver)
+	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
-			//'data_class' => 'Novuscom\CMFBundle\Entity\FormProperty',
-			'data_class' => 'Novuscom\CMFBundle\Entity\ElementProperty',
+			//'data_class' => 'Novuscom\CMFBundle\Entity\ElementProperty',
+			'data_class' => null,
 			'data' => null,
-			'test_option_kakaha' => false,
 		));
-		/*$resolver->setRequired(array(
-			'em',
-		));
-		$resolver->setAllowedTypes(array(
-			'em' => 'Doctrine\Common\Persistence\ObjectManager',
-		));*/
 	}
 
 	/**
@@ -545,8 +567,6 @@ class ElementPropertyType extends AbstractType
 	{
 		return 'cmf_blockbundle_elementproperty';
 	}
-
-	private $request;
 
 	public function __construct($em)
 	{

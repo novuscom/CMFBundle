@@ -49,7 +49,27 @@ class TemplateExtension extends \Twig_Extension
 			'ElementsSections' => new \Twig_Function_Method($this, 'ElementsSections'),
 			'format_number' => new \Twig_Function_Method($this, 'NumFormat'),
 			'crumbs' => new \Twig_Function_Method($this, 'Breadcrumbs'),
+			'youtubeLinkInfo' => new \Twig_Function_Method($this, 'GetYoutubeLinkInfo'),
 		);
+	}
+
+	/**
+	 * Генерирует информацию о youtube ролике
+	 * link - ссылка для fancybox и iframe, например
+	 * code - код ролика (мало ли для чего пригодится)
+	 * img - "скриншот" видео-ролика в высоком разрешении
+	 * @param string $url Ссылка на ролик
+	 * @return array
+	 */
+	public static function GetYoutubeLinkInfo($url)
+	{
+		$result = array();
+		if (preg_match('/watch\?v=([^&]*)/ui', $url, $matches)) {
+			$result['link'] = '//www.youtube.com/embed/' . $matches[1] . '?wmode=opaque';
+			$result['code'] = $matches[1];
+			$result['img'] = 'http://img.youtube.com/vi/' . $matches[1] . '/maxresdefault.jpg';
+		};
+		return $result;
 	}
 
 	public function BreadCrumbs(array $options = array())

@@ -55,6 +55,7 @@ class Element
 			$prop = $properties[$info['property_id']];
 			if ($info['section_id'] != $prop->getId()) {
 				//Utils::msg('изменяем запись');
+				//exit;
 				//Utils::msg($info);
 				$ref->setSection($prop);
 				$this->em->persist($prop);
@@ -66,6 +67,9 @@ class Element
 		}
 
 		//Utils::msg($currentSectionV);
+		//exit;
+
+		//Utils::msg($properties);
 		//exit;
 
 		foreach ($properties as $key => $value) {
@@ -82,8 +86,13 @@ class Element
 						'element_id' => $element->getId(),
 						'property_id' => $key,
 					);
+
 				}
+				//echo '<pre>' . print_r($added, true) . '</pre>';
+				//exit;
 			}
+			//Utils::msg($value);
+			//exit;
 			//Utils::msg(gettype($value));
 			// Надо пернести ниже?
 			if (is_object($value)) {
@@ -109,6 +118,7 @@ class Element
 					Utils::msg('Class: ' . get_class($value));
 				}
 			}
+			//exit;
 			/*if (is_array($value)) {
 				foreach ($value as $v) {
 					Utils::msg($v);
@@ -149,6 +159,8 @@ class Element
 				$this->file->uploadFile($nFile);
 			} else {
 				$ep = new ElementProperty();
+				echo '<pre>' . print_r($addArray, true) . '</pre>';
+				exit;
 				$ep->setDescription($addArray['description']);
 				$ep->setElement($element);
 				$ep->setProperty($propertyReference);

@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -21,26 +21,36 @@ class ElementPropertySMultipleType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 
+		//echo '<pre>' . print_r($builder->getData(), true) . '</pre>';
 
-		$builder->add('text', TextType::class, array(
+		//echo '<pre>' . print_r($builder->getData(), true) . '</pre>';
+
+		$builder->add('value', TextType::class, array(
 			'required' => true,
+			'mapped' => true,
 			'label' => 'Значение',
+			//'data' => 'asdasd'
+		));
+
+
+
+		$builder->add('description', TextType::class, array(
+			'required' => false,
+			'mapped' => true,
+			'label' => 'Описание',
 		));
 
 
 
 	}
 
-	/**
-	 * @param OptionsResolverInterface $resolver
-	 */
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
+	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
-			'data_class' => null,
-
+			'data_class' => 'Novuscom\CMFBundle\Entity\ElementProperty',
+			//'data_class' => null,
+			//'cascade_validation' => true,
 		));
-
 	}
 
 	/**
@@ -49,17 +59,6 @@ class ElementPropertySMultipleType extends AbstractType
 	public function getName()
 	{
 		return 'multiple_string';
-	}
-
-	private $choices;
-	private $options;
-	private $data;
-
-	public function __construct($choices = false, $options = false, $data = array())
-	{
-		$this->data = $data;
-		$this->choices = $choices;
-		$this->options = $options;
 	}
 
 }
