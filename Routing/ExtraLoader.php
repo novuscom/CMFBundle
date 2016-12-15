@@ -24,8 +24,6 @@ class ExtraLoader implements LoaderInterface
 
 		$routes = new RouteCollection();
 
-		$Site = $this->Site;
-
 		$base_routes = $this->em->getRepository('NovuscomCMFBundle:Route')->findBy(
 			array(
 				'active' => true
@@ -38,14 +36,10 @@ class ExtraLoader implements LoaderInterface
 
 		$logger = $this->logger;
 		foreach ($base_routes as $r) {
-			//echo '<pre>' . print_r($r->getParams(), true) . '</pre>';
-			//$routeSite = $Site->getSiteEntityById($r->getSite()->getId());
 			$aliasesArray = array();
 			foreach ($r->getSite()->getAliases() as $a) {
 				$aliasesArray[] = $a->getName();
 			}
-
-			//print_r($aliasesArray);
 
 			switch ($r->getController()) {
 				case 'NovuscomCMFBundle:Component:Section':
@@ -84,30 +78,17 @@ class ExtraLoader implements LoaderInterface
 			}
 
 			$domains = implode($aliasesArray, '|');
-
-			//$logger->info('<pre>'.print_r($r->getCode(), true).'</pre>');
 			$logger->info('Route params: ' . print_r($route_params, true) . '</pre>');
 			$defaults = array(
 				'_controller' => $r->getController(),
 				'params' => $params,
 				'domains'=>$aliasesArray[0]
 			);
-			//echo '<pre>'.print_r($aliasesArray, true).'</pre>';
-			//exit;
-			//$logger->error('<pre>'.print_r($aliasesArray, true).'</pre>');
-			//$logger->error('<pre>'.print_r($route_params, true).'</pre>');
-			//$logger->error('An error occurred');
-			//$route_params['method'] = 'GET';
 			$requirements = array();
 			if (is_array($route_params) && array_key_exists('requirements', $route_params) && is_array($route_params['requirements'])) {
 				$requirements = array_merge($requirements, $route_params['requirements']);
 			}
-			if ($r->getId() == 26) {
-				//echo '<pre>' . print_r($r->getParams(), true) . '</pre>';
-				//echo '<pre>' . print_r('{"requirements":{"BLOCK_ID":"\\\d+"}}', true) . '</pre>';
-				//echo '<pre>' . print_r(json_decode('{"requirements":{"BLOCK_ID":"\\\d+"}}', true), true) . '</pre>';
-			}
-			$method = 'GET';
+			$method = 'GET|POST';
 			if (is_array($route_params) && array_key_exists('method', $route_params)) {
 				$method = $route_params['method'];
 			}
