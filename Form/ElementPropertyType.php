@@ -243,10 +243,13 @@ class ElementPropertyType extends AbstractType
 							$files = $this->em->getRepository('NovuscomCMFBundle:File')->findBy(array(
 								'id' => $filesId,
 							));
+							$rFilesId = array_flip($filesId);
+							//echo '<pre>' . print_r($rFilesId, true) . '</pre>';
 							if (count($files) > 0) {
 								$liip = $options['data']['LIIP'];
 								$dataAtr['files'] = array();
 								foreach ($files as $file) {
+									//echo '<pre>' . print_r($file->getId(), true) . '</pre>';
 									$fileInfo = array();
 									$originalPath = '/upload/etc/' . $file->getName();
 									$path = $liip->getBrowserPath($originalPath, 'my_thumb');
@@ -254,6 +257,7 @@ class ElementPropertyType extends AbstractType
 									$fileInfo['original_path'] = $originalPath;
 									$fileInfo['file_id'] = $file->getId();
 									$fileInfo['property_id'] = $p->getId();
+									$fileInfo['property_row_id'] = $rFilesId[$file->getId()];
 									$dataAtr['files'][] = $fileInfo;
 								}
 								//Utils::msg($dataAtr);
@@ -351,8 +355,8 @@ class ElementPropertyType extends AbstractType
 						'mapped' => false,
 						'required' => false,
 					);
-					if (isset($field_options['data']['VALUES'][$p->getId()])) {
-						$field_options['data'] = $options['data']['VALUES'][$p->getId()][0];
+					if ($this->getPropertyValues($p->getId())) {
+						$field_options['data'] = $this->getPropertyValues($p->getId())[0];
 					}
 					$builder->add(
 						$p->getId(),

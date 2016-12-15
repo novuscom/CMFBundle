@@ -775,8 +775,9 @@ class ElementController extends Controller
 
 		$ElementPropertyFileId = array();
 		foreach ($ElementPropertyFile as $epf) {
-			$ElementPropertyFileId[$epf->getProperty()->getId()][] = $epf->getFile()->getId();
+			$ElementPropertyFileId[$epf->getProperty()->getId()][$epf->getId()] = $epf->getFile()->getId();
 		}
+		echo '<pre>' . print_r($ElementPropertyFileId, true) . '</pre>';
 		$data = array(
 			'VALUES' => $epArray,
 			'PROPERTY_FILE_VALUES' => $ElementPropertyFileId,
@@ -993,7 +994,7 @@ class ElementController extends Controller
 
 		$ElementPropertyFileId = array();
 		foreach ($ElementPropertyFile as $epf) {
-			$ElementPropertyFileId[$epf->getProperty()->getId()][] = $epf->getFile()->getId();
+			$ElementPropertyFileId[$epf->getProperty()->getId()][$epf->getId()] = $epf->getFile()->getId();
 		}
 
 
@@ -1789,7 +1790,20 @@ class ElementController extends Controller
 		}
 	}
 
-	private function deleteElementFiles($entity, $filesId = array())
+	public function deletePropertyFileAction(Request $request, $property_value_id) {
+		$em = $this->getDoctrine()->getManager();
+		$ElementPropertyFile = $em->getRepository('NovuscomCMFBundle:ElementPropertyF')->find($property_value_id);
+		$em->remove($ElementPropertyFile);
+		$em->remove($ElementPropertyFile->getFile());
+		$em->flush();
+		$result = array();
+		$response = new Response();
+		$response->headers->set('Content-Type', 'application/json; charset=UTF-8');
+		$response->setContent(json_encode($result));
+		return $response;
+	}
+
+	private function deleteElementFiles($entity = false, $filesId = array())
 	{
 		$em = $this->getDoctrine()->getManager();
 		/**
@@ -1814,12 +1828,11 @@ class ElementController extends Controller
 			/*
 			* Находим значания свойств элемента типа файл
 			*/
-			$ElementProperty = $em->getRepository('NovuscomCMFBundle:ElementPropertyF')->findBy(
-				array(
-					'element' => $entity,
-					'property' => $filePropertiesId
-				)
+			$findBy = array(
+				'element' => $entity,
+				'property' => $filePropertiesId
 			);
+			$ElementProperty = $em->getRepository('NovuscomCMFBundle:ElementPropertyF')->findBy($findBy);
 			$filesId = array();
 			foreach ($ElementProperty as $ep) {
 				$filesId[] = $ep->getFile()->getId();

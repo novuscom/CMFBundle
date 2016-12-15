@@ -4,3 +4,10 @@ textarea.form-control{
 #orchestra_CMSBundle_page_content{
     height: 380px;
 }
+.images .image{
+	float: left;
+}
+.cmf-form-collection__button-box{
+	clear: both;
+	float: none;
+}

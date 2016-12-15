@@ -67,7 +67,7 @@ class TemplateExtension extends \Twig_Extension
 		if (preg_match('/watch\?v=([^&]*)/ui', $url, $matches)) {
 			$result['link'] = '//www.youtube.com/embed/' . $matches[1] . '?wmode=opaque';
 			$result['code'] = $matches[1];
-			$result['img'] = 'http://img.youtube.com/vi/' . $matches[1] . '/maxresdefault.jpg';
+			$result['img'] = 'http://img.youtube.com/vi/' . $matches[1] . '/hqdefault.jpg';
 		};
 		return $result;
 	}

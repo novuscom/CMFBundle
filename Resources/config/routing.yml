@@ -144,6 +144,11 @@ cmf_admin_homepage:
     path:  /admin/
     defaults: { _controller: NovuscomCMFBundle:Admin:index }
 
+novuscom.cmf.delete_property_file:
+    path:  /admin/delete-property-file/{property_value_id}/
+    defaults: { _controller: "NovuscomCMFBundle:Element:deletePropertyFile" }
+    requirements:
+        property_value_id: \d+
 
 cmf_admin_site_list:
     path:  /admin/site/

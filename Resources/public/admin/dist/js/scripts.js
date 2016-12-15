@@ -4,6 +4,7 @@ $(document).ready(function(){
         var selector = $(this).attr('data-trigger');
         $(selector).trigger('click');
     })
+	imageDelete();
 });
 
 $(document).ready(function () {
@@ -36,7 +37,23 @@ function imageReplace() {
 }
 
 function imageDelete() {
+	$('body').on('click', '.file-delete', function(e){
+		e.preventDefault();
+		var l = $(this);
+		if (confirm('Удалить?')) {
+			console.log('Удаляем sdfsd');
+			var url = $(this).attr('href');
+			console.log(url);
+			$.post(url, function(r){
+				l.parents('.image').eq(0).slideUp();
+			})
+		}
+		else {
+			console.log('Не удаляем');
+		}
 
+
+	})
 }
 
 function propertyImages() {
@@ -56,7 +73,7 @@ function propertyImages() {
                         '<div class="image"><a href="' + o['original_path'] + '" target="_blank"><img alt="" src="' + o['path'] + '" /></a>' +
                         '<ul>' +
                         '<li><a href="#" class="file-replace" data-file-id="' + o['file_id'] + '" data-property-id="' + o['property_id'] + '">заменить</a></li>' +
-                        '<li><a href="#" class="file-delete">удалить</a></li>' +
+                        '<li><a href="/app_dev.php/admin/delete-property-file/'+o['property_row_id']+'/" class="file-delete">удалить</a></li>' +
                         '</ul>' +
                         '</div>';
                     //console.log(img);
