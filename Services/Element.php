@@ -159,8 +159,6 @@ class Element
 				$this->file->uploadFile($nFile);
 			} else {
 				$ep = new ElementProperty();
-				echo '<pre>' . print_r($addArray, true) . '</pre>';
-				exit;
 				$ep->setDescription($addArray['description']);
 				$ep->setElement($element);
 				$ep->setProperty($propertyReference);
@@ -173,9 +171,7 @@ class Element
 			$ref = $this->em->getReference('Novuscom\CMFBundle\Entity\ElementProperty', $removeArray['id']);
 			$this->em->remove($ref);
 		}
-		//exit;
 		$this->em->flush();
-		//exit;
 	}
 
 	public function GetById($id)

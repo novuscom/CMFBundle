@@ -114,9 +114,7 @@ class TemplateExtension extends \Twig_Extension
 	private function generateMenuFromTree($tree, $menu, $routeCode, $currentCode)
 	{
 		foreach ($tree as $item) {
-			//echo '<pre>' . print_r($item, true) . '</pre>';
 			$url = $this->urlGenerator->generate($routeCode, array('SECTION_CODE' => $item['full_code']));
-			//$url = $this->urlGenerator->generate($routeCode, array('CODE' => $item['full_code']));
 			$menuItem = $menu->addChild($item['name'], array('uri' => $url));
 			$menuItem->setAttribute('data-id', $item['id']);
 			if ($item['full_code'] == $currentCode) {

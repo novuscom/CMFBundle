@@ -1540,8 +1540,6 @@ class ElementController extends Controller
 										}
 
 									} else if ($pv instanceof $ElementProperty) {
-										echo '<pre>' . print_r('это свойство', true) . '</pre>';
-										exit;
 										$ElementProperty->setValue($pv->getValue());
 										$ElementProperty->setElement($entity);
 										$ElementProperty->setProperty($property);
@@ -1566,7 +1564,6 @@ class ElementController extends Controller
 							 * Добавления свойства типа "дата/время"
 							 */
 							if (is_a($property_value, 'DateTime')) {
-								//echo '<pre>' . print_r('это дата/время', true) . '</pre>';
 								$ElementProperty = new ElementPropertyDT();
 								$ElementProperty->setElement($entity);
 								$ElementProperty->setProperty($property);
@@ -1574,20 +1571,16 @@ class ElementController extends Controller
 								$em->persist($ElementProperty);
 							} else {
 								foreach ($propArray[$property_id] as $k => $v) {
-									if ((is_object($v) && method_exists($v, 'getValue')) == false)
+									if ((is_object($v) && method_exists($v, 'getValue')) === false)
 										continue;
-									//echo '<pre>' . print_r($v, true) . '</pre>';
 									$ElementProperty = new ElementProperty();
 									$ElementProperty->setValue($v->getValue());
 									$ElementProperty->setElement($entity);
 									$ElementProperty->setProperty($property);
 									$em->persist($ElementProperty);
-									//$val->remove($k);
 									$propArray[$property_id]->remove($k);
-									//break;
 								}
 								if (method_exists($propArray[$property_id], 'isEmpty') && $propArray[$property_id]->isEmpty()) {
-									//echo '<pre>' . print_r('Удаляем коллекецию, т.к. она уже пустая', true) . '</pre>';
 									unset($propArray[$property_id]);
 								}
 							}
