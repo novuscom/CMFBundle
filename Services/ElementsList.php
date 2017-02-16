@@ -105,7 +105,7 @@ class ElementsList
 	private function setBlock()
 	{
 		$repo = $this->em->getRepository('NovuscomCMFBundle:Block');
-		$block = $repo->findBy(array('id' => $this->getBlockId()));
+		$block = $repo->find($this->getBlockId());
 		$this->block = $block;
 		return $block;
 	}
