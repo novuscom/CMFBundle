@@ -162,7 +162,9 @@ stfalcon_tinymce:
                 - {title: 'Слева', value: 'left-image'}
                 - {title: 'Справа', value: 'right-image'}
                 - {title: 'По ширине', value: 'img-fluid img-responsive'}
-            content_css: "/admin/dist/tinymce/content.css"
+            content_css:
+                - "https://yastatic.net/bootstrap/3.3.6/css/bootstrap.min.css"
+                - "/admin/dist/tinymce/content.css"
             plugins:
                 - "advlist autolink lists link image charmap print preview hr anchor pagebreak"
                 - "searchreplace wordcount visualblocks visualchars code fullscreen"
