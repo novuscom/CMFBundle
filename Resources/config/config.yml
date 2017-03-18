@@ -201,6 +201,9 @@ fos_user:
             from_email: # Use this node only if you don't want the global email address for the confirmation email
                 address:        averichev@yandex.ru
                 sender_name:    Sender name
+    from_email:
+        address:        averichev@yandex.ru
+        sender_name:    Sender name
     #service:
     #  mailer: Novuscom_user.mailer.twig_swift
 
