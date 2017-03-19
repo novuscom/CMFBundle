@@ -173,6 +173,7 @@ class ItemController extends Controller
 				'site_id' => $site_id,
 				'menu_id' => $menu_id
 			)),
+            'menu_id' => $menu_id,
 			'method' => 'PUT',
 		));
 

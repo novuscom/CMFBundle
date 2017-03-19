@@ -5,6 +5,6 @@
 {% set header = title %}
 {% block content %}
     <p>
-        {{ 'resetting.check_email'|trans({'%email%': email}) }}
+        {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
     </p>
 {% endblock %}

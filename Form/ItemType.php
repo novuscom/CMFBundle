@@ -2,6 +2,7 @@
 
 namespace Novuscom\CMFBundle\Form;
 
+use Novuscom\CMFBundle\Entity\Menu;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -30,34 +31,17 @@ class ItemType extends AbstractType
             'required'=>false,
         ));
 
-	    $options['MENU_ID'] = 1;
+        dump($options['menu_id']);
+
+
         $builder->add('parent', EntityType::class, array(
             'class' => 'NovuscomCMFBundle:Item',
             'choice_label' => 'indentedTitle',
             'query_builder' => function ($er) use ($options, $entity) {
-                if ($entity->getId()) {
-                    $nots = $er->createQueryBuilder('s')
-                        ->select('s.id')
-                        ->where("s.lft > " . $entity->getLft() . " AND s.rgt < " . $entity->getRgt() . '')
-                        ->getQuery()
-                        ->getResult();
-                    $notsId = array($entity->getId());
-                    foreach ($nots as $val) {
-                        $notsId[] = $val['id'];
-                    }
-                    $q = $er->createQueryBuilder('s');
-                    $linked = $q
-                        ->where($q->expr()->notIn('s.id', $notsId))
-                        ->andwhere("s.menu = :menuId")
-                        ->setParameters(array('menuId' => $options['MENU_ID']))
-                        ->orderBy('s.root, s.lft, s.sort', 'ASC');
-                    return $linked;
-                } else {
-                    return $er->createQueryBuilder('s')
-                        ->where("s.menu = :menuId")
-                        ->orderBy('s.root, s.lft', 'ASC')
-                        ->setParameters(array('menuId' => $options['MENU_ID']));
-                }
+                return $er->createQueryBuilder('s')
+                    ->where("s.menu = :menuId")
+                    ->orderBy('s.root, s.lft', 'ASC')
+                    ->setParameters(array('menuId' => $options['menu_id']));
 
             },
             'attr' => array('class' => 'form-control'),
@@ -72,10 +56,11 @@ class ItemType extends AbstractType
 	    ));
     }
 
-    public function setDefaultOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Novuscom\CMFBundle\Entity\Item'
+            'data_class' => 'Novuscom\CMFBundle\Entity\Item',
+            'menu_id' => false,
         ));
     }
 
