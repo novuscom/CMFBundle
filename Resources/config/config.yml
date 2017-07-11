@@ -1,5 +1,5 @@
-#imports:
-#  - { resource: "@NovuscomCMFBundle/Resources/config/config.php" }
+imports:
+  - { resource: "@NovuscomCMFBundle/Resources/config/security.yml" }
 
 parameters:
     locale: ru
@@ -34,12 +34,6 @@ doctrine:
             numeric_functions:
                 Rand: Novuscom\CMFBundle\DQL\RandFunction
         mappings:
-            translatable:
-                type: annotation
-                alias: Gedmo
-                prefix: Gedmo\Translatable\Entity
-                # make sure vendor library location is correct
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
             loggable:
                 type: annotation
                 alias: Gedmo
@@ -201,7 +195,7 @@ fos_user:
             from_email: # Use this node only if you don't want the global email address for the confirmation email
                 address:        averichev@yandex.ru
                 sender_name:    Sender name
-    from_email:
+    from_email: # Use this node only if you don't want the global email address for the confirmation email
         address:        averichev@yandex.ru
         sender_name:    Sender name
     #service:

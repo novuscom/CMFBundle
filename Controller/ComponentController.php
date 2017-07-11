@@ -184,6 +184,9 @@ class ComponentController extends Controller
 				}
 			}
 		}
+		foreach ($urlArray as $k=>$u) {
+            $urlArray[$k] = trim($u.'/', '/').'/';
+        }
 		$urlArray = array_unique($urlArray);
 		sort($urlArray);
 		foreach ($urlArray as $u) {

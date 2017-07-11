@@ -25,7 +25,7 @@ Novuscom\CMFBundle\Entity\File:
             length: '50'
         time:
             type: datetime
-            nullable: false
+            nullable: true
     oneToMany:
         property:
             targetEntity: ElementPropertyF
